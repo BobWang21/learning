@@ -203,7 +203,7 @@
 
         /* 卡片链接样式 */
         .article-card-link {
-            text-decoration: none;
+            text-decoration: none !important;
             display: block;
             color: inherit;
         }
@@ -215,7 +215,19 @@
         }
 
         .article-card-link h3 {
-            text-decoration: none;
+            text-decoration: none !important;
+        }
+
+        .article-card-link p {
+            text-decoration: none !important;
+        }
+
+        .article-card-link:visited {
+            text-decoration: none !important;
+        }
+
+        .article-card-link:active {
+            text-decoration: none !important;
         }
 
         .empty-state {
