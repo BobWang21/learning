@@ -307,22 +307,62 @@
     </div>
 
     <script>
-        // Tab 切换逻辑
+        // Tab 切换逻辑，支持 URL hash 和页面刷新状态保存
         const tabButtons = document.querySelectorAll('.tab-button');
         const tabPanes = document.querySelectorAll('.tab-pane');
 
+        function switchTab(tabName) {
+            // 移除所有 active 类
+            tabButtons.forEach(btn => btn.classList.remove('active'));
+            tabPanes.forEach(pane => pane.classList.remove('active'));
+
+            // 添加 active 类到当前按钮和对应的 pane
+            const activeButton = document.querySelector(`[data-tab="${tabName}"]`);
+            const activePane = document.getElementById(tabName);
+
+            if (activeButton && activePane) {
+                activeButton.classList.add('active');
+                activePane.classList.add('active');
+
+                // 更新 URL hash
+                window.location.hash = `#${tabName}`;
+
+                // 保存到 localStorage
+                localStorage.setItem('activeTab', tabName);
+            }
+        }
+
+        // 点击 Tab 按钮时切换
         tabButtons.forEach(button => {
             button.addEventListener('click', () => {
                 const tabName = button.getAttribute('data-tab');
-
-                // 移除所有 active 类
-                tabButtons.forEach(btn => btn.classList.remove('active'));
-                tabPanes.forEach(pane => pane.classList.remove('active'));
-
-                // 添加 active 类到当前按钮和对应的 pane
-                button.classList.add('active');
-                document.getElementById(tabName).classList.add('active');
+                switchTab(tabName);
             });
+        });
+
+        // 页面加载时恢复状态
+        window.addEventListener('load', () => {
+            let activeTab = 'prediction'; // 默认 Tab
+
+            // 优先使用 URL hash
+            if (window.location.hash) {
+                activeTab = window.location.hash.substring(1);
+            }
+            // 其次使用 localStorage
+            else if (localStorage.getItem('activeTab')) {
+                activeTab = localStorage.getItem('activeTab');
+            }
+
+            // 切换到对应的 Tab
+            switchTab(activeTab);
+        });
+
+        // 处理浏览器前进后退按钮
+        window.addEventListener('hashchange', () => {
+            const tabName = window.location.hash.substring(1);
+            if (tabName) {
+                switchTab(tabName);
+            }
         });
     </script>
 </body>
