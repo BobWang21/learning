@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>预测与决策结合的范式</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .decision-image {
+            max-width: 85%;
+            height: auto;
+            margin: 20px auto;
+            display: block;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .summary-box {
+            background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 4px solid #1e40af;
+        }
+        .method-card {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px 0;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+        .code-block {
+            background: #1e293b;
+            color: #e2e8f0;
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <nav class="sidebar">
+            <div class="logo">预测与决策</div>
+            <ul class="toc">
+                <li><a href="#summary">摘要</a></li>
+                <li><a href="#three-paradigms">一、三种范式</a></li>
+                <li><a href="#so-method">SO方法</a></li>
+                <li><a href="#e2e-method">E2E方法</a></li>
+                <li><a href="#dl-method">直接学习</a></li>
+                <li><a href="#e2e-comparison">二、E2E三种方法对比</a>
+                    <ul>
+                        <li><a href="#implicit-diff">隐式微分</a></li>
+                        <li><a href="#spo-plus">代理损失（SPO+）</a></li>
+                        <li><a href="#approximation">近似方法</a></li>
+                    </ul>
+                </li>
+                <li><a href="#back-to-main"><strong>← 返回主页</strong></a></li>
+            </ul>
+        </nav>
+
+        <main class="content">
+            <header class="header">
+                <h1>预测与决策结合的范式</h1>
+                <p class="subtitle">数据驱动方法在优化决策中的应用</p>
+            </header>
+
+            <!-- 摘要部分 -->
+            <section id="summary" class="section">
+                <h2>摘要</h2>
+                <div class="summary-box">
+                    <p>数据驱动方法通过将预测与决策一体化，彻底革新了传统优化手段。本文系统梳理了三大主流范式 — 序贯优化、端到端学习与直接学习——的理论基础、优势、最新进展与局限，随后，文章从数据方法论、优化方法论与决策应用三个维度展开对比，剖析现存挑战。论文最终提供一份方法论指南，并为学术界与产业界在复杂数据环境下提升决策能力指明未来研究方向。</p>
+                </div>
+
+                <img src="https://km.sankuai.com/api/file/cdn/2741552238/212016309324?contentType=1" alt="预测与决策概览" class="decision-image">
+            </section>
+
+            <!-- 三种范式 -->
+            <section id="three-paradigms" class="section">
+                <h2>一、三种范式</h2>
+
+                <img src="https://km.sankuai.com/api/file/cdn/2741552238/212020035831?contentType=1&compress=@1563w_1l" alt="三种范式对比图" class="decision-image">
+
+                <h3>范式对比表</h3>
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>方法</th>
+                            <th>训练目标</th>
+                            <th>预测–决策关系</th>
+                            <th>理论适用性</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>SO（序贯优化）</strong></td>
+                            <td>预测损失（如 MSE）</td>
+                            <td>预测输出被当作固定输入，供后续优化环节做决策</td>
+                            <td>适用于具有显式优化形式的系统，但计算开销大，且难以回馈决策信息</td>
+                        </tr>
+                        <tr>
+                            <td><strong>E2E（端到端）</strong></td>
+                            <td>决策损失（如后悔值）</td>
+                            <td>预测模型在闭环框架内训练，专注于优化决策表现</td>
+                            <td>适用于要求高决策精度、预测模型易于重训并能与决策目标紧密对齐的任务</td>
+                        </tr>
+                        <tr>
+                            <td><strong>DL（直接学习）</strong></td>
+                            <td>决策损失（如任务专用损失函数）</td>
+                            <td>预测模型直接学习最优决策策略，无需依赖显式优化结构</td>
+                            <td>适用于决策问题复杂且缺乏显式优化结构的场景，如自动驾驶系统</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <!-- SO方法 -->
+                <article id="so-method" class="method-card">
+                    <h3>1. SO - 预测与决策的错配</h3>
+                    <p>在实际应用中，<strong>SO 常常因无法达到绝对预测精度而遭遇挑战。</strong>预测模型通常采用梯度下降算法训练，一旦预测损失降至预设阈值即停止，以防过拟合，同时尽可能有效地捕捉模式。然而，<strong>预测误差的降低并不必然带来决策优势，因为现实场景中预测性能与决策性能之间的关系往往是非对称的。</strong></p>
+
+                    <p>与基于范数的预测损失所具有的对称结构不同，决策准则极少是直白明确的。以负荷预测为例，电力系统的运行成本具有非对称性：</p>
+                    <ul>
+                        <li>预测偏高会导致不必要的发电、增加运行备用及资源浪费</li>
+                        <li>预测偏低则可能引发供应不足，迫使其采取昂贵的一次调频、启用快速启动机组，甚至危及系统可靠性</li>
+                    </ul>
+                    <p>基于范数的统计预测损失对正负误差一视同仁，无法刻画这类运行非对称性。这种失配源于决策过程必须结合现实环境，去捕捉时间序列中更为隐性的模式。</p>
+                </article>
+
+                <!-- E2E方法 -->
+                <article id="e2e-method" class="method-card">
+                    <h3>2. E2E - 决策驱动学习</h3>
+                    <p>也称为决策驱动学习。该方法将优化结构嵌入训练过程中，通过决策反馈直接调整预测模型，实现从预测到决策的闭环学习，从而更好地对齐预测与决策目标，有助于减少序贯优化方法中存在的偏差问题。</p>
+
+                    <p>一种直观的决策损失定义，<strong>用于量化「在预测场景 ŷ 下做出的决策」与「在真实场景 y 下做出的决策」之间的差异</strong>，通常表示为：</p>
+                    <p style="text-align: center; font-style: italic; margin: 15px 0;">
+                        L = f(ẑ*; y) - f(z*; y)
+                    </p>
+
+                    <p>其中：</p>
+                    <ul>
+                        <li><strong>f</strong> 是优化问题中的<strong>目标函数</strong>，在给定参数 y 下，采取决策 ẑ* 所对应的<strong>成本</strong>或<strong>收益</strong></li>
+                        <li><strong>ẑ*</strong> 是<strong>最优解</strong>，ẑ* = M(ŷ)</li>
+                        <li><strong>M</strong> 表示从输入预测 ŷ 到最优决策 ẑ* 的映射</li>
+                    </ul>
+
+                    <h4>E2E求解方法</h4>
+                    <p>一般可以通过三类E2E方法求解：</p>
+                    <ul>
+                        <li><strong>隐函数方法：</strong>通过优化问题的KKT条件将上式表示成雅可比矩阵的相应形式</li>
+                        <li><strong>代理损失函数法：</strong>以SPO+损失函数为代表，将上式转化为更易求解的SPO+损失函数的梯度形式</li>
+                        <li><strong>近似求解法：</strong>通过对预测值叠加高斯噪声ϵ，并计算其期望值，即决策问题的扰动解</li>
+                    </ul>
+                </article>
+
+                <!-- 直接学习方法 -->
+                <article id="dl-method" class="method-card">
+                    <h3>3. DL - 直接学习</h3>
+                    <p>预测模型直接学习最优决策策略，无需依赖显式优化结构。适用于决策问题复杂且缺乏显式优化结构的场景，如自动驾驶系统。</p>
+                </article>
+            </section>
+
+            <!-- E2E三种方法对比 -->
+            <section id="e2e-comparison" class="section">
+                <h2>二、E2E三种方法对比</h2>
+
+                <div class="summary-box">
+                    <h3>一句话总结</h3>
+                    <ul>
+                        <li>如果问题是<strong>凸优化 + 计算资源充足</strong> → 用 <strong>隐式微分</strong></li>
+                        <li>如果问题是<strong>线性目标 + 约束与预测无关</strong> → 用 <strong>SPO+</strong></li>
+                        <li>如果问题有<strong>整数变量、非凸、或约束含预测参数</strong> → 用 <strong>近似方法</strong></li>
+                    </ul>
+                </div>
+
+                <h3>方法对比表</h3>
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>场景特征</th>
+                            <th>隐式微分</th>
+                            <th>代理损失（SPO+）</th>
+                            <th>近似方法</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>目标函数类型</strong></td>
+                            <td>凸、可微</td>
+                            <td><strong>线性</strong>（必须）</td>
+                            <td>任意</td>
+                        </tr>
+                        <tr>
+                            <td><strong>约束是否含预测参数</strong></td>
+                            <td>可以</td>
+                            <td><strong>不可以</strong></td>
+                            <td>可以</td>
+                        </tr>
+                        <tr>
+                            <td><strong>决策变量类型</strong></td>
+                            <td>连续</td>
+                            <td>连续（整数需松弛）</td>
+                            <td>连续/整数均可</td>
+                        </tr>
+                        <tr>
+                            <td><strong>优化问题类型</strong></td>
+                            <td>凸优化</td>
+                            <td>线性规划</td>
+                            <td>任意（非凸、离散）</td>
+                        </tr>
+                        <tr>
+                            <td><strong>数据规模</strong></td>
+                            <td>小-中</td>
+                            <td>大</td>
+                            <td>中-大</td>
+                        </tr>
+                        <tr>
+                            <td><strong>计算资源要求</strong></td>
+                            <td>高（GPU集群）</td>
+                            <td>低-中</td>
+                            <td>中</td>
+                        </tr>
+                        <tr>
+                            <td><strong>对精度要求</strong></td>
+                            <td>极高</td>
+                            <td>高</td>
+                            <td>中-高</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <!-- 隐式微分 -->
+                <article id="implicit-diff" class="method-card">
+                    <h3>1 隐式微分（Implicit Differentiation）</h3>
+
+                    <h4>核心思想</h4>
+                    <p>利用 <strong>KKT 条件</strong> 和 <strong>隐函数定理</strong>，将优化问题的最优解对预测输入的敏感性，转化为求解一个线性方程组。</p>
+
+                    <h4>适合场景</h4>
+                    <table class="comparison-table">
+                        <thead>
+                            <tr>
+                                <th>场景特征</th>
+                                <th>说明</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>优化问题类型</strong></td>
+                                <td>凸优化、可微问题（二次规划、线性规划）</td>
+                            </tr>
+                            <tr>
+                                <td><strong>决策变量类型</strong></td>
+                                <td>连续变量为主</td>
+                            </tr>
+                            <tr>
+                                <td><strong>约束形式</strong></td>
+                                <td>可以是等式/不等式约束，无需特殊限制</td>
+                            </tr>
+                            <tr>
+                                <td><strong>对精度要求</strong></td>
+                                <td>极高（如金融风控、医疗决策）</td>
+                            </tr>
+                            <tr>
+                                <td><strong>计算资源</strong></td>
+                                <td>充足（GPU 集群）</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <h4>优点</h4>
+                    <table class="comparison-table">
+                        <thead>
+                            <tr>
+                                <th>优点</th>
+                                <th>说明</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>精确梯度</strong></td>
+                                <td>基于解析推导，无近似误差</td>
+                            </tr>
+                            <tr>
+                                <td><strong>理论严谨</strong></td>
+                                <td>建立在坚实的凸优化和隐函数定理基础上</td>
+                            </tr>
+                            <tr>
+                                <td><strong>可解释性强</strong></td>
+                                <td>保留了完整的优化结构，决策过程透明</td>
+                            </tr>
+                            <tr>
+                                <td><strong>处理复杂约束</strong></td>
+                                <td>可处理等式、不等式、凸约束组合</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <h4>缺点</h4>
+                    <table class="comparison-table">
+                        <thead>
+                            <tr>
+                                <th>缺点</th>
+                                <th>说明</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>计算成本极高</strong></td>
+                                <td>每轮迭代需计算并求逆雅可比矩阵，复杂度 O(n³)</td>
+                            </tr>
+                            <tr>
+                                <td><strong>仅限凸问题</strong></td>
+                                <td>非凸问题无法保证 KKT 条件的充分性</td>
+                            </tr>
+                            <tr>
+                                <td><strong>无法处理整数变量</strong></td>
+                                <td>离散决策变量不满足可微要求</td>
+                            </tr>
+                            <tr>
+                                <td><strong>实现复杂</strong></td>
+                                <td>需要手推 KKT 系统并实现雅可比求解</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </article>
+
+                <!-- SPO+ 方法 -->
+                <article id="spo-plus" class="method-card">
+                    <h3>2 代理损失（Surrogate Loss，以 SPO+ 为代表）</h3>
+
+                    <h4>核心思想</h4>
+                    <p>尽管隐式微分方法具有诸多优势，但其计算成本仍然是一个关键问题。每次训练迭代都需要计算并求逆雅可比矩阵，这对于大批量输入来说计算量巨大。为了缓解这一问题，使用<strong>代理损失函数</strong>来简化梯度计算。</p>
+
+                    <p>对于定义为 f(z, y) = y^T z 的线性目标函数，SPO+ loss 定义如下：</p>
+                    <p style="text-align: center; font-style: italic; margin: 15px 0;">
+                        L_SPO+ = -(2ŷ - y)^T M(2ŷ - y) + (2ŷ - y)^T M(y)
+                    </p>
+
+                    <h4>适合场景</h4>
+                    <table class="comparison-table">
+                        <thead>
+                            <tr>
+                                <th>场景特征</th>
+                                <th>说明</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>目标函数</strong></td>
+                                <td><strong>必须是线性的</strong>：f(z,y) = y^T z</td>
+                            </tr>
+                            <tr>
+                                <td><strong>约束条件</strong></td>
+                                <td><strong>必须与预测输入无关</strong>：约束中不能出现 y</td>
+                            </tr>
+                            <tr>
+                                <td><strong>优化问题类型</strong></td>
+                                <td>线性规划、整数线性规划（需松弛）</td>
+                            </tr>
+                            <tr>
+                                <td><strong>数据规模</strong></td>
+                                <td>大规模（百万级样本）</td>
+                            </tr>
+                            <tr>
+                                <td><strong>计算资源</strong></td>
+                                <td>有限（普通服务器）</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <h4>典型应用</h4>
+                    <ul>
+                        <li>电力市场电价预测 + 储能套利</li>
+                        <li>物流配送订单分配</li>
+                        <li>广告预算分配</li>
+                    </ul>
+
+                    <h4>优点</h4>
+                    <table class="comparison-table">
+                        <thead>
+                            <tr>
+                                <th>优点</th>
+                                <th>说明</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>计算高效</strong></td>
+                                <td>只需两次优化求解，无矩阵求逆</td>
+                            </tr>
+                            <tr>
+                                <td><strong>理论保证</strong></td>
+                                <td>贝叶斯风险分析证明与最小化遗憾等价</td>
+                            </tr>
+                            <tr>
+                                <td><strong>易于实现</strong></td>
+                                <td>只需包装现有求解器，无需修改求解器内部</td>
+                            </tr>
+                            <tr>
+                                <td><strong>可扩展性</strong></td>
+                                <td>适用于百万级数据，计算成本与预测模型相当</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <h4>缺点</h4>
+                    <table class="comparison-table">
+                        <thead>
+                            <tr>
+                                <th>缺点</th>
+                                <th>说明</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>仅限线性目标</strong></td>
+                                <td>非线性目标需要额外处理（如线性化）</td>
+                            </tr>
+                            <tr>
+                                <td><strong>约束必须独立</strong></td>
+                                <td><strong>约束不能含预测参数</strong>，否则理论失效</td>
+                            </tr>
+                            <tr>
+                                <td><strong>整数变量需松弛</strong></td>
+                                <td>对 MILP 问题需松弛为 LP，可能引入误差</td>
+                            </tr>
+                            <tr>
+                                <td><strong>仍需求解优化</strong></td>
+                                <td>每轮迭代仍需求解两次优化，对 NP 难问题仍有挑战</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </article>
+
+                <!-- 近似方法 -->
+                <article id="approximation" class="method-card">
+                    <h3>3 近似方法（Approximation Methods）</h3>
+
+                    <h4>核心思想</h4>
+                    <p>除了计算效率之外，在具有多面体可行域和线性目标函数的优化中，梯度信息的有效性也存在问题，因为 y 的变化可能并不总是影响最优解 z*，并且可能出现无穷多解的情况。</p>
+
+                    <p><strong>通过向预测值添加噪声，使决策函数平滑化，将原本不连续的极值点解转化为极值点的期望：</strong></p>
+                    <p style="text-align: center; font-style: italic; margin: 15px 0;">
+                        z_perturb* = E_ε[M(ỹ + εZ)]
+                    </p>
+
+                    <h4>适合场景</h4>
+                    <table class="comparison-table">
+                        <thead>
+                            <tr>
+                                <th>场景特征</th>
+                                <th>说明</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>优化问题类型</strong></td>
+                                <td>非凸、离散、组合优化（最短路径、Top-K、整数规划）</td>
+                            </tr>
+                            <tr>
+                                <td><strong>决策变量类型</strong></td>
+                                <td>整数变量、离散选择</td>
+                            </tr>
+                            <tr>
+                                <td><strong>目标函数</strong></td>
+                                <td>任意形式（线性/非线性）</td>
+                            </tr>
+                            <tr>
+                                <td><strong>约束条件</strong></td>
+                                <td>任意形式（可含预测参数）</td>
+                            </tr>
+                            <tr>
+                                <td><strong>计算资源</strong></td>
+                                <td>中等（可接受多次优化求解）</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <h4>典型应用</h4>
+                    <ul>
+                        <li>最短路径规划（离散选择）</li>
+                        <li>机器人控制（连续动作空间）</li>
+                        <li>组合优化问题（图优化、排序）</li>
+                    </ul>
+
+                    <h4>优点</h4>
+                    <table class="comparison-table">
+                        <thead>
+                            <tr>
+                                <th>优点</th>
+                                <th>说明</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>适用性最广</strong></td>
+                                <td>可处理非凸、离散、组合优化问题</td>
+                            </tr>
+                            <tr>
+                                <td><strong>梯度平滑</strong></td>
+                                <td>通过期望使梯度连续，避免零梯度问题</td>
+                            </tr>
+                            <tr>
+                                <td><strong>实现简单</strong></td>
+                                <td>只需包装现有求解器，无需修改</td>
+                            </tr>
+                            <tr>
+                                <td><strong>处理整数变量</strong></td>
+                                <td>可直接处理 0-1 变量、离散选择</td>
+                            </tr>
+                            <tr>
+                                <td><strong>约束可含预测</strong></td>
+                                <td>约束中的预测参数自动被噪声平滑</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <h4>缺点</h4>
+                    <table class="comparison-table">
+                        <thead>
+                            <tr>
+                                <th>缺点</th>
+                                <th>说明</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>样本需求高</strong></td>
+                                <td>需要多个扰动样本来稳定梯度（通常 10-50 个）</td>
+                            </tr>
+                            <tr>
+                                <td><strong>计算开销大</strong></td>
+                                <td>每轮迭代需求解 n_samples 次优化问题</td>
+                            </tr>
+                            <tr>
+                                <td><strong>近似误差</strong></td>
+                                <td>噪声引入的偏差可能使解偏离真值</td>
+                            </tr>
+                            <tr>
+                                <td><strong>方差控制难</strong></td>
+                                <td>噪声过大梯度不准，过小梯度不连续</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <h4>代码示例</h4>
+                    <div class="code-block">
+class PerturbedOptimizer:
+    def __init__(self, solver, sigma=0.05, n_samples=20):
+        self.solver = solver  # 你的 MILP 求解器
+        self.sigma = sigma    # 噪声标准差
+        self.n_samples = n_samples  # 扰动样本数
+
+    def forward(self, y_pred):
+        # 添加噪声，求解多次
+        z_samples = []
+        for _ in range(self.n_samples):
+            y_noisy = y_pred + torch.randn_like(y_pred) * self.sigma
+            z = self.solver(y_noisy)
+            z_samples.append(z)
+
+        # 返回期望解
+        return torch.stack(z_samples).mean(dim=0)
+                    </div>
+                </article>
+            </section>
+
+            <footer class="footer">
+                <p>📚 本文档基于最新的预测与决策研究</p>
+                <p>🔗 <a href="index.html">← 返回时序模型调研主页</a></p>
+            </footer>
+        </main>
+    </div>
+
+    <script>
+        // 平滑滚动
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+
+        // 返回主页链接
+        document.querySelector('a[href="index.html"]').addEventListener('click', function(e) {
+            // 允许正常导航
+        });
+    </script>
+</body>
+</html>
