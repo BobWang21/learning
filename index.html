@@ -343,48 +343,22 @@
             <div class="tabs-container">
             <!-- Tabs 头 -->
             <div class="tabs-header">
-                <button class="tab-button active" data-tab="prediction">
-                    <span class="tab-icon">⏱️</span>时序预测
+                <button class="tab-button active" data-tab="ai">
+                    <span class="tab-icon">🤖</span>AI
                 </button>
                 <button class="tab-button" data-tab="e2e">
-                    <span class="tab-icon">🔄</span>预测与决策
+                    <span class="tab-icon">🔄</span>端到端
                 </button>
-                <button class="tab-button" data-tab="ai">
-                    <span class="tab-icon">🤖</span>AI 研究
+                <button class="tab-button" data-tab="prediction">
+                    <span class="tab-icon">⏱️</span>预测
                 </button>
             </div>
 
             <!-- Tabs 内容 -->
             <div class="tabs-content">
-                <!-- 时序预测 Tab -->
-                <div class="tab-pane active" id="prediction">
-                    <h2 style="color: #1e40af; margin-bottom: 30px;">⏱️ 时序预测</h2>
-                    <p style="color: #64748b; margin-bottom: 20px;">深度学习和大模型在时间序列预测中的应用研究</p>
-                    <div class="article-grid">
-                        <div class="article-card">
-                            <h3>时序模型调研</h3>
-                            <p>系统梳理了6个深度学习模型和4个基础模型系列在时间序列预测中的应用，包括模型对比、架构分析和性能评估。</p>
-                            <a href="models.html" class="article-link">查看详情 →</a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- 预测与决策 Tab -->
-                <div class="tab-pane" id="e2e">
-                    <h2 style="color: #1e40af; margin-bottom: 30px;">🔄 预测与决策结合</h2>
-                    <p style="color: #64748b; margin-bottom: 20px;">探索如何将预测模型与决策优化紧密结合</p>
-                    <div class="article-grid">
-                        <div class="article-card">
-                            <h3>预测与决策结合的范式</h3>
-                            <p>系统梳理三大主流范式（SO、E2E、DL）的理论基础、优势和局限，深入讲解E2E的三种方法：隐式微分、SPO+和近似方法。</p>
-                            <a href="decision.html" class="article-link">查看详情 →</a>
-                        </div>
-                    </div>
-                </div>
-
                 <!-- AI 研究 Tab -->
-                <div class="tab-pane" id="ai">
-                    <h2 style="color: #1e40af; margin-bottom: 30px;">🤖 AI 研究</h2>
+                <div class="tab-pane active" id="ai">
+                    <h2 style="color: #1e40af; margin-bottom: 30px;">🤖 AI</h2>
                     <p style="color: #64748b; margin-bottom: 20px;">大语言模型与智能体的前沿研究</p>
 
                     <!-- 基座部分 -->
@@ -442,6 +416,32 @@
                         </div>
                     </div>
                 </div>
+
+                <!-- 预测与决策 Tab -->
+                <div class="tab-pane" id="e2e">
+                    <h2 style="color: #1e40af; margin-bottom: 30px;">🔄 端到端</h2>
+                    <p style="color: #64748b; margin-bottom: 20px;">探索如何将预测模型与决策优化紧密结合</p>
+                    <div class="article-grid">
+                        <div class="article-card">
+                            <h3>预测与决策结合的范式</h3>
+                            <p>系统梳理三大主流范式（SO、E2E、DL）的理论基础、优势和局限，深入讲解E2E的三种方法：隐式微分、SPO+和近似方法。</p>
+                            <a href="decision.html" class="article-link">查看详情 →</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 时序预测 Tab -->
+                <div class="tab-pane" id="prediction">
+                    <h2 style="color: #1e40af; margin-bottom: 30px;">⏱️ 预测</h2>
+                    <p style="color: #64748b; margin-bottom: 20px;">深度学习和大模型在时间序列预测中的应用研究</p>
+                    <div class="article-grid">
+                        <div class="article-card">
+                            <h3>时序模型调研</h3>
+                            <p>系统梳理了6个深度学习模型和4个基础模型系列在时间序列预测中的应用，包括模型对比、架构分析和性能评估。</p>
+                            <a href="models.html" class="article-link">查看详情 →</a>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
         </main>
@@ -483,7 +483,7 @@
 
         // 页面加载时恢复状态
         window.addEventListener('load', () => {
-            let activeTab = 'prediction'; // 默认 Tab
+            let activeTab = 'ai'; // 默认 Tab
 
             // 优先使用 URL hash
             if (window.location.hash) {
