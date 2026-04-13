@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PEFT 详解 - Post-training</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .ai-section {
+            background: white;
+            border-radius: 8px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .ai-section h2, .ai-section h3, .ai-section h4 {
+            color: #1e40af;
+            margin-top: 25px;
+            margin-bottom: 15px;
+        }
+
+        .ai-section h2 {
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 15px;
+            margin-top: 0;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, rgba(30, 64, 175, 0.05), rgba(124, 58, 237, 0.05));
+            border-left: 4px solid #1e40af;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+        }
+
+        .code-block {
+            background: #f1f5f9;
+            border-left: 4px solid #1e40af;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+            overflow-x: auto;
+            font-size: 0.9rem;
+            font-family: 'Courier New', monospace;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        table thead {
+            background: linear-gradient(135deg, #1e40af, #7c3aed);
+            color: white;
+        }
+
+        table th, table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        table tbody tr:hover {
+            background-color: rgba(30, 64, 175, 0.05);
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            padding: 10px 20px;
+            background: #1e40af;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .back-link:hover {
+            background: #0c4a6e;
+            transform: translateY(-2px);
+        }
+
+        .breadcrumb {
+            color: #64748b;
+            font-size: 0.95rem;
+            margin-bottom: 20px;
+        }
+
+        .breadcrumb a {
+            color: #1e40af;
+            text-decoration: none;
+        }
+
+        code {
+            background: #f1f5f9;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="sidebar">
+            <div class="logo">📚 学习领域</div>
+            <ul class="toc">
+                <li><a href="index.html">🏠 首页</a></li>
+                <li><a href="models.html">⏱️ 时序预测</a></li>
+                <li><a href="decision.html">🔄 预测与决策</a></li>
+                <li><a href="index.html#ai">🤖 AI 研究</a>
+                    <ul>
+                        <li><a href="ai-model.html">1. Model</a></li>
+                        <li><a href="ai-pretraining.html">2. Pre-training</a></li>
+                        <li><a href="ai-posttraining.html">3. Post-training</a>
+                            <ul>
+                                <li><a href="ai-posttraining-overview.html">Post-Training 全景指南</a></li>
+                                <li><a href="ai-posttraining-peft.html">PEFT 详解</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="ai-agent.html">4. Agent</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+        <main class="content">
+            <header class="header">
+                <h1>PEFT 详解</h1>
+                <p class="subtitle">参数高效微调方法详解</p>
+            </header>
+
+            <div class="breadcrumb">
+                <a href="index.html">首页</a> > <a href="index.html#ai">AI 研究</a> > <a href="ai-posttraining.html">3. Post-training</a> > PEFT 详解
+            </div>
+
+            <section class="ai-section">
+                <h2>PEFT 详解</h2>
+
+                <h3>一、概览</h3>
+                <p>PEFT（Parameter-Efficient Fine-Tuning）是一个用于高效地将预训练模型适配到各种下游应用的方法族，无需对模型的所有参数进行微调。PEFT 方法仅微调少量（额外的）模型参数——显著降低了计算和存储成本——同时取得了与完全微调模型相当的性能。这使得在消费级硬件上训练和存储大型语言模型（LLM）更加容易。</p>
+
+                <div class="highlight-box">
+                    <p><strong>PEFT 方法家族</strong>包括：</p>
+                    <ul>
+                        <li><strong>LoRA 系列</strong>：通过低秩分解实现参数高效微调</li>
+                        <li><strong>QLoRA</strong>：结合 4-bit 量化和 LoRA</li>
+                        <li><strong>提示方法</strong>：Prefix Tuning、Prompt Tuning 等</li>
+                    </ul>
+                </div>
+
+                <h3>二、LoRA 系列</h3>
+
+                <h4>2.1 LoRA：低秩适配</h4>
+
+                <h5>问题背景与动机</h5>
+                <p><strong>核心问题</strong>：</p>
+                <ul>
+                    <li>随着模型规模增大（GPT-3 175B+），全量微调变得不可行：存储成本高、训练资源消耗大</li>
+                    <li>传统适配器（Adapter）引入额外推理延迟</li>
+                    <li>提示微调（Prompt Tuning）优化困难，性能随可训练参数非单调变化</li>
+                </ul>
+
+                <p><strong>LoRA 的解决方案</strong>：核心假设是模型适应过程中的权重变化 ΔW 具有低"内在秩"（intrinsic rank）。</p>
+
+                <div class="highlight-box">
+                    <p><strong>理论基础</strong>：Li et al. (2018) 和 Aghajanyan et al. (2020) 研究表明，尽管预训练模型是过参数化的，但针对特定任务适应时，权重矩阵的实际变化存在于较低的内在维度上。</p>
+                </div>
+
+                <h5>核心机制</h5>
+                <p>冻结预训练权重 W₀ ∈ ℝ^(d×k)，引入低秩分解矩阵：</p>
+                <div class="code-block">
+                    h = W₀x + ΔWx = W₀x + (α/r)BAx
+                </div>
+                <p>其中：</p>
+                <ul>
+                    <li>A ∈ ℝ^(r×k)，B ∈ ℝ^(d×r)，r ≪ min(d,k)</li>
+                    <li>α 为缩放因子，控制 LoRA 对原始权重的影响强度</li>
+                    <li>实际缩放比例：α/r（通常设置 α = 2r）</li>
+                </ul>
+
+                <h5>关键超参数</h5>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>参数</th>
+                            <th>作用</th>
+                            <th>常用设置</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>r</code> (rank)</td>
+                            <td>低秩维度，控制参数量和表达能力</td>
+                            <td>4, 8, 16, 32, 64</td>
+                        </tr>
+                        <tr>
+                            <td><code>lora_alpha</code></td>
+                            <td>缩放因子，调节 LoRA 影响强度</td>
+                            <td>通常设为 <code>2*r</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>target_modules</code></td>
+                            <td>注入 LoRA 的目标模块</td>
+                            <td>根据架构选择</td>
+                        </tr>
+                        <tr>
+                            <td><code>lora_dropout</code></td>
+                            <td>LoRA 层的 dropout 率</td>
+                            <td>0.0 - 0.1</td>
+                        </tr>
+                        <tr>
+                            <td><code>bias</code></td>
+                            <td>是否训练偏置项</td>
+                            <td>"none", "all", "lora_only"</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h5>初始化策略（关键！）</h5>
+                <div class="code-block">
+                    # lora_A: Kaiming 均匀初始化（标准 Linear 层初始化）<br>
+                    self.lora_A = nn.Linear(in_features, r)<br>
+                    nn.init.kaiming_uniform_(self.lora_A.weight, a=math.sqrt(5))<br><br>
+                    # lora_B: 零初始化（确保训练初期不改变原始模型行为）<br>
+                    self.lora_B = nn.Linear(r, out_features)<br>
+                    nn.init.zeros_(self.lora_B.weight)
+                </div>
+
+                <p><strong>为什么 B 要零初始化？</strong></p>
+                <ul>
+                    <li>训练开始时：ΔW = B · A = 0，模型输出等价于原始预训练模型</li>
+                    <li>保证训练稳定性，从基线模型开始渐进学习</li>
+                </ul>
+
+                <h5>目标模块选择策略</h5>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>配置</th>
+                            <th>适用场景</th>
+                            <th>说明</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Wq + Wv</strong> (经典)</td>
+                            <td>通用任务，资源受限</td>
+                            <td>论文推荐，性价比最优</td>
+                        </tr>
+                        <tr>
+                            <td>仅 Wq</td>
+                            <td>极低资源场景</td>
+                            <td>参数量最小，性能尚可</td>
+                        </tr>
+                        <tr>
+                            <td>Wq + Wk + Wv</td>
+                            <td>复杂注意力任务</td>
+                            <td>需要更精细控制时</td>
+                        </tr>
+                        <tr>
+                            <td>全部四个 (Q,K,V,O)</td>
+                            <td>追求极致性能</td>
+                            <td>参数量翻倍，收益递减</td>
+                        </tr>
+                        <tr>
+                            <td>加入 Wo</td>
+                            <td>特定架构（如 LLaMA）</td>
+                            <td>视模型架构而定</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="highlight-box">
+                    <p><strong>注意</strong>：原论文发现 Wq+Wv 组合在参数效率和性能间达到最佳平衡。这不意味着 Wk "与预训练分布耦合紧密"，而是实验观察到的收益递减现象。</p>
+                </div>
+
+                <h5>核心优势：权重合并</h5>
+                <p><strong>训练阶段</strong>：h = W₀x + (α/r)BAx（并行计算）</p>
+                <p><strong>推理阶段</strong>：可将 LoRA 权重合并回原矩阵：</p>
+                <div class="code-block">
+                    W_merged = W₀ + (α/r)BA
+                </div>
+                <p>合并后的优势：</p>
+                <ul>
+                    <li>零额外推理延迟（与原始模型完全等价）</li>
+                    <li>零额外显存开销</li>
+                    <li>这是 LoRA 相比 Adapter 的关键优势</li>
+                </ul>
+
+                <h5>代码实践</h5>
+                <div class="code-block">
+                    from peft import get_peft_model, LoraConfig<br><br>
+                    # 1. 定义配置<br>
+                    lora_config = LoraConfig(<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;r=8,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# 低秩维度<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;lora_alpha=32,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# 缩放因子（通常 = 2*r）<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;target_modules=["q_proj", "v_proj"],&nbsp;&nbsp;# 目标模块（LLaMA系列）<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;lora_dropout=0.05,<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;bias="none",<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;task_type="CAUSAL_LM"<br>
+                    )<br><br>
+                    # 2. 包装模型<br>
+                    model = get_peft_model(base_model, lora_config)<br><br>
+                    # 3. 训练后合并权重（部署优化）<br>
+                    merged_model = model.merge_and_unload()&nbsp;&nbsp;# 合并LoRA权重到基模型
+                </div>
+
+                <h5>LoRA 总结</h5>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>维度</th>
+                            <th>LoRA 特点</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>参数效率</strong></td>
+                            <td>可训练参数减少 10,000 倍（GPT-3 175B）</td>
+                        </tr>
+                        <tr>
+                            <td><strong>显存效率</strong></td>
+                            <td>GPU 显存需求降低 3 倍（vs 全量微调）</td>
+                        </tr>
+                        <tr>
+                            <td><strong>训练吞吐</strong></td>
+                            <td>高于 Adapter，接近全量微调</td>
+                        </tr>
+                        <tr>
+                            <td><strong>推理延迟</strong></td>
+                            <td><strong>零额外延迟</strong>（权重合并后）</td>
+                        </tr>
+                        <tr>
+                            <td><strong>模型质量</strong></td>
+                            <td>与全量微调持平甚至更好</td>
+                        </tr>
+                        <tr>
+                            <td><strong>部署便利</strong></td>
+                            <td>支持动态切换、权重合并、量化兼容</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h4>2.2 QLoRA：量化 + LoRA</h4>
+
+                <p>QLoRA 是一种参数高效微调方法，通过将预训练模型量化为 4-bit（NF4 格式）并结合低秩适配器，使得在单张消费级显卡上就能微调数百亿参数的大模型，且性能接近全量微调。</p>
+
+                <div class="highlight-box">
+                    <p><strong>核心特性</strong>：</p>
+                    <ul>
+                        <li>预训练模型的 4-bit 版本在训练全程持久保存在显存中</li>
+                        <li>计算时反量化为 16-bit 参与梯度计算</li>
+                        <li>梯度只更新 LoRA 适配器</li>
+                        <li>预训练模型始终保持 4-bit 冻结状态</li>
+                    </ul>
+                </div>
+
+                <h5>4-bit NormalFloat (NF4)</h5>
+
+                <p><strong>核心思想</strong>：神经网络权重通常呈正态分布，NF4 利用这一特性，设计了一种信息论最优的量化格式。</p>
+
+                <p><strong>实现步骤</strong>：</p>
+                <ol>
+                    <li><strong>分块量化</strong>：将权重张量分成小块（每块 64 或 256 个权重）</li>
+                    <li><strong>计算块统计量</strong>：计算每块的均值 μ 和标准差 σ</li>
+                    <li><strong>归一化</strong>：将权重映射到标准正态空间 N(0,1)：x_norm = (x - μ) / σ</li>
+                    <li><strong>分位数量化</strong>：使用预计算的 N(0,1) 的 16 个等概率分位点进行查表量化</li>
+                    <li><strong>存储</strong>：存储 4-bit 索引，以及 μ 和 σ（后者再被二次量化）</li>
+                </ol>
+
+                <p><strong>名称含义</strong>：</p>
+                <ul>
+                    <li><strong>Normal</strong>：针对正态分布优化</li>
+                    <li><strong>Float</strong>：每个 4-bit 编码对应一个浮点数值（而非整数）</li>
+                </ul>
+
+                <h3>三、提示方法</h3>
+
+                <h4>3.1 Prefix Tuning</h4>
+
+                <h5>痛点与目标</h5>
+                <p><strong>痛点</strong>：对大型预训练语言模型（如 GPT-2、BART）进行全参数微调时，每个下游任务都需要存储一份完整的模型副本（例如 GPT-2 有 7.74 亿参数）。当任务数量增多时，存储开销极大。</p>
+
+                <p><strong>目标</strong>：提出一种轻量级的替代方案，冻结大部分预训练参数，只引入少量可训练参数，同时保证在生成任务上的性能接近甚至超越全参数微调。</p>
+
+                <h5>直觉来源</h5>
+                <ul>
+                    <li>受 <strong>Prompting（提示）</strong> 启发——通过给模型添加合适的上下文（如"TL;DR"表示摘要），可以引导模型完成特定任务，而无需修改模型参数</li>
+                    <li>离散的、由自然语言构成的提示（如"请总结以下内容"）对预训练模型效果有限，且离散优化困难</li>
+                </ul>
+
+                <h5>方法</h5>
+                <p>在输入序列前添加一系列可学习的任务特定向量，同时保持预训练模型冻结。前缀参数被插入到模型的所有层中。</p>
+                <ul>
+                    <li>在输入序列的<strong>最前面</strong>添加一组<strong>连续的、可训练的虚拟向量</strong>，称为 <strong>Prefix</strong>（前缀）</li>
+                    <li>前缀会参与到每一层 Transformer 的注意力计算中，被放在每个 multi-head attention 的 key 矩阵和 value 矩阵之前</li>
+                    <li>特征向量长度未变，相当于增加了原始的 token 和这些 soft prompt token 计算相似度，然后聚合</li>
+                    <li>训练时，<strong>冻结原始语言模型参数</strong>，<strong>仅优化前缀参数</strong></li>
+                </ul>
+
+                <h5>实验证实</h5>
+                <div class="highlight-box">
+                    <p>离散提示 < Embedding-only 软提示 < Prefix-Tuning（每层）</p>
+                </div>
+
+                <h4>3.2 Prompt Tuning</h4>
+
+                <p>Prompt Tuning 给每个任务定义了自己的 Prompt，拼接到数据上作为输入，同时 freeze 预训练模型进行训练。在没有加额外层的情况下，可以看到随着模型体积增大效果越来越好，最终追上了精调的效果。</p>
+
+                <p>Prompt Tuning 还提出了 <strong>Prompt Ensembling</strong>，也就是在一个 batch 里同时训练同一个任务的不同 prompt，这样相当于训练了不同"模型"，比模型集成的成本小多了。</p>
+
+                <h5>Prompt Tuning vs Prefix Tuning</h5>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>维度</th>
+                            <th>Prompt Tuning</th>
+                            <th>Prefix Tuning</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>提出时间</strong></td>
+                            <td>2021 年（Google）</td>
+                            <td>2021 年（斯坦福/清华）</td>
+                        </tr>
+                        <tr>
+                            <td><strong>训练位置</strong></td>
+                            <td>仅输入嵌入层</td>
+                            <td>每一层的 Key/Value</td>
+                        </tr>
+                        <tr>
+                            <td><strong>参数量</strong></td>
+                            <td>更少（通常 20-100 个 token）</td>
+                            <td>稍多（每层都有前缀）</td>
+                        </tr>
+                        <tr>
+                            <td><strong>模型侵入性</strong></td>
+                            <td>无侵入，完全冻结模型</td>
+                            <td>需修改注意力机制</td>
+                        </tr>
+                        <tr>
+                            <td><strong>实现复杂度</strong></td>
+                            <td>更简单</td>
+                            <td>较复杂</td>
+                        </tr>
+                        <tr>
+                            <td><strong>重参数化</strong></td>
+                            <td>不需要</td>
+                            <td>需要 MLP 生成前缀</td>
+                        </tr>
+                        <tr>
+                            <td><strong>小模型表现</strong></td>
+                            <td>需要较大模型（>10B）才有效</td>
+                            <td>中小模型也能工作</td>
+                        </tr>
+                        <tr>
+                            <td><strong>大模型表现</strong></td>
+                            <td>随着模型增大，差距缩小</td>
+                            <td>始终稳定</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>四、总结</h3>
+                <p>PEFT 方法族为大模型的高效微调提供了多种选择：</p>
+                <ul>
+                    <li><strong>LoRA</strong>：最通用、最实用，支持权重合并，零推理延迟</li>
+                    <li><strong>QLoRA</strong>：在 LoRA 基础上加入 4-bit 量化，进一步降低显存需求</li>
+                    <li><strong>Prefix Tuning</strong>：适合生成任务，每层都有可学习前缀</li>
+                    <li><strong>Prompt Tuning</strong>：最简洁的方法，仅在输入层添加可学习向量</li>
+                </ul>
+
+                <p>选择哪种方法取决于具体的任务需求、硬件约束和性能要求。在实践中，LoRA 因其简单高效而成为最流行的选择。</p>
+
+                <a href="ai-posttraining.html" class="back-link">← 返回 3. Post-training</a>
+            </section>
+
+            <footer class="footer">
+                <p>更新时间：2026-04-13</p>
+                <p><a href="index.html">← 返回首页</a></p>
+            </footer>
+        </main>
+    </div>
+</body>
+</html>

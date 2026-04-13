@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Post-Training 全景指南 - AI 研究</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .ai-section {
+            background: white;
+            border-radius: 8px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .ai-section h2, .ai-section h3, .ai-section h4 {
+            color: #1e40af;
+            margin-top: 25px;
+            margin-bottom: 15px;
+        }
+
+        .ai-section h2 {
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 15px;
+            margin-top: 0;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, rgba(30, 64, 175, 0.05), rgba(124, 58, 237, 0.05));
+            border-left: 4px solid #1e40af;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        table thead {
+            background: linear-gradient(135deg, #1e40af, #7c3aed);
+            color: white;
+        }
+
+        table th, table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        table tbody tr:hover {
+            background-color: rgba(30, 64, 175, 0.05);
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            padding: 10px 20px;
+            background: #1e40af;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .back-link:hover {
+            background: #0c4a6e;
+            transform: translateY(-2px);
+        }
+
+        .breadcrumb {
+            color: #64748b;
+            font-size: 0.95rem;
+            margin-bottom: 20px;
+        }
+
+        .breadcrumb a {
+            color: #1e40af;
+            text-decoration: none;
+        }
+
+        code {
+            background: #f1f5f9;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="sidebar">
+            <div class="logo">📚 学习领域</div>
+            <ul class="toc">
+                <li><a href="index.html">🏠 首页</a></li>
+                <li><a href="models.html">⏱️ 时序预测</a></li>
+                <li><a href="decision.html">🔄 预测与决策</a></li>
+                <li><a href="index.html#ai">🤖 AI 研究</a>
+                    <ul>
+                        <li><a href="ai-model.html">1. Model</a></li>
+                        <li><a href="ai-pretraining.html">2. Pre-training</a></li>
+                        <li><a href="ai-posttraining.html">3. Post-training</a>
+                            <ul>
+                                <li><a href="ai-posttraining-overview.html">Post-Training 全景指南</a></li>
+                                <li><a href="ai-posttraining-peft.html">PEFT 详解</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="ai-agent.html">4. Agent</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+        <main class="content">
+            <header class="header">
+                <h1>Post-Training 全景指南</h1>
+                <p class="subtitle">从 RLHF 到 GRPO 再到 Agentic RL</p>
+            </header>
+
+            <div class="breadcrumb">
+                <a href="index.html">首页</a> > <a href="index.html#ai">AI 研究</a> > <a href="ai-posttraining.html">3. Post-training</a> > Post-Training 全景指南
+            </div>
+
+            <section class="ai-section">
+                <h2>Post-Training 全景指南</h2>
+
+                <h3>1. 引言：什么是 Post-Training？</h3>
+                <p>LLM的训练通常分为两个大阶段：预训练（Pre-training） 和 后训练（Post-training）。预训练阶段通过海量无标注文本让模型学会语言的基本规律和世界知识，产出的是一个"什么都知道一点、但什么都不太好用"的基座模型。而 Post-training 则是将这个"毛坯房"精装修成真正好用的产品的过程。</p>
+
+                <div class="highlight-box">
+                    <p><strong>Post-training 的三个核心目标：</strong></p>
+                    <ul>
+                        <li>SFT 教模型"说什么"</li>
+                        <li>RL 教模型"怎么想"</li>
+                        <li>偏好优化教模型"怎么选"</li>
+                    </ul>
+                </div>
+
+                <h3>2. 直观理解</h3>
+                <p>一个餐厅的类比。想象你开了一家餐厅，招了一个天赋异禀的厨师（Pre-trained Model）。这个厨师读过所有的菜谱书（预训练数据），知道各种食材和烹饪技法，但从没真正为客人做过菜。</p>
+
+                <ul>
+                    <li><strong>SFT</strong>（监督微调） 就像是让资深厨师手把手教他做几道招牌菜</li>
+                    <li><strong>RLHF</strong>（基于人类反馈的强化学习） 则让食客品尝菜品并排序</li>
+                    <li><strong>DPO</strong>（直接偏好优化） 是一种更简洁的方式，不需要单独训练评分系统</li>
+                    <li><strong>RLVR</strong>（基于可验证奖励的 RL） 适用于有标准答案的场景</li>
+                    <li><strong>Agentic RL</strong> 则是最新的方向：不仅要求厨师会做菜，还要会查菜谱、去市场采购</li>
+                </ul>
+
+                <h3>3. 核心方法详解</h3>
+
+                <h4>3.1 SFT：监督微调</h4>
+                <p>监督微调是 Post-training 最基础也最直观的方法。其核心思路是：收集高质量的 (prompt, response) 数据对，然后用标准的交叉熵损失函数对预训练模型进行微调。</p>
+
+                <div class="highlight-box">
+                    <p><strong>关键认知</strong>： SFT 教会模型"输出的格式和风格应该是什么样的"，但本质上是在模仿，无法让模型学会超越训练数据的能力。这就是为什么需要 RL。</p>
+                </div>
+
+                <h4>3.2 RLHF：基于人类反馈的强化学习</h4>
+                <p>RLHF 是 InstructGPT 和 ChatGPT 背后的核心技术。其完整流程分为三步：</p>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>步骤</th>
+                            <th>说明</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Step 1：SFT</strong></td>
+                            <td>首先收集人类撰写的高质量回答，对预训练模型进行监督微调</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Step 2：训练 Reward Model</strong></td>
+                            <td>让人类标注者对多个回答进行排序，训练一个奖励模型</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Step 3：PPO 优化</strong></td>
+                            <td>使用训练好的 Reward Model 作为奖励信号，通过 PPO 算法进行优化</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h4>3.3 GRPO：去掉 Critic 的轻量级 RL</h4>
+                <p>GRPO（Group Relative Policy Optimization）由 DeepSeek 团队在 2024 年提出，是当前开源推理模型训练中最流行的 RL 算法。<strong>GRPO 的核心创新在于用组内相对排名来替代 Value Model 估计 advantage，从而去掉 Critic 模型。</strong></p>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>维度</th>
+                            <th>PPO</th>
+                            <th>GRPO</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>所需模型数</td>
+                            <td>4 个</td>
+                            <td>2~3 个（无 Critic）</td>
+                        </tr>
+                        <tr>
+                            <td>显存需求</td>
+                            <td>高</td>
+                            <td>较低</td>
+                        </tr>
+                        <tr>
+                            <td>训练稳定性</td>
+                            <td>需要精细调参</td>
+                            <td>相对简单</td>
+                        </tr>
+                        <tr>
+                            <td>典型应用</td>
+                            <td>ChatGPT, InstructGPT</td>
+                            <td>DeepSeek-R1, Qwen3</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h4>3.4 RLVR：可验证奖励</h4>
+                <p>RLVR（Reinforcement Learning with Verifiable Rewards）是 2025 年最重要的技术趋势之一。DeepSeek-R1 就是使用 GRPO + RLVR 训练的典型代表。</p>
+
+                <p>RLVR 的奖励通常包含两部分：</p>
+                <ul>
+                    <li><strong>准确性奖励</strong>（答案是否正确）</li>
+                    <li><strong>格式奖励</strong>（输出是否符合要求的格式）</li>
+                </ul>
+
+                <h4>3.5 DPO 及其变体</h4>
+                <p>DPO（Direct Preference Optimization）提供了一种完全不同的思路：<strong>直接从偏好数据中优化策略，不需要训练 Reward Model，也不需要 RL 训练循环</strong>。</p>
+
+                <p>DPO 的核心洞察是：最优奖励函数与最优策略之间存在解析关系，因此无需单独建模奖励函数，直接优化策略即可。</p>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>方法</th>
+                            <th>核心改进</th>
+                            <th>适用场景</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>DPO</strong></td>
+                            <td>用分类损失替代 RL</td>
+                            <td>通用对齐</td>
+                        </tr>
+                        <tr>
+                            <td><strong>SimPO</strong></td>
+                            <td>移除 reference log-ratio，梯度更稳定</td>
+                            <td>噪声数据、众包标注</td>
+                        </tr>
+                        <tr>
+                            <td><strong>ORPO</strong></td>
+                            <td>在 odds-space 中优化，处理类别不平衡</td>
+                            <td>多语言、长尾数据</td>
+                        </tr>
+                        <tr>
+                            <td><strong>KTO</strong></td>
+                            <td>基于前景理论的不对称损失</td>
+                            <td>高风险领域（法律、医疗）</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>4. DeepSeek-R1：纯 RL 训练推理模型的里程碑</h3>
+                <p>DeepSeek-R1 是 2025 年初最具影响力的工作之一，它首次证明了 <strong>纯 RL 训练（不需要 SFT）就能让模型涌现出强大的推理能力</strong>。</p>
+
+                <p>DeepSeek-R1 的训练分为两条路线：</p>
+                <ul>
+                    <li><strong>R1-Zero（纯 RL 路线）</strong>：直接在预训练的 DeepSeek-V3 基座模型上，使用 GRPO + RLVR 进行训练，完全跳过 SFT 阶段</li>
+                    <li><strong>R1（完整路线）</strong>：在 R1-Zero 的基础上，加入了 SFT 数据进行冷启动，然后再进行 RL 训练</li>
+                </ul>
+
+                <h3>5. 总结与关键要点</h3>
+                <ul>
+                    <li><strong>第一，SFT 是基础但不够。</strong> SFT 教会模型输出的格式和风格，但无法让模型学会超越训练数据的推理能力</li>
+                    <li><strong>第二，RL 是提升推理能力的关键。</strong> 从 PPO 到 GRPO，RL 算法在不断简化和高效化</li>
+                    <li><strong>第三，奖励信号的设计至关重要。</strong> 从 RLHF 到 RLVR，奖励信号的获取方式在不断演进</li>
+                    <li><strong>第四，Online RL vs. Offline Preference Optimization 各有所长。</strong> DPO 等 offline 方法简单稳定，适合偏好对齐；PPO/GRPO 等 online 方法更适合提升推理能力</li>
+                    <li><strong>第五，Agentic RL 是下一个前沿。</strong> 从单轮问答到多轮工具使用，Post-training 正在向训练完整的"智能体"方向发展</li>
+                </ul>
+
+                <a href="ai-posttraining.html" class="back-link">← 返回 3. Post-training</a>
+            </section>
+
+            <footer class="footer">
+                <p>更新时间：2026-04-13</p>
+                <p><a href="index.html">← 返回首页</a></p>
+            </footer>
+        </main>
+    </div>
+</body>
+</html>
