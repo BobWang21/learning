@@ -121,6 +121,34 @@
             transform: translateX(5px);
         }
 
+        .article-card-link {
+            text-decoration: none !important;
+            display: block;
+            color: inherit;
+        }
+
+        .article-card-link:hover .article-card {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            border-color: #1e40af;
+        }
+
+        .article-card-link h3 {
+            text-decoration: none !important;
+        }
+
+        .article-card-link p {
+            text-decoration: none !important;
+        }
+
+        .article-card-link:visited {
+            text-decoration: none !important;
+        }
+
+        .article-card-link:active {
+            text-decoration: none !important;
+        }
+
         @media (max-width: 1200px) {
             .article-grid {
                 grid-template-columns: repeat(3, 1fr);
@@ -211,12 +239,18 @@
                 <p>后训练阶段的优化与对齐方法</p>
 
                 <div class="article-grid">
-                    <div class="article-card">
-                        <h3 id="1-post-training-全景指南">1. Post-Training 全景指南</h3>
-                        <p>从 RLHF 到 GRPO 再到 Agentic RL，系统梳理后训练的核心方法和最新进展。</p></div>
-                    <div class="article-card">
-                        <h3 id="2-peft-详解">2. PEFT 详解</h3>
-                        <p>参数高效微调方法详解，包括 LoRA、QLoRA、Prefix Tuning、Prompt Tuning 等技术。</p></div>
+                    <a href="ai-posttraining-overview.html" class="article-card-link">
+                        <div class="article-card">
+                            <h3 id="1-post-training-全景指南">1. Post-Training 全景指南</h3>
+                            <p>从 RLHF 到 GRPO 再到 Agentic RL，系统梳理后训练的核心方法和最新进展。</p>
+                        </div>
+                    </a>
+                    <a href="ai-posttraining-peft.html" class="article-card-link">
+                        <div class="article-card">
+                            <h3 id="2-peft-详解">2. PEFT 详解</h3>
+                            <p>参数高效微调方法详解，包括 LoRA、QLoRA、Prefix Tuning、Prompt Tuning 等技术。</p>
+                        </div>
+                    </a>
                 </div>
 
                 <a href="index.html#ai" class="back-link">← 返回 AI</a>

@@ -66,6 +66,90 @@
         .breadcrumb a:hover {
             text-decoration: underline;
         }
+
+        .article-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 20px;
+        }
+
+        .article-card {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 20px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .article-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            border-color: #1e40af;
+        }
+
+        .article-card h3 {
+            color: #1e40af;
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+        }
+
+        .article-card p {
+            color: #64748b;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 15px;
+            flex-grow: 1;
+        }
+
+        .article-card-link {
+            text-decoration: none !important;
+            display: block;
+            color: inherit;
+        }
+
+        .article-card-link:hover .article-card {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            border-color: #1e40af;
+        }
+
+        .article-card-link h3 {
+            text-decoration: none !important;
+        }
+
+        .article-card-link p {
+            text-decoration: none !important;
+        }
+
+        .article-card-link:visited {
+            text-decoration: none !important;
+        }
+
+        .article-card-link:active {
+            text-decoration: none !important;
+        }
+
+        @media (max-width: 1200px) {
+            .article-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .article-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .article-grid {
+                grid-template-columns: 1fr;
+            }
+        }
     </style>
 </head>
 <body>
@@ -139,12 +223,18 @@
                 <p>大语言模型的基础架构与设计原理</p>
 
                 <div class="article-grid">
-                    <div class="article-card">
-                        <h3 id="1-gpt-模型原理与技术演进">1. GPT 模型原理与技术演进</h3>
-                        <p>从 Transformer 架构到大规模语言模型，系统梳理 GPT 的核心原理和技术演进路径。</p></div>
-                    <div class="article-card">
-                        <h3 id="2-注意力机制">2. 注意力机制</h3>
-                        <p>注意力机制的原理、发展历史及应用价值，从基础概念到高级应用的完整指南。</p></div>
+                    <a href="ai-model-gpt-principles.html" class="article-card-link">
+                        <div class="article-card">
+                            <h3 id="1-gpt-模型原理与技术演进">1. GPT 模型原理与技术演进</h3>
+                            <p>从 Transformer 架构到大规模语言模型，系统梳理 GPT 的核心原理和技术演进路径。</p>
+                        </div>
+                    </a>
+                    <a href="ai-model-attention-mechanism.html" class="article-card-link">
+                        <div class="article-card">
+                            <h3 id="2-注意力机制">2. 注意力机制</h3>
+                            <p>注意力机制的原理、发展历史及应用价值，从基础概念到高级应用的完整指南。</p>
+                        </div>
+                    </a>
                 </div>
 
                 <a href="index.html#ai" class="back-link">← 返回 AI</a>

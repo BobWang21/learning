@@ -121,6 +121,34 @@
             transform: translateX(5px);
         }
 
+        .article-card-link {
+            text-decoration: none !important;
+            display: block;
+            color: inherit;
+        }
+
+        .article-card-link:hover .article-card {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            border-color: #1e40af;
+        }
+
+        .article-card-link h3 {
+            text-decoration: none !important;
+        }
+
+        .article-card-link p {
+            text-decoration: none !important;
+        }
+
+        .article-card-link:visited {
+            text-decoration: none !important;
+        }
+
+        .article-card-link:active {
+            text-decoration: none !important;
+        }
+
         @media (max-width: 1200px) {
             .article-grid {
                 grid-template-columns: repeat(3, 1fr);
@@ -210,9 +238,12 @@
                 <p>预训练阶段的关键技术与方法</p>
 
                 <div class="article-grid">
-                    <div class="article-card">
-                        <h3 id="token-bpe算法概述">token-BPE算法概述</h3>
-                        <p>现代大语言模型的分词基础，详细讲解BPE算法的核心思想、算法步骤和实际应用。</p></div>
+                    <a href="ai-pretraining-token-bpe.html" class="article-card-link">
+                        <div class="article-card">
+                            <h3 id="token-bpe算法概述">token-BPE算法概述</h3>
+                            <p>现代大语言模型的分词基础，详细讲解BPE算法的核心思想、算法步骤和实际应用。</p>
+                        </div>
+                    </a>
                 </div>
 
                 <a href="index.html#ai" class="back-link">← 返回 AI</a>
