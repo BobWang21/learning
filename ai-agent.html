@@ -3,62 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI 研究</title>
+    <title>4. Agent - AI 研究</title>
     <link rel="stylesheet" href="styles.css">
     <style>
-        .ai-nav {
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-            margin-bottom: 30px;
-            overflow: hidden;
-        }
-
-        .ai-nav-header {
-            background: linear-gradient(135deg, #1e40af 0%, #0c4a6e 100%);
-            color: white;
-            padding: 20px;
-        }
-
-        .ai-nav-header h2 {
-            margin: 0;
-            font-size: 1.5rem;
-        }
-
-        .ai-nav-list {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            padding: 20px;
-            list-style: none;
-            margin: 0;
-        }
-
-        .ai-nav-list li {
-            margin: 0;
-        }
-
-        .ai-nav-list a {
-            display: inline-block;
-            padding: 10px 20px;
-            background: rgba(30, 64, 175, 0.1);
-            color: #1e40af;
-            text-decoration: none;
-            border-radius: 6px;
-            transition: all 0.3s ease;
-            font-weight: 600;
-        }
-
-        .ai-nav-list a:hover {
-            background: rgba(30, 64, 175, 0.2);
-            transform: translateY(-2px);
-        }
-
-        .ai-nav-list a.active {
-            background: #1e40af;
-            color: white;
-        }
-
         .ai-section {
             background: white;
             border-radius: 8px;
@@ -87,10 +34,19 @@
             font-weight: 600;
         }
 
-        .subsection {
-            margin-left: 20px;
-            padding-left: 15px;
-            border-left: 3px solid #e2e8f0;
+        .ai-section h5 {
+            color: #64748b;
+            margin-top: 15px;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, rgba(30, 64, 175, 0.05), rgba(124, 58, 237, 0.05));
+            border-left: 4px solid #1e40af;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
         }
 
         .code-block {
@@ -107,26 +63,6 @@
             font-size: 0.9rem;
             background: none;
             padding: 0;
-        }
-
-        .highlight-box {
-            background: linear-gradient(135deg, rgba(30, 64, 175, 0.05), rgba(124, 58, 237, 0.05));
-            border-left: 4px solid #1e40af;
-            padding: 15px;
-            margin: 15px 0;
-            border-radius: 4px;
-        }
-
-        .image-container {
-            text-align: center;
-            margin: 20px 0;
-        }
-
-        .image-container img {
-            max-width: 85%;
-            height: auto;
-            border-radius: 8px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
         }
 
         table {
@@ -164,10 +100,10 @@
             border-bottom: none;
         }
 
-        .back-to-top {
+        .back-link {
             display: inline-block;
-            margin-top: 30px;
-            padding: 12px 24px;
+            margin-bottom: 20px;
+            padding: 10px 20px;
             background: #1e40af;
             color: white;
             text-decoration: none;
@@ -176,32 +112,24 @@
             font-weight: 600;
         }
 
-        .back-to-top:hover {
+        .back-link:hover {
             background: #0c4a6e;
             transform: translateY(-2px);
         }
 
-        @media (max-width: 768px) {
-            .ai-nav-list {
-                flex-direction: column;
-            }
+        .breadcrumb {
+            color: #64748b;
+            font-size: 0.95rem;
+            margin-bottom: 20px;
+        }
 
-            .ai-nav-list li {
-                width: 100%;
-            }
+        .breadcrumb a {
+            color: #1e40af;
+            text-decoration: none;
+        }
 
-            .ai-nav-list a {
-                display: block;
-            }
-
-            .ai-section {
-                padding: 20px;
-            }
-
-            .subsection {
-                margin-left: 10px;
-                padding-left: 10px;
-            }
+        .breadcrumb a:hover {
+            text-decoration: underline;
         }
     </style>
 </head>
@@ -213,50 +141,29 @@
                 <li><a href="index.html">🏠 首页</a></li>
                 <li><a href="models.html">⏱️ 时序预测</a></li>
                 <li><a href="decision.html">🔄 预测与决策</a></li>
-                <li><a href="ai.html">🤖 AI 研究</a></li>
+                <li><a href="index.html#ai">🤖 AI 研究</a>
+                    <ul>
+                        <li><a href="ai-model.html">1. Model</a></li>
+                        <li><a href="ai-pretraining.html">2. Pre-training</a></li>
+                        <li><a href="ai-posttraining.html">3. Post-training</a></li>
+                        <li><a href="ai-agent.html">4. Agent</a></li>
+                        <li><a href="ai-claude-tips.html">Claude 技巧</a></li>
+                    </ul>
+                </li>
             </ul>
         </div>
 
         <main class="content">
             <header class="header">
-                <h1>🤖 AI 研究</h1>
-                <p class="subtitle">大语言模型与智能体的前沿研究</p>
+                <h1>4. Agent</h1>
+                <p class="subtitle">AI 智能体技术与框架</p>
             </header>
 
-            <!-- 导航栏 -->
-            <div class="ai-nav">
-                <div class="ai-nav-header">
-                    <h2>📑 研究方向</h2>
-                </div>
-                <ul class="ai-nav-list">
-                    <li><a href="#model" class="nav-link active">1. Model</a></li>
-                    <li><a href="#pretraining" class="nav-link">2. Pre-training</a></li>
-                    <li><a href="#posttraining" class="nav-link">3. Post-training</a></li>
-                    <li><a href="#agent" class="nav-link">4. Agent</a></li>
-                    <li><a href="#tips" class="nav-link">5. Claude 技巧</a></li>
-                </ul>
+            <div class="breadcrumb">
+                <a href="index.html">首页</a> > <a href="index.html#ai">AI 研究</a> > 4. Agent
             </div>
 
-            <!-- 1. Model 部分 -->
-            <section id="model" class="ai-section">
-                <h2>1. Model</h2>
-                <p>大语言模型的基础架构与设计原理</p>
-            </section>
-
-            <!-- 2. Pre-training 部分 -->
-            <section id="pretraining" class="ai-section">
-                <h2>2. Pre-training</h2>
-                <p>预训练阶段的关键技术与方法</p>
-            </section>
-
-            <!-- 3. Post-training 部分 -->
-            <section id="posttraining" class="ai-section">
-                <h2>3. Post-training</h2>
-                <p>后训练阶段的优化与对齐方法</p>
-            </section>
-
-            <!-- 4. Agent 部分 -->
-            <section id="agent" class="ai-section">
+            <section class="ai-section">
                 <h2>4. Agent - AI 智能体</h2>
 
                 <h3>一、定义</h3>
@@ -309,13 +216,11 @@
                 <div class="code-block">
                     <code>// TAO循环调度：核心流程控制
 class ContextManager:
-    """上下文管理器：存储、裁剪与提取历史TAO轨迹"""
     def __init__(self, max_length: int = 4000):
         self.max_length = max_length
         self.tao_trajectory = []
 
-    def add_tao(self, thought: str, action: str, observation: str) -> None:
-        """添加TAO三元组并裁剪上下文"""
+    def add_tao(self, thought: str, action: str, observation: str):
         self.tao_trajectory.append({
             "thought": thought,
             "action": action,
@@ -323,18 +228,7 @@ class ContextManager:
         })
         self._prune_trajectory()
 
-    def _prune_trajectory(self) -> None:
-        """裁剪超长轨迹：保留近期3轮+早期摘要"""
-        trajectory_str = str(self.tao_trajectory)
-        if len(trajectory_str) <= self.max_length:
-            return
-        recent_trajectory = self.tao_trajectory[-3:] if len(self.tao_trajectory) >= 3 else self.tao_trajectory
-        early_actions = [item["action"] for item in self.tao_trajectory[:-3]] if len(self.tao_trajectory) > 3 else []
-        early_summary = f"早期行动：{', '.join(early_actions[:2])}..."
-        self.tao_trajectory = [{"thought": "【早期轨迹摘要】", "action": "", "observation": early_summary}] + recent_trajectory
-
     def get_context_str(self) -> str:
-        """生成模型可理解的上下文字符串"""
         if not self.tao_trajectory:
             return "无历史执行轨迹"
         return "\n".join([
@@ -436,146 +330,27 @@ class ContextManager:
 
                 <div class="code-block">
                     <code>def run_reflexion(question):
-    memory = []  # 用于存储过往的反思（Reflections）
+    memory = []
 
     for trial in range(MAX_TRIALS):
-        # 1. Actor: 根据问题和之前的反思生成答案
         trajectory = actor.generate(question, memory)
-
-        # 2. Evaluator: 评估当前结果（如通过单元测试或模型打分）
         reward = evaluator.evaluate(trajectory)
 
         if reward == SUCCESS:
-            return trajectory  # 成功则退出
+            return trajectory
 
-        # 3. Self-Reflection: 如果失败，针对本次失败生成反思文本
         reflection = reflection_model.generate_reflection(trajectory, reward)
-        memory.append(reflection)  # 将反思存入长期记忆</code>
+        memory.append(reflection)</code>
                 </div>
 
-                <p><strong>反思生成的提示词 (Reflector)</strong></p>
-                <div class="code-block">
-                    <code># 典型的反思提示词模板 (简化版)
-FEW_SHOT_REFLECTION_PROMPT = """
-You are an advanced AI. You previously failed a task.
-Your previous attempt: {last_trajectory}
-The error received: {feedback}
-
-Please analyze why you failed and provide a concise instruction
-for your next attempt to avoid this mistake.
-"""</code>
-                </div>
-
-                <p><strong>记忆管理 (Memory Buffer)</strong></p>
-                <div class="code-block">
-                    <code># 在生成新尝试时拼接记忆
-def get_actor_prompt(question, memory):
-    prompt = f"Question: {question}\n"
-    if memory:
-        prompt += "Previous trial reflections:\n"
-        for i, ref in enumerate(memory):
-            prompt += f"Trial {i}: {ref}\n"
-    prompt += "Next attempt:"
-    return prompt</code>
-                </div>
+                <a href="index.html#ai" class="back-link">← 返回 AI 研究</a>
             </section>
 
-            <!-- 5. Claude 技巧 部分 -->
-            <section id="tips" class="ai-section">
-                <h2>5. Claude 技巧</h2>
-
-                <h3>总结</h3>
-                <ul>
-                    <li><strong>项目开始前，反复打磨plan</strong></li>
-                    <li><strong>用心经营CLAUDE.md</strong></li>
-                </ul>
-
-                <h3>1. 任何复杂任务，都从 Plan Mode 开始</h3>
-                <p>把精力集中在打磨计划上，这样 Claude 在实现代码时就能<strong>一步到位</strong>。</p>
-
-                <ul>
-                    <li><strong>多个Claude，反复打磨plan</strong>：先让一个 Claude 写出计划，然后启动第二个 Claude，让它代入 <strong>Staff Engineer</strong>（资深工程师）的角色来对计划进行 <strong>Review</strong>（审查）</li>
-                    <li><strong>跑偏时，及时打断并重新plan</strong>： 一旦发现进展<strong>跑偏</strong>，立刻切回 Plan Mode <strong>重新规划</strong>。千万别<strong>硬推</strong>。他们甚至会明确指示 Claude 在<strong>验证步骤</strong>中也要进入 Plan Mode，而不仅仅是在构建代码的时候才用</li>
-                </ul>
-
-                <h3>2. 用心经营CLAUDE.md</h3>
-                <p>要在 <code>CLAUDE.md</code> 上多下功夫。每次纠正完 Claude 的问题后，记得在结尾加一句："<strong>把这条更新到 CLAUDE.md 里，确保下次别再犯同样的错误。</strong>" Claude 在"给自己制定规则"这方面，能力<strong>强得离谱</strong>。</p>
-
-                <p>随着时间推移，你要大刀阔斧地编辑你的 <code>CLAUDE.md</code>。保持迭代，直到你能感觉到 Claude 的错误率<strong>显著下降</strong>为止。</p>
-
-                <p>有工程师的用法是：让 Claude 为每个任务或项目维护一个<strong>笔记目录</strong>，并且在每次 PR（代码合并）后都去更新它。然后，他在 <code>CLAUDE.md</code> 里直接引用这个目录作为索引。</p>
-
-                <h3>3. 提升 Prompt 技巧</h3>
-                <ul>
-                    <li><strong>不是一上来就"Claude，修这个 bug"。更好的方式是说："Claude，我遇到了这个 bug。你能搜索一下，找出可能的原因，然后帮我规划一个修复方案吗？"</strong><u>这样你可以先验证 Claude 的思路，然后再决定是否执行。</u></li>
-                    <li><strong>挑战 Claude</strong>： 对它说："针对这些改动向我提问，在我通过你的测试之前不要提交 PR"。让 Claude 担任你的评审员。或者说："证明这套方案行得通"，让它对比 main 分支和 feature 分支的行为差异</li>
-                    <li><strong>如果修复方案不够理想，可以对它说</strong>： "基于你现在掌握的信息，推翻刚才的方案，换一个更优雅的实现"</li>
-                    <li><strong>在交付任务前，先写好详尽的规格说明（Specs）以减少歧义</strong>。 你写得越具体，它的输出质量就越高</li>
-                </ul>
-
-                <h3>4. 开启多个并行实例</h3>
-                <p>你可以试着开启多个 Claude 实例。我知道一些 Anthropic 的同事和客户，最多同时跑四个 Claude 实例，用 Tmux 或多个终端标签页来控制。这种"多 Agent 编排"的体验很有趣。虽然我自己最多能同时用两个，但我建议你也试试。</p>
-
-                <h3>5. 善用 Escape 键</h3>
-                <p>Claude 工作时，按 <code>Escape</code> 可以中断它，适时插话很关键。如果你按两次 <code>Escape</code>，还有隐藏功能：你可以回到上一个对话节点，重置当前工具链和 MCP 执行上下文。</p>
-
-                <h3>6. 利用 Claude 进行学习</h3>
-                <p>分享一些团队内部使用 Claude Code 辅助学习的小贴士：</p>
-
-                <ul>
-                    <li><strong>开启解释模式</strong>： 在 <code>/config</code> 中启用 "Explanatory（解释型）" 或 "Learning（学习型）" 输出风格，让 Claude 解释代码改动背后的原委</li>
-                    <li><strong>生成可视化简报</strong>： 让 Claude 生成一个用于解释陌生代码的可视化 HTML 演示文稿。它做出来的幻灯片效果好得惊人</li>
-                    <li><strong>绘制 ASCII 架构图</strong>： 让 Claude 针对新协议或代码库绘制 ASCII 流程图，这能帮你快速理清逻辑</li>
-                    <li><strong>构建间隔重复学习技能</strong>： 打造一个基于"间隔重复（Spaced-repetition）"的学习技能——先由你解释自己的理解，Claude 通过追问来填补你的知识盲区，并记录学习结果</li>
-                </ul>
-
-                <footer class="footer">
-                    <p>更新时间：2026-04-13</p>
-                    <p><a href="index.html">← 返回首页</a></p>
-                </footer>
-            </section>
+            <footer class="footer">
+                <p>更新时间：2026-04-13</p>
+                <p><a href="index.html">← 返回首页</a></p>
+            </footer>
         </main>
     </div>
-
-    <script>
-        // 导航链接平滑滚动
-        document.querySelectorAll('.ai-nav-list a').forEach(link => {
-            link.addEventListener('click', function(e) {
-                e.preventDefault();
-
-                // 更新活跃状态
-                document.querySelectorAll('.ai-nav-list a').forEach(l => l.classList.remove('active'));
-                this.classList.add('active');
-
-                // 平滑滚动到目标
-                const targetId = this.getAttribute('href');
-                const targetElement = document.querySelector(targetId);
-                if (targetElement) {
-                    targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                }
-            });
-        });
-
-        // 页面加载时设置初始活跃状态
-        window.addEventListener('scroll', function() {
-            const sections = document.querySelectorAll('.ai-section');
-            const navLinks = document.querySelectorAll('.ai-nav-list a');
-
-            let currentSection = '';
-            sections.forEach(section => {
-                const sectionTop = section.offsetTop;
-                if (window.pageYOffset >= sectionTop - 100) {
-                    currentSection = section.getAttribute('id');
-                }
-            });
-
-            navLinks.forEach(link => {
-                link.classList.remove('active');
-                if (link.getAttribute('href') === '#' + currentSection) {
-                    link.classList.add('active');
-                }
-            });
-        });
-    </script>
 </body>
 </html>
