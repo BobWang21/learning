@@ -201,6 +201,19 @@
             transform: translateX(5px);
         }
 
+        /* 卡片链接样式 */
+        .article-card-link {
+            text-decoration: none;
+            display: block;
+            color: inherit;
+        }
+
+        .article-card-link:hover .article-card {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            border-color: #1e40af;
+        }
+
         .empty-state {
             text-align: center;
             padding: 60px 20px;
@@ -364,56 +377,65 @@
                     <!-- 基座部分 -->
                     <h3 style="color: #7c3aed; margin-bottom: 25px; margin-top: 30px; font-size: 1.3rem;">🏗️ 基座</h3>
                     <div class="foundation-grid">
-                        <div class="article-card">
-                            <h3>1. Model</h3>
-                            <p>深入探讨大语言模型的基础架构、设计原理、技术演进及注意力机制等核心概念。</p>
-                            <a href="ai-model.html" class="article-link">查看详情 →</a>
-                        </div>
-                        <div class="article-card">
-                            <h3>2. Pre-training</h3>
-                            <p>系统学习预训练阶段的关键技术与方法，包括 tokenization、BPE 算法等基础知识。</p>
-                            <a href="ai-pretraining.html" class="article-link">查看详情 →</a>
-                        </div>
-                        <div class="article-card">
-                            <h3>3. Post-training</h3>
-                            <p>掌握后训练阶段的优化与对齐方法，包括 PEFT、LoRA、QLoRA 等参数高效微调技术。</p>
-                            <a href="ai-posttraining.html" class="article-link">查看详情 →</a>
-                        </div>
+                        <a href="ai-model.html" class="article-card-link">
+                            <div class="article-card">
+                                <h3>1. Model</h3>
+                                <p>深入探讨大语言模型的基础架构、设计原理、技术演进及注意力机制等核心概念。</p>
+                            </div>
+                        </a>
+                        <a href="ai-pretraining.html" class="article-card-link">
+                            <div class="article-card">
+                                <h3>2. Pre-training</h3>
+                                <p>系统学习预训练阶段的关键技术与方法，包括 tokenization、BPE 算法等基础知识。</p>
+                            </div>
+                        </a>
+                        <a href="ai-posttraining.html" class="article-card-link">
+                            <div class="article-card">
+                                <h3>3. Post-training</h3>
+                                <p>掌握后训练阶段的优化与对齐方法，包括 PEFT、LoRA、QLoRA 等参数高效微调技术。</p>
+                            </div>
+                        </a>
                     </div>
 
                     <!-- Agent 部分 -->
                     <h3 style="color: #7c3aed; margin-bottom: 25px; margin-top: 40px; font-size: 1.3rem;">🤖 Agent</h3>
                     <div class="agent-grid">
-                        <div class="article-card">
-                            <h3>Tools</h3>
-                            <p>Function Calling、MCP 和 Skills 详解，掌握 AI 智能体的工具调用机制。</p>
-                            <a href="ai-agent-function-calling.html" class="article-link">查看详情 →</a>
-                        </div>
-                        <div class="article-card">
-                            <h3>Planning</h3>
-                            <p>ReAct、Plan-and-Solve 等规划框架，探索智能体的决策和规划能力。</p>
-                            <a href="ai-agent.html" class="article-link">查看详情 →</a>
-                        </div>
-                        <div class="article-card">
-                            <h3>Memory</h3>
-                            <p>智能体的记忆机制，涵盖短期、长期和工作记忆的三维框架。</p>
-                            <a href="ai-agent-memory.html" class="article-link">查看详情 →</a>
-                        </div>
-                        <div class="article-card">
-                            <h3>Self-Evolving</h3>
-                            <p>自我进化智能体的调查，探讨智能体如何通过自我反思和学习不断改进。</p>
-                            <a href="ai-agent-self-evolving.html" class="article-link">查看详情 →</a>
-                        </div>
-                        <div class="article-card">
-                            <h3>Multi-Agent</h3>
-                            <p>多智能体系统的设计与优化，包括强化学习、博弈论和协调机制。</p>
-                            <a href="ai-agent-multi-agent.html" class="article-link">查看详情 →</a>
-                        </div>
-                        <div class="article-card">
-                            <h3>RAG</h3>
-                            <p>检索增强生成完全指南，解决 LLM 知识过时和幻觉问题。</p>
-                            <a href="ai-agent-rag.html" class="article-link">查看详情 →</a>
-                        </div>
+                        <a href="ai-agent-function-calling.html" class="article-card-link">
+                            <div class="article-card">
+                                <h3>Tools</h3>
+                                <p>Function Calling、MCP 和 Skills 详解，掌握 AI 智能体的工具调用机制。</p>
+                            </div>
+                        </a>
+                        <a href="ai-agent.html" class="article-card-link">
+                            <div class="article-card">
+                                <h3>Planning</h3>
+                                <p>ReAct、Plan-and-Solve 等规划框架，探索智能体的决策和规划能力。</p>
+                            </div>
+                        </a>
+                        <a href="ai-agent-memory.html" class="article-card-link">
+                            <div class="article-card">
+                                <h3>Memory</h3>
+                                <p>智能体的记忆机制，涵盖短期、长期和工作记忆的三维框架。</p>
+                            </div>
+                        </a>
+                        <a href="ai-agent-self-evolving.html" class="article-card-link">
+                            <div class="article-card">
+                                <h3>Self-Evolving</h3>
+                                <p>自我进化智能体的调查，探讨智能体如何通过自我反思和学习不断改进。</p>
+                            </div>
+                        </a>
+                        <a href="ai-agent-multi-agent.html" class="article-card-link">
+                            <div class="article-card">
+                                <h3>Multi-Agent</h3>
+                                <p>多智能体系统的设计与优化，包括强化学习、博弈论和协调机制。</p>
+                            </div>
+                        </a>
+                        <a href="ai-agent-rag.html" class="article-card-link">
+                            <div class="article-card">
+                                <h3>RAG</h3>
+                                <p>检索增强生成完全指南，解决 LLM 知识过时和幻觉问题。</p>
+                            </div>
+                        </a>
                     </div>
                 </div>
 
@@ -422,11 +444,12 @@
                     <h2 style="color: #1e40af; margin-bottom: 30px;">🔄 端到端</h2>
                     <p style="color: #64748b; margin-bottom: 20px;">探索如何将预测模型与决策优化紧密结合</p>
                     <div class="article-grid">
-                        <div class="article-card">
-                            <h3>预测与决策结合的范式</h3>
-                            <p>系统梳理三大主流范式（SO、E2E、DL）的理论基础、优势和局限，深入讲解E2E的三种方法：隐式微分、SPO+和近似方法。</p>
-                            <a href="decision.html" class="article-link">查看详情 →</a>
-                        </div>
+                        <a href="decision.html" class="article-card-link">
+                            <div class="article-card">
+                                <h3>预测与决策结合的范式</h3>
+                                <p>系统梳理三大主流范式（SO、E2E、DL）的理论基础、优势和局限，深入讲解E2E的三种方法：隐式微分、SPO+和近似方法。</p>
+                            </div>
+                        </a>
                     </div>
                 </div>
 
@@ -435,11 +458,12 @@
                     <h2 style="color: #1e40af; margin-bottom: 30px;">⏱️ 预测</h2>
                     <p style="color: #64748b; margin-bottom: 20px;">深度学习和大模型在时间序列预测中的应用研究</p>
                     <div class="article-grid">
-                        <div class="article-card">
-                            <h3>时序模型调研</h3>
-                            <p>系统梳理了6个深度学习模型和4个基础模型系列在时间序列预测中的应用，包括模型对比、架构分析和性能评估。</p>
-                            <a href="models.html" class="article-link">查看详情 →</a>
-                        </div>
+                        <a href="models.html" class="article-card-link">
+                            <div class="article-card">
+                                <h3>时序模型调研</h3>
+                                <p>系统梳理了6个深度学习模型和4个基础模型系列在时间序列预测中的应用，包括模型对比、架构分析和性能评估。</p>
+                            </div>
+                        </a>
                     </div>
                 </div>
             </div>
