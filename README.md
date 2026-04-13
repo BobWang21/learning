@@ -93,8 +93,6 @@ ts-model-survey/
 4. **效率与精度的平衡**: 轻量级Adapter和参数高效微调成为新趋势
 
 ## 📚 参考资源
-
-- 原始文档: [美团KM文档](https://km.sankuai.com/collabpage/2756971702)
 - 相关论文和代码库链接详见各模型章节
 
 ## 🤝 贡献
