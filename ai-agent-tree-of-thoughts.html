@@ -149,10 +149,28 @@
                 <a href="index.html">首页</a> > <a href="index.html#ai">AI</a> > <a href="ai-agent.html">4. Agent</a> > Tree of Thoughts
             </div>
 
-            <section class="ai-section">
-                <h2>Tree of Thoughts</h2>
+            <div class="page-toc">
+    <h4 style="margin-bottom: 15px; color: #1e40af;">📑 页面目录</h4>
+    <ul style="list-style: none; padding: 0; margin: 0;">
+        <li style="margin-bottom: 8px;"><a href="#tree-of-thoughts" style="color: #1e40af; text-decoration: none; font-weight: 600;">Tree of Thoughts</a></li>
+        <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#一概念介绍" style="color: #7c3aed; text-decoration: none; font-size: 0.95rem;">一、概念介绍</a></li>
+        <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#二tot-vs-cot" style="color: #7c3aed; text-decoration: none; font-size: 0.95rem;">二、ToT vs CoT</a></li>
+        <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#三tot-的核心组件" style="color: #7c3aed; text-decoration: none; font-size: 0.95rem;">三、ToT 的核心组件</a></li>
+        <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#四tot-的工作流程" style="color: #7c3aed; text-decoration: none; font-size: 0.95rem;">四、ToT 的工作流程</a></li>
+        <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#五tot-的应用" style="color: #7c3aed; text-decoration: none; font-size: 0.95rem;">五、ToT 的应用</a></li>
+        <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#六实验结果" style="color: #7c3aed; text-decoration: none; font-size: 0.95rem;">六、实验结果</a></li>
+        <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#七挑战与限制" style="color: #7c3aed; text-decoration: none; font-size: 0.95rem;">七、挑战与限制</a></li>
+        <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#八优化方向" style="color: #7c3aed; text-decoration: none; font-size: 0.95rem;">八、优化方向</a></li>
+        <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#九最佳实践" style="color: #7c3aed; text-decoration: none; font-size: 0.95rem;">九、最佳实践</a></li>
+        <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#十未来方向" style="color: #7c3aed; text-decoration: none; font-size: 0.95rem;">十、未来方向</a></li>
+    </ul>
+</div>
 
-                <h3>一、概念介绍</h3>
+
+            <section class="ai-section">
+                <h2 id="tree-of-thoughts">Tree of Thoughts</h2>
+
+                <h3 id="一概念介绍">一、概念介绍</h3>
                 <p>Tree of Thoughts（思维树，ToT）是一种推理框架，它扩展了 Chain-of-Thought（链式思维）的思想。与 CoT 的线性推理路径不同，ToT 允许 LLM 探索多个推理路径，并评估哪条路径最有可能导向正确答案。</p>
 
                 <div class="highlight-box">
@@ -165,7 +183,7 @@
                     </ul>
                 </div>
 
-                <h3>二、ToT vs CoT</h3>
+                <h3 id="二tot-vs-cot">二、ToT vs CoT</h3>
 
                 <table>
                     <thead>
@@ -209,7 +227,7 @@
                     </tbody>
                 </table>
 
-                <h3>三、ToT 的核心组件</h3>
+                <h3 id="三tot-的核心组件">三、ToT 的核心组件</h3>
 
                 <h4>3.1 思想分解（Thought Decomposition）</h4>
                 <div class="highlight-box">
@@ -301,7 +319,7 @@
                     </tbody>
                 </table>
 
-                <h3>四、ToT 的工作流程</h3>
+                <h3 id="四tot-的工作流程">四、ToT 的工作流程</h3>
 
                 <div class="code-block">
                     1. 初始化<br>
@@ -322,7 +340,7 @@
                     &nbsp;&nbsp;- 从最佳路径提取答案
                 </div>
 
-                <h3>五、ToT 的应用</h3>
+                <h3 id="五tot-的应用">五、ToT 的应用</h3>
 
                 <h4>5.1 问题求解</h4>
                 <ul>
@@ -345,7 +363,7 @@
                     <li><strong>方案比较</strong>：比较多个方案</li>
                 </ul>
 
-                <h3>六、实验结果</h3>
+                <h3 id="六实验结果">六、实验结果</h3>
 
                 <h4>6.1 性能对比</h4>
                 <table>
@@ -387,7 +405,7 @@
                     <li>计算成本与性能之间存在权衡</li>
                 </ul>
 
-                <h3>七、挑战与限制</h3>
+                <h3 id="七挑战与限制">七、挑战与限制</h3>
 
                 <h4>7.1 技术挑战</h4>
                 <ul>
@@ -405,7 +423,7 @@
                     <li><strong>需要定制</strong>：不同问题需要不同配置</li>
                 </ul>
 
-                <h3>八、优化方向</h3>
+                <h3 id="八优化方向">八、优化方向</h3>
 
                 <h4>8.1 效率优化</h4>
                 <ul>
@@ -423,7 +441,7 @@
                     <li><strong>人类反馈</strong>：融入人类反馈改进</li>
                 </ul>
 
-                <h3>九、最佳实践</h3>
+                <h3 id="九最佳实践">九、最佳实践</h3>
 
                 <h4>9.1 设计建议</h4>
                 <ul>
@@ -441,7 +459,7 @@
                     <li>定期评估和优化</li>
                 </ul>
 
-                <h3>十、未来方向</h3>
+                <h3 id="十未来方向">十、未来方向</h3>
 
                 <ul>
                     <li><strong>更高效的搜索</strong>：开发更高效的搜索算法</li>

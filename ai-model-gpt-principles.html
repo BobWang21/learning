@@ -141,13 +141,27 @@
                 <a href="index.html">首页</a> > <a href="index.html#ai">AI</a> > <a href="ai-model.html">1. Model</a> > GPT 模型原理
             </div>
 
-            <section class="ai-section">
-                <h2>GPT 模型原理与技术演进研究报告</h2>
+            <div class="page-toc">
+    <h4 style="margin-bottom: 15px; color: #1e40af;">📑 页面目录</h4>
+    <ul style="list-style: none; padding: 0; margin: 0;">
+        <li style="margin-bottom: 8px;"><a href="#gpt-模型原理与技术演进研究报告" style="color: #1e40af; text-decoration: none; font-weight: 600;">GPT 模型原理与技术演进研究报告</a></li>
+        <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#引言" style="color: #7c3aed; text-decoration: none; font-size: 0.95rem;">引言</a></li>
+        <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#一transformer-架构核心原理" style="color: #7c3aed; text-decoration: none; font-size: 0.95rem;">一、Transformer 架构核心原理</a></li>
+        <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#二gpt-核心技术原理" style="color: #7c3aed; text-decoration: none; font-size: 0.95rem;">二、GPT 核心技术原理</a></li>
+        <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#三gpt-系列技术演进" style="color: #7c3aed; text-decoration: none; font-size: 0.95rem;">三、GPT 系列技术演进</a></li>
+        <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#四应用与挑战" style="color: #7c3aed; text-decoration: none; font-size: 0.95rem;">四、应用与挑战</a></li>
+        <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#五结论与展望" style="color: #7c3aed; text-decoration: none; font-size: 0.95rem;">五、结论与展望</a></li>
+    </ul>
+</div>
 
-                <h3>引言</h3>
+
+            <section class="ai-section">
+                <h2 id="gpt-模型原理与技术演进研究报告">GPT 模型原理与技术演进研究报告</h2>
+
+                <h3 id="引言">引言</h3>
                 <p>GPT（Generative Pre-trained Transformer）作为自然语言处理领域的里程碑式模型，其核心基于 2017 年提出的 Transformer 架构。本报告系统梳理 GPT 的核心原理、技术演进路径及与同类模型的差异，结合最新研究成果解析其技术特性。</p>
 
-                <h3>一、Transformer 架构核心原理</h3>
+                <h3 id="一transformer-架构核心原理">一、Transformer 架构核心原理</h3>
 
                 <h4>1.1 自注意力机制（Self-Attention）</h4>
                 <p>通过 Query-Key-Value 矩阵计算序列元素间相关性，突破 RNN 的顺序处理限制。多头注意力机制（Multi-Head Attention）在 8-16 个子空间并行捕获不同维度的语义关联。</p>
@@ -162,7 +176,7 @@
                     <li>前馈网络维度扩展（通常 4 倍于注意力层）</li>
                 </ul>
 
-                <h3>二、GPT 核心技术原理</h3>
+                <h3 id="二gpt-核心技术原理">二、GPT 核心技术原理</h3>
 
                 <h4>2.1 自回归生成范式</h4>
                 <p>采用单向注意力掩码，通过条件概率 P(w_t|w_{<t}) 逐词生成，支持长文本连贯性生成。</p>
@@ -209,7 +223,7 @@
                     </tbody>
                 </table>
 
-                <h3>三、GPT 系列技术演进</h3>
+                <h3 id="三gpt-系列技术演进">三、GPT 系列技术演进</h3>
 
                 <h4>3.1 模型规模扩展</h4>
                 <div class="highlight-box">
@@ -233,7 +247,7 @@
                     <li>基于人类反馈的强化学习（RLHF）</li>
                 </ul>
 
-                <h3>四、应用与挑战</h3>
+                <h3 id="四应用与挑战">四、应用与挑战</h3>
 
                 <h4>4.1 典型应用场景</h4>
                 <ul>
@@ -249,7 +263,7 @@
                     <li>多模态对齐精度提升</li>
                 </ul>
 
-                <h3>五、结论与展望</h3>
+                <h3 id="五结论与展望">五、结论与展望</h3>
                 <div class="highlight-box">
                     <p>GPT 系列通过 Transformer 架构的持续优化，在语言生成领域确立技术标杆。未来发展方向包括：</p>
                     <ol>

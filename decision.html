@@ -70,7 +70,7 @@
 
             <!-- 摘要部分 -->
             <section id="summary" class="section">
-                <h2>摘要</h2>
+                <h2 id="摘要">摘要</h2>
                 <div class="summary-box">
                     <p>数据驱动方法通过将预测与决策一体化，彻底革新了传统优化手段。本文系统梳理了三大主流范式 — 序贯优化、端到端学习与直接学习——的理论基础、优势、最新进展与局限，随后，文章从数据方法论、优化方法论与决策应用三个维度展开对比，剖析现存挑战。论文最终提供一份方法论指南，并为学术界与产业界在复杂数据环境下提升决策能力指明未来研究方向。</p>
                 </div>
@@ -80,11 +80,11 @@
 
             <!-- 三种范式 -->
             <section id="three-paradigms" class="section">
-                <h2>一、三种范式</h2>
+                <h2 id="一三种范式">一、三种范式</h2>
 
                 <img src="https://km.sankuai.com/api/file/cdn/2741552238/212020035831?contentType=1&compress=@1563w_1l" alt="三种范式对比图" class="decision-image">
 
-                <h3>范式对比表</h3>
+                <h3 id="范式对比表">范式对比表</h3>
                 <table class="comparison-table">
                     <thead>
                         <tr>
@@ -118,7 +118,7 @@
 
                 <!-- SO方法 -->
                 <article id="so-method" class="method-card">
-                    <h3>1. SO - 预测与决策的错配</h3>
+                    <h3 id="1-so-预测与决策的错配">1. SO - 预测与决策的错配</h3>
                     <p>在实际应用中，<strong>SO 常常因无法达到绝对预测精度而遭遇挑战。</strong>预测模型通常采用梯度下降算法训练，一旦预测损失降至预设阈值即停止，以防过拟合，同时尽可能有效地捕捉模式。然而，<strong>预测误差的降低并不必然带来决策优势，因为现实场景中预测性能与决策性能之间的关系往往是非对称的。</strong></p>
 
                     <p>与基于范数的预测损失所具有的对称结构不同，决策准则极少是直白明确的。以负荷预测为例，电力系统的运行成本具有非对称性：</p>
@@ -131,7 +131,7 @@
 
                 <!-- E2E方法 -->
                 <article id="e2e-method" class="method-card">
-                    <h3>2. E2E - 决策驱动学习</h3>
+                    <h3 id="2-e2e-决策驱动学习">2. E2E - 决策驱动学习</h3>
                     <p>也称为决策驱动学习。该方法将优化结构嵌入训练过程中，通过决策反馈直接调整预测模型，实现从预测到决策的闭环学习，从而更好地对齐预测与决策目标，有助于减少序贯优化方法中存在的偏差问题。</p>
 
                     <p>一种直观的决策损失定义，<strong>用于量化「在预测场景 ŷ 下做出的决策」与「在真实场景 y 下做出的决策」之间的差异</strong>，通常表示为：</p>
@@ -157,17 +157,17 @@
 
                 <!-- 直接学习方法 -->
                 <article id="dl-method" class="method-card">
-                    <h3>3. DL - 直接学习</h3>
+                    <h3 id="3-dl-直接学习">3. DL - 直接学习</h3>
                     <p>预测模型直接学习最优决策策略，无需依赖显式优化结构。适用于决策问题复杂且缺乏显式优化结构的场景，如自动驾驶系统。</p>
                 </article>
             </section>
 
             <!-- E2E三种方法对比 -->
             <section id="e2e-comparison" class="section">
-                <h2>二、E2E三种方法对比</h2>
+                <h2 id="二e2e三种方法对比">二、E2E三种方法对比</h2>
 
                 <div class="summary-box">
-                    <h3>一句话总结</h3>
+                    <h3 id="一句话总结">一句话总结</h3>
                     <ul>
                         <li>如果问题是<strong>凸优化 + 计算资源充足</strong> → 用 <strong>隐式微分</strong></li>
                         <li>如果问题是<strong>线性目标 + 约束与预测无关</strong> → 用 <strong>SPO+</strong></li>
@@ -175,7 +175,7 @@
                     </ul>
                 </div>
 
-                <h3>方法对比表</h3>
+                <h3 id="方法对比表">方法对比表</h3>
                 <table class="comparison-table">
                     <thead>
                         <tr>
@@ -233,7 +233,7 @@
 
                 <!-- 隐式微分 -->
                 <article id="implicit-diff" class="method-card">
-                    <h3>1 隐式微分（Implicit Differentiation）</h3>
+                    <h3 id="1-隐式微分implicit-differentiation">1 隐式微分（Implicit Differentiation）</h3>
 
                     <h4>核心思想</h4>
                     <p>利用 <strong>KKT 条件</strong> 和 <strong>隐函数定理</strong>，将优化问题的最优解对预测输入的敏感性，转化为求解一个线性方程组。</p>
@@ -329,7 +329,7 @@
 
                 <!-- SPO+ 方法 -->
                 <article id="spo-plus" class="method-card">
-                    <h3>2 代理损失（Surrogate Loss，以 SPO+ 为代表）</h3>
+                    <h3 id="2-代理损失surrogate-loss以-spo-为代表">2 代理损失（Surrogate Loss，以 SPO+ 为代表）</h3>
 
                     <h4>核心思想</h4>
                     <p>尽管隐式微分方法具有诸多优势，但其计算成本仍然是一个关键问题。每次训练迭代都需要计算并求逆雅可比矩阵，这对于大批量输入来说计算量巨大。为了缓解这一问题，使用<strong>代理损失函数</strong>来简化梯度计算。</p>
@@ -437,7 +437,7 @@
 
                 <!-- 近似方法 -->
                 <article id="approximation" class="method-card">
-                    <h3>3 近似方法（Approximation Methods）</h3>
+                    <h3 id="3-近似方法approximation-methods">3 近似方法（Approximation Methods）</h3>
 
                     <h4>核心思想</h4>
                     <p>除了计算效率之外，在具有多面体可行域和线性目标函数的优化中，梯度信息的有效性也存在问题，因为 y 的变化可能并不总是影响最优解 z*，并且可能出现无穷多解的情况。</p>

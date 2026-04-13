@@ -229,8 +229,28 @@
                 <a href="index.html">首页</a> > <a href="index.html#ai">AI</a> > <a href="ai-agent.html">4. Agent</a> > Function Calling、MCP 和 Skills
             </div>
 
+            <div class="page-toc">
+    <h4 style="margin-bottom: 15px; color: #1e40af;">📑 页面目录</h4>
+    <ul style="list-style: none; padding: 0; margin: 0;">
+        <li style="margin-bottom: 8px;"><a href="#function-callingmcp-和-skills-完全解析" style="color: #1e40af; text-decoration: none; font-weight: 600;">Function Calling、MCP 和 Skills 完全解析</a></li>
+        <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#why为什么需要它" style="color: #7c3aed; text-decoration: none; font-size: 0.95rem;">Why：为什么需要它？</a></li>
+        <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#what它是什么" style="color: #7c3aed; text-decoration: none; font-size: 0.95rem;">What：它是什么？</a></li>
+        <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#how如何实现" style="color: #7c3aed; text-decoration: none; font-size: 0.95rem;">How：如何实现？</a></li>
+        <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#why为什么需要它" style="color: #7c3aed; text-decoration: none; font-size: 0.95rem;">Why：为什么需要它？</a></li>
+        <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#what它是什么" style="color: #7c3aed; text-decoration: none; font-size: 0.95rem;">What：它是什么？</a></li>
+        <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#how如何工作" style="color: #7c3aed; text-decoration: none; font-size: 0.95rem;">How：如何工作？</a></li>
+        <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#why为什么需要它" style="color: #7c3aed; text-decoration: none; font-size: 0.95rem;">Why：为什么需要它？</a></li>
+        <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#what它是什么" style="color: #7c3aed; text-decoration: none; font-size: 0.95rem;">What：它是什么？</a></li>
+        <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#how如何工作" style="color: #7c3aed; text-decoration: none; font-size: 0.95rem;">How：如何工作？</a></li>
+        <li style="margin-bottom: 8px;"><a href="#三者对比总结" style="color: #1e40af; text-decoration: none; font-weight: 600;">三者对比总结</a></li>
+        <li style="margin-bottom: 8px;"><a href="#核心洞察" style="color: #1e40af; text-decoration: none; font-weight: 600;">核心洞察</a></li>
+        <li style="margin-bottom: 8px;"><a href="#未来展望" style="color: #1e40af; text-decoration: none; font-weight: 600;">未来展望</a></li>
+    </ul>
+</div>
+
+
             <section class="ai-section">
-                <h2>Function Calling、MCP 和 Skills 完全解析</h2>
+                <h2 id="function-callingmcp-和-skills-完全解析">Function Calling、MCP 和 Skills 完全解析</h2>
 
                 <!-- Function Calling 部分 -->
                 <div class="framework-section">
@@ -239,10 +259,10 @@
                         <div class="framework-title">Function Calling（函数调用）</div>
                     </div>
 
-                    <h3>Why：为什么需要它？</h3>
+                    <h3 id="why为什么需要它">Why：为什么需要它？</h3>
                     <p>LLM 擅长处理<strong>非结构化信息</strong>（自然语言文本），但现实世界的外部系统（数据库、API、文件系统等）只能处理<strong>结构化信息</strong>。需要一个桥梁将用户的自然语言需求转换为结构化的函数调用，让 LLM 能与外部系统稳定交互。</p>
 
-                    <h3>What：它是什么？</h3>
+                    <h3 id="what它是什么">What：它是什么？</h3>
                     <p>AI Agent <strong>调用工具的基础能力</strong>，是 MCP 和 Skills 能够存在的前置条件。它让 LLM 生成结构化的 JSON 格式输出，包含函数名和参数，而非自然语言。</p>
 
                     <p><strong>核心机制</strong>：</p>
@@ -251,7 +271,7 @@
                         <li>系统解析 JSON 并执行对应函数，无需复杂的文本解析逻辑</li>
                     </ul>
 
-                    <h3>How：如何实现？</h3>
+                    <h3 id="how如何实现">How：如何实现？</h3>
                     <div class="code-block">
                         <code>{
   "tool_calls": [{
@@ -273,13 +293,13 @@
                         <div class="framework-title">MCP（Model Context Protocol，模型上下文协议）</div>
                     </div>
 
-                    <h3>Why：为什么需要它？</h3>
+                    <h3 id="why为什么需要它">Why：为什么需要它？</h3>
                     <p>Function Calling 虽然解决了调用问题，但<strong>工具集成成本太高</strong>。每个组织都有自己的 API、认证方式、数据格式，开发者需要为每个系统单独编写集成代码。MCP 旨在提供<strong>标准化的接驳协议</strong>，降低工具集成成本。</p>
 
-                    <h3>What：它是什么？</h3>
+                    <h3 id="what它是什么">What：它是什么？</h3>
                     <p>由 Anthropic 推动的<strong>开放标准</strong>（已捐赠给 Linux 基金会），为 LLM 应用提供标准化接口以连接外部数据源和工具。本质上是一套<strong>协议转换层</strong>，基于 Function Calling 实现。</p>
 
-                    <h3>How：如何工作？</h3>
+                    <h3 id="how如何工作">How：如何工作？</h3>
                     <div class="code-block">
 LLM → Function Calling → MCP Client → JSON-RPC/HTTP请求 → MCP Server → 既有系统（GitHub/Slack/数据库等）
                                                          ↓
@@ -301,7 +321,7 @@ LLM ← Function Calling结果 ← MCP Client ← JSON响应 ← MCP Server ← 
                         <div class="framework-title">Skills（技能）</div>
                     </div>
 
-                    <h3>Why：为什么需要它？</h3>
+                    <h3 id="why为什么需要它">Why：为什么需要它？</h3>
                     <p>Function Calling 和 MCP 都有<strong>任务流程定义困难</strong>的问题。复杂任务（如代码审查、部署流程）需要特定执行顺序、规则和约束，但：</p>
                     <ul>
                         <li>全部写成代码 → 丧失模型处理不确定性的优势</li>
@@ -309,10 +329,10 @@ LLM ← Function Calling结果 ← MCP Client ← JSON响应 ← MCP Server ← 
                     </ul>
                     <p>需要一个方式让用户用<strong>文字定义可复用的任务流程</strong>，同时保留模型的灵活性。</p>
 
-                    <h3>What：它是什么？</h3>
+                    <h3 id="what它是什么">What：它是什么？</h3>
                     <p>Anthropic Claude 的尝试，是 <strong>Sub-Agent 的包装</strong>。让用户用文字定义指令、脚本和资源，形成可复用的任务流程。本质上是在 Function Calling 之上的巧妙应用。</p>
 
-                    <h3>How：如何工作？</h3>
+                    <h3 id="how如何工作">How：如何工作？</h3>
                     <p><strong>渐进式披露机制</strong>：</p>
                     <ol>
                         <li><strong>初始化</strong>：加载所有 Skills 的元数据（名称+描述，约100 token）到模型上下文</li>
@@ -329,7 +349,7 @@ LLM ← Function Calling结果 ← MCP Client ← JSON响应 ← MCP Server ← 
                 </div>
 
                 <!-- 对比总结 -->
-                <h2>三者对比总结</h2>
+                <h2 id="三者对比总结">三者对比总结</h2>
                 <table>
                     <thead>
                         <tr>
@@ -374,7 +394,7 @@ LLM ← Function Calling结果 ← MCP Client ← JSON响应 ← MCP Server ← 
                 </table>
 
                 <!-- 核心洞察 -->
-                <h2>核心洞察</h2>
+                <h2 id="核心洞察">核心洞察</h2>
                 <div class="insight-box">
                     <h4>💡 一切都是函数，函数才是第一公民</h4>
                     <p class="quote">"一切都是函数，函数才是第一公民" —— Lynxe 的设计理念</p>
@@ -394,7 +414,7 @@ LLM ← Function Calling结果 ← MCP Client ← JSON响应 ← MCP Server ← 
                 </div>
 
                 <!-- 未来展望 -->
-                <h2>未来展望</h2>
+                <h2 id="未来展望">未来展望</h2>
                 <div class="highlight-box">
                     <p>文章作者认为，当前 Agent 方案仍有局限（纯文本描述不够结构化、只能以对话框形式接驳系统），因此提出了 <strong>Func-Agent</strong> 思路：</p>
                     <p>让每个 Agent 能力都通过<strong>函数化接口</strong>暴露，兼顾结构化输入输出与系统集成能力。</p>

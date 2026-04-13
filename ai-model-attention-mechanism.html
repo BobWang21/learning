@@ -148,13 +148,29 @@
                 <a href="index.html">首页</a> > <a href="index.html#ai">AI</a> > <a href="ai-model.html">1. Model</a> > 注意力机制
             </div>
 
-            <section class="ai-section">
-                <h2>大模型注意力机制原理、发展历史及应用价值</h2>
+            <div class="page-toc">
+    <h4 style="margin-bottom: 15px; color: #1e40af;">📑 页面目录</h4>
+    <ul style="list-style: none; padding: 0; margin: 0;">
+        <li style="margin-bottom: 8px;"><a href="#大模型注意力机制原理发展历史及应用价值" style="color: #1e40af; text-decoration: none; font-weight: 600;">大模型注意力机制原理、发展历史及应用价值</a></li>
+        <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#一引言" style="color: #7c3aed; text-decoration: none; font-size: 0.95rem;">一、引言</a></li>
+        <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#二注意力机制原理详解" style="color: #7c3aed; text-decoration: none; font-size: 0.95rem;">二、注意力机制原理详解</a></li>
+        <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#三注意力机制发展历程与首次应用场景" style="color: #7c3aed; text-decoration: none; font-size: 0.95rem;">三、注意力机制发展历程与首次应用场景</a></li>
+        <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#四不同类别注意力机制详解与代码实现" style="color: #7c3aed; text-decoration: none; font-size: 0.95rem;">四、不同类别注意力机制详解与代码实现</a></li>
+        <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#五不同注意力机制对比" style="color: #7c3aed; text-decoration: none; font-size: 0.95rem;">五、不同注意力机制对比</a></li>
+        <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#六实际作用与应用价值" style="color: #7c3aed; text-decoration: none; font-size: 0.95rem;">六、实际作用与应用价值</a></li>
+        <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#七最新趋势与研究展望" style="color: #7c3aed; text-decoration: none; font-size: 0.95rem;">七、最新趋势与研究展望</a></li>
+        <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#八总结与结论" style="color: #7c3aed; text-decoration: none; font-size: 0.95rem;">八、总结与结论</a></li>
+    </ul>
+</div>
 
-                <h3>一、引言</h3>
+
+            <section class="ai-section">
+                <h2 id="大模型注意力机制原理发展历史及应用价值">大模型注意力机制原理、发展历史及应用价值</h2>
+
+                <h3 id="一引言">一、引言</h3>
                 <p>注意力机制（Attention Mechanism）自 2014 年以来已经成为深度学习模型中不可或缺的核心模块，广泛用于自然语言处理（NLP）、计算机视觉（CV）、语音识别等领域。其本质是模拟人类在处理信息时的"聚焦"能力，通过对特征的动态加权选择，大幅提升了模型的表达力、适应性与性能。尤其是在大模型（如 Transformer、GPT、BERT 等）中，注意力机制是性能突破的关键驱动力之一。</p>
 
-                <h3>二、注意力机制原理详解</h3>
+                <h3 id="二注意力机制原理详解">二、注意力机制原理详解</h3>
 
                 <h4>2.1 基本思想</h4>
                 <p>注意力机制源于对人类视觉系统的模拟。当人面对复杂信息时，会自动聚焦于关键信息，而略过无关细节。在深度学习中，Attention 机制即通过学习参数化权重，对输入的信息进行选择性加权，从而提高有效特征的利用率和噪声抑制能力。</p>
@@ -184,7 +200,7 @@ attn_weights = F.softmax(scores, dim=1)
 output = attn_weights @ V</code>
                 </div>
 
-                <h3>三、注意力机制发展历程与首次应用场景</h3>
+                <h3 id="三注意力机制发展历程与首次应用场景">三、注意力机制发展历程与首次应用场景</h3>
 
                 <h4>3.1 发展历史与关键里程碑</h4>
                 <ul>
@@ -197,7 +213,7 @@ output = attn_weights @ V</code>
                 <h4>3.2 首次应用场景</h4>
                 <p>Attention 机制最早应用于机器翻译（seq2seq 编码-解码框架），而自注意力机制在 Transformer 首次提出，其后成为各种大模型标准配置。</p>
 
-                <h3>四、不同类别注意力机制详解与代码实现</h3>
+                <h3 id="四不同类别注意力机制详解与代码实现">四、不同类别注意力机制详解与代码实现</h3>
 
                 <h4>4.1 通道注意力（SE：Squeeze-and-Excitation）</h4>
                 <p><strong>结构原理</strong>：通过全局平均池化将每通道信息压缩为标量，再通过两个全连接层（FC），非线性地学习重要通道权重，然后用这些权重对原始特征通道乘法缩放，实现特征重标定。</p>
@@ -276,7 +292,7 @@ output = attn_weights @ V</code>
 
                 <p><strong>高级变种</strong>：多头注意力（Multi-Head Attention）通过多个头并行学习不同的关注模式。</p>
 
-                <h3>五、不同注意力机制对比</h3>
+                <h3 id="五不同注意力机制对比">五、不同注意力机制对比</h3>
 
                 <table>
                     <thead>
@@ -327,7 +343,7 @@ output = attn_weights @ V</code>
                     </tbody>
                 </table>
 
-                <h3>六、实际作用与应用价值</h3>
+                <h3 id="六实际作用与应用价值">六、实际作用与应用价值</h3>
 
                 <h4>6.1 模型性能与实际场景提升</h4>
                 <ul>
@@ -344,7 +360,7 @@ output = attn_weights @ V</code>
                     <li><strong>安防监控</strong>：空间注意力帮助模型更快定位监控画面中的关键区域，对遮挡、光照、扰动鲁棒性提升</li>
                 </ul>
 
-                <h3>七、最新趋势与研究展望</h3>
+                <h3 id="七最新趋势与研究展望">七、最新趋势与研究展望</h3>
                 <ul>
                     <li><strong>动态注意力结构</strong>：动态卷积/动态窗口机制，实现输入自适应建模</li>
                     <li><strong>多模态注意力</strong>：将视觉、文本、语音多种信息融合，提升大模型跨领域理解能力</li>
@@ -352,7 +368,7 @@ output = attn_weights @ V</code>
                     <li><strong>应用边界扩展</strong>：多维注意力融合（通道+空间+时间）、自适应参数规则、跨模态任务</li>
                 </ul>
 
-                <h3>八、总结与结论</h3>
+                <h3 id="八总结与结论">八、总结与结论</h3>
                 <div class="highlight-box">
                     <ol>
                         <li>注意力机制本质是对输入信息的动态加权选择，极大增强了模型的表达能力，是大模型（如 Transformer/NLP/视觉等）性能飞跃的关键</li>

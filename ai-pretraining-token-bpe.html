@@ -131,13 +131,29 @@
                 <a href="index.html">首页</a> > <a href="index.html#ai">AI</a> > <a href="ai-pretraining.html">2. Pre-training</a> > token-BPE算法概述
             </div>
 
-            <section class="ai-section">
-                <h2>token-BPE算法概述</h2>
+            <div class="page-toc">
+    <h4 style="margin-bottom: 15px; color: #1e40af;">📑 页面目录</h4>
+    <ul style="list-style: none; padding: 0; margin: 0;">
+        <li style="margin-bottom: 8px;"><a href="#token-bpe算法概述" style="color: #1e40af; text-decoration: none; font-weight: 600;">token-BPE算法概述</a></li>
+        <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#bpe算法概述" style="color: #7c3aed; text-decoration: none; font-size: 0.95rem;">BPE算法概述</a></li>
+        <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#核心思想" style="color: #7c3aed; text-decoration: none; font-size: 0.95rem;">核心思想</a></li>
+        <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#算法步骤详解" style="color: #7c3aed; text-decoration: none; font-size: 0.95rem;">算法步骤详解</a></li>
+        <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#编码分词过程" style="color: #7c3aed; text-decoration: none; font-size: 0.95rem;">编码（分词）过程</a></li>
+        <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#bpe的变体与演进" style="color: #7c3aed; text-decoration: none; font-size: 0.95rem;">BPE的变体与演进</a></li>
+        <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#实际应用示例" style="color: #7c3aed; text-decoration: none; font-size: 0.95rem;">实际应用示例</a></li>
+        <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#bpe的优缺点" style="color: #7c3aed; text-decoration: none; font-size: 0.95rem;">BPE的优缺点</a></li>
+        <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#总结" style="color: #7c3aed; text-decoration: none; font-size: 0.95rem;">总结</a></li>
+    </ul>
+</div>
 
-                <h3>BPE算法概述</h3>
+
+            <section class="ai-section">
+                <h2 id="token-bpe算法概述">token-BPE算法概述</h2>
+
+                <h3 id="bpe算法概述">BPE算法概述</h3>
                 <p><strong>BPE（Byte Pair Encoding）</strong> 是一种<strong>数据压缩算法</strong>，后来被OpenAI等团队引入自然语言处理领域，用于构建子词（subword）词汇表。它是现代大语言模型（如GPT系列）分词器的核心基础。</p>
 
-                <h3>核心思想</h3>
+                <h3 id="核心思想">核心思想</h3>
                 <p>BPE的核心思想是：<strong>通过迭代合并频率最高的字符对，逐步构建出更长的子词单元</strong>。</p>
 
                 <div class="highlight-box">
@@ -149,7 +165,7 @@
                     </ul>
                 </div>
 
-                <h3>算法步骤详解</h3>
+                <h3 id="算法步骤详解">算法步骤详解</h3>
 
                 <h4>第一步：初始化</h4>
                 <p>将训练语料中的每个单词拆分为字符序列，并在末尾添加特殊的词尾标记 <code>&lt;/w&gt;</code>。</p>
@@ -190,7 +206,7 @@
                     <li>或没有可合并的字符对</li>
                 </ul>
 
-                <h3>编码（分词）过程</h3>
+                <h3 id="编码分词过程">编码（分词）过程</h3>
                 <p>训练完成后，对新文本进行分词时采用<strong>贪心最长匹配</strong>策略：</p>
                 <div class="code-block">
                     输入："lowest"<br>
@@ -202,7 +218,7 @@
                     最终分词结果：["low", "est"]
                 </div>
 
-                <h3>BPE的变体与演进</h3>
+                <h3 id="bpe的变体与演进">BPE的变体与演进</h3>
                 <table>
                     <thead>
                         <tr>
@@ -235,7 +251,7 @@
                     </tbody>
                 </table>
 
-                <h3>实际应用示例</h3>
+                <h3 id="实际应用示例">实际应用示例</h3>
                 <p>以GPT-2的分词器为例：</p>
                 <div class="code-block">
                     import tiktoken<br><br>
@@ -249,7 +265,7 @@
                     print(f"压缩比: {len(text)/len(tokens):.2f}")
                 </div>
 
-                <h3>BPE的优缺点</h3>
+                <h3 id="bpe的优缺点">BPE的优缺点</h3>
                 <table>
                     <thead>
                         <tr>
@@ -277,7 +293,7 @@
                     </tbody>
                 </table>
 
-                <h3>总结</h3>
+                <h3 id="总结">总结</h3>
                 <p>BPE算法通过<strong>迭代合并高频字符对</strong>，构建出高效的子词词汇表，解决了传统词级分词的OOV问题。它是现代大语言模型的基石技术之一，理解BPE有助于深入掌握Tokenizer的工作原理，以及为什么LLM在某些文本（如非英语、数字序列）上表现特殊。</p>
 
                 <a href="ai-pretraining.html" class="back-link">← 返回 2. Pre-training</a>

@@ -141,10 +141,22 @@
                 <a href="index.html">首页</a> > <a href="index.html#ai">AI</a> > <a href="ai-posttraining.html">3. Post-training</a> > PEFT 详解
             </div>
 
-            <section class="ai-section">
-                <h2>PEFT 详解</h2>
+            <div class="page-toc">
+    <h4 style="margin-bottom: 15px; color: #1e40af;">📑 页面目录</h4>
+    <ul style="list-style: none; padding: 0; margin: 0;">
+        <li style="margin-bottom: 8px;"><a href="#peft-详解" style="color: #1e40af; text-decoration: none; font-weight: 600;">PEFT 详解</a></li>
+        <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#一概览" style="color: #7c3aed; text-decoration: none; font-size: 0.95rem;">一、概览</a></li>
+        <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#二lora-系列" style="color: #7c3aed; text-decoration: none; font-size: 0.95rem;">二、LoRA 系列</a></li>
+        <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#三提示方法" style="color: #7c3aed; text-decoration: none; font-size: 0.95rem;">三、提示方法</a></li>
+        <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#四总结" style="color: #7c3aed; text-decoration: none; font-size: 0.95rem;">四、总结</a></li>
+    </ul>
+</div>
 
-                <h3>一、概览</h3>
+
+            <section class="ai-section">
+                <h2 id="peft-详解">PEFT 详解</h2>
+
+                <h3 id="一概览">一、概览</h3>
                 <p>PEFT（Parameter-Efficient Fine-Tuning）是一个用于高效地将预训练模型适配到各种下游应用的方法族，无需对模型的所有参数进行微调。PEFT 方法仅微调少量（额外的）模型参数——显著降低了计算和存储成本——同时取得了与完全微调模型相当的性能。这使得在消费级硬件上训练和存储大型语言模型（LLM）更加容易。</p>
 
                 <div class="highlight-box">
@@ -156,7 +168,7 @@
                     </ul>
                 </div>
 
-                <h3>二、LoRA 系列</h3>
+                <h3 id="二lora-系列">二、LoRA 系列</h3>
 
                 <h4>2.1 LoRA：低秩适配</h4>
 
@@ -382,7 +394,7 @@
                     <li><strong>Float</strong>：每个 4-bit 编码对应一个浮点数值（而非整数）</li>
                 </ul>
 
-                <h3>三、提示方法</h3>
+                <h3 id="三提示方法">三、提示方法</h3>
 
                 <h4>3.1 Prefix Tuning</h4>
 
@@ -470,7 +482,7 @@
                     </tbody>
                 </table>
 
-                <h3>四、总结</h3>
+                <h3 id="四总结">四、总结</h3>
                 <p>PEFT 方法族为大模型的高效微调提供了多种选择：</p>
                 <ul>
                     <li><strong>LoRA</strong>：最通用、最实用，支持权重合并，零推理延迟</li>
