@@ -28,39 +28,77 @@
 </head>
 <body>
     <div class="container">
-        <nav class="sidebar">
-            <div class="logo">时序模型调研</div>
+        <div class="sidebar">
+            <div class="logo">📚 索引</div>
             <ul class="toc">
-                <li><a href="#model-comparison">一、模型对比</a></li>
-                <li><a href="#deep-models">二、深度模型</a>
+                <li><a href="index.html">🏠 首页</a></li>
+                <li><a href="index.html#ai">🤖 AI</a>
                     <ul>
-                        <li><a href="#tft">TFT</a></li>
-                        <li><a href="#nbeatsx">NBEATSx</a></li>
-                        <li><a href="#patchtst">PatchTST</a></li>
-                        <li><a href="#tide">TiDE</a></li>
-                        <li><a href="#itransformer">iTransformer</a></li>
-                        <li><a href="#timexer">TimeXer</a></li>
+                        <li><a href="ai-model.html">1. Model</a>
+                            <ul>
+                                <li><a href="ai-model-gpt-principles.html">GPT 模型原理</a></li>
+                                <li><a href="ai-model-attention-mechanism.html">注意力机制</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="ai-pretraining.html">2. Pre-training</a>
+                            <ul>
+                                <li><a href="ai-pretraining-token-bpe.html">token-BPE 算法</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="ai-posttraining.html">3. Post-training</a>
+                            <ul>
+                                <li><a href="ai-posttraining-overview.html">Post-Training 全景指南</a></li>
+                                <li><a href="ai-posttraining-peft.html">PEFT 详解</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="ai-agent.html">4. Agent</a>
+                            <ul>
+                                <li><a href="ai-agent-llm-survey.html">LLM Agent Survey</a></li>
+                                <li><a href="ai-agent-agentic-reasoning.html">Agentic Reasoning</a></li>
+                                <li><a href="ai-agent-memory.html">Memory</a></li>
+                                <li><a href="ai-agent-self-evolving.html">Self-Evolving</a></li>
+                                <li><a href="ai-agent-multi-agent.html">Multi-Agent Systems</a></li>
+                                <li><a href="ai-agent-agentic-rl.html">Agentic RL</a></li>
+                                <li><a href="ai-agent-knowledge-graph.html">Knowledge Graph</a></li>
+                                <li><a href="ai-agent-rag.html">RAG</a></li>
+                                <li><a href="ai-agent-tree-of-thoughts.html">Tree of Thoughts</a></li>
+                                <li><a href="ai-agent-function-calling.html">Tools</a></li>
+                            </ul>
+                        </li>
                     </ul>
                 </li>
-                <li><a href="#foundation-models">三、大模型</a>
-                    <ul>
-                        <li><a href="#timesfm">TimesFM</a></li>
-                        <li><a href="#timepfn">TimePFN</a></li>
-                        <li><a href="#moirai">Moirai 系列</a></li>
-                        <li><a href="#chronos">Chronos 系列</a></li>
-                    </ul>
-                </li>
-                <li><a href="#appendix">附录</a></li>
-                <li style="margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid rgba(255,255,255,0.2);">
-                    <a href="decision.html" style="color: #fbbf24; font-weight: bold;">📊 预测与决策范式</a>
-                </li>
+                <li><a href="decision.html">🔄 端到端</a></li>
+                <li><a href="models.html">⏱️ 预测</a></li>
             </ul>
-        </nav>
+        </div>
 
         <main class="content">
             <header class="header">
                 <h1>时序模型调研</h1>
             </header>
+
+            <div class="page-toc">
+    <h4 style="margin-bottom: 15px; color: #1e40af;">📑 页面目录</h4>
+    <ul style="list-style: none; padding: 0; margin: 0;">
+        <li style="margin-bottom: 8px;"><a href="#一模型对比" style="color: #1e40af; text-decoration: none; font-weight: 600;">一、模型对比</a></li>
+        <li style="margin-bottom: 8px;"><a href="#二深度模型" style="color: #1e40af; text-decoration: none; font-weight: 600;">二、深度模型</a></li>
+        <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#1-tft" style="color: #7c3aed; text-decoration: none; font-size: 0.95rem;">1 TFT</a></li>
+        <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#2-nbeatsx" style="color: #7c3aed; text-decoration: none; font-size: 0.95rem;">2 NBEATSx</a></li>
+        <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#3-patchtst" style="color: #7c3aed; text-decoration: none; font-size: 0.95rem;">3 PatchTST</a></li>
+        <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#4-tide" style="color: #7c3aed; text-decoration: none; font-size: 0.95rem;">4 TiDE</a></li>
+        <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#5-itransformer" style="color: #7c3aed; text-decoration: none; font-size: 0.95rem;">5 iTransformer</a></li>
+        <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#6-timexer" style="color: #7c3aed; text-decoration: none; font-size: 0.95rem;">6 TimeXer</a></li>
+        <li style="margin-bottom: 8px;"><a href="#三大模型" style="color: #1e40af; text-decoration: none; font-weight: 600;">三、大模型</a></li>
+        <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#1-timesfm" style="color: #7c3aed; text-decoration: none; font-size: 0.95rem;">1 TimesFM</a></li>
+        <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#2-timepfn" style="color: #7c3aed; text-decoration: none; font-size: 0.95rem;">2 TimePFN</a></li>
+        <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#3-moirai-系列" style="color: #7c3aed; text-decoration: none; font-size: 0.95rem;">3 Moirai 系列</a></li>
+        <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#4-chronos-系列" style="color: #7c3aed; text-decoration: none; font-size: 0.95rem;">4 Chronos 系列</a></li>
+        <li style="margin-bottom: 8px;"><a href="#附录" style="color: #1e40af; text-decoration: none; font-weight: 600;">附录</a></li>
+        <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#时序模型特点" style="color: #7c3aed; text-decoration: none; font-size: 0.95rem;">时序模型特点</a></li>
+        <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#关键概念" style="color: #7c3aed; text-decoration: none; font-size: 0.95rem;">关键概念</a></li>
+    </ul>
+</div>
+
 
             <!-- 模型对比表部分 - 蓝色背景 -->
             <section id="model-comparison" class="model-comparison-section">
