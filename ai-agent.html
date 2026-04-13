@@ -131,6 +131,73 @@
         .breadcrumb a:hover {
             text-decoration: underline;
         }
+
+        .article-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .article-card {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 20px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .article-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            border-color: #1e40af;
+        }
+
+        .article-card h3 {
+            color: #1e40af;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+
+        .article-card p {
+            color: #64748b;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 15px;
+            flex-grow: 1;
+        }
+
+        .article-link {
+            display: inline-block;
+            color: #1e40af;
+            text-decoration: none;
+            font-weight: 600;
+            padding: 8px 16px;
+            border-radius: 4px;
+            background: rgba(30, 64, 175, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .article-link:hover {
+            background: rgba(30, 64, 175, 0.2);
+            transform: translateX(5px);
+        }
+
+        @media (max-width: 1200px) {
+            .article-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .article-grid {
+                grid-template-columns: 1fr;
+            }
+        }
     </style>
 </head>
 <body>
@@ -165,6 +232,56 @@
 
             <section class="ai-section">
                 <h2>4. Agent - AI 智能体</h2>
+
+                <p>深入学习 AI 智能体的核心技术和应用方向：</p>
+
+                <div class="article-grid">
+                    <div class="article-card">
+                        <h3>1. LLM Agent Survey</h3>
+                        <p>大语言模型智能体的全面调查，涵盖智能体的核心构成、分类、评估框架和实际应用。</p>
+                        <a href="ai-agent-llm-survey.html" class="article-link">查看详情 →</a>
+                    </div>
+                    <div class="article-card">
+                        <h3>2. Agentic Reasoning</h3>
+                        <p>智能体推理框架，从基础推理到自进化推理再到集体推理的三层架构。</p>
+                        <a href="ai-agent-agentic-reasoning.html" class="article-link">查看详情 →</a>
+                    </div>
+                    <div class="article-card">
+                        <h3>3. Memory in AI Agents</h3>
+                        <p>AI 智能体的记忆机制，涵盖短期、长期和工作记忆的三维框架。</p>
+                        <a href="ai-agent-memory.html" class="article-link">查看详情 →</a>
+                    </div>
+                    <div class="article-card">
+                        <h3>4. Self-Evolving Agents</h3>
+                        <p>自我进化智能体的调查，探讨智能体如何通过自我反思和学习不断改进。</p>
+                        <a href="ai-agent-self-evolving.html" class="article-link">查看详情 →</a>
+                    </div>
+                    <div class="article-card">
+                        <h3>5. Multi-Agent Systems</h3>
+                        <p>多智能体系统的设计与优化，包括强化学习、博弈论和协调机制。</p>
+                        <a href="ai-agent-multi-agent.html" class="article-link">查看详情 →</a>
+                    </div>
+                    <div class="article-card">
+                        <h3>6. Agentic RL</h3>
+                        <p>智能体强化学习综合指南，涵盖规划、工具使用、记忆和推理能力。</p>
+                        <a href="ai-agent-agentic-rl.html" class="article-link">查看详情 →</a>
+                    </div>
+                    <div class="article-card">
+                        <h3>7. Knowledge Graph</h3>
+                        <p>知识图谱在智能体中的应用，支持结构化知识表示和推理。</p>
+                        <a href="ai-agent-knowledge-graph.html" class="article-link">查看详情 →</a>
+                    </div>
+                    <div class="article-card">
+                        <h3>8. RAG</h3>
+                        <p>检索增强生成完全指南，解决 LLM 知识过时和幻觉问题。</p>
+                        <a href="ai-agent-rag.html" class="article-link">查看详情 →</a>
+                    </div>
+                    <div class="article-card">
+                        <h3>9. Tree of Thoughts</h3>
+                        <p>思维树推理框架，支持探索多个推理路径和动态评估。</p>
+                        <a href="ai-agent-tree-of-thoughts.html" class="article-link">查看详情 →</a>
+                    </div>
+                </div>
 
                 <h3>一、定义</h3>
                 <h4>1.1 AI Agent 框架基础理论</h4>

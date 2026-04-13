@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RAG - Agent</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .ai-section {
+            background: white;
+            border-radius: 8px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .ai-section h2, .ai-section h3, .ai-section h4 {
+            color: #1e40af;
+            margin-top: 25px;
+            margin-bottom: 15px;
+        }
+
+        .ai-section h2 {
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 15px;
+            margin-top: 0;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, rgba(30, 64, 175, 0.05), rgba(124, 58, 237, 0.05));
+            border-left: 4px solid #1e40af;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+        }
+
+        .code-block {
+            background: #f1f5f9;
+            border-left: 4px solid #1e40af;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+            overflow-x: auto;
+            font-size: 0.9rem;
+            font-family: 'Courier New', monospace;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        table thead {
+            background: linear-gradient(135deg, #1e40af, #7c3aed);
+            color: white;
+        }
+
+        table th, table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        table tbody tr:hover {
+            background-color: rgba(30, 64, 175, 0.05);
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            padding: 10px 20px;
+            background: #1e40af;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .back-link:hover {
+            background: #0c4a6e;
+            transform: translateY(-2px);
+        }
+
+        .breadcrumb {
+            color: #64748b;
+            font-size: 0.95rem;
+            margin-bottom: 20px;
+        }
+
+        .breadcrumb a {
+            color: #1e40af;
+            text-decoration: none;
+        }
+
+        code {
+            background: #f1f5f9;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="sidebar">
+            <div class="logo">📚 学习领域</div>
+            <ul class="toc">
+                <li><a href="index.html">🏠 首页</a></li>
+                <li><a href="models.html">⏱️ 时序预测</a></li>
+                <li><a href="decision.html">🔄 预测与决策</a></li>
+                <li><a href="index.html#ai">🤖 AI 研究</a>
+                    <ul>
+                        <li><a href="ai-model.html">1. Model</a></li>
+                        <li><a href="ai-pretraining.html">2. Pre-training</a></li>
+                        <li><a href="ai-posttraining.html">3. Post-training</a></li>
+                        <li><a href="ai-agent.html">4. Agent</a>
+                            <ul>
+                                <li><a href="ai-agent-rag.html">RAG</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+        <main class="content">
+            <header class="header">
+                <h1>RAG - Retrieval-Augmented Generation</h1>
+                <p class="subtitle">检索增强生成完全指南</p>
+            </header>
+
+            <div class="breadcrumb">
+                <a href="index.html">首页</a> > <a href="index.html#ai">AI 研究</a> > <a href="ai-agent.html">4. Agent</a> > RAG
+            </div>
+
+            <section class="ai-section">
+                <h2>RAG - Retrieval-Augmented Generation</h2>
+
+                <h3>一、什么是 RAG？</h3>
+                <p>RAG（检索增强生成）是一种结合信息检索和文本生成的技术。其核心思想是：在生成文本前，先从外部知识库中检索相关信息，然后将这些信息作为上下文提供给生成模型。</p>
+
+                <div class="highlight-box">
+                    <p><strong>核心优势</strong>：</p>
+                    <ul>
+                        <li>解决 LLM 的知识过时问题</li>
+                        <li>提高答案的准确性和可信度</li>
+                        <li>支持基于特定知识库的问答</li>
+                        <li>降低幻觉（hallucination）问题</li>
+                        <li>支持实时知识更新</li>
+                    </ul>
+                </div>
+
+                <h3>二、RAG 的架构</h3>
+
+                <h4>2.1 基本流程</h4>
+                <div class="code-block">
+                    用户查询<br>
+                    ↓<br>
+                    查询理解与处理<br>
+                    ↓<br>
+                    知识库检索<br>
+                    ↓<br>
+                    排序与重排<br>
+                    ↓<br>
+                    上下文组织<br>
+                    ↓<br>
+                    LLM 生成<br>
+                    ↓<br>
+                    后处理与输出
+                </div>
+
+                <h4>2.2 离线部分（Offline）</h4>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>阶段</th>
+                            <th>功能</th>
+                            <th>技术</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>数据收集</strong></td>
+                            <td>收集原始文档</td>
+                            <td>爬虫、API、数据库</td>
+                        </tr>
+                        <tr>
+                            <td><strong>文本清洗</strong></td>
+                            <td>清理和标准化文本</td>
+                            <td>正则表达式、NLP工具</td>
+                        </tr>
+                        <tr>
+                            <td><strong>文本分块</strong></td>
+                            <td>将长文本分割成块</td>
+                            <td>滑动窗口、语义分块</td>
+                        </tr>
+                        <tr>
+                            <td><strong>向量化</strong></td>
+                            <td>将文本转化为向量</td>
+                            <td>Embedding 模型</td>
+                        </tr>
+                        <tr>
+                            <td><strong>索引构建</strong></td>
+                            <td>构建向量索引</td>
+                            <td>向量数据库、FAISS</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h4>2.3 在线部分（Online）</h4>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>阶段</th>
+                            <th>功能</th>
+                            <th>技术</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>查询处理</strong></td>
+                            <td>理解用户查询</td>
+                            <td>查询理解、扩展、改写</td>
+                        </tr>
+                        <tr>
+                            <td><strong>检索</strong></td>
+                            <td>从知识库检索相关文档</td>
+                            <td>向量检索、关键词检索、混合检索</td>
+                        </tr>
+                        <tr>
+                            <td><strong>排序</strong></td>
+                            <td>对检索结果排序</td>
+                            <td>相关性排序、学习排序</td>
+                        </tr>
+                        <tr>
+                            <td><strong>上下文构建</strong></td>
+                            <td>组织上下文</td>
+                            <td>上下文窗口、摘要</td>
+                        </tr>
+                        <tr>
+                            <td><strong>生成</strong></td>
+                            <td>生成最终答案</td>
+                            <td>LLM、微调模型</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>三、核心技术组件</h3>
+
+                <h4>3.1 查询理解</h4>
+                <ul>
+                    <li><strong>查询扩展</strong>：扩展查询以覆盖更多相关信息</li>
+                    <li><strong>查询改写</strong>：改写查询以提高检索效果</li>
+                    <li><strong>意图识别</strong>：识别用户的真实意图</li>
+                    <li><strong>实体识别</strong>：识别查询中的关键实体</li>
+                </ul>
+
+                <h4>3.2 检索方法</h4>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>检索方法</th>
+                            <th>说明</th>
+                            <th>优点</th>
+                            <th>缺点</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>向量检索</strong></td>
+                            <td>基于语义相似度</td>
+                            <td>语义理解好</td>
+                            <td>计算成本高</td>
+                        </tr>
+                        <tr>
+                            <td><strong>关键词检索</strong></td>
+                            <td>基于关键词匹配</td>
+                            <td>快速、精确</td>
+                            <td>语义理解差</td>
+                        </tr>
+                        <tr>
+                            <td><strong>混合检索</strong></td>
+                            <td>结合向量和关键词</td>
+                            <td>综合优势</td>
+                            <td>复杂度高</td>
+                        </tr>
+                        <tr>
+                            <td><strong>图检索</strong></td>
+                            <td>基于知识图谱</td>
+                            <td>关系清晰</td>
+                            <td>需要构建图</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h4>3.3 重排（Reranking）</h4>
+                <div class="highlight-box">
+                    <p><strong>目的</strong>：对初始检索结果进行重新排序，提高最相关文档的排名</p>
+                </div>
+
+                <p><strong>重排方法</strong>：</p>
+                <ul>
+                    <li><strong>学习排序</strong>：使用机器学习模型排序</li>
+                    <li><strong>交叉编码器</strong>：使用交叉编码器评分</li>
+                    <li><strong>LLM 排序</strong>：使用 LLM 进行排序</li>
+                    <li><strong>多维排序</strong>：综合多个维度排序</li>
+                </ul>
+
+                <h4>3.4 上下文组织</h4>
+                <ul>
+                    <li><strong>串联方式</strong>：简单地拼接检索结果</li>
+                    <li><strong>摘要方式</strong>：先对检索结果摘要</li>
+                    <li><strong>分层方式</strong>：按重要性分层组织</li>
+                    <li><strong>图谱方式</strong>：按关系组织成图</li>
+                </ul>
+
+                <h3>四、RAG 的变体与改进</h3>
+
+                <h4>4.1 Naive RAG vs Advanced RAG</h4>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>方面</th>
+                            <th>Naive RAG</th>
+                            <th>Advanced RAG</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>查询处理</strong></td>
+                            <td>直接检索</td>
+                            <td>查询理解、扩展、改写</td>
+                        </tr>
+                        <tr>
+                            <td><strong>检索方法</strong></td>
+                            <td>单一方法</td>
+                            <td>混合检索、多步检索</td>
+                        </tr>
+                        <tr>
+                            <td><strong>排序</strong></td>
+                            <td>基于相似度</td>
+                            <td>学习排序、多维排序</td>
+                        </tr>
+                        <tr>
+                            <td><strong>上下文构建</strong></td>
+                            <td>简单拼接</td>
+                            <td>摘要、分层、图谱</td>
+                        </tr>
+                        <tr>
+                            <td><strong>反馈</strong></td>
+                            <td>无</td>
+                            <td>用户反馈、自我反馈</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h4>4.2 关键改进</h4>
+                <ul>
+                    <li><strong>多跳检索</strong>：多次迭代检索以获得更相关的信息</li>
+                    <li><strong>自适应检索</strong>：根据查询动态调整检索策略</li>
+                    <li><strong>融合检索</strong>：融合多个检索结果</li>
+                    <li><strong>迭代生成</strong>：在生成过程中进行检索</li>
+                    <li><strong>反馈优化</strong>：基于反馈不断优化</li>
+                </ul>
+
+                <h3>五、RAG 的应用</h3>
+
+                <h4>5.1 问答系统</h4>
+                <ul>
+                    <li>企业知识库问答</li>
+                    <li>学术文献问答</li>
+                    <li>客服知识库问答</li>
+                </ul>
+
+                <h4>5.2 内容生成</h4>
+                <ul>
+                    <li>新闻生成</li>
+                    <li>报告生成</li>
+                    <li>摘要生成</li>
+                </ul>
+
+                <h4>5.3 信息检索</h4>
+                <ul>
+                    <li>搜索引擎</li>
+                    <li>推荐系统</li>
+                    <li>相关性查询</li>
+                </ul>
+
+                <h3>六、评估指标</h3>
+
+                <h4>6.1 检索质量</h4>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>指标</th>
+                            <th>说明</th>
+                            <th>计算方法</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Precision@K</strong></td>
+                            <td>前K个结果中相关的比例</td>
+                            <td>相关数 / K</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Recall@K</strong></td>
+                            <td>前K个结果中召回的相关文档比例</td>
+                            <td>检索到的相关数 / 总相关数</td>
+                        </tr>
+                        <tr>
+                            <td><strong>MRR</strong></td>
+                            <td>第一个相关结果的排名倒数</td>
+                            <td>1 / 第一个相关结果的排名</td>
+                        </tr>
+                        <tr>
+                            <td><strong>NDCG</strong></td>
+                            <td>归一化折扣累计增益</td>
+                            <td>DCG / IDCG</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h4>6.2 生成质量</h4>
+                <ul>
+                    <li><strong>准确性</strong>：答案是否准确</li>
+                    <li><strong>完整性</strong>：答案是否完整</li>
+                    <li><strong>可信度</strong>：答案是否可信</li>
+                    <li><strong>流畅性</strong>：答案是否流畅</li>
+                </ul>
+
+                <h4>6.3 端到端评估</h4>
+                <ul>
+                    <li><strong>用户满意度</strong>：用户对系统的满意度</li>
+                    <li><strong>任务完成率</strong>：系统完成任务的成功率</li>
+                    <li><strong>响应时间</strong>：系统的响应速度</li>
+                </ul>
+
+                <h3>七、挑战与解决方案</h3>
+
+                <h4>7.1 检索挑战</h4>
+                <ul>
+                    <li><strong>检索错误</strong>：检索不到相关文档</li>
+                    <li><strong>排序不当</strong>：相关文档排名太靠后</li>
+                    <li><strong>噪声干扰</strong>：检索到无关文档</li>
+                    <li><strong>性能瓶颈</strong>：检索速度慢</li>
+                </ul>
+
+                <h4>7.2 生成挑战</h4>
+                <ul>
+                    <li><strong>幻觉问题</strong>：生成不存在的信息</li>
+                    <li><strong>上下文遗忘</strong>：忽略检索结果</li>
+                    <li><strong>矛盾问题</strong>：生成相互矛盾的内容</li>
+                </ul>
+
+                <h4>7.3 解决方案</h4>
+                <ul>
+                    <li>改进检索方法和排序算法</li>
+                    <li>优化上下文构建方式</li>
+                    <li>使用更强大的生成模型</li>
+                    <li>加入验证和纠正机制</li>
+                    <li>持续优化和微调</li>
+                </ul>
+
+                <h3>八、最佳实践</h3>
+
+                <h4>8.1 系统设计</h4>
+                <ul>
+                    <li>选择合适的向量数据库</li>
+                    <li>优化文本分块策略</li>
+                    <li>选择高质量的 Embedding 模型</li>
+                    <li>建立有效的索引机制</li>
+                </ul>
+
+                <h4>8.2 优化策略</h4>
+                <ul>
+                    <li>实施混合检索提高准确率</li>
+                    <li>使用重排提高相关性</li>
+                    <li>优化上下文窗口大小</li>
+                    <li>定期评估和改进系统</li>
+                </ul>
+
+                <h3>九、未来方向</h3>
+
+                <ul>
+                    <li><strong>多模态 RAG</strong>：支持文本、图像、音频等多模态</li>
+                    <li><strong>动态知识库</strong>：实时更新知识库</li>
+                    <li><strong>个性化 RAG</strong>：根据用户偏好定制</li>
+                    <li><strong>可解释 RAG</strong>：提高系统的可解释性</li>
+                    <li><strong>自适应 RAG</strong>：自动调整策略</li>
+                </ul>
+
+                <a href="ai-agent.html" class="back-link">← 返回 4. Agent</a>
+            </section>
+
+            <footer class="footer">
+                <p>更新时间：2026-04-13</p>
+                <p><a href="index.html">← 返回首页</a></p>
+            </footer>
+        </main>
+    </div>
+</body>
+</html>

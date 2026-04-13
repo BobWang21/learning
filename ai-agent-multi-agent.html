@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multi-Agent Systems - Agent</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .ai-section {
+            background: white;
+            border-radius: 8px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .ai-section h2, .ai-section h3, .ai-section h4 {
+            color: #1e40af;
+            margin-top: 25px;
+            margin-bottom: 15px;
+        }
+
+        .ai-section h2 {
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 15px;
+            margin-top: 0;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, rgba(30, 64, 175, 0.05), rgba(124, 58, 237, 0.05));
+            border-left: 4px solid #1e40af;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+        }
+
+        .code-block {
+            background: #f1f5f9;
+            border-left: 4px solid #1e40af;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+            overflow-x: auto;
+            font-size: 0.9rem;
+            font-family: 'Courier New', monospace;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        table thead {
+            background: linear-gradient(135deg, #1e40af, #7c3aed);
+            color: white;
+        }
+
+        table th, table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        table tbody tr:hover {
+            background-color: rgba(30, 64, 175, 0.05);
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            padding: 10px 20px;
+            background: #1e40af;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .back-link:hover {
+            background: #0c4a6e;
+            transform: translateY(-2px);
+        }
+
+        .breadcrumb {
+            color: #64748b;
+            font-size: 0.95rem;
+            margin-bottom: 20px;
+        }
+
+        .breadcrumb a {
+            color: #1e40af;
+            text-decoration: none;
+        }
+
+        code {
+            background: #f1f5f9;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="sidebar">
+            <div class="logo">📚 学习领域</div>
+            <ul class="toc">
+                <li><a href="index.html">🏠 首页</a></li>
+                <li><a href="models.html">⏱️ 时序预测</a></li>
+                <li><a href="decision.html">🔄 预测与决策</a></li>
+                <li><a href="index.html#ai">🤖 AI 研究</a>
+                    <ul>
+                        <li><a href="ai-model.html">1. Model</a></li>
+                        <li><a href="ai-pretraining.html">2. Pre-training</a></li>
+                        <li><a href="ai-posttraining.html">3. Post-training</a></li>
+                        <li><a href="ai-agent.html">4. Agent</a>
+                            <ul>
+                                <li><a href="ai-agent-multi-agent.html">Multi-Agent Systems</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+        <main class="content">
+            <header class="header">
+                <h1>Multi-Agent Systems</h1>
+                <p class="subtitle">多智能体系统</p>
+            </header>
+
+            <div class="breadcrumb">
+                <a href="index.html">首页</a> > <a href="index.html#ai">AI 研究</a> > <a href="ai-agent.html">4. Agent</a> > Multi-Agent Systems
+            </div>
+
+            <section class="ai-section">
+                <h2>Multi-Agent Systems</h2>
+
+                <h3>一、概览</h3>
+                <p>多智能体系统（Multi-Agent Systems, MAS）是指多个自主智能体通过相互作用、协作或竞争来解决问题的系统。与单个智能体相比，多智能体系统具有：</p>
+                <ul>
+                    <li><strong>分布式决策</strong>：决策权分散在多个智能体中</li>
+                    <li><strong>并行执行</strong>：多个智能体可以并行工作</li>
+                    <li><strong>知识共享</strong>：智能体间可以交换信息</li>
+                    <li><strong>协作优势</strong>：集体力量大于个体力量之和</li>
+                </ul>
+
+                <h3>二、多智能体强化学习（MARL）</h3>
+
+                <h4>2.1 MARL 基础</h4>
+                <div class="highlight-box">
+                    <p><strong>核心问题</strong>：多个智能体在共享环境中学习最优策略</p>
+                </div>
+
+                <p><strong>关键特征</strong>：</p>
+                <ul>
+                    <li>非平稳环境：其他智能体的策略在不断变化</li>
+                    <li>部分可观测性：每个智能体只能观测到部分环境信息</li>
+                    <li>信用分配问题：难以判断哪个智能体对结果的贡献</li>
+                    <li>协调问题：如何协调多个智能体的行动</li>
+                </ul>
+
+                <h4>2.2 MARL 方法分类</h4>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>方法</th>
+                            <th>特点</th>
+                            <th>优点</th>
+                            <th>缺点</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>独立学习</strong></td>
+                            <td>每个智能体独立学习</td>
+                            <td>简单易实现</td>
+                            <td>难以收敛、效率低</td>
+                        </tr>
+                        <tr>
+                            <td><strong>集中式训练</strong></td>
+                            <td>统一训练后分布式执行</td>
+                            <td>效率高、收敛好</td>
+                            <td>训练复杂、可扩展性差</td>
+                        </tr>
+                        <tr>
+                            <td><strong>价值分解</strong></td>
+                            <td>将全局价值分解为个体价值</td>
+                            <td>平衡集中与分布</td>
+                            <td>分解方式复杂</td>
+                        </tr>
+                        <tr>
+                            <td><strong>多任务学习</strong></td>
+                            <td>同时学习多个相关任务</td>
+                            <td>知识迁移</td>
+                            <td>任务选择困难</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>三、博弈论视角</h3>
+
+                <h4>3.1 博弈分类</h4>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>博弈类型</th>
+                            <th>特点</th>
+                            <th>示例</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>零和博弈</strong></td>
+                            <td>一方的收益等于另一方的损失</td>
+                            <td>国际象棋、围棋</td>
+                        </tr>
+                        <tr>
+                            <td><strong>合作博弈</strong></td>
+                            <td>智能体合作以实现共同目标</td>
+                            <td>团队协作、资源分配</td>
+                        </tr>
+                        <tr>
+                            <td><strong>非零和博弈</strong></td>
+                            <td>总收益不固定，存在共赢或共输</td>
+                            <td>谈判、贸易</td>
+                        </tr>
+                        <tr>
+                            <td><strong>混合动机博弈</strong></td>
+                            <td>既有合作也有竞争</td>
+                            <td>商业竞争、国际关系</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h4>3.2 纳什均衡</h4>
+                <div class="highlight-box">
+                    <p><strong>定义</strong>：每个智能体的策略都是在其他智能体策略给定下的最优应答</p>
+                </div>
+
+                <p><strong>特点</strong>：</p>
+                <ul>
+                    <li>纳什均衡可能不是帕累托最优</li>
+                    <li>多个纳什均衡可能存在</li>
+                    <li>不是所有博弈都有纯策略纳什均衡</li>
+                </ul>
+
+                <h4>3.3 常见博弈问题</h4>
+                <ul>
+                    <li><strong>囚徒困境</strong>：个人理性导致集体非理性</li>
+                    <li><strong>公地悲剧</strong>：共享资源的过度使用</li>
+                    <li><strong>协调问题</strong>：多个纳什均衡的选择</li>
+                    <li><strong>信任问题</strong>：缺乏信息导致的不信任</li>
+                </ul>
+
+                <h3>四、智能体交互机制</h3>
+
+                <h4>4.1 通信机制</h4>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>通信方式</th>
+                            <th>说明</th>
+                            <th>优点</th>
+                            <th>缺点</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>直接通信</strong></td>
+                            <td>智能体间直接交换消息</td>
+                            <td>高效、灵活</td>
+                            <td>可能导致信息过载</td>
+                        </tr>
+                        <tr>
+                            <td><strong>间接通信</strong></td>
+                            <td>通过环境或中介交换信息</td>
+                            <td>松耦合、可扩展</td>
+                            <td>延迟高、可靠性低</td>
+                        </tr>
+                        <tr>
+                            <td><strong>观测学习</strong></td>
+                            <td>通过观测其他智能体的行为学习</td>
+                            <td>无需显式通信</td>
+                            <td>效率低、易误解</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h4>4.2 协调机制</h4>
+                <ul>
+                    <li><strong>中央协调</strong>：由中央控制器协调所有智能体</li>
+                    <li><strong>分布式协调</strong>：智能体间直接协调</li>
+                    <li><strong>拍卖机制</strong>：通过竞价分配资源</li>
+                    <li><strong>投票机制</strong>：通过投票做出集体决策</li>
+                    <li><strong>合约网络</strong>：通过合约进行任务分配</li>
+                </ul>
+
+                <h3>五、多智能体应用</h3>
+
+                <h4>5.1 代表系统</h4>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>系统</th>
+                            <th>特点</th>
+                            <th>应用</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>MetaGPT</strong></td>
+                            <td>角色扮演、流程规范</td>
+                            <td>软件开发、项目管理</td>
+                        </tr>
+                        <tr>
+                            <td><strong>AutoGPT</strong></td>
+                            <td>自主分解、自主执行</td>
+                            <td>通用任务自动化</td>
+                        </tr>
+                        <tr>
+                            <td><strong>AgentVerse</strong></td>
+                            <td>多智能体交互、社会模拟</td>
+                            <td>社会模拟、集体决策</td>
+                        </tr>
+                        <tr>
+                            <td><strong>ChatDev</strong></td>
+                            <td>虚拟软件公司、角色协作</td>
+                            <td>代码生成、软件开发</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h4>5.2 应用领域</h4>
+                <ul>
+                    <li><strong>软件开发</strong>：多角色协作完成代码生成、测试、部署</li>
+                    <li><strong>项目管理</strong>：多个智能体扮演不同角色进行项目管理</li>
+                    <li><strong>资源分配</strong>：多智能体协商分配稀缺资源</li>
+                    <li><strong>问题求解</strong>：多个专家智能体协作解决复杂问题</li>
+                    <li><strong>模拟和仿真</strong>：模拟复杂社会系统的行为</li>
+                </ul>
+
+                <h3>六、可扩展性与性能</h3>
+
+                <h4>6.1 可扩展性挑战</h4>
+                <ul>
+                    <li><strong>通信成本</strong>：智能体数量增加时通信成本指数增长</li>
+                    <li><strong>计算复杂度</strong>：多智能体协调的计算复杂度高</li>
+                    <li><strong>同步问题</strong>：多个智能体的同步困难</li>
+                    <li><strong>故障容错</strong>：某个智能体故障的影响难以预测</li>
+                </ul>
+
+                <h4>6.2 性能优化</h4>
+                <ul>
+                    <li><strong>分层架构</strong>：将智能体分层以减少通信</li>
+                    <li><strong>本地化协调</strong>：只与邻近智能体协调</li>
+                    <li><strong>异步处理</strong>：支持异步通信和执行</li>
+                    <li><strong>动态分组</strong>：根据需要动态形成子群</li>
+                </ul>
+
+                <h3>七、挑战与展望</h3>
+
+                <h4>7.1 技术挑战</h4>
+                <ul>
+                    <li><strong>非平稳环境</strong>：难以在不断变化的环境中学习</li>
+                    <li><strong>部分可观测性</strong>：信息不完全导致决策困难</li>
+                    <li><strong>信用分配</strong>：难以判断个体贡献</li>
+                    <li><strong>通信效率</strong>：平衡通信成本和协调效果</li>
+                </ul>
+
+                <h4>7.2 未来方向</h4>
+                <ul>
+                    <li><strong>更高效的协调算法</strong>：支持大规模多智能体协调</li>
+                    <li><strong>更强的学习能力</strong>：在非平稳环境中更好地学习</li>
+                    <li><strong>更好的可解释性</strong>：理解多智能体系统的决策</li>
+                    <li><strong>安全和对齐</strong>：确保多智能体系统的安全性</li>
+                    <li><strong>跨域应用</strong>：将 MAS 应用于更多领域</li>
+                </ul>
+
+                <a href="ai-agent.html" class="back-link">← 返回 4. Agent</a>
+            </section>
+
+            <footer class="footer">
+                <p>更新时间：2026-04-13</p>
+                <p><a href="index.html">← 返回首页</a></p>
+            </footer>
+        </main>
+    </div>
+</body>
+</html>

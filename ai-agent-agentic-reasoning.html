@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agentic Reasoning for Large Language Models - Agent</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .ai-section {
+            background: white;
+            border-radius: 8px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .ai-section h2, .ai-section h3, .ai-section h4 {
+            color: #1e40af;
+            margin-top: 25px;
+            margin-bottom: 15px;
+        }
+
+        .ai-section h2 {
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 15px;
+            margin-top: 0;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, rgba(30, 64, 175, 0.05), rgba(124, 58, 237, 0.05));
+            border-left: 4px solid #1e40af;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+        }
+
+        .code-block {
+            background: #f1f5f9;
+            border-left: 4px solid #1e40af;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+            overflow-x: auto;
+            font-size: 0.9rem;
+            font-family: 'Courier New', monospace;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        table thead {
+            background: linear-gradient(135deg, #1e40af, #7c3aed);
+            color: white;
+        }
+
+        table th, table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        table tbody tr:hover {
+            background-color: rgba(30, 64, 175, 0.05);
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            padding: 10px 20px;
+            background: #1e40af;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .back-link:hover {
+            background: #0c4a6e;
+            transform: translateY(-2px);
+        }
+
+        .breadcrumb {
+            color: #64748b;
+            font-size: 0.95rem;
+            margin-bottom: 20px;
+        }
+
+        .breadcrumb a {
+            color: #1e40af;
+            text-decoration: none;
+        }
+
+        code {
+            background: #f1f5f9;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="sidebar">
+            <div class="logo">📚 学习领域</div>
+            <ul class="toc">
+                <li><a href="index.html">🏠 首页</a></li>
+                <li><a href="models.html">⏱️ 时序预测</a></li>
+                <li><a href="decision.html">🔄 预测与决策</a></li>
+                <li><a href="index.html#ai">🤖 AI 研究</a>
+                    <ul>
+                        <li><a href="ai-model.html">1. Model</a></li>
+                        <li><a href="ai-pretraining.html">2. Pre-training</a></li>
+                        <li><a href="ai-posttraining.html">3. Post-training</a></li>
+                        <li><a href="ai-agent.html">4. Agent</a>
+                            <ul>
+                                <li><a href="ai-agent-agentic-reasoning.html">Agentic Reasoning</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+        <main class="content">
+            <header class="header">
+                <h1>Agentic Reasoning for Large Language Models</h1>
+                <p class="subtitle">大语言模型的智能体推理框架</p>
+            </header>
+
+            <div class="breadcrumb">
+                <a href="index.html">首页</a> > <a href="index.html#ai">AI 研究</a> > <a href="ai-agent.html">4. Agent</a> > Agentic Reasoning
+            </div>
+
+            <section class="ai-section">
+                <h2>Agentic Reasoning for Large Language Models</h2>
+
+                <h3>一、概览</h3>
+                <p>Agentic Reasoning 是指大语言模型通过多层次的推理框架来解决复杂问题的能力。与简单的问答不同，智能体推理强调的是：</p>
+                <ul>
+                    <li>多步骤的逻辑推导</li>
+                    <li>动态的环境交互</li>
+                    <li>自适应的策略调整</li>
+                    <li>集体智慧的整合</li>
+                </ul>
+
+                <h3>二、三层推理框架</h3>
+
+                <h4>2.1 第一层：基础推理（Foundation Reasoning）</h4>
+                <div class="highlight-box">
+                    <p><strong>核心特征</strong>：单个 LLM 的推理能力</p>
+                </div>
+
+                <p><strong>关键技术</strong>：</p>
+                <ul>
+                    <li><strong>Chain-of-Thought (CoT)</strong>：逐步展示推理过程</li>
+                    <li><strong>Few-Shot Learning</strong>：通过示例引导推理</li>
+                    <li><strong>Prompt Engineering</strong>：精心设计的提示词</li>
+                    <li><strong>In-Context Learning</strong>：从上下文学习</li>
+                </ul>
+
+                <div class="code-block">
+                    示例：CoT 提示词<br>
+                    问题：如果一个盒子里有 5 个苹果，我吃了 2 个，又加入了 3 个，现在有多少个？<br><br>
+                    标准回答：答案是 6 个。<br><br>
+                    CoT 回答：<br>
+                    1. 开始有 5 个苹果<br>
+                    2. 吃了 2 个，剩下 5 - 2 = 3 个<br>
+                    3. 加入 3 个，现在有 3 + 3 = 6 个<br>
+                    因此答案是 6 个苹果。
+                </div>
+
+                <h4>2.2 第二层：自进化推理（Self-Evolving Reasoning）</h4>
+                <div class="highlight-box">
+                    <p><strong>核心特征</strong>：LLM 能够反思自己的推理过程，并自我改进</p>
+                </div>
+
+                <p><strong>关键机制</strong>：</p>
+                <ul>
+                    <li><strong>自我反思</strong>：分析推理的正确性和完整性</li>
+                    <li><strong>错误检测</strong>：识别推理中的逻辑错误</li>
+                    <li><strong>策略调整</strong>：根据反馈调整推理方法</li>
+                    <li><strong>迭代优化</strong>：多轮迭代直至得到满意答案</li>
+                </ul>
+
+                <div class="code-block">
+                    自进化推理流程：<br>
+                    1. 初始推理：生成第一个答案<br>
+                    2. 自我评估：检查答案的合理性<br>
+                    3. 识别问题：找出推理中的缺陷<br>
+                    4. 改进推理：使用新方法重新推理<br>
+                    5. 验证结果：确认改进后的答案<br>
+                    6. 迭代：如果仍有问题，重复步骤 2-5
+                </div>
+
+                <h4>2.3 第三层：集体推理（Collective Reasoning）</h4>
+                <div class="highlight-box">
+                    <p><strong>核心特征</strong>：多个 LLM 或多个推理路径的协作和集成</p>
+                </div>
+
+                <p><strong>实现方式</strong>：</p>
+                <ul>
+                    <li><strong>多数投票</strong>：多个 LLM 独立推理，采用多数答案</li>
+                    <li><strong>辩论机制</strong>：多个 LLM 相互讨论，达成共识</li>
+                    <li><strong>树搜索</strong>：探索多个推理路径，选择最优路径</li>
+                    <li><strong>知识融合</strong>：整合不同来源的信息和推理</li>
+                </ul>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>方法</th>
+                            <th>机制</th>
+                            <th>优点</th>
+                            <th>缺点</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>多数投票</strong></td>
+                            <td>多个独立推理，投票决策</td>
+                            <td>简单、可靠</td>
+                            <td>可能忽视少数观点</td>
+                        </tr>
+                        <tr>
+                            <td><strong>辩论机制</strong></td>
+                            <td>多个 LLM 相互讨论</td>
+                            <td>更深入的分析</td>
+                            <td>计算成本高</td>
+                        </tr>
+                        <tr>
+                            <td><strong>树搜索</strong></td>
+                            <td>系统地探索推理路径</td>
+                            <td>找到最优解</td>
+                            <td>搜索空间可能很大</td>
+                        </tr>
+                        <tr>
+                            <td><strong>知识融合</strong></td>
+                            <td>整合多个信息源</td>
+                            <td>综合利用信息</td>
+                            <td>融合策略复杂</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>三、关键应用场景</h3>
+
+                <h4>3.1 复杂问题求解</h4>
+                <ul>
+                    <li><strong>数学问题</strong>：多步骤计算、证明</li>
+                    <li><strong>逻辑推理</strong>：演绎推理、归纳推理</li>
+                    <li><strong>常识推理</strong>：物理常识、社会常识</li>
+                </ul>
+
+                <h4>3.2 代码生成与调试</h4>
+                <ul>
+                    <li><strong>代码理解</strong>：分析代码逻辑和功能</li>
+                    <li><strong>代码生成</strong>：根据需求生成代码</li>
+                    <li><strong>错误调试</strong>：识别并修复代码错误</li>
+                </ul>
+
+                <h4>3.3 知识工作</h4>
+                <ul>
+                    <li><strong>文献分析</strong>：综合多篇文献进行分析</li>
+                    <li><strong>数据分析</strong>：多步骤的数据处理和分析</li>
+                    <li><strong>决策支持</strong>：多因素决策分析</li>
+                </ul>
+
+                <h3>四、技术实现</h3>
+
+                <h4>4.1 提示工程技巧</h4>
+                <div class="highlight-box">
+                    <p><strong>1. 角色扮演</strong>：让 LLM 扮演特定角色来改进推理</p>
+                    <p>示例：\"你是一个数学教师，请详细解释这个问题...\"</p>
+                </div>
+
+                <div class="highlight-box">
+                    <p><strong>2. 分解任务</strong>：将复杂任务分解为子任务</p>
+                    <p>示例：\"首先，分析问题的关键要素。其次，列出可能的解决方案。最后，评估每个方案...\"</p>
+                </div>
+
+                <div class="highlight-box">
+                    <p><strong>3. 反思机制</strong>：要求 LLM 反思自己的答案</p>
+                    <p>示例：\"你的答案是否完整？是否有其他可能性？\"</p>
+                </div>
+
+                <h4>4.2 系统架构</h4>
+                <div class="code-block">
+                    推理系统架构：<br><br>
+                    输入 → 预处理 → 推理引擎 → 验证层 → 输出<br><br>
+                    推理引擎包含：<br>
+                    - 基础推理模块<br>
+                    - 自反思模块<br>
+                    - 多路径探索模块<br>
+                    - 结果聚合模块
+                </div>
+
+                <h3>五、评估指标</h3>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>指标</th>
+                            <th>说明</th>
+                            <th>计算方法</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>准确率</strong></td>
+                            <td>推理结果的正确性</td>
+                            <td>正确答案数 / 总问题数</td>
+                        </tr>
+                        <tr>
+                            <td><strong>推理链质量</strong></td>
+                            <td>推理过程的逻辑性</td>
+                            <td>人工评分或自动评分</td>
+                        </tr>
+                        <tr>
+                            <td><strong>计算效率</strong></td>
+                            <td>推理速度和资源消耗</td>
+                            <td>推理时间、API 调用次数</td>
+                        </tr>
+                        <tr>
+                            <td><strong>鲁棒性</strong></td>
+                            <td>对输入变化的抵抗力</td>
+                            <td>对抗性示例的准确率</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>六、挑战与展望</h3>
+
+                <h4>6.1 当前挑战</h4>
+                <ul>
+                    <li><strong>推理深度有限</strong>：LLM 的推理链长度受限</li>
+                    <li><strong>错误积累</strong>：长推理链中错误容易积累</li>
+                    <li><strong>计算成本</strong>：多步推理和多路径搜索成本高</li>
+                    <li><strong>可解释性不足</strong>：推理过程不够透明</li>
+                </ul>
+
+                <h4>6.2 未来方向</h4>
+                <ul>
+                    <li><strong>更强的推理能力</strong>：支持更深层次的逻辑推导</li>
+                    <li><strong>更高效的搜索</strong>：优化多路径搜索算法</li>
+                    <li><strong>更好的验证机制</strong>：自动检测和纠正推理错误</li>
+                    <li><strong>人机协作</strong>：结合人类反馈改进推理</li>
+                </ul>
+
+                <a href="ai-agent.html" class="back-link">← 返回 4. Agent</a>
+            </section>
+
+            <footer class="footer">
+                <p>更新时间：2026-04-13</p>
+                <p><a href="index.html">← 返回首页</a></p>
+            </footer>
+        </main>
+    </div>
+</body>
+</html>

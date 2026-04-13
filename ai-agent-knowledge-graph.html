@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Knowledge Graph - Agent</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .ai-section {
+            background: white;
+            border-radius: 8px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .ai-section h2, .ai-section h3, .ai-section h4 {
+            color: #1e40af;
+            margin-top: 25px;
+            margin-bottom: 15px;
+        }
+
+        .ai-section h2 {
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 15px;
+            margin-top: 0;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, rgba(30, 64, 175, 0.05), rgba(124, 58, 237, 0.05));
+            border-left: 4px solid #1e40af;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+        }
+
+        .code-block {
+            background: #f1f5f9;
+            border-left: 4px solid #1e40af;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+            overflow-x: auto;
+            font-size: 0.9rem;
+            font-family: 'Courier New', monospace;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        table thead {
+            background: linear-gradient(135deg, #1e40af, #7c3aed);
+            color: white;
+        }
+
+        table th, table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        table tbody tr:hover {
+            background-color: rgba(30, 64, 175, 0.05);
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            padding: 10px 20px;
+            background: #1e40af;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .back-link:hover {
+            background: #0c4a6e;
+            transform: translateY(-2px);
+        }
+
+        .breadcrumb {
+            color: #64748b;
+            font-size: 0.95rem;
+            margin-bottom: 20px;
+        }
+
+        .breadcrumb a {
+            color: #1e40af;
+            text-decoration: none;
+        }
+
+        code {
+            background: #f1f5f9;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="sidebar">
+            <div class="logo">📚 学习领域</div>
+            <ul class="toc">
+                <li><a href="index.html">🏠 首页</a></li>
+                <li><a href="models.html">⏱️ 时序预测</a></li>
+                <li><a href="decision.html">🔄 预测与决策</a></li>
+                <li><a href="index.html#ai">🤖 AI 研究</a>
+                    <ul>
+                        <li><a href="ai-model.html">1. Model</a></li>
+                        <li><a href="ai-pretraining.html">2. Pre-training</a></li>
+                        <li><a href="ai-posttraining.html">3. Post-training</a></li>
+                        <li><a href="ai-agent.html">4. Agent</a>
+                            <ul>
+                                <li><a href="ai-agent-knowledge-graph.html">Knowledge Graph</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+        <main class="content">
+            <header class="header">
+                <h1>Knowledge Graph</h1>
+                <p class="subtitle">知识图谱在智能体中的应用</p>
+            </header>
+
+            <div class="breadcrumb">
+                <a href="index.html">首页</a> > <a href="index.html#ai">AI 研究</a> > <a href="ai-agent.html">4. Agent</a> > Knowledge Graph
+            </div>
+
+            <section class="ai-section">
+                <h2>Knowledge Graph</h2>
+
+                <h3>一、什么是知识图谱？</h3>
+                <p>知识图谱（Knowledge Graph, KG）是一种结构化的知识表示方法，用图的形式表示实体（Entity）和它们之间的关系（Relation）。</p>
+
+                <div class="highlight-box">
+                    <p><strong>核心特征</strong>：</p>
+                    <ul>
+                        <li>结构化表示：清晰的实体和关系</li>
+                        <li>语义丰富：包含丰富的语义信息</li>
+                        <li>可推理性：支持逻辑推理和推断</li>
+                        <li>可扩展性：支持新实体和关系的添加</li>
+                    </ul>
+                </div>
+
+                <h3>二、为什么智能体需要知识图谱？</h3>
+
+                <h4>2.1 知识组织</h4>
+                <ul>
+                    <li><strong>结构化存储</strong>：将散乱的信息组织成结构化形式</li>
+                    <li><strong>快速检索</strong>：通过关系快速查找相关信息</li>
+                    <li><strong>知识复用</strong>：同一个知识可被多个任务使用</li>
+                </ul>
+
+                <h4>2.2 推理能力</h4>
+                <ul>
+                    <li><strong>逻辑推理</strong>：基于已知事实推导新事实</li>
+                    <li><strong>关系推断</strong>：推断实体间的隐含关系</li>
+                    <li><strong>常识推理</strong>：利用常识进行推理</li>
+                </ul>
+
+                <h4>2.3 决策支持</h4>
+                <ul>
+                    <li><strong>上下文理解</strong>：更好地理解任务背景</li>
+                    <li><strong>相似性查询</strong>：找到相似的历史案例</li>
+                    <li><strong>影响分析</strong>：分析决策的潜在影响</li>
+                </ul>
+
+                <h3>三、知识图谱的构成</h3>
+
+                <h4>3.1 基本元素</h4>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>元素</th>
+                            <th>说明</th>
+                            <th>示例</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>实体（Entity）</strong></td>
+                            <td>现实世界中的对象或概念</td>
+                            <td>人物、地点、组织、产品</td>
+                        </tr>
+                        <tr>
+                            <td><strong>关系（Relation）</strong></td>
+                            <td>实体之间的连接方式</td>
+                            <td>\"是\"、\"住在\"、\"工作于\"</td>
+                        </tr>
+                        <tr>
+                            <td><strong>属性（Attribute）</strong></td>
+                            <td>实体或关系的特征</td>
+                            <td>年龄、颜色、数量</td>
+                        </tr>
+                        <tr>
+                            <td><strong>值（Value）</strong></td>
+                            <td>属性的具体取值</td>
+                            <td>30岁、红色、5个</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h4>3.2 知识表示格式</h4>
+                <div class="code-block">
+                    RDF 三元组格式：<br>
+                    (主体, 谓语, 宾体)<br><br>
+                    示例：<br>
+                    (张三, 工作于, 阿里巴巴)<br>
+                    (阿里巴巴, 位于, 杭州)<br>
+                    (杭州, 属于, 浙江省)
+                </div>
+
+                <h3>四、知识图谱的构建</h3>
+
+                <h4>4.1 构建方法</h4>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>方法</th>
+                            <th>说明</th>
+                            <th>优点</th>
+                            <th>缺点</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>手工构建</strong></td>
+                            <td>人工输入知识</td>
+                            <td>准确性高</td>
+                            <td>工作量大、维护困难</td>
+                        </tr>
+                        <tr>
+                            <td><strong>自动抽取</strong></td>
+                            <td>从文本中自动抽取</td>
+                            <td>高效、可扩展</td>
+                            <td>准确性可能较低</td>
+                        </tr>
+                        <tr>
+                            <td><strong>众包构建</strong></td>
+                            <td>通过众包收集知识</td>
+                            <td>覆盖面广</td>
+                            <td>质量控制困难</td>
+                        </tr>
+                        <tr>
+                            <td><strong>融合方法</strong></td>
+                            <td>结合多种方法</td>
+                            <td>综合优势</td>
+                            <td>复杂度高</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h4>4.2 关键技术</h4>
+                <ul>
+                    <li><strong>命名实体识别（NER）</strong>：识别文本中的实体</li>
+                    <li><strong>关系抽取（RE）</strong>：抽取实体间的关系</li>
+                    <li><strong>实体链接（EL）</strong>：将提及链接到标准实体</li>
+                    <li><strong>属性抽取</strong>：抽取实体的属性</li>
+                    <li><strong>知识融合</strong>：融合来自不同源的知识</li>
+                </ul>
+
+                <h3>五、知识图谱的应用</h3>
+
+                <h4>5.1 推荐系统</h4>
+                <div class="code-block">
+                    用户 → 购买 → 商品<br>
+                    商品 → 属于 → 类别<br>
+                    商品 → 相似 → 商品<br><br>
+                    推荐逻辑：<br>
+                    找到用户购买过的商品<br>
+                    → 找到相似商品<br>
+                    → 推荐给用户
+                </div>
+
+                <h4>5.2 搜索和问答</h4>
+                <ul>
+                    <li><strong>智能搜索</strong>：理解查询意图，返回相关实体</li>
+                    <li><strong>知识问答</strong>：直接从知识图谱回答问题</li>
+                    <li><strong>多跳推理</strong>：通过多个关系找到答案</li>
+                </ul>
+
+                <h4>5.3 电商应用</h4>
+                <ul>
+                    <li><strong>商品推荐</strong>：基于知识图谱的商品推荐</li>
+                    <li><strong>属性推荐</strong>：推荐相关属性和规格</li>
+                    <li><strong>类目导航</strong>：更好的类目组织和导航</li>
+                    <li><strong>质量控制</strong>：识别不一致的商品信息</li>
+                </ul>
+
+                <h3>六、知识图谱与 LLM 的结合</h3>
+
+                <h4>6.1 检索增强生成（RAG）</h4>
+                <div class="code-block">
+                    查询 → 知识图谱检索 → 相关知识<br>
+                    ↓<br>
+                    LLM（使用检索到的知识）→ 生成回答
+                </div>
+
+                <h4>6.2 知识增强</h4>
+                <ul>
+                    <li><strong>事实验证</strong>：验证 LLM 生成内容的准确性</li>
+                    <li><strong>知识补充</strong>：用知识图谱补充 LLM 的知识</li>
+                    <li><strong>推理辅助</strong>：利用知识图谱进行推理</li>
+                </ul>
+
+                <h3>七、知识图谱的挑战</h3>
+
+                <h4>7.1 技术挑战</h4>
+                <ul>
+                    <li><strong>覆盖不完全</strong>：知识图谱无法覆盖所有知识</li>
+                    <li><strong>实时性差</strong>：难以及时更新最新知识</li>
+                    <li><strong>歧义性</strong>：同一实体可能有多个含义</li>
+                    <li><strong>异质性</strong>：不同源的知识可能不一致</li>
+                </ul>
+
+                <h4>7.2 维护挑战</h4>
+                <ul>
+                    <li><strong>规模大</strong>：知识数量庞大，难以管理</li>
+                    <li><strong>质量控制</strong>：保证知识的准确性</li>
+                    <li><strong>演进管理</strong>：处理知识的变化和演进</li>
+                </ul>
+
+                <h3>八、最佳实践</h3>
+
+                <h4>8.1 设计原则</h4>
+                <ul>
+                    <li><strong>清晰的本体设计</strong>：定义清晰的实体类型和关系</li>
+                    <li><strong>模块化结构</strong>：将知识图谱分解为模块</li>
+                    <li><strong>版本管理</strong>：管理知识的演进</li>
+                    <li><strong>质量保证</strong>：建立质量检查机制</li>
+                </ul>
+
+                <h4>8.2 应用建议</h4>
+                <ul>
+                    <li>从小规模开始，逐步扩展</li>
+                    <li>选择合适的存储技术（图数据库、RDF存储等）</li>
+                    <li>定期审查和更新知识</li>
+                    <li>与 LLM 结合以获得更好的效果</li>
+                </ul>
+
+                <h3>九、未来方向</h3>
+
+                <ul>
+                    <li><strong>动态知识图谱</strong>：支持实时更新和演进</li>
+                    <li><strong>多模态知识图谱</strong>：包含文本、图像、视频等</li>
+                    <li><strong>知识推理</strong>：更强大的推理能力</li>
+                    <li><strong>自动化构建</strong>：更高效的自动化构建方法</li>
+                    <li><strong>与 AI 的深度融合</strong>：更紧密地与 LLM 和其他 AI 技术结合</li>
+                </ul>
+
+                <a href="ai-agent.html" class="back-link">← 返回 4. Agent</a>
+            </section>
+
+            <footer class="footer">
+                <p>更新时间：2026-04-13</p>
+                <p><a href="index.html">← 返回首页</a></p>
+            </footer>
+        </main>
+    </div>
+</body>
+</html>

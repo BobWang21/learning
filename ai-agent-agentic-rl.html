@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agentic RL - Agent</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .ai-section {
+            background: white;
+            border-radius: 8px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .ai-section h2, .ai-section h3, .ai-section h4 {
+            color: #1e40af;
+            margin-top: 25px;
+            margin-bottom: 15px;
+        }
+
+        .ai-section h2 {
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 15px;
+            margin-top: 0;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, rgba(30, 64, 175, 0.05), rgba(124, 58, 237, 0.05));
+            border-left: 4px solid #1e40af;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+        }
+
+        .code-block {
+            background: #f1f5f9;
+            border-left: 4px solid #1e40af;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+            overflow-x: auto;
+            font-size: 0.9rem;
+            font-family: 'Courier New', monospace;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        table thead {
+            background: linear-gradient(135deg, #1e40af, #7c3aed);
+            color: white;
+        }
+
+        table th, table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        table tbody tr:hover {
+            background-color: rgba(30, 64, 175, 0.05);
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            padding: 10px 20px;
+            background: #1e40af;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .back-link:hover {
+            background: #0c4a6e;
+            transform: translateY(-2px);
+        }
+
+        .breadcrumb {
+            color: #64748b;
+            font-size: 0.95rem;
+            margin-bottom: 20px;
+        }
+
+        .breadcrumb a {
+            color: #1e40af;
+            text-decoration: none;
+        }
+
+        code {
+            background: #f1f5f9;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="sidebar">
+            <div class="logo">📚 学习领域</div>
+            <ul class="toc">
+                <li><a href="index.html">🏠 首页</a></li>
+                <li><a href="models.html">⏱️ 时序预测</a></li>
+                <li><a href="decision.html">🔄 预测与决策</a></li>
+                <li><a href="index.html#ai">🤖 AI 研究</a>
+                    <ul>
+                        <li><a href="ai-model.html">1. Model</a></li>
+                        <li><a href="ai-pretraining.html">2. Pre-training</a></li>
+                        <li><a href="ai-posttraining.html">3. Post-training</a></li>
+                        <li><a href="ai-agent.html">4. Agent</a>
+                            <ul>
+                                <li><a href="ai-agent-agentic-rl.html">Agentic RL</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+        <main class="content">
+            <header class="header">
+                <h1>Agentic RL</h1>
+                <p class="subtitle">智能体强化学习综合指南</p>
+            </header>
+
+            <div class="breadcrumb">
+                <a href="index.html">首页</a> > <a href="index.html#ai">AI 研究</a> > <a href="ai-agent.html">4. Agent</a> > Agentic RL
+            </div>
+
+            <section class="ai-section">
+                <h2>Agentic RL</h2>
+
+                <h3>一、核心概念</h3>
+                <p>Agentic RL 是指使用强化学习来训练 AI 智能体的方法，使其能够在复杂环境中自主学习和决策。与传统 RL 不同，Agentic RL 强调：</p>
+                <ul>
+                    <li><strong>自主性</strong>：智能体能够自主探索和学习</li>
+                    <li><strong>长期目标</strong>：优化长期收益而不仅仅是短期奖励</li>
+                    <li><strong>工具使用</strong>：智能体能够使用外部工具和 API</li>
+                    <li><strong>推理能力</strong>：智能体能够进行复杂推理</li>
+                </ul>
+
+                <h3>二、关键能力</h3>
+
+                <h4>2.1 规划（Planning）</h4>
+                <div class="highlight-box">
+                    <p><strong>定义</strong>：智能体制定达成目标的行动序列</p>
+                </div>
+
+                <p><strong>规划方法</strong>：</p>
+                <ul>
+                    <li><strong>前向搜索</strong>：从当前状态搜索到目标状态</li>
+                    <li><strong>反向搜索</strong>：从目标状态反向搜索</li>
+                    <li><strong>启发式搜索</strong>：使用启发式函数指导搜索</li>
+                    <li><strong>蒙特卡洛树搜索</strong>：随机采样和树搜索结合</li>
+                </ul>
+
+                <h4>2.2 工具使用（Tool Use）</h4>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>工具类型</th>
+                            <th>说明</th>
+                            <th>示例</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>计算工具</strong></td>
+                            <td>用于数学计算和数据处理</td>
+                            <td>计算器、数据分析库</td>
+                        </tr>
+                        <tr>
+                            <td><strong>信息工具</strong></td>
+                            <td>用于获取外部信息</td>
+                            <td>搜索引擎、API、数据库</td>
+                        </tr>
+                        <tr>
+                            <td><strong>代码工具</strong></td>
+                            <td>用于代码执行和生成</td>
+                            <td>Python 解释器、代码编译器</td>
+                        </tr>
+                        <tr>
+                            <td><strong>模拟工具</strong></td>
+                            <td>用于环境模拟和测试</td>
+                            <td>虚拟环境、模拟器</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h4>2.3 记忆（Memory）</h4>
+                <ul>
+                    <li><strong>短期记忆</strong>：当前对话或任务的上下文</li>
+                    <li><strong>长期记忆</strong>：历史经验和学到的知识</li>
+                    <li><strong>工作记忆</strong>：当前处理的信息</li>
+                    <li><strong>检索增强</strong>：从外部知识库检索相关信息</li>
+                </ul>
+
+                <h4>2.4 推理（Reasoning）</h4>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>推理类型</th>
+                            <th>说明</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>演绎推理</strong></td>
+                            <td>从一般规则推导特殊情况</td>
+                        </tr>
+                        <tr>
+                            <td><strong>归纳推理</strong></td>
+                            <td>从特殊情况推导一般规则</td>
+                        </tr>
+                        <tr>
+                            <td><strong>类比推理</strong></td>
+                            <td>基于相似性进行推理</td>
+                        </tr>
+                        <tr>
+                            <td><strong>多步推理</strong></td>
+                            <td>通过多个推理步骤解决问题</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>三、应用领域</h3>
+
+                <h4>3.1 搜索和信息检索</h4>
+                <ul>
+                    <li><strong>网络搜索</strong>：自动搜索和整理信息</li>
+                    <li><strong>学术文献</strong>：查找和分析相关论文</li>
+                    <li><strong>知识库搜索</strong>：在企业知识库中搜索</li>
+                </ul>
+
+                <h4>3.2 代码生成和调试</h4>
+                <ul>
+                    <li><strong>代码生成</strong>：根据需求生成代码</li>
+                    <li><strong>错误调试</strong>：识别和修复代码错误</li>
+                    <li><strong>代码优化</strong>：改进代码性能和质量</li>
+                    <li><strong>单元测试</strong>：自动生成测试用例</li>
+                </ul>
+
+                <h4>3.3 数学问题求解</h4>
+                <ul>
+                    <li><strong>方程求解</strong>：解数学方程</li>
+                    <li><strong>证明生成</strong>：生成数学证明</li>
+                    <li><strong>符号计算</strong>：进行符号数学计算</li>
+                </ul>
+
+                <h4>3.4 GUI 交互</h4>
+                <ul>
+                    <li><strong>自动化任务</strong>：自动完成 GUI 操作</li>
+                    <li><strong>表单填充</strong>：自动填充表单</li>
+                    <li><strong>网页导航</strong>：自动导航网页</li>
+                </ul>
+
+                <h4>3.5 视觉任务</h4>
+                <ul>
+                    <li><strong>图像分析</strong>：分析和理解图像</li>
+                    <li><strong>对象检测</strong>：检测图像中的对象</li>
+                    <li><strong>视觉推理</strong>：基于视觉进行推理</li>
+                </ul>
+
+                <h4>3.6 具身智能体</h4>
+                <ul>
+                    <li><strong>机器人控制</strong>：控制机器人执行任务</li>
+                    <li><strong>环境导航</strong>：在物理环境中导航</li>
+                    <li><strong>物体操纵</strong>：操纵物体完成任务</li>
+                </ul>
+
+                <h4>3.7 多智能体系统</h4>
+                <ul>
+                    <li><strong>协作任务</strong>：多个智能体协作</li>
+                    <li><strong>竞争博弈</strong>：智能体间的竞争</li>
+                    <li><strong>协议协商</strong>：智能体间的协议协商</li>
+                </ul>
+
+                <h3>四、技术框架</h3>
+
+                <h4>4.1 核心算法</h4>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>算法</th>
+                            <th>特点</th>
+                            <th>应用</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>策略梯度</strong></td>
+                            <td>直接优化策略</td>
+                            <td>连续控制、离散决策</td>
+                        </tr>
+                        <tr>
+                            <td><strong>价值函数</strong></td>
+                            <td>学习价值函数</td>
+                            <td>离散决策、规划</td>
+                        </tr>
+                        <tr>
+                            <td><strong>演员-评论家</strong></td>
+                            <td>结合策略和价值函数</td>
+                            <td>平衡探索和利用</td>
+                        </tr>
+                        <tr>
+                            <td><strong>模型预测</strong></td>
+                            <td>学习环境模型</td>
+                            <td>样本高效学习</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h4>4.2 奖励设计</h4>
+                <div class="highlight-box">
+                    <p><strong>挑战</strong>：设计合适的奖励函数引导智能体学习</p>
+                </div>
+
+                <p><strong>奖励类型</strong>：</p>
+                <ul>
+                    <li><strong>稀疏奖励</strong>：只在任务完成时给予奖励</li>
+                    <li><strong>密集奖励</strong>：每一步都给予奖励</li>
+                    <li><strong>形状奖励</strong>：设计的中间奖励</li>
+                    <li><strong>内在动机</strong>：基于好奇心或探索的奖励</li>
+                </ul>
+
+                <h3>五、挑战与解决方案</h3>
+
+                <h4>5.1 样本效率</h4>
+                <div class="highlight-box">
+                    <p><strong>问题</strong>：RL 通常需要大量交互来学习</p>
+                </div>
+
+                <p><strong>解决方案</strong>：</p>
+                <ul>
+                    <li>模型预测和规划</li>
+                    <li>迁移学习和元学习</li>
+                    <li>演示学习和模仿学习</li>
+                    <li>课程学习</li>
+                </ul>
+
+                <h4>5.2 探索-利用权衡</h4>
+                <ul>
+                    <li><strong>ε-贪心</strong>：以概率 ε 随机探索</li>
+                    <li><strong>玻尔兹曼分布</strong>：基于价值的随机探索</li>
+                    <li><strong>好奇心驱动</strong>：探索不确定的状态</li>
+                    <li><strong>信息增益</strong>：探索信息量最大的状态</li>
+                </ul>
+
+                <h4>5.3 非平稳环境</h4>
+                <ul>
+                    <li><strong>在线学习</strong>：持续学习新的环境变化</li>
+                    <li><strong>适应性策略</strong>：快速适应环境变化</li>
+                    <li><strong>多任务学习</strong>：学习多个相关任务</li>
+                </ul>
+
+                <h4>5.4 安全约束</h4>
+                <ul>
+                    <li><strong>安全盾牌</strong>：防止危险行动</li>
+                    <li><strong>约束优化</strong>：在约束下优化</li>
+                    <li><strong>人类反馈</strong>：融入人类指导</li>
+                </ul>
+
+                <h3>六、评估指标</h3>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>指标</th>
+                            <th>说明</th>
+                            <th>计算方法</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>累积奖励</strong></td>
+                            <td>智能体获得的总奖励</td>
+                            <td>求和所有奖励</td>
+                        </tr>
+                        <tr>
+                            <td><strong>成功率</strong></td>
+                            <td>完成任务的比例</td>
+                            <td>成功次数 / 总次数</td>
+                        </tr>
+                        <tr>
+                            <td><strong>学习曲线</strong></td>
+                            <td>性能随时间的改进</td>
+                            <td>时间序列分析</td>
+                        </tr>
+                        <tr>
+                            <td><strong>样本效率</strong></td>
+                            <td>达到目标性能所需的样本数</td>
+                            <td>样本数 / 目标性能</td>
+                        </tr>
+                        <tr>
+                            <td><strong>泛化能力</strong></td>
+                            <td>在新任务上的表现</td>
+                            <td>新任务成功率</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>七、最新进展</h3>
+
+                <h4>7.1 关键技术</h4>
+                <ul>
+                    <li><strong>大模型 + RL</strong>：利用 LLM 的推理能力进行 RL</li>
+                    <li><strong>多模态 RL</strong>：处理文本、图像、音频等多模态信息</li>
+                    <li><strong>可验证奖励</strong>：使用可自动验证的奖励信号</li>
+                    <li><strong>在线 RL</strong>：支持持续学习和适应</li>
+                </ul>
+
+                <h4>7.2 代表系统</h4>
+                <ul>
+                    <li><strong>AlphaGo/AlphaZero</strong>：游戏玩家智能体</li>
+                    <li><strong>OpenAI Five</strong>：多智能体游戏系统</li>
+                    <li><strong>DeepSeek-R1</strong>：推理能力强的 LLM 智能体</li>
+                    <li><strong>Gemini 2.0 with Agentic RL</strong>：多模态智能体</li>
+                </ul>
+
+                <h3>八、未来方向</h3>
+
+                <ul>
+                    <li><strong>更强的推理</strong>：支持更深层次的推理和规划</li>
+                    <li><strong>更好的泛化</strong>：跨任务和领域的泛化</li>
+                    <li><strong>更高的安全性</strong>：确保智能体的安全和对齐</li>
+                    <li><strong>更高的效率</strong>：减少计算成本和样本需求</li>
+                    <li><strong>更好的可解释性</strong>：理解智能体的决策过程</li>
+                </ul>
+
+                <a href="ai-agent.html" class="back-link">← 返回 4. Agent</a>
+            </section>
+
+            <footer class="footer">
+                <p>更新时间：2026-04-13</p>
+                <p><a href="index.html">← 返回首页</a></p>
+            </footer>
+        </main>
+    </div>
+</body>
+</html>

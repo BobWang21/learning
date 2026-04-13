@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Survey of Self-Evolving Agents - Agent</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .ai-section {
+            background: white;
+            border-radius: 8px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .ai-section h2, .ai-section h3, .ai-section h4 {
+            color: #1e40af;
+            margin-top: 25px;
+            margin-bottom: 15px;
+        }
+
+        .ai-section h2 {
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 15px;
+            margin-top: 0;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, rgba(30, 64, 175, 0.05), rgba(124, 58, 237, 0.05));
+            border-left: 4px solid #1e40af;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+        }
+
+        .code-block {
+            background: #f1f5f9;
+            border-left: 4px solid #1e40af;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+            overflow-x: auto;
+            font-size: 0.9rem;
+            font-family: 'Courier New', monospace;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        table thead {
+            background: linear-gradient(135deg, #1e40af, #7c3aed);
+            color: white;
+        }
+
+        table th, table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        table tbody tr:hover {
+            background-color: rgba(30, 64, 175, 0.05);
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            padding: 10px 20px;
+            background: #1e40af;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .back-link:hover {
+            background: #0c4a6e;
+            transform: translateY(-2px);
+        }
+
+        .breadcrumb {
+            color: #64748b;
+            font-size: 0.95rem;
+            margin-bottom: 20px;
+        }
+
+        .breadcrumb a {
+            color: #1e40af;
+            text-decoration: none;
+        }
+
+        code {
+            background: #f1f5f9;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="sidebar">
+            <div class="logo">📚 学习领域</div>
+            <ul class="toc">
+                <li><a href="index.html">🏠 首页</a></li>
+                <li><a href="models.html">⏱️ 时序预测</a></li>
+                <li><a href="decision.html">🔄 预测与决策</a></li>
+                <li><a href="index.html#ai">🤖 AI 研究</a>
+                    <ul>
+                        <li><a href="ai-model.html">1. Model</a></li>
+                        <li><a href="ai-pretraining.html">2. Pre-training</a></li>
+                        <li><a href="ai-posttraining.html">3. Post-training</a></li>
+                        <li><a href="ai-agent.html">4. Agent</a>
+                            <ul>
+                                <li><a href="ai-agent-self-evolving.html">Self-Evolving Agents</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+        <main class="content">
+            <header class="header">
+                <h1>A Survey of Self-Evolving Agents</h1>
+                <p class="subtitle">自我进化智能体调查</p>
+            </header>
+
+            <div class="breadcrumb">
+                <a href="index.html">首页</a> > <a href="index.html#ai">AI 研究</a> > <a href="ai-agent.html">4. Agent</a> > Self-Evolving Agents
+            </div>
+
+            <section class="ai-section">
+                <h2>A Survey of Self-Evolving Agents</h2>
+
+                <h3>一、概念定义</h3>
+                <p>自我进化智能体（Self-Evolving Agents）是指能够通过自我反思、自我改进和自我学习来不断优化自身能力的 AI 智能体。与传统 AI 系统不同，自我进化智能体具有以下特征：</p>
+                <ul>
+                    <li><strong>自主性</strong>：能够自主地发现问题和改进方向</li>
+                    <li><strong>适应性</strong>：能够根据环境变化调整策略</li>
+                    <li><strong>持续性</strong>：进化是一个持续的过程，而非一次性的</li>
+                    <li><strong>自省性</strong>：能够反思自己的行为和决策</li>
+                </ul>
+
+                <h3>二、进化的三个维度</h3>
+
+                <h4>2.1 What（进化什么）</h4>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>进化对象</th>
+                            <th>说明</th>
+                            <th>示例</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>能力（Capabilities）</strong></td>
+                            <td>智能体的核心技能和功能</td>
+                            <td>代码生成、问题求解、工具使用</td>
+                        </tr>
+                        <tr>
+                            <td><strong>知识（Knowledge）</strong></td>
+                            <td>智能体积累的信息和经验</td>
+                            <td>领域知识、最佳实践、常见错误</td>
+                        </tr>
+                        <tr>
+                            <td><strong>策略（Strategies）</strong></td>
+                            <td>智能体的决策和行动方式</td>
+                            <td>搜索策略、推理路径、工具选择</td>
+                        </tr>
+                        <tr>
+                            <td><strong>结构（Architecture）</strong></td>
+                            <td>智能体的组织和设计</td>
+                            <td>模块组合、流程优化、角色分工</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h4>2.2 When（何时进化）</h4>
+                <div class="highlight-box">
+                    <p><strong>触发机制</strong>：进化何时发生</p>
+                </div>
+
+                <ul>
+                    <li><strong>错误驱动</strong>：当遇到失败或错误时触发进化</li>
+                    <li><strong>反馈驱动</strong>：基于外部反馈（用户、评分系统）进化</li>
+                    <li><strong>性能驱动</strong>：当性能指标不达标时进化</li>
+                    <li><strong>主动驱动</strong>：智能体主动寻求改进机会</li>
+                    <li><strong>周期驱动</strong>：定期进行进化</li>
+                </ul>
+
+                <h4>2.3 How（如何进化）</h4>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>进化方法</th>
+                            <th>机制</th>
+                            <th>优点</th>
+                            <th>缺点</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>提示进化</strong></td>
+                            <td>优化提示词和指令</td>
+                            <td>快速、低成本</td>
+                            <td>改进有限</td>
+                        </tr>
+                        <tr>
+                            <td><strong>微调进化</strong></td>
+                            <td>对模型参数进行微调</td>
+                            <td>改进效果好</td>
+                            <td>成本高、需要数据</td>
+                        </tr>
+                        <tr>
+                            <td><strong>检索增强</strong></td>
+                            <td>增强外部知识检索能力</td>
+                            <td>知识更新快</td>
+                            <td>依赖外部资源</td>
+                        </tr>
+                        <tr>
+                            <td><strong>工具扩展</strong></td>
+                            <td>添加新的工具和能力</td>
+                            <td>功能增强</td>
+                            <td>可能引入新错误</td>
+                        </tr>
+                        <tr>
+                            <td><strong>架构优化</strong></td>
+                            <td>重新设计智能体结构</td>
+                            <td>根本性改进</td>
+                            <td>复杂度高</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>三、自我进化的机制</h3>
+
+                <h4>3.1 自我反思（Self-Reflection）</h4>
+                <div class="code-block">
+                    自我反思流程：<br><br>
+                    1. 执行任务<br>
+                    2. 评估结果<br>
+                    3. 分析失败原因<br>
+                    4. 识别改进方向<br>
+                    5. 制定改进计划<br>
+                    6. 实施改进<br>
+                    7. 验证改进效果
+                </div>
+
+                <h4>3.2 知识积累（Knowledge Accumulation）</h4>
+                <ul>
+                    <li><strong>显式知识</strong>：文档化的最佳实践和规则</li>
+                    <li><strong>隐式知识</strong>：通过经验学到的模式和直觉</li>
+                    <li><strong>案例库</strong>：成功和失败案例的集合</li>
+                    <li><strong>错误库</strong>：常见错误及其解决方案</li>
+                </ul>
+
+                <h4>3.3 能力扩展（Capability Enhancement）</h4>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>扩展方式</th>
+                            <th>说明</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>工具集成</strong></td>
+                            <td>集成新的外部工具和 API</td>
+                        </tr>
+                        <tr>
+                            <td><strong>模型更新</strong></td>
+                            <td>升级到更强大的基础模型</td>
+                        </tr>
+                        <tr>
+                            <td><strong>插件系统</strong></td>
+                            <td>支持动态加载插件</td>
+                        </tr>
+                        <tr>
+                            <td><strong>多模态支持</strong></td>
+                            <td>添加图像、音频等模态支持</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>四、应用场景</h3>
+
+                <h4>4.1 代码生成助手</h4>
+                <ul>
+                    <li>根据代码审查反馈改进生成质量</li>
+                    <li>学习项目特定的编码风格</li>
+                    <li>积累常见的 bug 模式和修复方法</li>
+                </ul>
+
+                <h4>4.2 客户服务机器人</h4>
+                <ul>
+                    <li>从客户反馈中学习更好的回应方式</li>
+                    <li>积累常见问题和最佳答案</li>
+                    <li>持续改进对话质量</li>
+                </ul>
+
+                <h4>4.3 数据分析智能体</h4>
+                <ul>
+                    <li>学习用户的分析偏好</li>
+                    <li>优化数据查询和处理策略</li>
+                    <li>积累领域知识和分析模式</li>
+                </ul>
+
+                <h4>4.4 研究助手</h4>
+                <ul>
+                    <li>改进文献检索和理解能力</li>
+                    <li>学习研究领域的最新进展</li>
+                    <li>优化研究方法和工具使用</li>
+                </ul>
+
+                <h3>五、评估框架</h3>
+
+                <h4>5.1 进化效果评估</h4>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>指标</th>
+                            <th>说明</th>
+                            <th>计算方法</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>任务成功率</strong></td>
+                            <td>完成任务的比例</td>
+                            <td>成功任务数 / 总任务数</td>
+                        </tr>
+                        <tr>
+                            <td><strong>性能提升</strong></td>
+                            <td>相比基线的改进程度</td>
+                            <td>(进化后 - 基线) / 基线 × 100%</td>
+                        </tr>
+                        <tr>
+                            <td><strong>学习曲线</strong></td>
+                            <td>性能随时间的改进趋势</td>
+                            <td>时间序列分析</td>
+                        </tr>
+                        <tr>
+                            <td><strong>泛化能力</strong></td>
+                            <td>在新任务上的表现</td>
+                            <td>新任务成功率</td>
+                        </tr>
+                        <tr>
+                            <td><strong>稳定性</strong></td>
+                            <td>进化后性能的稳定性</td>
+                            <td>方差、标准差</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h4>5.2 进化成本评估</h4>
+                <ul>
+                    <li><strong>计算成本</strong>：进化所需的计算资源</li>
+                    <li><strong>时间成本</strong>：进化所需的时间</li>
+                    <li><strong>数据成本</strong>：所需的训练数据</li>
+                    <li><strong>人力成本</strong>：需要的人工干预</li>
+                </ul>
+
+                <h3>六、挑战与风险</h3>
+
+                <h4>6.1 技术挑战</h4>
+                <ul>
+                    <li><strong>自我评估准确性</strong>：智能体可能过度评估或低估自己</li>
+                    <li><strong>灾难性遗忘</strong>：学习新能力时可能忘记旧能力</li>
+                    <li><strong>过度拟合</strong>：对特定任务过度优化，泛化能力下降</li>
+                    <li><strong>进化方向选择</strong>：可能选择次优的进化方向</li>
+                </ul>
+
+                <h4>6.2 安全风险</h4>
+                <ul>
+                    <li><strong>行为偏差</strong>：自我进化可能导致行为偏离初衷</li>
+                    <li><strong>对齐问题</strong>：进化过程中可能失去价值对齐</li>
+                    <li><strong>不可控性</strong>：难以预测进化的最终结果</li>
+                    <li><strong>恶意进化</strong>：可能被利用进行有害进化</li>
+                </ul>
+
+                <h3>七、最佳实践</h3>
+
+                <h4>7.1 设计原则</h4>
+                <ul>
+                    <li><strong>可控性</strong>：进化过程必须可监控和可控制</li>
+                    <li><strong>可追踪性</strong>：记录所有进化步骤</li>
+                    <li><strong>可逆性</strong>：能够回退到之前的版本</li>
+                    <li><strong>透明性</strong>：进化决策过程清晰可解释</li>
+                </ul>
+
+                <h4>7.2 实施建议</h4>
+                <ul>
+                    <li>建立清晰的进化目标和约束</li>
+                    <li>使用多个独立的评估指标</li>
+                    <li>定期进行安全审计</li>
+                    <li>保持人类在循环中</li>
+                    <li>建立回滚机制</li>
+                </ul>
+
+                <h3>八、未来展望</h3>
+
+                <ul>
+                    <li><strong>更自主的进化</strong>：减少人工干预，增加自主性</li>
+                    <li><strong>更安全的进化</strong>：在保证安全的前提下进化</li>
+                    <li><strong>多目标进化</strong>：同时优化多个目标</li>
+                    <li><strong>跨智能体学习</strong>：智能体间的知识共享</li>
+                    <li><strong>长期进化</strong>：支持更长期的持续进化</li>
+                </ul>
+
+                <a href="ai-agent.html" class="back-link">← 返回 4. Agent</a>
+            </section>
+
+            <footer class="footer">
+                <p>更新时间：2026-04-13</p>
+                <p><a href="index.html">← 返回首页</a></p>
+            </footer>
+        </main>
+    </div>
+</body>
+</html>

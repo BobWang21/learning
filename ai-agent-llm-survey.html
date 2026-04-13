@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Large Language Model Agent: A Survey - Agent</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .ai-section {
+            background: white;
+            border-radius: 8px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .ai-section h2, .ai-section h3, .ai-section h4 {
+            color: #1e40af;
+            margin-top: 25px;
+            margin-bottom: 15px;
+        }
+
+        .ai-section h2 {
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 15px;
+            margin-top: 0;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, rgba(30, 64, 175, 0.05), rgba(124, 58, 237, 0.05));
+            border-left: 4px solid #1e40af;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+        }
+
+        .code-block {
+            background: #f1f5f9;
+            border-left: 4px solid #1e40af;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+            overflow-x: auto;
+            font-size: 0.9rem;
+            font-family: 'Courier New', monospace;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        table thead {
+            background: linear-gradient(135deg, #1e40af, #7c3aed);
+            color: white;
+        }
+
+        table th, table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        table tbody tr:hover {
+            background-color: rgba(30, 64, 175, 0.05);
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            padding: 10px 20px;
+            background: #1e40af;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .back-link:hover {
+            background: #0c4a6e;
+            transform: translateY(-2px);
+        }
+
+        .breadcrumb {
+            color: #64748b;
+            font-size: 0.95rem;
+            margin-bottom: 20px;
+        }
+
+        .breadcrumb a {
+            color: #1e40af;
+            text-decoration: none;
+        }
+
+        code {
+            background: #f1f5f9;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="sidebar">
+            <div class="logo">📚 学习领域</div>
+            <ul class="toc">
+                <li><a href="index.html">🏠 首页</a></li>
+                <li><a href="models.html">⏱️ 时序预测</a></li>
+                <li><a href="decision.html">🔄 预测与决策</a></li>
+                <li><a href="index.html#ai">🤖 AI 研究</a>
+                    <ul>
+                        <li><a href="ai-model.html">1. Model</a></li>
+                        <li><a href="ai-pretraining.html">2. Pre-training</a></li>
+                        <li><a href="ai-posttraining.html">3. Post-training</a></li>
+                        <li><a href="ai-agent.html">4. Agent</a>
+                            <ul>
+                                <li><a href="ai-agent-llm-survey.html">LLM Agent Survey</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+        <main class="content">
+            <header class="header">
+                <h1>Large Language Model Agent: A Survey</h1>
+                <p class="subtitle">大语言模型智能体全面调查</p>
+            </header>
+
+            <div class="breadcrumb">
+                <a href="index.html">首页</a> > <a href="index.html#ai">AI 研究</a> > <a href="ai-agent.html">4. Agent</a> > LLM Agent Survey
+            </div>
+
+            <section class="ai-section">
+                <h2>Large Language Model Agent: A Survey</h2>
+
+                <h3>一、概览</h3>
+                <p>大语言模型（LLM）智能体是结合了 LLM 强大的语言理解和推理能力与智能体框架的系统。与传统的 LLM 相比，LLM 智能体能够：</p>
+                <ul>
+                    <li>自主规划和分解任务</li>
+                    <li>与环境交互并获取反馈</li>
+                    <li>从经验中学习和改进</li>
+                    <li>协作完成复杂任务</li>
+                </ul>
+
+                <h3>二、智能体的核心构成</h3>
+
+                <h4>2.1 智能体的四个关键组件</h4>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>组件</th>
+                            <th>功能</th>
+                            <th>实现方式</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>感知模块</strong></td>
+                            <td>从环境获取信息和反馈</td>
+                            <td>API 调用、传感器输入、文本解析</td>
+                        </tr>
+                        <tr>
+                            <td><strong>决策模块</strong></td>
+                            <td>基于当前状态制定行动计划</td>
+                            <td>LLM 推理、强化学习、启发式算法</td>
+                        </tr>
+                        <tr>
+                            <td><strong>执行模块</strong></td>
+                            <td>执行决策并与环境交互</td>
+                            <td>工具调用、代码执行、API 请求</td>
+                        </tr>
+                        <tr>
+                            <td><strong>学习模块</strong></td>
+                            <td>从反馈中学习和改进</td>
+                            <td>经验回放、微调、强化学习</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h4>2.2 智能体的工作流程</h4>
+                <div class="code-block">
+                    1. 感知：获取任务和环境信息<br>
+                    2. 推理：LLM 分析情况，制定计划<br>
+                    3. 决策：选择下一步行动<br>
+                    4. 执行：调用工具或 API 执行行动<br>
+                    5. 反馈：收集执行结果<br>
+                    6. 学习：更新内部状态和策略<br>
+                    7. 迭代：重复直至任务完成
+                </div>
+
+                <h3>三、智能体的分类</h3>
+
+                <h4>3.1 按构造方式分类</h4>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>类型</th>
+                            <th>特点</th>
+                            <th>代表</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>反应式智能体</strong></td>
+                            <td>直接根据输入产生输出，无内部状态</td>
+                            <td>基础 ChatGPT、In-Context Learning</td>
+                        </tr>
+                        <tr>
+                            <td><strong>规划式智能体</strong></td>
+                            <td>制定计划后逐步执行，有目标导向</td>
+                            <td>ReAct、Chain-of-Thought、MCTS</td>
+                        </tr>
+                        <tr>
+                            <td><strong>学习式智能体</strong></td>
+                            <td>从交互中学习和改进，持续优化</td>
+                            <td>强化学习智能体、自我进化智能体</td>
+                        </tr>
+                        <tr>
+                            <td><strong>多智能体系统</strong></td>
+                            <td>多个智能体协作完成任务</td>
+                            <td>AutoGPT、AgentVerse、MetaGPT</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h4>3.2 按应用领域分类</h4>
+                <ul>
+                    <li><strong>代码生成与调试</strong>：GitHub Copilot、CodeInterpreter</li>
+                    <li><strong>数据分析</strong>：Data Analysis Agent、SQL 查询智能体</li>
+                    <li><strong>网络搜索</strong>：Bing Chat、Google Bard with Search</li>
+                    <li><strong>任务自动化</strong>：RPA 机器人、工作流自动化</li>
+                    <li><strong>科学研究</strong>：文献检索、实验设计、数据处理</li>
+                </ul>
+
+                <h3>四、评估框架</h3>
+
+                <h4>4.1 评估维度</h4>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>维度</th>
+                            <th>评估指标</th>
+                            <th>说明</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>任务完成度</strong></td>
+                            <td>成功率、完成率</td>
+                            <td>智能体完成目标任务的能力</td>
+                        </tr>
+                        <tr>
+                            <td><strong>效率</strong></td>
+                            <td>步数、时间、成本</td>
+                            <td>完成任务所需的资源</td>
+                        </tr>
+                        <tr>
+                            <td><strong>可靠性</strong></td>
+                            <td>稳定性、容错能力</td>
+                            <td>在异常情况下的表现</td>
+                        </tr>
+                        <tr>
+                            <td><strong>可解释性</strong></td>
+                            <td>决策过程透明度</td>
+                            <td>用户能否理解智能体的推理</td>
+                        </tr>
+                        <tr>
+                            <td><strong>安全性</strong></td>
+                            <td>对齐度、风险控制</td>
+                            <td>智能体是否遵循安全约束</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>五、关键挑战</h3>
+
+                <h4>5.1 技术挑战</h4>
+                <div class="highlight-box">
+                    <p><strong>1. 规划与推理</strong></p>
+                    <ul>
+                        <li>长期规划的困难性</li>
+                        <li>复杂任务分解的准确性</li>
+                        <li>处理不确定性和动态环境</li>
+                    </ul>
+                </div>
+
+                <div class="highlight-box">
+                    <p><strong>2. 工具使用</strong></p>
+                    <ul>
+                        <li>准确理解工具的功能和限制</li>
+                        <li>正确的参数传递</li>
+                        <li>处理工具调用失败</li>
+                    </ul>
+                </div>
+
+                <div class="highlight-box">
+                    <p><strong>3. 内存管理</strong></p>
+                    <ul>
+                        <li>上下文窗口限制</li>
+                        <li>长期记忆的存储和检索</li>
+                        <li>记忆的遗忘和更新机制</li>
+                    </ul>
+                </div>
+
+                <div class="highlight-box">
+                    <p><strong>4. 多智能体协调</strong></p>
+                    <ul>
+                        <li>智能体间的通信和协调</li>
+                        <li>冲突解决和任务分配</li>
+                        <li>分布式决策制定</li>
+                    </ul>
+                </div>
+
+                <h4>5.2 实际应用中的挑战</h4>
+                <ul>
+                    <li><strong>成本高</strong>：频繁的 API 调用导致高昂的计算成本</li>
+                    <li><strong>延迟长</strong>：多轮交互导致响应时间长</li>
+                    <li><strong>可靠性低</strong>：错误积累导致任务失败</li>
+                    <li><strong>难以调试</strong>：复杂的交互流程难以诊断问题</li>
+                    <li><strong>安全隐患</strong>：自主执行可能带来安全风险</li>
+                </ul>
+
+                <h3>六、最新进展</h3>
+
+                <h4>6.1 关键技术突破</h4>
+                <ul>
+                    <li><strong>ReAct 范式</strong>：将推理（Reasoning）和行动（Action）结合，提高了智能体的可解释性和性能</li>
+                    <li><strong>思维树（Tree of Thoughts）</strong>：探索多个推理路径，选择最优方案</li>
+                    <li><strong>自我进化智能体</strong>：智能体能够自主改进自己的能力和策略</li>
+                    <li><strong>多智能体协作</strong>：通过角色分工提高复杂任务的完成效率</li>
+                    <li><strong>智能体强化学习（Agentic RL）</strong>：使用强化学习优化智能体的策略</li>
+                </ul>
+
+                <h4>6.2 代表性系统</h4>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>系统</th>
+                            <th>特点</th>
+                            <th>应用</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>AutoGPT</strong></td>
+                            <td>自主分解任务、自主执行</td>
+                            <td>通用任务自动化</td>
+                        </tr>
+                        <tr>
+                            <td><strong>BabyAGI</strong></td>
+                            <td>优先级队列、任务管理</td>
+                            <td>任务规划和管理</td>
+                        </tr>
+                        <tr>
+                            <td><strong>MetaGPT</strong></td>
+                            <td>角色扮演、多智能体协作</td>
+                            <td>软件开发、项目管理</td>
+                        </tr>
+                        <tr>
+                            <td><strong>AgentVerse</strong></td>
+                            <td>多智能体交互、社会模拟</td>
+                            <td>社会模拟、集体决策</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>七、总结与展望</h3>
+
+                <p>LLM 智能体代表了 AI 的一个重要发展方向，将语言模型的理解能力与智能体的自主性结合。未来的发展方向包括：</p>
+
+                <ul>
+                    <li><strong>更强的推理能力</strong>：支持更复杂的长期规划和推理</li>
+                    <li><strong>更高的可靠性</strong>：减少错误积累，提高任务完成率</li>
+                    <li><strong>更好的内存机制</strong>：支持长期学习和知识积累</li>
+                    <li><strong>更安全的执行</strong>：在确保安全的前提下实现自主性</li>
+                    <li><strong>更高效的协作</strong>：支持大规模多智能体系统</li>
+                </ul>
+
+                <a href="ai-agent.html" class="back-link">← 返回 4. Agent</a>
+            </section>
+
+            <footer class="footer">
+                <p>更新时间：2026-04-13</p>
+                <p><a href="index.html">← 返回首页</a></p>
+            </footer>
+        </main>
+    </div>
+</body>
+</html>
