@@ -218,7 +218,7 @@
         /* 首页布局：侧边栏 + 内容 */
         .home-container {
             display: flex;
-            gap: 20px;
+            gap: 0;
             margin-top: 0;
             align-items: flex-start;
         }
@@ -228,6 +228,7 @@
             flex-shrink: 0;
             position: sticky;
             top: 20px;
+            padding-right: 20px;
         }
 
         .home-content {
@@ -305,7 +306,7 @@
             <!-- 侧边栏 -->
             <div class="home-sidebar">
                 <div class="sidebar">
-                    <div class="logo">📚 学习领域</div>
+                    <div class="logo">📚 索引</div>
                     <ul class="toc">
                         <li><a href="index.html">🏠 首页</a></li>
                         <li><a href="models.html">⏱️ 时序预测</a></li>
