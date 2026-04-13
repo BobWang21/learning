@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>时序模型调研</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/highlight.js@11/highlight.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11/styles/atom-one-dark.min.css">
+</head>
+<body>
+    <div class="container">
+        <nav class="sidebar">
+            <div class="logo">时序模型调研</div>
+            <ul class="toc">
+                <li><a href="#conclusion">一、结论</a></li>
+                <li><a href="#background">二、背景</a></li>
+                <li><a href="#deep-models">三、深度模型</a>
+                    <ul>
+                        <li><a href="#tft">TFT</a></li>
+                        <li><a href="#nbeatsx">NBEATSx</a></li>
+                        <li><a href="#patchtst">PatchTST</a></li>
+                        <li><a href="#tide">TiDE</a></li>
+                        <li><a href="#itransformer">iTransformer</a></li>
+                        <li><a href="#timexer">TimeXer</a></li>
+                    </ul>
+                </li>
+                <li><a href="#foundation-models">四、大模型</a>
+                    <ul>
+                        <li><a href="#timesfm">TimesFM</a></li>
+                        <li><a href="#timepfn">TimePFN</a></li>
+                        <li><a href="#moirai">Moirai 系列</a></li>
+                        <li><a href="#chronos">Chronos 系列</a></li>
+                    </ul>
+                </li>
+                <li><a href="#appendix">附录</a></li>
+            </ul>
+        </nav>
+
+        <main class="content">
+            <header class="header">
+                <h1>时序模型调研</h1>
+                <p class="subtitle">深度学习与大模型在时间序列预测中的应用</p>
+                <p class="update-time">更新中 - 最后更新: 2024年</p>
+            </header>
+
+            <section id="conclusion" class="section">
+                <h2>一、结论</h2>
+                <div class="conclusion-box">
+                    <p><strong>基于过往预估模型的实践经验，将重点关注模型在以下方面的表现：</strong></p>
+                    <ul>
+                        <li>处理内生变量间时序关系的能力</li>
+                        <li>对静态与动态外生变量的建模能力</li>
+                        <li>不确定性的刻画水平</li>
+                    </ul>
+                </div>
+
+                <h3>模型对比表</h3>
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>特性</th>
+                            <th>MLP类</th>
+                            <th>Transformer类</th>
+                            <th>LM类</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>长时间依赖建模</strong></td>
+                            <td>弱，难以处理长时间依赖</td>
+                            <td>中，能够处理长时间依赖</td>
+                            <td>强</td>
+                        </tr>
+                        <tr>
+                            <td><strong>计算效率</strong></td>
+                            <td>高效</td>
+                            <td>消耗大 O(n²)</td>
+                            <td>-</td>
+                        </tr>
+                        <tr>
+                            <td><strong>特征处理</strong></td>
+                            <td>需要</td>
+                            <td>不需要</td>
+                            <td>不需要</td>
+                        </tr>
+                        <tr>
+                            <td><strong>处理顺序性</strong></td>
+                            <td>不敏感</td>
+                            <td>强</td>
+                            <td>强</td>
+                        </tr>
+                        <tr>
+                            <td><strong>多步预测能力</strong></td>
+                            <td>较弱</td>
+                            <td>强</td>
+                            <td>强</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section id="background" class="section">
+                <h2>二、背景</h2>
+
+                <h3>1. 预估特点</h3>
+                <ul>
+                    <li><strong>Multivariate time series:</strong> 多个格子、流出</li>
+                    <li><strong>Covariate:</strong> static、past、future known</li>
+                    <li><strong>Distribution forecaster</strong></li>
+                    <li><strong>Missing value:</strong> label zero inflated</li>
+                </ul>
+
+                <h3>2. 为什么选择深度模型</h3>
+                <p>预估建模成<strong>时序预测</strong>问题，后续会对<strong>时空预测</strong>方向做相关分析与调研。</p>
+                <ul>
+                    <li>不同时空的泛化能力。传统树模型对高维稀疏特征处理能力较弱</li>
+                    <li>多任务预测能力。时空预测任务涉及到流入预测和流出预测等基础预测</li>
+                    <li>更好的不确定性预估能力。深度学习模型支持多分位数、半参数等形式</li>
+                    <li>多步预测能力。用以支持需求分层</li>
+                </ul>
+            </section>
+
+            <section id="deep-models" class="section">
+                <h2>三、深度模型</h2>
+
+                <article id="tft" class="model-article">
+                    <h3>1. TFT (Temporal Fusion Transformer)</h3>
+                    <div class="model-info">
+                        <span class="badge badge-oxford">牛津+谷歌云</span>
+                        <span class="badge badge-year">2020</span>
+                    </div>
+                    <p>多步预测的一种新方法，基于注意力的全新架构，在实现高性能多步预测的同时，提供对时序动态的可解释洞察。</p>
+                    <h4>核心构件</h4>
+                    <ul>
+                        <li><strong>静态协变量编码器:</strong> 将静态元数据编码为上下文向量</li>
+                        <li><strong>变量选择网络:</strong> 在每个时间步动态挑选相关输入变量</li>
+                        <li><strong>时序处理器:</strong> 使用LSTM提取局部特征，用可解释多头注意力捕捉长期依赖</li>
+                        <li><strong>门控机制:</strong> GRN可跳过对当前数据无关的组件</li>
+                        <li><strong>分位数预测层:</strong> 同时输出多个预测区间的分位数值</li>
+                    </ul>
+                </article>
+
+                <article id="nbeatsx" class="model-article">
+                    <h3>2. NBEATSx</h3>
+                    <div class="model-info">
+                        <span class="badge badge-salesforce">Salesforce Research</span>
+                        <span class="badge badge-year">2022</span>
+                    </div>
+                    <p>主要解决两个核心问题：外生变量整合缺失和可解释性不足。</p>
+                    <h4>两种配置对比</h4>
+                    <table class="config-table">
+                        <thead>
+                            <tr>
+                                <th>维度</th>
+                                <th>可解释配置 (NBEATSx-I)</th>
+                                <th>通用配置 (NBEATSx-G)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>基函数</strong></td>
+                                <td>预设（多项式+傅里叶）</td>
+                                <td>学习得到（恒等矩阵）</td>
+                            </tr>
+                            <tr>
+                                <td><strong>可解释性</strong></td>
+                                <td>✅ 显式分解</td>
+                                <td>❌ 黑箱</td>
+                            </tr>
+                            <tr>
+                                <td><strong>灵活性</strong></td>
+                                <td>受限</td>
+                                <td>✅ 高灵活性</td>
+                            </tr>
+                            <tr>
+                                <td><strong>适用场景</strong></td>
+                                <td>需洞察驱动因素</td>
+                                <td>追求最高精度</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </article>
+
+                <article id="patchtst" class="model-article">
+                    <h3>3. PatchTST</h3>
+                    <div class="model-info">
+                        <span class="badge badge-princeton">普林斯顿+IBM</span>
+                        <span class="badge badge-year">2023</span>
+                    </div>
+                    <p>将时间序列切成不重叠patch，使用encoder做纯自注意力，以捕捉局部语义与长期依赖。</p>
+                    <h4>通道类型对比</h4>
+                    <table class="channel-table">
+                        <thead>
+                            <tr>
+                                <th>范式</th>
+                                <th>变量信息交换</th>
+                                <th>典型场景</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>通道独立</strong></td>
+                                <td>无</td>
+                                <td>变量数多但耦合弱</td>
+                            </tr>
+                            <tr>
+                                <td><strong>通道混合</strong></td>
+                                <td>强制全连接</td>
+                                <td>变量数固定且天然相关</td>
+                            </tr>
+                            <tr>
+                                <td><strong>通道依赖</strong></td>
+                                <td>显式按需连接</td>
+                                <td>强耦合数据（交通、气象）</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </article>
+
+                <article id="tide" class="model-article">
+                    <h3>4. TiDE (Time series Dense Encoder)</h3>
+                    <div class="model-info">
+                        <span class="badge badge-google">Google Research</span>
+                        <span class="badge badge-year">2023</span>
+                    </div>
+                    <p>基于多层感知机（MLP）的编-解码器模型，专门用于长期时间序列预测。</p>
+                    <h4>特点</h4>
+                    <ul>
+                        <li>只用MLP和残差连接，无注意力、卷积或循环</li>
+                        <li>显式把动态协变量和静态协变量一起拉平喂给Encoder</li>
+                        <li>推理快5×，训练快10-37×</li>
+                        <li>在7个主流长程预测基准上与PatchTST互有胜负</li>
+                    </ul>
+                </article>
+
+                <article id="itransformer" class="model-article">
+                    <h3>5. iTransformer</h3>
+                    <div class="model-info">
+                        <span class="badge badge-tsinghua">清华 龙明盛组 + 蚂蚁</span>
+                        <span class="badge badge-year">2024</span>
+                    </div>
+                    <p>将每个变量视为独立的token，而非每个时间步。使用encoder作用于变量间关系。</p>
+                    <h4>核心创新</h4>
+                    <ul>
+                        <li>变量级token而非时间级token</li>
+                        <li>更好地学习变量间关系</li>
+                        <li>解决了Transformer在长序列上的性能衰减问题</li>
+                    </ul>
+                </article>
+
+                <article id="timexer" class="model-article">
+                    <h3>6. TimeXer</h3>
+                    <div class="model-info">
+                        <span class="badge badge-tsinghua">清华 龙明盛组</span>
+                        <span class="badge badge-year">2024</span>
+                    </div>
+                    <p>统一处理内生变量和外生变量的预测框架，采用分层建模策略。</p>
+                    <h4>分层建模策略</h4>
+                    <ul>
+                        <li><strong>内生变量:</strong> 采用patch-wise表示，使用Self-attention建模时间依赖性</li>
+                        <li><strong>外部变量:</strong> 采用variate-wise表示，使用Cross-attention建模关系</li>
+                        <li><strong>全局token:</strong> 作为桥梁，连接内生变量与外部变量</li>
+                    </ul>
+                </article>
+            </section>
+
+            <section id="foundation-models" class="section">
+                <h2>四、大模型</h2>
+                <p class="intro-text">时序大模型优势：能捕捉复杂模式、零样本、跨场景迁移能力。</p>
+
+                <article id="timesfm" class="model-article">
+                    <h3>1. TimesFM</h3>
+                    <div class="model-info">
+                        <span class="badge badge-google">Google Research</span>
+                        <span class="badge badge-year">2024</span>
+                    </div>
+                    <p>纯解码器Transformer，约200M参数，在100B时间点上预训练。支持任意上下文/预测长度，单卡GPU毫秒级推理。</p>
+                    <h4>关键特性</h4>
+                    <ul>
+                        <li>零样本评估优于N-BEATS、DeepAR、PatchTST等全监督模型</li>
+                        <li>预训练数据：80%真实 + 20%合成，覆盖8种粒度、6大领域</li>
+                        <li>输入patch=32，输出patch=128</li>
+                        <li>参数仅200M，训练2天，算力成本≈GPT-3的1%</li>
+                    </ul>
+                </article>
+
+                <article id="timepfn" class="model-article">
+                    <h3>2. TimePFN</h3>
+                    <div class="model-info">
+                        <span class="badge badge-umich">University of Michigan</span>
+                        <span class="badge badge-year">2024</span>
+                    </div>
+                    <p>基于Prior-data Fitted Networks (PFN)的多变量时间序列预测模型。</p>
+                    <h4>核心优势</h4>
+                    <ul>
+                        <li>仅使用50-500个样本微调即可接近全量数据训练性能</li>
+                        <li>通道混合架构优于通道独立（如PatchTST）</li>
+                        <li>高质量合成数据支撑复杂Transformer架构训练</li>
+                    </ul>
+                </article>
+
+                <article id="moirai" class="model-article">
+                    <h3>3. Moirai 系列</h3>
+                    <div class="model-info">
+                        <span class="badge badge-salesforce">Salesforce AI Research</span>
+                        <span class="badge badge-year">2024</span>
+                    </div>
+                    <p>通用预测范式，构建单一的大型时间序列模型，通过零样本学习处理任意下游预测任务。</p>
+
+                    <h4>Moirai 1.0</h4>
+                    <ul>
+                        <li>基于Masked Encoder架构</li>
+                        <li>多patch大小投影层处理不同频率</li>
+                        <li>任意变量注意力支持任意维度多变量序列</li>
+                        <li>混合分布输出适应不同数据分布</li>
+                        <li>LOTSA数据集：27B观测值，9大领域</li>
+                    </ul>
+
+                    <h4>Moirai-MOE</h4>
+                    <ul>
+                        <li>引入稀疏混合专家实现自动token级特化</li>
+                        <li>32个专家，每token仅激活Top-2</li>
+                        <li>小模型(11M激活参数)比Moirai-Small提升17%</li>
+                    </ul>
+
+                    <h4>Moirai 2.0</h4>
+                    <ul>
+                        <li>解码器-only架构</li>
+                        <li>分位数预测和多token预测策略</li>
+                        <li>参数减少30倍，推理加速2倍</li>
+                        <li>3600万条时间序列，2950亿观测值预训练</li>
+                    </ul>
+                </article>
+
+                <article id="chronos" class="model-article">
+                    <h3>4. Chronos 系列</h3>
+                    <div class="model-info">
+                        <span class="badge badge-aws">AWS AI Labs</span>
+                        <span class="badge badge-year">2024</span>
+                    </div>
+                    <p>极简主义的时间序列预训练框架，将时间序列预测视为语言建模任务。</p>
+
+                    <h4>Chronos 1</h4>
+                    <ul>
+                        <li>将实数值时间序列量化为离散token</li>
+                        <li>直接在T5语言模型架构上训练</li>
+                        <li>28个数据集，约84B token预训练</li>
+                        <li>支持TSMixup数据增强和KernelSynth合成数据</li>
+                    </ul>
+
+                    <h4>Chronos 2</h4>
+                    <ul>
+                        <li>Encoder架构，支持单变量、多变量及协变量预测</li>
+                        <li>创新的组注意力机制实现上下文学习(ICL)</li>
+                        <li>支持21个分位数预测</li>
+                        <li>中端GPU上以300个时间序列/秒速度推理</li>
+                    </ul>
+
+                    <h4>Chronos X</h4>
+                    <ul>
+                        <li>轻量Adapter方案支持外生协变量</li>
+                        <li>冻结原预训练权重，仅训练Adapter的几百万参数</li>
+                        <li>相比原Chronos降低22%的WQL</li>
+                        <li>训练时间仅为全量微调的1/5</li>
+                    </ul>
+                </article>
+            </section>
+
+            <section id="appendix" class="section">
+                <h2>附录</h2>
+
+                <h3>时序模型特点</h3>
+                <h4>时序预测与回归预测区别</h4>
+                <table class="difference-table">
+                    <thead>
+                        <tr>
+                            <th>维度</th>
+                            <th>时序预测</th>
+                            <th>回归预测</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>数据假设</strong></td>
+                            <td>样本存在时间依赖性，不独立</td>
+                            <td>样本独立同分布 (i.i.d.)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>特征结构</strong></td>
+                            <td>时间戳本身就是特征</td>
+                            <td>X → Y 的映射关系</td>
+                        </tr>
+                        <tr>
+                            <td><strong>核心关注点</strong></td>
+                            <td>趋势、季节性、周期性、自相关性</td>
+                            <td>变量间的关系</td>
+                        </tr>
+                        <tr>
+                            <td><strong>数据划分</strong></td>
+                            <td>按时间顺序划分，严禁未来信息泄露</td>
+                            <td>随机划分训练/测试集</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>关键概念</h3>
+                <dl class="glossary">
+                    <dt>Multivariate Time Series</dt>
+                    <dd>多个格子、流出等多个变量组成的时间序列</dd>
+
+                    <dt>Covariate</dt>
+                    <dd>协变量，包括静态协变量、过去已知协变量、未来已知协变量</dd>
+
+                    <dt>Distribution Forecaster</dt>
+                    <dd>分布预测，不仅预测点估计，还预测预测区间和不确定性</dd>
+
+                    <dt>Patch</dt>
+                    <dd>将时间序列分割为子级片段，作为Transformer的token</dd>
+
+                    <dt>Channel Independence</dt>
+                    <dd>通道独立，每个变量作为独立单变量序列处理</dd>
+                </dl>
+            </section>
+
+            <footer class="footer">
+                <p>📚 本文档基于最新的时序预测研究综述</p>
+                <p>🔗 更新于: 2024年 | 来源: <a href="https://km.sankuai.com/collabpage/2756971702">美团KM文档</a></p>
+            </footer>
+        </main>
+    </div>
+
+    <script>
+        // 平滑滚动
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+
+        // 代码高亮
+        hljs.highlightAll();
+    </script>
+</body>
+</html>
