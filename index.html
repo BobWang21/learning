@@ -219,17 +219,63 @@
         .home-container {
             display: flex;
             gap: 20px;
-            margin-top: 20px;
+            margin-top: 0;
+            align-items: flex-start;
         }
 
         .home-sidebar {
             width: 250px;
             flex-shrink: 0;
+            position: sticky;
+            top: 20px;
         }
 
         .home-content {
             flex: 1;
             min-width: 0;
+        }
+
+        /* 基座部分的大卡片 */
+        .foundation-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .foundation-grid .article-card {
+            min-height: 250px;
+        }
+
+        .foundation-grid .article-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+        }
+
+        .foundation-grid .article-card p {
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+
+        /* Agent 部分的卡片 */
+        .agent-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+
+        .agent-grid .article-card {
+            min-height: 180px;
+        }
+
+        @media (max-width: 1200px) {
+            .foundation-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .agent-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
         }
 
         @media (max-width: 768px) {
@@ -239,6 +285,15 @@
 
             .home-sidebar {
                 width: 100%;
+                position: static;
+            }
+
+            .foundation-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .agent-grid {
+                grid-template-columns: 1fr;
             }
         }
     </style>
@@ -345,32 +400,57 @@
                     <p style="color: #64748b; margin-bottom: 20px;">大语言模型与智能体的前沿研究</p>
 
                     <!-- 基座部分 -->
-                    <h3 style="color: #7c3aed; margin-bottom: 20px; margin-top: 30px; font-size: 1.3rem;">🏗️ 基座</h3>
-                    <div class="article-grid">
+                    <h3 style="color: #7c3aed; margin-bottom: 25px; margin-top: 30px; font-size: 1.3rem;">🏗️ 基座</h3>
+                    <div class="foundation-grid">
                         <div class="article-card">
                             <h3>1. Model</h3>
-                            <p>大语言模型的基础架构与设计原理</p>
+                            <p>深入探讨大语言模型的基础架构、设计原理、技术演进及注意力机制等核心概念。</p>
                             <a href="ai-model.html" class="article-link">查看详情 →</a>
                         </div>
                         <div class="article-card">
                             <h3>2. Pre-training</h3>
-                            <p>预训练阶段的关键技术与方法</p>
+                            <p>系统学习预训练阶段的关键技术与方法，包括 tokenization、BPE 算法等基础知识。</p>
                             <a href="ai-pretraining.html" class="article-link">查看详情 →</a>
                         </div>
                         <div class="article-card">
                             <h3>3. Post-training</h3>
-                            <p>后训练阶段的优化与对齐方法</p>
+                            <p>掌握后训练阶段的优化与对齐方法，包括 PEFT、LoRA、QLoRA 等参数高效微调技术。</p>
                             <a href="ai-posttraining.html" class="article-link">查看详情 →</a>
                         </div>
                     </div>
 
                     <!-- Agent 部分 -->
-                    <h3 style="color: #7c3aed; margin-bottom: 20px; margin-top: 40px; font-size: 1.3rem;">🤖 Agent</h3>
-                    <div class="article-grid">
+                    <h3 style="color: #7c3aed; margin-bottom: 25px; margin-top: 40px; font-size: 1.3rem;">🤖 Agent</h3>
+                    <div class="agent-grid">
                         <div class="article-card">
-                            <h3>4. Agent</h3>
-                            <p>AI 智能体技术：ReAct、Plan-and-Solve、Reflection</p>
+                            <h3>Tools</h3>
+                            <p>Function Calling、MCP 和 Skills 详解，掌握 AI 智能体的工具调用机制。</p>
+                            <a href="ai-agent-function-calling.html" class="article-link">查看详情 →</a>
+                        </div>
+                        <div class="article-card">
+                            <h3>Planning</h3>
+                            <p>ReAct、Plan-and-Solve 等规划框架，探索智能体的决策和规划能力。</p>
                             <a href="ai-agent.html" class="article-link">查看详情 →</a>
+                        </div>
+                        <div class="article-card">
+                            <h3>Memory</h3>
+                            <p>智能体的记忆机制，涵盖短期、长期和工作记忆的三维框架。</p>
+                            <a href="ai-agent-memory.html" class="article-link">查看详情 →</a>
+                        </div>
+                        <div class="article-card">
+                            <h3>Self-Evolving</h3>
+                            <p>自我进化智能体的调查，探讨智能体如何通过自我反思和学习不断改进。</p>
+                            <a href="ai-agent-self-evolving.html" class="article-link">查看详情 →</a>
+                        </div>
+                        <div class="article-card">
+                            <h3>Multi-Agent</h3>
+                            <p>多智能体系统的设计与优化，包括强化学习、博弈论和协调机制。</p>
+                            <a href="ai-agent-multi-agent.html" class="article-link">查看详情 →</a>
+                        </div>
+                        <div class="article-card">
+                            <h3>RAG</h3>
+                            <p>检索增强生成完全指南，解决 LLM 知识过时和幻觉问题。</p>
+                            <a href="ai-agent-rag.html" class="article-link">查看详情 →</a>
                         </div>
                     </div>
                 </div>
