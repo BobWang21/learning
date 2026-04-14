@@ -103,7 +103,8 @@ async function verifyToken(token) {
       method: 'GET',
       headers: {
         'Authorization': `token ${token}`,
-        'Accept': 'application/vnd.github.v3+json'
+        'Accept': 'application/vnd.github.v3+json',
+        'User-Agent': 'Mozilla/5.0'
       }
     });
 
@@ -255,7 +256,8 @@ async function fetchFileFromGitHub(filePath) {
     method: 'GET',
     headers: {
       'Authorization': `token ${EditorState.githubToken}`,
-      'Accept': 'application/vnd.github.v3.raw'
+      'Accept': 'application/vnd.github.v3.raw',
+      'User-Agent': 'Mozilla/5.0'
     }
   });
 
@@ -285,7 +287,8 @@ async function fetchFileFromGitHub(filePath) {
     method: 'GET',
     headers: {
       'Authorization': `token ${EditorState.githubToken}`,
-      'Accept': 'application/vnd.github.v3+json'
+      'Accept': 'application/vnd.github.v3+json',
+      'User-Agent': 'Mozilla/5.0'
     }
   });
 
@@ -439,7 +442,8 @@ async function uploadImage(file) {
           method: 'PUT',
           headers: {
             'Authorization': `token ${EditorState.githubToken}`,
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'User-Agent': 'Mozilla/5.0'
           },
           body: JSON.stringify({
             message: `Upload image: ${fileName}`,
@@ -530,7 +534,8 @@ async function commitToGitHub(filePath, fileContent) {
     method: 'PUT',
     headers: {
       'Authorization': `token ${EditorState.githubToken}`,
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      'User-Agent': 'Mozilla/5.0'
     },
     body: JSON.stringify({
       message: `Update content via online editor: ${filePath}`,

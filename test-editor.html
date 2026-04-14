@@ -195,7 +195,8 @@
                 const response = await fetch('https://api.github.com/user', {
                     headers: {
                         'Authorization': `token ${TOKEN}`,
-                        'Accept': 'application/vnd.github.v3+json'
+                        'Accept': 'application/vnd.github.v3+json',
+                        'User-Agent': 'Mozilla/5.0'
                     }
                 });
 
@@ -230,7 +231,8 @@
                 const response = await fetch(GITHUB_API_BASE, {
                     headers: {
                         'Authorization': `token ${TOKEN}`,
-                        'Accept': 'application/vnd.github.v3+json'
+                        'Accept': 'application/vnd.github.v3+json',
+                        'User-Agent': 'Mozilla/5.0'
                     }
                 });
 
@@ -271,7 +273,8 @@
                 const response = await fetch(url, {
                     headers: {
                         'Authorization': `token ${TOKEN}`,
-                        'Accept': 'application/vnd.github.v3+json'
+                        'Accept': 'application/vnd.github.v3+json',
+                        'User-Agent': 'Mozilla/5.0'
                     }
                 });
 
@@ -319,7 +322,8 @@
                 const response = await fetch(`${GITHUB_API_BASE}/ai-agent-rag.html`, {
                     headers: {
                         'Authorization': `token ${TOKEN}`,
-                        'Accept': 'application/vnd.github.v3.raw'
+                        'Accept': 'application/vnd.github.v3.raw',
+                        'User-Agent': 'Mozilla/5.0'
                     }
                 });
 
