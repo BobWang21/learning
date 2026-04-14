@@ -7,6 +7,29 @@
     <link rel="stylesheet" href="styles.css">
     <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>
+        MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: {
+                fontCache: 'global',
+                scale: 1.1,
+                minScale: 0.8
+            },
+            chtml: {
+                scale: 1.1,
+                minScale: 0.8
+            },
+            startup: {
+                pageReady: function() {
+                    return MathJax.typesetPromise();
+                }
+            }
+        };
+    </script>
     <style>
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
@@ -295,7 +318,77 @@
             
             <!-- 第一部分：摘要 -->
             <section id="section1" class="section">
-                <h2>一、摘要：数据驱动方法的核心概念</h2>
+
+            <!-- 公式说明部分 -->
+            <section id="formula-guide" class="section">
+                <h2>公式说明（符号定义）</h2>
+                
+                <p>本文档中使用的主要符号定义如下：</p>
+                
+                <table>
+                    <thead>
+                        <tr>
+                            <th>符号</th>
+                            <th>含义</th>
+                            <th>说明</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>$\theta$</td>
+                            <td>模型参数</td>
+                            <td>需要通过训练优化的参数</td>
+                        </tr>
+                        <tr>
+                            <td>$\hat{y}$</td>
+                            <td>预测值</td>
+                            <td>预测模型输出的预测结果</td>
+                        </tr>
+                        <tr>
+                            <td>$y$</td>
+                            <td>真实值/观测值</td>
+                            <td>实际观测到的值或标签</td>
+                        </tr>
+                        <tr>
+                            <td>$M(\cdot)$</td>
+                            <td>决策函数</td>
+                            <td>将预测值映射到最优决策的函数</td>
+                        </tr>
+                        <tr>
+                            <td>$L(\cdot)$</td>
+                            <td>损失函数</td>
+                            <td>量化决策质量的函数，通常与决策效果相关</td>
+                        </tr>
+                        <tr>
+                            <td>$f(z; y)$</td>
+                            <td>目标函数</td>
+                            <td>优化问题中的目标函数</td>
+                        </tr>
+                        <tr>
+                            <td>$z^*$</td>
+                            <td>最优决策</td>
+                            <td>在给定参数下的最优决策</td>
+                        </tr>
+                        <tr>
+                            <td>$\hat{z}^*$</td>
+                            <td>预测最优决策</td>
+                            <td>基于预测值得到的最优决策</td>
+                        </tr>
+                        <tr>
+                            <td>$\varepsilon$</td>
+                            <td>扰动强度</td>
+                            <td>近似方法中添加的噪声大小</td>
+                        </tr>
+                        <tr>
+                            <td>$\tau$</td>
+                            <td>温度参数</td>
+                            <td>光滑函数中的温度参数</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+                            <h2>一、摘要：数据驱动方法的核心概念</h2>
                 
                 <p>数据驱动的决策方法已成为现代优化和机器学习的核心范式。本部分介绍了端到端学习（End-to-End Learning）在预测与决策结合中的应用。</p>
                 
@@ -439,6 +532,7 @@
                     <h5>数学模型</h5>
                     <div class="formula">
                         $$\min_{\theta} \mathbb{E}_{y,\hat{y}}[L(M(y), M(\hat{y}))]$$
+                        <p><strong>说明：</strong>这个公式表示端到端学习的目标函数。通过最小化决策损失 $L$ 的期望来优化模型参数 $\theta$，其中 $M(\cdot)$ 是决策函数，将预测值映射到最优决策。</p>
                         <p>其中：</p>
                         <ul>
                             <li>$\theta$ 是模型参数</li>
@@ -452,6 +546,7 @@
                     <h5>反向传播</h5>
                     <div class="formula">
                         $$\frac{\partial L}{\partial \theta} = \frac{\partial L}{\partial M(\hat{y})} \cdot \frac{\partial M(\hat{y})}{\partial \hat{y}} \cdot \frac{\partial \hat{y}}{\partial \theta}$$
+                        <p><strong>说明：</strong>链式法则展示了梯度如何从决策层反向传播到预测层。决策函数的梯度 $\frac{\partial M(\hat{y})}{\partial \hat{y}}$ 是关键，它决定了预测误差对决策的影响。</p>
                     </div>
                     
                     <h5>优势</h5>
@@ -555,6 +650,8 @@
                         <p>其中 $y$ 是预测值。最优性条件为：</p>
                         $$\nabla_z f(z^*; y) = 0$$
                         <p>对 $y$ 求导：</p>
+                        $$\frac{\partial z^*}{\partial y} = -[\nabla_{zz}^2 f(z^*; y)]^{-1} \nabla_{yz}^2 f(z^*; y)$$
+                        <p><strong>说明：</strong>隐式微分方法通过隐函数定理计算最优决策 $z^*$ 关于预测值 $y$ 的梯度。这避免了显式求解决策问题，但需要计算 Hessian 矩阵。</p>
                         $$\frac{\partial z^*}{\partial y} = -[\nabla_{zz}^2 f(z^*; y)]^{-1} \nabla_{yz}^2 f(z^*; y)$$
                     </div>
                     
