@@ -279,8 +279,155 @@
             }
         }
     </style>
+    <style>
+        /* 图片容器样式 */
+        .image-container {
+            display: flex;
+            justify-content: center;
+            margin: 30px 0;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            border: 1px solid #e0e0e0;
+        }
+
+        figure {
+            margin: 0;
+            text-align: center;
+            width: 100%;
+        }
+
+        figure img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 6px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        figure img:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        figure img.loading {
+            opacity: 0.6;
+        }
+
+        figure img.error {
+            display: none;
+        }
+
+        .image-placeholder {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #f0f0f0;
+            border-radius: 6px;
+            min-height: 400px;
+        }
+
+        figcaption {
+            margin-top: 15px;
+            font-size: 14px;
+            color: #666;
+            font-style: italic;
+            line-height: 1.6;
+        }
+
+        .image-status {
+            margin-top: 10px;
+            font-size: 12px;
+            color: #999;
+        }
+
+        .image-error {
+            padding: 15px;
+            background-color: #fff3cd;
+            border: 1px solid #ffc107;
+            border-radius: 4px;
+            color: #856404;
+            margin-top: 10px;
+            display: none;
+        }
+
+        .image-error.show {
+            display: block;
+        }
+    </style>
+
 </head>
 <body>
+    <script>
+        // 图片加载监测系统
+        (function() {
+            'use strict';
+            
+            // 存储图片加载状态
+            const imageStatus = {};
+            
+            // 初始化图片加载事件
+            function initImageHandlers() {
+                const images = document.querySelectorAll('img[data-fallback-id]');
+                images.forEach(img => {
+                    const fallbackId = img.getAttribute('data-fallback-id');
+                    
+                    // 添加加载中样式
+                    img.classList.add('loading');
+                    img.addEventListener('data-fallback-id', fallbackId);
+                    
+                    // 加载成功
+                    img.addEventListener('load', function() {
+                        img.classList.remove('loading');
+                        const errorDiv = document.getElementById(fallbackId + '-error');
+                        if (errorDiv) {
+                            errorDiv.classList.remove('show');
+                        }
+                        const statusDiv = document.getElementById(fallbackId + '-status');
+                        if (statusDiv) {
+                            statusDiv.textContent = '图片已加载';
+                            statusDiv.style.color = '#28a745';
+                        }
+                        imageStatus[fallbackId] = 'loaded';
+                        console.log('图片加载成功: ' + fallbackId);
+                    });
+                    
+                    // 加载失败
+                    img.addEventListener('error', function() {
+                        img.classList.add('error');
+                        const fallback = document.getElementById(fallbackId);
+                        if (fallback) {
+                            fallback.style.display = 'block';
+                        }
+                        const errorDiv = document.getElementById(fallbackId + '-error');
+                        if (errorDiv) {
+                            errorDiv.classList.add('show');
+                        }
+                        const statusDiv = document.getElementById(fallbackId + '-status');
+                        if (statusDiv) {
+                            statusDiv.textContent = '图片加载失败，已显示占位符';
+                            statusDiv.style.color = '#dc3545';
+                        }
+                        imageStatus[fallbackId] = 'failed';
+                        console.log('图片加载失败: ' + fallbackId);
+                    });
+                });
+            }
+            
+            // 页面加载完成后初始化
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', initImageHandlers);
+            } else {
+                initImageHandlers();
+            }
+            
+            // 提供全局接口查询图片状态
+            window.getImageStatus = function(id) {
+                return imageStatus[id] || 'unknown';
+            };
+        })();
+    </script>
+
+
     <div class="container">
         <div class="sidebar">
             <h2>导航菜单</h2>
@@ -392,7 +539,32 @@
                 
                 <p>数据驱动的决策方法已成为现代优化和机器学习的核心范式。本部分介绍了端到端学习（End-to-End Learning）在预测与决策结合中的应用。</p>
                 
-                <img src="https://km.sankuai.com/api/file/cdn/2741552238/212016309324?contentType=1" alt="数据驱动方法概览">
+                <div class="image-container">
+                    <figure>
+                        <div class="image-placeholder" id="e2e-fallback">
+                            <svg width="100%" height="400" xmlns="http://www.w3.org/2000/svg">
+                                <rect width="100%" height="100%" fill="#e0e0e0"/>
+                                <text x="50%" y="45%" text-anchor="middle" dy=".3em" fill="#999" font-size="18">图片加载中...</text>
+                                <text x="50%" y="55%" text-anchor="middle" dy=".3em" fill="#999" font-size="14">数据驱动方法概览</text>
+                            </svg>
+                        </div>
+                        <img 
+                            src="https://km.sankuai.com/api/file/cdn/2741552238/212016309324?contentType=1" 
+                            alt="数据驱动方法概览" 
+                            loading="lazy"
+                            data-fallback-id="e2e-fallback"
+                            style="max-width: 100%; height: auto; margin-top: 10px; display: block;"
+                        >
+                        <figcaption>
+                            <strong>图0：数据驱动方法概览</strong><br>
+                            展示端到端学习（End-to-End Learning）在预测与决策结合中的应用，以及数据驱动方法的核心概念。
+                        </figcaption>
+                        <div class="image-status" id="e2e-fallback-status">图片加载中...</div>
+                        <div class="image-error" id="e2e-fallback-error">
+                            <strong>注意：</strong> 图片加载失败。这可能是因为网络连接问题或CDN服务器暂时不可用。请稍后刷新页面重试，或检查您的网络连接。
+                        </div>
+                    </figure>
+                </div>
                 
                 <h3>端到端学习的优势</h3>
                 <table>
@@ -473,7 +645,32 @@
                 
                 <p>在预测与决策的结合中，存在三种主要的范式，分别代表了不同的设计哲学和应用场景。</p>
                 
-                <img src="https://km.sankuai.com/api/file/cdn/2741552238/212020035831?contentType=1&compress=@1563w_1l" alt="三种范式对比">
+                <div class="image-container">
+                    <figure>
+                        <div class="image-placeholder" id="paradigm-fallback">
+                            <svg width="100%" height="400" xmlns="http://www.w3.org/2000/svg">
+                                <rect width="100%" height="100%" fill="#e0e0e0"/>
+                                <text x="50%" y="45%" text-anchor="middle" dy=".3em" fill="#999" font-size="18">图片加载中...</text>
+                                <text x="50%" y="55%" text-anchor="middle" dy=".3em" fill="#999" font-size="14">三种范式对比图</text>
+                            </svg>
+                        </div>
+                        <img 
+                            src="https://km.sankuai.com/api/file/cdn/2741552238/212020035831?contentType=1&compress=@1563w_1l" 
+                            alt="三种范式对比图" 
+                            loading="lazy"
+                            data-fallback-id="paradigm-fallback"
+                            style="max-width: 100%; height: auto; margin-top: 10px; display: block;"
+                        >
+                        <figcaption>
+                            <strong>图1：三种范式对比</strong><br>
+                            展示预测与决策结合的三种主要范式：预测驱动决策、决策驱动预测和预测-决策联合优化。
+                        </figcaption>
+                        <div class="image-status" id="paradigm-fallback-status">图片加载中...</div>
+                        <div class="image-error" id="paradigm-fallback-error">
+                            <strong>注意：</strong> 图片加载失败。这可能是因为网络连接问题或CDN服务器暂时不可用。请稍后刷新页面重试，或检查您的网络连接。
+                        </div>
+                    </figure>
+                </div>
                 
                 <h3>三种范式对比</h3>
                 <table>
@@ -833,7 +1030,32 @@
                     </div>
                 </div>
                 
-                <img src="https://km.sankuai.com/api/file/cdn/2741552238/229347334702?contentType=1&isNewContent=false" alt="近似方法示意图">
+                <div class="image-container">
+                    <figure>
+                        <div class="image-placeholder" id="approximation-fallback">
+                            <svg width="100%" height="400" xmlns="http://www.w3.org/2000/svg">
+                                <rect width="100%" height="100%" fill="#e0e0e0"/>
+                                <text x="50%" y="45%" text-anchor="middle" dy=".3em" fill="#999" font-size="18">图片加载中...</text>
+                                <text x="50%" y="55%" text-anchor="middle" dy=".3em" fill="#999" font-size="14">近似方法示意图</text>
+                            </svg>
+                        </div>
+                        <img 
+                            src="https://km.sankuai.com/api/file/cdn/2741552238/229347334702?contentType=1&isNewContent=false" 
+                            alt="近似方法示意图" 
+                            loading="lazy"
+                            data-fallback-id="approximation-fallback"
+                            style="max-width: 100%; height: auto; margin-top: 10px; display: block;"
+                        >
+                        <figcaption>
+                            <strong>图2：近似方法示意图</strong><br>
+                            展示了在非可微决策函数下的多种近似方法：直接优化、梯度估计、参数化决策函数和随机扰动等技术的对比。
+                        </figcaption>
+                        <div class="image-status" id="approximation-fallback-status">图片加载中...</div>
+                        <div class="image-error" id="approximation-fallback-error">
+                            <strong>注意：</strong> 图片加载失败。这可能是因为网络连接问题或CDN服务器暂时不可用。请稍后刷新页面重试，或检查您的网络连接。
+                        </div>
+                    </figure>
+                </div>
                 
                 <h4>适合场景</h4>
                 <table>
