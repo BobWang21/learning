@@ -226,7 +226,16 @@ async function fetchFileFromGitHub(filePath) {
     }
   });
 
-  const jsonData = await jsonResponse.json();
+  if (!jsonResponse.ok) {
+    throw new Error(`GitHub API 错误: ${jsonResponse.status} ${jsonResponse.statusText}`);
+  }
+
+  let jsonData;
+  try {
+    jsonData = await jsonResponse.json();
+  } catch (error) {
+    throw new Error(`无法解析 GitHub API 响应: ${error.message}`);
+  }
 
   return {
     sha: jsonData.sha,
