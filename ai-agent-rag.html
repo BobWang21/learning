@@ -110,26 +110,26 @@
 <body>
     <div class="container">
                 <div class="sidebar">
-            <div class="logo">📚 索引</div>
+            <div class="logo">ð ç´¢å¼</div>
             <ul class="toc">
-                <li><a href="index.html">🏠 首页</a></li>
-                <li><a href="index.html#ai">🤖 AI</a>
+                <li><a href="index.html">ð  é¦é¡µ</a></li>
+                <li><a href="index.html#ai">ð¤ AI</a>
                     <ul>
                         <li><a href="ai-model.html">1. Model</a>
                             <ul>
-                                <li><a href="ai-model-gpt-principles.html">GPT 模型原理</a></li>
-                                <li><a href="ai-model-attention-mechanism.html">注意力机制</a></li>
+                                <li><a href="ai-model-gpt-principles.html">GPT æ¨¡ååç</a></li>
+                                <li><a href="ai-model-attention-mechanism.html">æ³¨æåæºå¶</a></li>
                             </ul>
                         </li>
                         <li><a href="ai-pretraining.html">2. Pre-training</a>
                             <ul>
-                                <li><a href="ai-pretraining-token-bpe.html">token-BPE 算法</a></li>
+                                <li><a href="ai-pretraining-token-bpe.html">token-BPE ç®æ³</a></li>
                             </ul>
                         </li>
                         <li><a href="ai-posttraining.html">3. Post-training</a>
                             <ul>
-                                <li><a href="ai-posttraining-overview.html">Post-Training 全景指南</a></li>
-                                <li><a href="ai-posttraining-peft.html">PEFT 详解</a></li>
+                                <li><a href="ai-posttraining-overview.html">Post-Training å¨æ¯æå</a></li>
+                                <li><a href="ai-posttraining-peft.html">PEFT è¯¦è§£</a></li>
                             </ul>
                         </li>
                         <li><a href="ai-agent.html">4. Agent</a>
@@ -148,405 +148,372 @@
                         </li>
                     </ul>
                 </li>
-                <li><a href="decision.html">🔄 端到端</a></li>
-                <li><a href="models.html">⏱️ 预测</a></li>
+                <li><a href="decision.html">ð ç«¯å°ç«¯</a></li>
+                <li><a href="models.html">â±ï¸ é¢æµ</a></li>
             </ul>
         </div>
 
         <main class="content">
             <header class="header">
                 <h1>RAG - Retrieval-Augmented Generation</h1>
-                <p class="subtitle">检索增强生成完全指南</p>
+                <p class="subtitle">æ£ç´¢å¢å¼ºçæå®å¨æå</p>
             </header>
 
             <div class="breadcrumb">
-                <a href="index.html">首页</a> > <a href="index.html#ai">AI</a> > <a href="ai-agent.html">4. Agent</a> > RAG
+                <a href="index.html">é¦é¡µ</a> > <a href="index.html#ai">AI</a> > <a href="ai-agent.html">4. Agent</a> > RAG
             </div>
 
             <div class="page-toc">
-    <h4 style="margin-bottom: 15px; color: #1e40af;">📑 页面目录</h4>
+    <h4 style="margin-bottom: 15px; color: #1e40af;">ð é¡µé¢ç®å½</h4>
     <ul style="list-style: none; padding: 0; margin: 0;">
         <li style="margin-bottom: 8px;"><a href="#rag-retrieval-augmented-generation" style="color: #1e40af; text-decoration: none; font-weight: 600;">RAG - Retrieval-Augmented Generation</a></li>
-        <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#一什么是-rag" style="color: #7c3aed; text-decoration: none; font-size: 0.95rem;">一、什么是 RAG？</a></li>
-        <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#二rag-的架构" style="color: #7c3aed; text-decoration: none; font-size: 0.95rem;">二、RAG 的架构</a></li>
-        <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#三核心技术组件" style="color: #7c3aed; text-decoration: none; font-size: 0.95rem;">三、核心技术组件</a></li>
-        <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#四rag-的变体与改进" style="color: #7c3aed; text-decoration: none; font-size: 0.95rem;">四、RAG 的变体与改进</a></li>
-        <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#五rag-的应用" style="color: #7c3aed; text-decoration: none; font-size: 0.95rem;">五、RAG 的应用</a></li>
-        <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#六评估指标" style="color: #7c3aed; text-decoration: none; font-size: 0.95rem;">六、评估指标</a></li>
-        <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#七挑战与解决方案" style="color: #7c3aed; text-decoration: none; font-size: 0.95rem;">七、挑战与解决方案</a></li>
-        <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#八最佳实践" style="color: #7c3aed; text-decoration: none; font-size: 0.95rem;">八、最佳实践</a></li>
-        <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#九未来方向" style="color: #7c3aed; text-decoration: none; font-size: 0.95rem;">九、未来方向</a></li>
+        <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#ä¸ä»ä¹æ¯-rag" style="color: #7c3aed; text-decoration: none; font-size: 0.95rem;">ä¸ãä»ä¹æ¯ RAGï¼</a></li>
+        <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#äºrag-çæ¶æ" style="color: #7c3aed; text-decoration: none; font-size: 0.95rem;">äºãRAG çæ¶æ</a></li>
+        <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#ä¸æ ¸å¿ææ¯ç»ä»¶" style="color: #7c3aed; text-decoration: none; font-size: 0.95rem;">ä¸ãæ ¸å¿ææ¯ç»ä»¶</a></li>
+        <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#årag-çåä½ä¸æ¹è¿" style="color: #7c3aed; text-decoration: none; font-size: 0.95rem;">åãRAG çåä½ä¸æ¹è¿</a></li>
+        <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#äºrag-çåºç¨" style="color: #7c3aed; text-decoration: none; font-size: 0.95rem;">äºãRAG çåºç¨</a></li>
+        <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#å­è¯ä¼°ææ " style="color: #7c3aed; text-decoration: none; font-size: 0.95rem;">å­ãè¯ä¼°ææ </a></li>
+        <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#ä¸ææä¸è§£å³æ¹æ¡" style="color: #7c3aed; text-decoration: none; font-size: 0.95rem;">ä¸ãææä¸è§£å³æ¹æ¡</a></li>
+        <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#å«æä½³å®è·µ" style="color: #7c3aed; text-decoration: none; font-size: 0.95rem;">å«ãæä½³å®è·µ</a></li>
+        <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#ä¹æªæ¥æ¹å" style="color: #7c3aed; text-decoration: none; font-size: 0.95rem;">ä¹ãæªæ¥æ¹å</a></li>
     </ul>
 </div>
 
 
             <section class="ai-section">
-                <h2 id="rag-retrieval-augmented-generation">RAG - Retrieval-Augmented Generation</h2>
-
-                <h3 id="一什么是-rag">一、什么是 RAG？</h3>
-                <p>RAG（检索增强生成）是一种结合信息检索和文本生成的技术。其核心思想是：在生成文本前，先从外部知识库中检索相关信息，然后将这些信息作为上下文提供给生成模型。</p>
-
+<h2 id="rag-retrieval-augmented-generation">RAG - Retrieval-Augmented Generation</h2>
+                <h3 id="ä¸ä»ä¹æ¯-rag">ä¸ãä»ä¹æ¯ RAGï¼</h3>
+                <p>RAGï¼æ£ç´¢å¢å¼ºçæï¼æ¯ä¸ç§ç»åä¿¡æ¯æ£ç´¢åææ¬çæçææ¯ãå¶æ&nbsp;¸å¿ææ³æ¯ï¼å¨çæææ¬åï¼åä»å¤é¨ç¥è¯åºä¸­æ£ç´¢ç¸å³ä¿¡æ¯ï¼ç¶åå°è¿äºä¿¡æ¯ä½ä¸ºä¸ä¸ææä¾ç»çææ¨¡åã</p>
                 <div class="highlight-box">
-                    <p><strong>核心优势</strong>：</p>
+                    <p><strong>æ&nbsp;¸å¿ä¼å¿</strong>ï¼</p>
                     <ul>
-                        <li>解决 LLM 的知识过时问题</li>
-                        <li>提高答案的准确性和可信度</li>
-                        <li>支持基于特定知识库的问答</li>
-                        <li>降低幻觉（hallucination）问题</li>
-                        <li>支持实时知识更新</li>
+                        <li>è§£å³ LLM çç¥è¯è¿æ¶é®é¢</li>
+                        <li>æé«ç­æ¡çåç¡®æ§åå¯ä¿¡åº¦</li>
+                        <li>æ¯æåºäºç¹å®ç¥è¯åºçé®ç­</li>
+                        <li>éä½å¹»è§ï¼hallucinationï¼é®é¢</li>
+                        <li>æ¯æå®æ¶ç¥è¯æ´æ°</li>
                     </ul>
                 </div>
-
-                <h3 id="二rag-的架构">二、RAG 的架构</h3>
-
-                <h4>2.1 基本流程</h4>
+                <h3 id="äºrag-çæ¶æ">äºãRAG çæ¶æ</h3>
+                <h4>2.1 åºæ¬æµç¨</h4>
                 <div class="code-block">
-                    用户查询<br>
-                    ↓<br>
-                    查询理解与处理<br>
-                    ↓<br>
-                    知识库检索<br>
-                    ↓<br>
-                    排序与重排<br>
-                    ↓<br>
-                    上下文组织<br>
-                    ↓<br>
-                    LLM 生成<br>
-                    ↓<br>
-                    后处理与输出
+                    ç¨æ·æ¥è¯¢<br>
+                    â<br>
+                    æ¥è¯¢çè§£ä¸å¤ç<br>
+                    â<br>
+                    ç¥è¯åºæ£ç´¢<br>
+                    â<br>
+                    æåºä¸éæ<br>
+                    â<br>
+                    ä¸ä¸æç»ç»<br>
+                    â<br>
+                    LLM çæ<br>
+                    â<br>
+                    åå¤çä¸è¾åº
                 </div>
-
-                <h4>2.2 离线部分（Offline）</h4>
+                <h4>2.2 ç¦»çº¿é¨åï¼Offlineï¼</h4>
                 <table>
                     <thead>
                         <tr>
-                            <th>阶段</th>
-                            <th>功能</th>
-                            <th>技术</th>
+                            <th>é¶æ®µ</th>
+                            <th>åè½</th>
+                            <th>ææ¯</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <td><strong>数据收集</strong></td>
-                            <td>收集原始文档</td>
-                            <td>爬虫、API、数据库</td>
+                            <td><strong>æ°æ®æ¶é</strong></td>
+                            <td>æ¶éåå§ææ¡£</td>
+                            <td>ç¬è«ãAPIãæ°æ®åº</td>
                         </tr>
                         <tr>
-                            <td><strong>文本清洗</strong></td>
-                            <td>清理和标准化文本</td>
-                            <td>正则表达式、NLP工具</td>
+                            <td><strong>ææ¬æ¸æ´</strong></td>
+                            <td>æ¸çåæ&nbsp;ååææ¬</td>
+                            <td>æ­£åè¡¨è¾¾å¼ãNLPå·¥å·</td>
                         </tr>
                         <tr>
-                            <td><strong>文本分块</strong></td>
-                            <td>将长文本分割成块</td>
-                            <td>滑动窗口、语义分块</td>
+                            <td><strong>ææ¬åå</strong></td>
+                            <td>å°é¿ææ¬åå²æå</td>
+                            <td>æ»å¨çªå£ãè¯­ä¹åå</td>
                         </tr>
                         <tr>
-                            <td><strong>向量化</strong></td>
-                            <td>将文本转化为向量</td>
-                            <td>Embedding 模型</td>
+                            <td><strong>åéå</strong></td>
+                            <td>å°ææ¬è½¬åä¸ºåé</td>
+                            <td>Embedding æ¨¡å</td>
                         </tr>
                         <tr>
-                            <td><strong>索引构建</strong></td>
-                            <td>构建向量索引</td>
-                            <td>向量数据库、FAISS</td>
+                            <td><strong>ç´¢å¼æå»º</strong></td>
+                            <td>æå»ºåéç´¢å¼</td>
+                            <td>åéæ°æ®åºãFAISS</td>
                         </tr>
                     </tbody>
                 </table>
-
-                <h4>2.3 在线部分（Online）</h4>
+                <h4>2.3 å¨çº¿é¨åï¼Onlineï¼</h4>
                 <table>
                     <thead>
                         <tr>
-                            <th>阶段</th>
-                            <th>功能</th>
-                            <th>技术</th>
+                            <th>é¶æ®µ</th>
+                            <th>åè½</th>
+                            <th>ææ¯</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <td><strong>查询处理</strong></td>
-                            <td>理解用户查询</td>
-                            <td>查询理解、扩展、改写</td>
+                            <td><strong>æ¥è¯¢å¤ç</strong></td>
+                            <td>çè§£ç¨æ·æ¥è¯¢</td>
+                            <td>æ¥è¯¢çè§£ãæ©å±ãæ¹å</td>
                         </tr>
                         <tr>
-                            <td><strong>检索</strong></td>
-                            <td>从知识库检索相关文档</td>
-                            <td>向量检索、关键词检索、混合检索</td>
+                            <td><strong>æ£ç´¢</strong></td>
+                            <td>ä»ç¥è¯åºæ£ç´¢ç¸å³ææ¡£</td>
+                            <td>åéæ£ç´¢ãå³é®è¯æ£ç´¢ãæ··åæ£ç´¢</td>
                         </tr>
                         <tr>
-                            <td><strong>排序</strong></td>
-                            <td>对检索结果排序</td>
-                            <td>相关性排序、学习排序</td>
+                            <td><strong>æåº</strong></td>
+                            <td>å¯¹æ£ç´¢ç»ææåº</td>
+                            <td>ç¸å³æ§æåºãå­¦ä¹&nbsp;æåº</td>
                         </tr>
                         <tr>
-                            <td><strong>上下文构建</strong></td>
-                            <td>组织上下文</td>
-                            <td>上下文窗口、摘要</td>
+                            <td><strong>ä¸ä¸ææå»º</strong></td>
+                            <td>ç»ç»ä¸ä¸æ</td>
+                            <td>ä¸ä¸æçªå£ãæè¦</td>
                         </tr>
                         <tr>
-                            <td><strong>生成</strong></td>
-                            <td>生成最终答案</td>
-                            <td>LLM、微调模型</td>
+                            <td><strong>çæ</strong></td>
+                            <td>çææç»ç­æ¡</td>
+                            <td>LLMãå¾®è°æ¨¡å</td>
                         </tr>
                     </tbody>
                 </table>
-
-                <h3 id="三核心技术组件">三、核心技术组件</h3>
-
-                <h4>3.1 查询理解</h4>
+                <h3 id="ä¸æ&nbsp;¸å¿ææ¯ç»ä»¶">ä¸ãæ&nbsp;¸å¿ææ¯ç»ä»¶</h3>
+                <h4>3.1 æ¥è¯¢çè§£</h4>
                 <ul>
-                    <li><strong>查询扩展</strong>：扩展查询以覆盖更多相关信息</li>
-                    <li><strong>查询改写</strong>：改写查询以提高检索效果</li>
-                    <li><strong>意图识别</strong>：识别用户的真实意图</li>
-                    <li><strong>实体识别</strong>：识别查询中的关键实体</li>
+                    <li><strong>æ¥è¯¢æ©å±</strong>ï¼æ©å±æ¥è¯¢ä»¥è¦çæ´å¤ç¸å³ä¿¡æ¯</li>
+                    <li><strong>æ¥è¯¢æ¹å</strong>ï¼æ¹åæ¥è¯¢ä»¥æé«æ£ç´¢ææ</li>
+                    <li><strong>æå¾è¯å«</strong>ï¼è¯å«ç¨æ·ççå®æå¾</li>
+                    <li><strong>å®ä½è¯å«</strong>ï¼è¯å«æ¥è¯¢ä¸­çå³é®å®ä½</li>
                 </ul>
-
-                <h4>3.2 检索方法</h4>
+                <h4>3.2 æ£ç´¢æ¹æ³</h4>
                 <table>
                     <thead>
                         <tr>
-                            <th>检索方法</th>
-                            <th>说明</th>
-                            <th>优点</th>
-                            <th>缺点</th>
+                            <th>æ£ç´¢æ¹æ³</th>
+                            <th>è¯´æ</th>
+                            <th>ä¼ç¹</th>
+                            <th>ç¼ºç¹</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <td><strong>向量检索</strong></td>
-                            <td>基于语义相似度</td>
-                            <td>语义理解好</td>
-                            <td>计算成本高</td>
+                            <td><strong>åéæ£ç´¢</strong></td>
+                            <td>åºäºè¯­ä¹ç¸ä¼¼åº¦</td>
+                            <td>è¯­ä¹çè§£å¥½</td>
+                            <td>è®¡ç®ææ¬é«</td>
                         </tr>
                         <tr>
-                            <td><strong>关键词检索</strong></td>
-                            <td>基于关键词匹配</td>
-                            <td>快速、精确</td>
-                            <td>语义理解差</td>
+                            <td><strong>å³é®è¯æ£ç´¢</strong></td>
+                            <td>åºäºå³é®è¯å¹é</td>
+                            <td>å¿«éãç²¾ç¡®</td>
+                            <td>è¯­ä¹çè§£å·®</td>
                         </tr>
                         <tr>
-                            <td><strong>混合检索</strong></td>
-                            <td>结合向量和关键词</td>
-                            <td>综合优势</td>
-                            <td>复杂度高</td>
+                            <td><strong>æ··åæ£ç´¢</strong></td>
+                            <td>ç»ååéåå³é®è¯</td>
+                            <td>ç»¼åä¼å¿</td>
+                            <td>å¤æåº¦é«</td>
                         </tr>
                         <tr>
-                            <td><strong>图检索</strong></td>
-                            <td>基于知识图谱</td>
-                            <td>关系清晰</td>
-                            <td>需要构建图</td>
+                            <td><strong>å¾æ£ç´¢</strong></td>
+                            <td>åºäºç¥è¯å¾è°±</td>
+                            <td>å³ç³»æ¸æ°</td>
+                            <td>éè¦æå»ºå¾</td>
                         </tr>
                     </tbody>
                 </table>
-
-                <h4>3.3 重排（Reranking）</h4>
+                <h4>3.3 éæï¼Rerankingï¼</h4>
                 <div class="highlight-box">
-                    <p><strong>目的</strong>：对初始检索结果进行重新排序，提高最相关文档的排名</p>
+                    <p><strong>ç®ç</strong>ï¼å¯¹åå§æ£ç´¢ç»æè¿è¡éæ°æåºï¼æé«æç¸å³ææ¡£çæå</p>
                 </div>
-
-                <p><strong>重排方法</strong>：</p>
+                <p><strong>éææ¹æ³</strong>ï¼</p>
                 <ul>
-                    <li><strong>学习排序</strong>：使用机器学习模型排序</li>
-                    <li><strong>交叉编码器</strong>：使用交叉编码器评分</li>
-                    <li><strong>LLM 排序</strong>：使用 LLM 进行排序</li>
-                    <li><strong>多维排序</strong>：综合多个维度排序</li>
+                    <li><strong>å­¦ä¹&nbsp;æåº</strong>ï¼ä½¿ç¨æºå¨å­¦ä¹&nbsp;æ¨¡åæåº</li>
+                    <li><strong>äº¤åç¼ç&nbsp;å¨</strong>ï¼ä½¿ç¨äº¤åç¼ç&nbsp;å¨è¯å</li>
+                    <li><strong>LLM æåº</strong>ï¼ä½¿ç¨ LLM è¿è¡æåº</li>
+                    <li><strong>å¤ç»´æåº</strong>ï¼ç»¼åå¤ä¸ªç»´åº¦æåº</li>
                 </ul>
-
-                <h4>3.4 上下文组织</h4>
+                <h4>3.4 ä¸ä¸æç»ç»</h4>
                 <ul>
-                    <li><strong>串联方式</strong>：简单地拼接检索结果</li>
-                    <li><strong>摘要方式</strong>：先对检索结果摘要</li>
-                    <li><strong>分层方式</strong>：按重要性分层组织</li>
-                    <li><strong>图谱方式</strong>：按关系组织成图</li>
+                    <li><strong>ä¸²èæ¹å¼</strong>ï¼ç®åå°æ¼æ¥æ£ç´¢ç»æ</li>
+                    <li><strong>æè¦æ¹å¼</strong>ï¼åå¯¹æ£ç´¢ç»ææè¦</li>
+                    <li><strong>åå±æ¹å¼</strong>ï¼æéè¦æ§åå±ç»ç»</li>
+                    <li><strong>å¾è°±æ¹å¼</strong>ï¼æå³ç³»ç»ç»æå¾</li>
                 </ul>
-
-                <h3 id="四rag-的变体与改进">四、RAG 的变体与改进</h3>
-
+                <h3 id="årag-çåä½ä¸æ¹è¿">åãRAG çåä½ä¸æ¹è¿</h3>
                 <h4>4.1 Naive RAG vs Advanced RAG</h4>
                 <table>
                     <thead>
                         <tr>
-                            <th>方面</th>
+                            <th>æ¹é¢</th>
                             <th>Naive RAG</th>
                             <th>Advanced RAG</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <td><strong>查询处理</strong></td>
-                            <td>直接检索</td>
-                            <td>查询理解、扩展、改写</td>
+                            <td><strong>æ¥è¯¢å¤ç</strong></td>
+                            <td>ç´æ¥æ£ç´¢</td>
+                            <td>æ¥è¯¢çè§£ãæ©å±ãæ¹å</td>
                         </tr>
                         <tr>
-                            <td><strong>检索方法</strong></td>
-                            <td>单一方法</td>
-                            <td>混合检索、多步检索</td>
+                            <td><strong>æ£ç´¢æ¹æ³</strong></td>
+                            <td>åä¸æ¹æ³</td>
+                            <td>æ··åæ£ç´¢ãå¤æ­¥æ£ç´¢</td>
                         </tr>
                         <tr>
-                            <td><strong>排序</strong></td>
-                            <td>基于相似度</td>
-                            <td>学习排序、多维排序</td>
+                            <td><strong>æåº</strong></td>
+                            <td>åºäºç¸ä¼¼åº¦</td>
+                            <td>å­¦ä¹&nbsp;æåºãå¤ç»´æåº</td>
                         </tr>
                         <tr>
-                            <td><strong>上下文构建</strong></td>
-                            <td>简单拼接</td>
-                            <td>摘要、分层、图谱</td>
+                            <td><strong>ä¸ä¸ææå»º</strong></td>
+                            <td>ç®åæ¼æ¥</td>
+                            <td>æè¦ãåå±ãå¾è°±</td>
                         </tr>
                         <tr>
-                            <td><strong>反馈</strong></td>
-                            <td>无</td>
-                            <td>用户反馈、自我反馈</td>
+                            <td><strong>åé¦</strong></td>
+                            <td>æ&nbsp;</td>
+                            <td>ç¨æ·åé¦ãèªæåé¦</td>
                         </tr>
                     </tbody>
                 </table>
-
-                <h4>4.2 关键改进</h4>
+                <h4>4.2 å³é®æ¹è¿</h4>
                 <ul>
-                    <li><strong>多跳检索</strong>：多次迭代检索以获得更相关的信息</li>
-                    <li><strong>自适应检索</strong>：根据查询动态调整检索策略</li>
-                    <li><strong>融合检索</strong>：融合多个检索结果</li>
-                    <li><strong>迭代生成</strong>：在生成过程中进行检索</li>
-                    <li><strong>反馈优化</strong>：基于反馈不断优化</li>
+                    <li><strong>å¤è·³æ£ç´¢</strong>ï¼å¤æ¬¡è¿­ä»£æ£ç´¢ä»¥è·å¾æ´ç¸å³çä¿¡æ¯</li>
+                    <li><strong>èªéåºæ£ç´¢</strong>ï¼æ&nbsp;¹æ®æ¥è¯¢å¨æè°æ´æ£ç´¢ç­ç¥</li>
+                    <li><strong>èåæ£ç´¢</strong>ï¼èåå¤ä¸ªæ£ç´¢ç»æ</li>
+                    <li><strong>è¿­ä»£çæ</strong>ï¼å¨çæè¿ç¨ä¸­è¿è¡æ£ç´¢</li>
+                    <li><strong>åé¦ä¼å</strong>ï¼åºäºåé¦ä¸æ­ä¼å</li>
                 </ul>
-
-                <h3 id="五rag-的应用">五、RAG 的应用</h3>
-
-                <h4>5.1 问答系统</h4>
+                <h3 id="äºrag-çåºç¨">äºãRAG çåºç¨</h3>
+                <h4>5.1 é®ç­ç³»ç»</h4>
                 <ul>
-                    <li>企业知识库问答</li>
-                    <li>学术文献问答</li>
-                    <li>客服知识库问答</li>
+                    <li>ä¼ä¸ç¥è¯åºé®ç­</li>
+                    <li>å­¦æ¯æç®é®ç­</li>
+                    <li>å®¢æç¥è¯åºé®ç­</li>
                 </ul>
-
-                <h4>5.2 内容生成</h4>
+                <h4>5.2 åå®¹çæ</h4>
                 <ul>
-                    <li>新闻生成</li>
-                    <li>报告生成</li>
-                    <li>摘要生成</li>
+                    <li>æ°é»çæ</li>
+                    <li>æ¥åçæ</li>
+                    <li>æè¦çæ</li>
                 </ul>
-
-                <h4>5.3 信息检索</h4>
+                <h4>5.3 ä¿¡æ¯æ£ç´¢</h4>
                 <ul>
-                    <li>搜索引擎</li>
-                    <li>推荐系统</li>
-                    <li>相关性查询</li>
+                    <li>æç´¢å¼æ</li>
+                    <li>æ¨èç³»ç»</li>
+                    <li>ç¸å³æ§æ¥è¯¢</li>
                 </ul>
-
-                <h3 id="六评估指标">六、评估指标</h3>
-
-                <h4>6.1 检索质量</h4>
+                <h3 id="å­è¯ä¼°ææ&nbsp;">å­ãè¯ä¼°ææ&nbsp;</h3>
+                <h4>6.1 æ£ç´¢è´¨é</h4>
                 <table>
                     <thead>
                         <tr>
-                            <th>指标</th>
-                            <th>说明</th>
-                            <th>计算方法</th>
+                            <th>ææ&nbsp;</th>
+                            <th>è¯´æ</th>
+                            <th>è®¡ç®æ¹æ³</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
                             <td><strong>Precision@K</strong></td>
-                            <td>前K个结果中相关的比例</td>
-                            <td>相关数 / K</td>
+                            <td>åKä¸ªç»æä¸­ç¸å³çæ¯ä¾</td>
+                            <td>ç¸å³æ° / K</td>
                         </tr>
                         <tr>
                             <td><strong>Recall@K</strong></td>
-                            <td>前K个结果中召回的相关文档比例</td>
-                            <td>检索到的相关数 / 总相关数</td>
+                            <td>åKä¸ªç»æä¸­å¬åçç¸å³ææ¡£æ¯ä¾</td>
+                            <td>æ£ç´¢å°çç¸å³æ° / æ»ç¸å³æ°</td>
                         </tr>
                         <tr>
                             <td><strong>MRR</strong></td>
-                            <td>第一个相关结果的排名倒数</td>
-                            <td>1 / 第一个相关结果的排名</td>
+                            <td>ç¬¬ä¸ä¸ªç¸å³ç»æçæååæ°</td>
+                            <td>1 / ç¬¬ä¸ä¸ªç¸å³ç»æçæå</td>
                         </tr>
                         <tr>
                             <td><strong>NDCG</strong></td>
-                            <td>归一化折扣累计增益</td>
+                            <td>å½ä¸åææ£ç´¯è®¡å¢ç</td>
                             <td>DCG / IDCG</td>
                         </tr>
                     </tbody>
                 </table>
-
-                <h4>6.2 生成质量</h4>
+                <h4>6.2 çæè´¨é</h4>
                 <ul>
-                    <li><strong>准确性</strong>：答案是否准确</li>
-                    <li><strong>完整性</strong>：答案是否完整</li>
-                    <li><strong>可信度</strong>：答案是否可信</li>
-                    <li><strong>流畅性</strong>：答案是否流畅</li>
+                    <li><strong>åç¡®æ§</strong>ï¼ç­æ¡æ¯å¦åç¡®</li>
+                    <li><strong>å®æ´æ§</strong>ï¼ç­æ¡æ¯å¦å®æ´</li>
+                    <li><strong>å¯ä¿¡åº¦</strong>ï¼ç­æ¡æ¯å¦å¯ä¿¡</li>
+                    <li><strong>æµçæ§</strong>ï¼ç­æ¡æ¯å¦æµç</li>
                 </ul>
-
-                <h4>6.3 端到端评估</h4>
+                <h4>6.3 ç«¯å°ç«¯è¯ä¼°</h4>
                 <ul>
-                    <li><strong>用户满意度</strong>：用户对系统的满意度</li>
-                    <li><strong>任务完成率</strong>：系统完成任务的成功率</li>
-                    <li><strong>响应时间</strong>：系统的响应速度</li>
+                    <li><strong>ç¨æ·æ»¡æåº¦</strong>ï¼ç¨æ·å¯¹ç³»ç»çæ»¡æåº¦</li>
+                    <li><strong>ä»»å¡å®æç</strong>ï¼ç³»ç»å®æä»»å¡çæåç</li>
+                    <li><strong>ååºæ¶é´</strong>ï¼ç³»ç»çååºéåº¦</li>
                 </ul>
-
-                <h3 id="七挑战与解决方案">七、挑战与解决方案</h3>
-
-                <h4>7.1 检索挑战</h4>
+                <h3 id="ä¸ææä¸è§£å³æ¹æ¡">ä¸ãææä¸è§£å³æ¹æ¡</h3>
+                <h4>7.1 æ£ç´¢ææ</h4>
                 <ul>
-                    <li><strong>检索错误</strong>：检索不到相关文档</li>
-                    <li><strong>排序不当</strong>：相关文档排名太靠后</li>
-                    <li><strong>噪声干扰</strong>：检索到无关文档</li>
-                    <li><strong>性能瓶颈</strong>：检索速度慢</li>
+                    <li><strong>æ£ç´¢éè¯¯</strong>ï¼æ£ç´¢ä¸å°ç¸å³ææ¡£</li>
+                    <li><strong>æåºä¸å½</strong>ï¼ç¸å³ææ¡£æåå¤ªé&nbsp;å</li>
+                    <li><strong>åªå£°å¹²æ°</strong>ï¼æ£ç´¢å°æ&nbsp;å³ææ¡£</li>
+                    <li><strong>æ§è½ç¶é¢</strong>ï¼æ£ç´¢éåº¦æ¢</li>
                 </ul>
-
-                <h4>7.2 生成挑战</h4>
+                <h4>7.2 çæææ</h4>
                 <ul>
-                    <li><strong>幻觉问题</strong>：生成不存在的信息</li>
-                    <li><strong>上下文遗忘</strong>：忽略检索结果</li>
-                    <li><strong>矛盾问题</strong>：生成相互矛盾的内容</li>
+                    <li><strong>å¹»è§é®é¢</strong>ï¼çæä¸å­å¨çä¿¡æ¯</li>
+                    <li><strong>ä¸ä¸æéå¿</strong>ï¼å¿½ç¥æ£ç´¢ç»æ</li>
+                    <li><strong>çç¾é®é¢</strong>ï¼çæç¸äºçç¾çåå®¹</li>
                 </ul>
-
-                <h4>7.3 解决方案</h4>
+                <h4>7.3 è§£å³æ¹æ¡</h4>
                 <ul>
-                    <li>改进检索方法和排序算法</li>
-                    <li>优化上下文构建方式</li>
-                    <li>使用更强大的生成模型</li>
-                    <li>加入验证和纠正机制</li>
-                    <li>持续优化和微调</li>
+                    <li>æ¹è¿æ£ç´¢æ¹æ³åæåºç®æ³</li>
+                    <li>ä¼åä¸ä¸ææå»ºæ¹å¼</li>
+                    <li>ä½¿ç¨æ´å¼ºå¤§ççææ¨¡å</li>
+                    <li>å&nbsp;å¥éªè¯åçº&nbsp;æ­£æºå¶</li>
+                    <li>æç»­ä¼ååå¾®è°</li>
                 </ul>
-
-                <h3 id="八最佳实践">八、最佳实践</h3>
-
-                <h4>8.1 系统设计</h4>
+                <h3 id="å«æä½³å®è·µ">å«ãæä½³å®è·µ</h3>
+                <h4>8.1 ç³»ç»è®¾è®¡</h4>
                 <ul>
-                    <li>选择合适的向量数据库</li>
-                    <li>优化文本分块策略</li>
-                    <li>选择高质量的 Embedding 模型</li>
-                    <li>建立有效的索引机制</li>
+                    <li>éæ©åéçåéæ°æ®åº</li>
+                    <li>ä¼åææ¬ååç­ç¥</li>
+                    <li>éæ©é«è´¨éç Embedding æ¨¡å</li>
+                    <li>å»ºç«ææçç´¢å¼æºå¶</li>
                 </ul>
-
-                <h4>8.2 优化策略</h4>
+                <h4>8.2 ä¼åç­ç¥</h4>
                 <ul>
-                    <li>实施混合检索提高准确率</li>
-                    <li>使用重排提高相关性</li>
-                    <li>优化上下文窗口大小</li>
-                    <li>定期评估和改进系统</li>
+                    <li>å®æ½æ··åæ£ç´¢æé«åç¡®ç</li>
+                    <li>ä½¿ç¨éææé«ç¸å³æ§</li>
+                    <li>ä¼åä¸ä¸æçªå£å¤§å°</li>
+                    <li>å®æè¯ä¼°åæ¹è¿ç³»ç»</li>
                 </ul>
-
-                <h3 id="九未来方向">九、未来方向</h3>
-
+                <h3 id="ä¹æªæ¥æ¹å">ä¹ãæªæ¥æ¹å</h3>
                 <ul>
-                    <li><strong>多模态 RAG</strong>：支持文本、图像、音频等多模态</li>
-                    <li><strong>动态知识库</strong>：实时更新知识库</li>
-                    <li><strong>个性化 RAG</strong>：根据用户偏好定制</li>
-                    <li><strong>可解释 RAG</strong>：提高系统的可解释性</li>
-                    <li><strong>自适应 RAG</strong>：自动调整策略</li>
+                    <li><strong>å¤æ¨¡æ RAG</strong>ï¼æ¯æææ¬ãå¾åãé³é¢ç­å¤æ¨¡æ</li>
+                    <li><strong>å¨æç¥è¯åº</strong>ï¼å®æ¶æ´æ°ç¥è¯åº</li>
+                    <li><strong>ä¸ªæ§å RAG</strong>ï¼æ&nbsp;¹æ®ç¨æ·åå¥½å®å¶</li>
+                    <li><strong>å¯è§£é RAG</strong>ï¼æé«ç³»ç»çå¯è§£éæ§</li>
+                    <li><strong>èªéåº RAG</strong>ï¼èªå¨è°æ´ç­ç¥</li>
                 </ul>
-
-                <a href="ai-agent.html" class="back-link">← 返回 4. Agent</a>
-            </section>
+                <a href="ai-agent.html" class="back-link">â è¿å 4. Agent</a>
+</section>
 
             <footer class="footer">
-                <p>更新时间：2026-04-13</p>
-                <p><a href="index.html">← 返回首页</a></p>
+                <p>æ´æ°æ¶é´ï¼2026-04-13</p>
+                <p><a href="index.html">â è¿åé¦é¡µ</a></p>
             </footer>
         </main>
     </div>
-    <!-- 在线编辑器 - Quill.js + GitHub API -->
+    <!-- å¨çº¿ç¼è¾å¨ - Quill.js + GitHub API -->
     <link rel="stylesheet" href="https://cdn.quilljs.com/1.3.7/quill.snow.css">
     <link rel="stylesheet" href="editor.css">
     <script src="https://cdn.quilljs.com/1.3.7/quill.min.js"></script>
