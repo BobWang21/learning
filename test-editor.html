@@ -271,6 +271,8 @@
 
             try {
                 const response = await fetch(url, {
+                    method: 'GET',
+                    mode: 'cors',
                     headers: {
                         'Authorization': `token ${TOKEN}`,
                         'Accept': 'application/vnd.github.v3+json',
@@ -279,6 +281,7 @@
                 });
 
                 log(outputId, `响应状态: ${response.status} ${response.statusText}`);
+                log(outputId, `Content-Type: ${response.headers.get('content-type')}`);
 
                 if (!response.ok) {
                     const errorText = await response.text();
@@ -289,7 +292,7 @@
 
                 const responseText = await response.text();
                 log(outputId, `响应文本长度: ${responseText.length}`);
-                log(outputId, `响应文本前 100 字符: ${responseText.substring(0, 100)}`);
+                log(outputId, `响应文本前 200 字符: ${responseText.substring(0, 200)}`);
 
                 try {
                     const data = JSON.parse(responseText);
@@ -300,7 +303,14 @@
                     log(outputId, `类型: ${data.type}`, 'success');
                 } catch (parseError) {
                     log(outputId, `❌ JSON 解析失败: ${parseError.message}`, 'error');
-                    log(outputId, `可能是 Token 无效或文件不存在`, 'warning');
+
+                    // 尝试判断响应内容
+                    if (responseText.startsWith('<!DOCTYPE')) {
+                        log(outputId, `响应是 HTML，可能是 GitHub 返回了错误页面`, 'error');
+                        log(outputId, `这通常表示 Token 无效或 API 限制`, 'warning');
+                    } else if (responseText.startsWith('{')) {
+                        log(outputId, `响应看起来像 JSON，但解析失败`, 'error');
+                    }
                 }
             } catch (error) {
                 log(outputId, `❌ 网络错误: ${error.message}`, 'error');
