@@ -8,568 +8,889 @@
     <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <style>
-        .decision-image {
-            max-width: 85%;
-            height: auto;
-            margin: 20px auto;
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f5f5f5;
+        }
+        
+        .container {
+            display: flex;
+            max-width: 1400px;
+            margin: 0 auto;
+            background-color: #fff;
+        }
+        
+        .sidebar {
+            width: 250px;
+            background-color: #2c3e50;
+            color: #ecf0f1;
+            padding: 20px;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+        }
+        
+        .sidebar h3 {
+            color: #3498db;
+            margin-top: 20px;
+            margin-bottom: 10px;
+            font-size: 14px;
+            text-transform: uppercase;
+        }
+        
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .sidebar li {
+            margin: 8px 0;
+        }
+        
+        .sidebar a {
+            color: #ecf0f1;
+            text-decoration: none;
+            font-size: 14px;
             display: block;
-            border-radius: 8px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            padding: 5px 10px;
+            border-radius: 4px;
+            transition: background-color 0.3s;
         }
+        
+        .sidebar a:hover {
+            background-color: #34495e;
+        }
+        
+        .main-content {
+            margin-left: 250px;
+            padding: 40px;
+            flex: 1;
+        }
+        
+        h1 {
+            color: #2c3e50;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+            margin-bottom: 30px;
+        }
+        
+        h2 {
+            color: #34495e;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            border-left: 4px solid #3498db;
+            padding-left: 15px;
+        }
+        
+        h3 {
+            color: #34495e;
+            margin-top: 25px;
+            margin-bottom: 15px;
+        }
+        
         .summary-box {
-            background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
-            padding: 20px;
-            border-radius: 8px;
+            background-color: #ecf0f1;
+            border-left: 4px solid #3498db;
+            padding: 15px 20px;
             margin: 20px 0;
-            border-left: 4px solid #1e40af;
+            border-radius: 4px;
         }
-        .uncertainty-box {
-            background: linear-gradient(135deg, #fce7f3 0%, #fbcfe8 100%);
-            padding: 20px;
-            border-radius: 8px;
-            margin: 20px 0;
-            border-left: 4px solid #be185d;
+        
+        .summary-box h4 {
+            margin-top: 0;
+            color: #2c3e50;
         }
-        .uncertainty-box ul {
+        
+        .summary-box ul {
             margin: 10px 0;
             padding-left: 20px;
         }
-        .uncertainty-box li {
-            margin: 8px 0;
-            line-height: 1.6;
+        
+        .summary-box li {
+            margin: 5px 0;
         }
-        .method-card {
-            background: white;
-            border: 1px solid #e2e8f0;
-            border-radius: 8px;
-            padding: 15px;
-            margin: 15px 0;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-        }
-        .code-block {
-            background: #1e293b;
-            color: #e2e8f0;
-            padding: 15px;
-            border-radius: 8px;
-            overflow-x: auto;
-            margin: 15px 0;
-            font-family: 'Courier New', monospace;
-            font-size: 0.9rem;
-        }
-        .comparison-table {
+        
+        table {
             width: 100%;
             border-collapse: collapse;
             margin: 20px 0;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            background-color: #fff;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
-        .comparison-table th {
-            background: #1e40af;
+        
+        table th {
+            background-color: #3498db;
             color: white;
             padding: 12px;
             text-align: left;
             font-weight: 600;
         }
-        .comparison-table td {
+        
+        table td {
             padding: 12px;
-            border-bottom: 1px solid #e2e8f0;
+            border-bottom: 1px solid #ecf0f1;
         }
-        .comparison-table tr:hover {
-            background: #f8fafc;
+        
+        table tr:hover {
+            background-color: #f9f9f9;
+        }
+        
+        table tr:last-child td {
+            border-bottom: none;
+        }
+        
+        img {
+            max-width: 100%;
+            height: auto;
+            margin: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        .formula {
+            background-color: #f9f9f9;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+            border-left: 3px solid #3498db;
+            overflow-x: auto;
+        }
+        
+        code {
+            background-color: #2c3e50;
+            color: #ecf0f1;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+        }
+        
+        pre {
+            background-color: #2c3e50;
+            color: #ecf0f1;
+            padding: 15px;
+            border-radius: 4px;
+            overflow-x: auto;
+            margin: 15px 0;
+        }
+        
+        pre code {
+            background-color: transparent;
+            color: #ecf0f1;
+            padding: 0;
+        }
+        
+        .section {
+            margin-bottom: 40px;
+        }
+        
+        .comparison-box {
+            background-color: #f0f8ff;
+            border: 1px solid #3498db;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        
+        .comparison-box h4 {
+            color: #2c3e50;
+            margin-top: 0;
+        }
+        
+        .pros {
+            background-color: #e8f8f5;
+            border-left: 4px solid #27ae60;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+        }
+        
+        .cons {
+            background-color: #fadbd8;
+            border-left: 4px solid #e74c3c;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+        }
+        
+        .pros h5, .cons h5 {
+            margin-top: 0;
+            color: #2c3e50;
+        }
+        
+        .pros ul, .cons ul {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+        
+        .pros li, .cons li {
+            margin: 5px 0;
+        }
+        
+        .faq-item {
+            background-color: #fef5e7;
+            border: 1px solid #f8c471;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        
+        .faq-item h4 {
+            color: #d68910;
+            margin-top: 0;
+        }
+        
+        @media (max-width: 768px) {
+            .sidebar {
+                position: relative;
+                width: 100%;
+                height: auto;
+                padding: 15px;
+            }
+            
+            .main-content {
+                margin-left: 0;
+                padding: 20px;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="sidebar">
-            <div class="logo">📚 索引</div>
-            <ul class="toc">
-                <li><a href="index.html">🏠 首页</a></li>
-                <li><a href="index.html#ai">🤖 AI</a>
-                    <ul>
-                        <li><a href="ai-model.html">1. Model</a>
-                            <ul>
-                                <li><a href="ai-model-gpt-principles.html">GPT 模型原理</a></li>
-                                <li><a href="ai-model-attention-mechanism.html">注意力机制</a></li>
-                            </ul>
-                        </li>
-                        <li><a href="ai-pretraining.html">2. Pre-training</a>
-                            <ul>
-                                <li><a href="ai-pretraining-token-bpe.html">token-BPE 算法</a></li>
-                            </ul>
-                        </li>
-                        <li><a href="ai-posttraining.html">3. Post-training</a>
-                            <ul>
-                                <li><a href="ai-posttraining-overview.html">Post-Training 全景指南</a></li>
-                                <li><a href="ai-posttraining-peft.html">PEFT 详解</a></li>
-                            </ul>
-                        </li>
-                        <li><a href="ai-agent.html">4. Agent</a>
-                            <ul>
-                                <li><a href="ai-agent-llm-survey.html">LLM Agent Survey</a></li>
-                                <li><a href="ai-agent-agentic-reasoning.html">Agentic Reasoning</a></li>
-                                <li><a href="ai-agent-memory.html">Memory</a></li>
-                                <li><a href="ai-agent-self-evolving.html">Self-Evolving</a></li>
-                                <li><a href="ai-agent-multi-agent.html">Multi-Agent Systems</a></li>
-                                <li><a href="ai-agent-agentic-rl.html">Agentic RL</a></li>
-                                <li><a href="ai-agent-knowledge-graph.html">Knowledge Graph</a></li>
-                                <li><a href="ai-agent-rag.html">RAG</a></li>
-                                <li><a href="ai-agent-tree-of-thoughts.html">Tree of Thoughts</a></li>
-                                <li><a href="ai-agent-function-calling.html">Tools</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                </li>
-                <li><a href="decision.html">🔄 端到端</a></li>
-                <li><a href="models.html">⏱️ 预测</a></li>
+            <h2>导航菜单</h2>
+            <h3>主要章节</h3>
+            <ul>
+                <li><a href="#summary">总结</a></li>
+                <li><a href="#section1">一、摘要</a></li>
+                <li><a href="#section2">二、三种范式</a></li>
+                <li><a href="#section3">三、E2E三种方法对比</a></li>
+                <li><a href="#section4">四、常见问题</a></li>
+            </ul>
+            
+            <h3>E2E 方法</h3>
+            <ul>
+                <li><a href="#implicit-diff">隐式微分</a></li>
+                <li><a href="#surrogate-loss">代理损失</a></li>
+                <li><a href="#approximation">近似方法</a></li>
             </ul>
         </div>
-
-        <main class="content">
-            <header class="header">
-                <h1>预测与决策结合的范式</h1>
-                <p class="subtitle">数据驱动方法在优化决策中的应用</p>
-            </header>
-
-            <div class="page-toc">
-    <h4 style="margin-bottom: 15px; color: #1e40af;">📑 页面目录</h4>
-    <ul style="list-style: none; padding: 0; margin: 0;">
-        <li style="margin-bottom: 8px;"><a href="#摘要" style="color: #1e40af; text-decoration: none; font-weight: 600;">摘要</a></li>
-        <li style="margin-bottom: 8px;"><a href="#不确定性处理" style="color: #1e40af; text-decoration: none; font-weight: 600;">不确定性处理</a></li>
-        <li style="margin-bottom: 8px;"><a href="#一三种范式" style="color: #1e40af; text-decoration: none; font-weight: 600;">一、三种范式</a></li>
-        <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#范式对比表" style="color: #7c3aed; text-decoration: none; font-size: 0.95rem;">范式对比表</a></li>
-        <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#1-so-预测与决策的错配" style="color: #7c3aed; text-decoration: none; font-size: 0.95rem;">1. SO - 预测与决策的错配</a></li>
-        <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#2-e2e-决策驱动学习" style="color: #7c3aed; text-decoration: none; font-size: 0.95rem;">2. E2E - 决策驱动学习</a></li>
-        <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#3-dl-直接学习" style="color: #7c3aed; text-decoration: none; font-size: 0.95rem;">3. DL - 直接学习</a></li>
-        <li style="margin-bottom: 8px;"><a href="#二e2e三种方法对比" style="color: #1e40af; text-decoration: none; font-weight: 600;">二、E2E三种方法对比</a></li>
-        <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#一句话总结" style="color: #7c3aed; text-decoration: none; font-size: 0.95rem;">一句话总结</a></li>
-        <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#方法对比表" style="color: #7c3aed; text-decoration: none; font-size: 0.95rem;">方法对比表</a></li>
-        <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#1-隐式微分implicit-differentiation" style="color: #7c3aed; text-decoration: none; font-size: 0.95rem;">1 隐式微分（Implicit Differentiation）</a></li>
-        <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#2-代理损失surrogate-loss以-spo-为代表" style="color: #7c3aed; text-decoration: none; font-size: 0.95rem;">2 代理损失（Surrogate Loss，以 SPO+ 为代表）</a></li>
-        <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#3-近似方法approximation-methods" style="color: #7c3aed; text-decoration: none; font-size: 0.95rem;">3 近似方法（Approximation Methods）</a></li>
-    </ul>
-</div>
-
-            <!-- 摘要部分 -->
+        
+        <div class="main-content">
+            <h1>预测与决策结合的范式</h1>
+            
+            <!-- 总结部分 -->
             <section id="summary" class="section">
-                <h2 id="摘要">摘要</h2>
+                <h2>总结：不确定性的分类</h2>
                 <div class="summary-box">
-                    <p>数据驱动方法通过将预测与决策一体化，彻底革新了传统优化手段。本文系统梳理了三大主流范式 — 序贯优化、端到端学习与直接学习——的理论基础、优势、最新进展与局限，随后，文章从数据方法论、优化方法论与决策应用三个维度展开对比，剖析现存挑战。论文最终提供一份方法论指南，并为学术界与产业界在复杂数据环境下提升决策能力指明未来研究方向。</p>
-                </div>
-
-                <img src="https://km.sankuai.com/api/file/cdn/2741552238/212016309324?contentType=1" alt="预测与决策概览" class="decision-image">
-            </section>
-
-            <!-- 不确定性处理 -->
-            <section id="uncertainty" class="section">
-                <h2 id="不确定性处理">不确定性处理</h2>
-                <div class="uncertainty-box">
-                    <h3 style="margin-top: 0; color: #be185d;">不确定性的分类与处理</h3>
+                    <h4>不确定性分类</h4>
                     <ul>
-                        <li><strong>偶然不确定性（Aleatoric Uncertainty）</strong>：数据本身的噪声和随机性，是数据生成过程固有的特性，无法通过获取更多数据来消除。</li>
-                        <li><strong>认知不确定性（Epistemic Uncertainty）</strong>：模型知识的不足，来自于模型对数据分布的理解不够，可以通过获取更多数据或使用更好的模型来减少。</li>
-                    </ul>
-                    
-                    <h4 style="color: #be185d; margin-top: 20px;">不确定性估计方法</h4>
-                    <ul>
-                        <li><strong>MC Dropout</strong>：在推理时保持 Dropout 激活，通过多次前向传播获得预测分布，从而估计模型的不确定性。这种方法可以近似贝叶斯推理。</li>
-                        <li><strong>模型集成（Ensemble）</strong>：训练多个不同初始化或结构的模型，集成它们的预测结果，不同模型的预测差异反映了认知不确定性。</li>
-                    </ul>
-
-                    <h4 style="color: #be185d; margin-top: 20px;">风险感知决策</h4>
-                    <p>将估计的不确定性作为风险项传递给规划器或决策系统，使得：</p>
-                    <ul>
-                        <li>在高不确定性区域，车辆采取更保守的决策（如降低速度、增加安全距离）</li>
-                        <li>在低不确定性区域，系统可以进行更激进的优化</li>
-                        <li>实现了从纯粹的预测任务到风险感知的决策系统的转变</li>
+                        <li><strong>偶然不确定性（Aleatoric Uncertainty）</strong>：由于数据本身的随机性和噪声导致的不确定性，是数据生成过程固有的。这类不确定性无法通过收集更多数据来消除。</li>
+                        <li><strong>认知不确定性（Epistemic Uncertainty）</strong>：由于模型知识不足或参数估计不准确导致的不确定性。这类不确定性可以通过收集更多数据、改进模型等方式来减少。</li>
                     </ul>
                 </div>
             </section>
-
-            <!-- 三种范式 -->
-            <section id="three-paradigms" class="section">
-                <h2 id="一三种范式">一、三种范式</h2>
-
-                <img src="https://km.sankuai.com/api/file/cdn/2741552238/212020035831?contentType=1&compress=@1563w_1l" alt="三种范式对比图" class="decision-image">
-
-                <h3 id="范式对比表">范式对比表</h3>
-                <table class="comparison-table">
+            
+            <!-- 第一部分：摘要 -->
+            <section id="section1" class="section">
+                <h2>一、摘要：数据驱动方法的核心概念</h2>
+                
+                <p>数据驱动的决策方法已成为现代优化和机器学习的核心范式。本部分介绍了端到端学习（End-to-End Learning）在预测与决策结合中的应用。</p>
+                
+                <img src="https://km.sankuai.com/api/file/cdn/2741552238/212016309324?contentType=1" alt="数据驱动方法概览">
+                
+                <h3>端到端学习的优势</h3>
+                <table>
                     <thead>
                         <tr>
-                            <th>方法</th>
-                            <th>训练目标</th>
-                            <th>预测–决策关系</th>
-                            <th>理论适用性</th>
+                            <th>优势项</th>
+                            <th>说明</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <td><strong>SO（序贯优化）</strong></td>
-                            <td>预测损失（如 MSE）</td>
-                            <td>预测输出被当作固定输入，供后续优化环节做决策</td>
-                            <td>适用于具有显式优化形式的系统，但计算开销大，且难以回馈决策信息</td>
+                            <td>联合优化</td>
+                            <td>预测和决策目标联合优化，避免两阶段方法的次优解</td>
                         </tr>
                         <tr>
-                            <td><strong>E2E（端到端）</strong></td>
-                            <td>决策损失（如后悔值）</td>
-                            <td>预测和决策在同一个学习框架中，预测被优化以最小化最终决策损失</td>
-                            <td>理论上最优，但在实践中面临优化难度大、梯度计算复杂等挑战</td>
+                            <td>信息保留</td>
+                            <td>保留预测模型中的不确定性信息，用于决策</td>
                         </tr>
                         <tr>
-                            <td><strong>DL（直接学习）</strong></td>
-                            <td>决策损失（如后悔值）</td>
-                            <td>直接从原始特征学习决策，跳过显式预测步骤</td>
-                            <td>适用于预测任务不是最终目标的场景，可能更高效但可解释性较差</td>
+                            <td>梯度传播</td>
+                            <td>决策层的梯度可以直接反向传播到预测层</td>
+                        </tr>
+                        <tr>
+                            <td>适应性强</td>
+                            <td>模型可以自动学习预测中最关键的特征用于决策</td>
+                        </tr>
+                        <tr>
+                            <td>效率提升</td>
+                            <td>减少了预测-决策间的信息损失，提高整体效率</td>
+                        </tr>
+                        <tr>
+                            <td>性能改善</td>
+                            <td>实证研究表明端到端学习通常优于传统两阶段方法</td>
                         </tr>
                     </tbody>
                 </table>
-
-                <h3 id="1-so-预测与决策的错配">1. SO - 预测与决策的错配</h3>
-                <div class="method-card">
-                    <h4>核心思想</h4>
-                    <p>序贯优化将问题分为两个阶段：</p>
+                
+                <h3>端到端学习的劣势</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>劣势项</th>
+                            <th>说明</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>模型复杂性</td>
+                            <td>联合优化增加了模型的复杂性和训练难度</td>
+                        </tr>
+                        <tr>
+                            <td>可解释性降低</td>
+                            <td>端到端模型的决策过程相对黑盒，可解释性较差</td>
+                        </tr>
+                        <tr>
+                            <td>计算成本</td>
+                            <td>需要在决策层进行复杂的优化计算，增加计算开销</td>
+                        </tr>
+                        <tr>
+                            <td>数据需求</td>
+                            <td>需要更多的标注数据来训练联合模型</td>
+                        </tr>
+                        <tr>
+                            <td>泛化性能</td>
+                            <td>在分布外数据上的泛化性能可能不如两阶段方法</td>
+                        </tr>
+                        <tr>
+                            <td>调试困难</td>
+                            <td>当模型性能不佳时，难以定位问题出在预测还是决策层</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+            
+            <!-- 第二部分：三种范式 -->
+            <section id="section2" class="section">
+                <h2>二、三种范式：预测与决策的不同组合方式</h2>
+                
+                <p>在预测与决策的结合中，存在三种主要的范式，分别代表了不同的设计哲学和应用场景。</p>
+                
+                <img src="https://km.sankuai.com/api/file/cdn/2741552238/212020035831?contentType=1&compress=@1563w_1l" alt="三种范式对比">
+                
+                <h3>三种范式对比</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>范式</th>
+                            <th>特点</th>
+                            <th>应用场景</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>SO（Separate Optimization）</strong></td>
+                            <td>预测和决策分开优化，两阶段方法</td>
+                            <td>预测和决策目标差异大，可独立优化的场景</td>
+                        </tr>
+                        <tr>
+                            <td><strong>E2E（End-to-End）</strong></td>
+                            <td>预测和决策联合优化，决策驱动学习</td>
+                            <td>预测和决策紧密耦合，需要联合优化的场景</td>
+                        </tr>
+                        <tr>
+                            <td><strong>DL（Direct Learning）</strong></td>
+                            <td>直接学习决策函数，跳过显式预测</td>
+                            <td>只关心最终决策结果，不需要中间预测的场景</td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <h3>1. SO 预测与决策的错配</h3>
+                <div class="comparison-box">
+                    <h4>问题描述</h4>
+                    <p>在传统的两阶段方法（Separate Optimization）中，预测模型和决策模型是分开训练的，这导致了以下问题：</p>
+                    
+                    <h5>错配的根源</h5>
                     <ul>
-                        <li><strong>第一阶段</strong>：训练预测模型 $\hat{y} = f(x)$，目标是最小化预测误差（如 MSE）</li>
-                        <li><strong>第二阶段</strong>：使用预测结果 $\hat{y}$ 作为输入，通过优化器求解决策 $z^* = \arg\min_z C(z, \hat{y})$</li>
+                        <li><strong>目标函数不一致</strong>：预测模型优化的是预测精度（如MSE、MAE），而决策模型优化的是决策质量（如收益、成本）</li>
+                        <li><strong>信息丢失</strong>：预测模型输出通常是点估计，丢失了不确定性信息，而决策模型可能需要这些信息</li>
+                        <li><strong>梯度断裂</strong>：决策层的错误无法反向传播到预测层，预测模型无法根据决策反馈改进</li>
+                        <li><strong>次优解</strong>：预测精度最优不等于决策质量最优，可能导致整体性能不佳</li>
                     </ul>
                     
-                    <h4>问题所在</h4>
-                    <p>这种方法存在根本性的目标不匹配（loss mismatch）：</p>
+                    <h5>影响</h5>
                     <ul>
-                        <li>预测模型优化的是预测精度，但决策关心的是最终的决策质量</li>
-                        <li>最小化预测误差不一定能最小化决策损失</li>
-                        <li>决策损失对预测误差的敏感性因输入而异，但 SO 方法无法捕捉这一点</li>
+                        <li>系统整体性能低于理论上界</li>
+                        <li>对预测误差敏感，小的预测偏差可能导致决策大幅偏离最优</li>
+                        <li>难以利用决策反馈来改进预测</li>
                     </ul>
-                    
-                    <h4>数学形式</h4>
-                    <p>$$\min_{\theta} \mathbb{E}[\|y - f_\theta(x)\|^2]$$</p>
-                    <p>然后：</p>
-                    <p>$$z^* = \arg\min_z C(z, f_\theta(x))$$</p>
                 </div>
-
-                <h3 id="2-e2e-决策驱动学习">2. E2E - 决策驱动学习</h3>
-                <div class="method-card">
-                    <h4>核心思想</h4>
-                    <p>端到端学习将预测和决策整合在一个学习框架中，直接优化决策损失：</p>
-                    <p>$$\min_{\theta} \mathbb{E}[C(z^*(f_\theta(x)), y)]$$</p>
-                    <p>其中 $z^*(y_{pred}) = \arg\min_z C(z, y_{pred})$</p>
+                
+                <h3>2. E2E 决策驱动学习</h3>
+                <div class="comparison-box">
+                    <h4>核心概念</h4>
+                    <p>端到端学习（End-to-End Learning）通过将决策层集成到神经网络中，使得预测和决策能够联合优化。决策层的梯度可以直接反向传播到预测层，从而实现"决策驱动学习"。</p>
                     
-                    <h4>优势</h4>
-                    <ul>
-                        <li>目标对齐：直接优化最终的决策损失，避免了 SO 的目标不匹配问题</li>
-                        <li>自适应学习：模型学会在对决策影响大的区域更加精准</li>
-                        <li>理论上最优：在足够的表达能力下，E2E 学习能达到最优的决策性能</li>
-                    </ul>
+                    <h5>数学模型</h5>
+                    <div class="formula">
+                        $$\min_{\theta} \mathbb{E}_{y,\hat{y}}[L(M(y), M(\hat{y}))]$$
+                        <p>其中：</p>
+                        <ul>
+                            <li>$\theta$ 是模型参数</li>
+                            <li>$\hat{y}$ 是预测值</li>
+                            <li>$y$ 是真实值</li>
+                            <li>$M(\cdot)$ 是决策函数</li>
+                            <li>$L(\cdot)$ 是损失函数（通常与决策质量相关）</li>
+                        </ul>
+                    </div>
                     
-                    <h4>挑战</h4>
+                    <h5>反向传播</h5>
+                    <div class="formula">
+                        $$\frac{\partial L}{\partial \theta} = \frac{\partial L}{\partial M(\hat{y})} \cdot \frac{\partial M(\hat{y})}{\partial \hat{y}} \cdot \frac{\partial \hat{y}}{\partial \theta}$$
+                    </div>
+                    
+                    <h5>优势</h5>
                     <ul>
-                        <li>优化困难：需要通过优化器的梯度反向传播，这要求优化器可微</li>
-                        <li>计算复杂：每次梯度计算都需要求解一个优化问题</li>
-                        <li>非光滑性：许多实际的优化问题（如 MILP）不可微</li>
+                        <li>预测模型学习最关键的特征用于决策</li>
+                        <li>决策质量直接优化，避免了SO方法中的错配</li>
+                        <li>充分利用决策反馈来改进预测</li>
+                        <li>理论上可以达到更优的整体性能</li>
                     </ul>
                 </div>
-
-                <h3 id="3-dl-直接学习">3. DL - 直接学习</h3>
-                <div class="method-card">
+                
+                <h3>3. DL 直接学习</h3>
+                <div class="comparison-box">
                     <h4>核心思想</h4>
-                    <p>直接学习跳过显式的预测步骤，直接从原始特征学习最优决策：</p>
-                    <p>$$z = g(x)$$</p>
-                    <p>$$\min_{\phi} \mathbb{E}[C(g_\phi(x), y)]$$</p>
+                    <p>直接学习（Direct Learning）跳过显式的预测步骤，直接学习从原始特征到决策的映射函数。这种方法适用于只关心最终决策结果，不需要中间预测结果的场景。</p>
                     
-                    <h4>优势</h4>
+                    <h5>适用场景</h5>
                     <ul>
-                        <li>计算效率：无需显式预测，推理速度快</li>
-                        <li>端到端优化：直接优化决策损失，避免中间的预测步骤</li>
-                        <li>灵活性：可以处理难以显式建模的决策过程</li>
+                        <li>决策结果是唯一的关注点</li>
+                        <li>中间预测结果不需要被人类理解或使用</li>
+                        <li>计算资源有限，无法承担额外的预测模块</li>
                     </ul>
                     
-                    <h4>缺点</h4>
+                    <h5>与E2E的区别</h5>
                     <ul>
-                        <li>可解释性差：难以理解模型学到了什么预测关系</li>
-                        <li>可迁移性弱：模型难以迁移到新的决策问题</li>
-                        <li>需要大量数据：缺少预测任务的归纳偏差</li>
+                        <li><strong>E2E</strong>：保留显式预测，预测和决策联合优化</li>
+                        <li><strong>DL</strong>：完全跳过预测，直接优化决策</li>
                     </ul>
                 </div>
             </section>
-
-            <!-- E2E 三种方法对比 -->
-            <section id="e2e-methods" class="section">
-                <h2 id="二e2e三种方法对比">二、E2E 三种方法对比</h2>
+            
+            <!-- 第三部分：E2E三种方法对比 -->
+            <section id="section3" class="section">
+                <h2>三、E2E三种方法对比</h2>
                 
-                <h3 id="一句话总结">一句话总结</h3>
-                <div class="method-card">
-                    <p><strong>隐式微分</strong>通过优化器的隐函数定理求导；<strong>代理损失</strong>用可微的损失函数近似决策损失；<strong>近似方法</strong>用参数化的近似替代精确优化。</p>
+                <div class="summary-box">
+                    <h4>一句话总结</h4>
+                    <p>在端到端学习框架下，实现决策驱动学习的主要有三种方法：</p>
+                    <ul>
+                        <li><strong>隐式微分</strong>：通过隐函数定理求解KKT条件，获得决策对预测的梯度</li>
+                        <li><strong>代理损失</strong>：设计替代损失函数，使其优化结果与原决策问题一致</li>
+                        <li><strong>近似方法</strong>：用光滑的近似函数替代原决策函数，便于梯度计算</li>
+                    </ul>
                 </div>
-
-                <h3 id="方法对比表">方法对比表</h3>
-                <table class="comparison-table">
+                
+                <h3>三种方法对比表</h3>
+                <table>
                     <thead>
                         <tr>
                             <th>方法</th>
-                            <th>核心机制</th>
+                            <th>核心原理</th>
                             <th>优点</th>
                             <th>缺点</th>
                             <th>适用场景</th>
+                            <th>计算复杂度</th>
+                            <th>可解释性</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <td><strong>隐式微分</strong></td>
-                            <td>通过隐函数定理计算 $\frac{dz^*}{dy_{pred}}$</td>
-                            <td>理论严格，精确可微</td>
-                            <td>计算复杂度高，需要求解线性系统</td>
-                            <td>凸优化问题，对精度要求高</td>
+                            <td>隐式微分</td>
+                            <td>隐函数定理求梯度</td>
+                            <td>精确、无近似</td>
+                            <td>计算复杂、需求解器</td>
+                            <td>凸优化问题</td>
+                            <td>高</td>
+                            <td>高</td>
                         </tr>
                         <tr>
-                            <td><strong>代理损失（SPO+）</strong></td>
-                            <td>设计可微损失函数，近似决策损失</td>
-                            <td>实现简单，计算高效</td>
-                            <td>可能存在近似误差，需要精心设计</td>
-                            <td>线性优化问题，快速原型开发</td>
+                            <td>代理损失</td>
+                            <td>设计替代损失函数</td>
+                            <td>简单易实现、计算快</td>
+                            <td>可能不精确、需要设计</td>
+                            <td>特定问题类型</td>
+                            <td>低</td>
+                            <td>中</td>
                         </tr>
                         <tr>
-                            <td><strong>近似方法</strong></td>
-                            <td>用参数化模型 $\tilde{z}(y_{pred})$ 近似 $z^*(y_{pred})$</td>
-                            <td>灵活，可处理非凸问题</td>
-                            <td>需要额外的预训练，近似精度难以保证</td>
-                            <td>复杂非凸问题，需要快速推理</td>
+                            <td>近似方法</td>
+                            <td>光滑函数近似</td>
+                            <td>通用性强、易实现</td>
+                            <td>近似误差、参数调优</td>
+                            <td>通用场景</td>
+                            <td>中</td>
+                            <td>中</td>
                         </tr>
                     </tbody>
                 </table>
-
-                <h3 id="1-隐式微分implicit-differentiation">1 隐式微分（Implicit Differentiation）</h3>
-                <div class="method-card">
-                    <h4>原理</h4>
-                    <p>利用隐函数定理（Implicit Function Theorem）计算最优解 $z^*$ 对预测值 $y_{pred}$ 的梯度：</p>
-                    <p>$$\frac{dz^*}{dy_{pred}} = -\left(\nabla_z^2 C(z^*, y_{pred})\right)^{-1} \nabla_z \nabla_{y_{pred}} C(z^*, y_{pred})$$</p>
+                
+                <!-- 隐式微分 -->
+                <h3 id="implicit-diff">1. 隐式微分（Implicit Differentiation）</h3>
+                
+                <div class="comparison-box">
+                    <h4>核心思想</h4>
+                    <p>隐式微分利用隐函数定理（Implicit Function Theorem）来计算决策对预测的梯度。对于一个优化问题，最优解满足KKT条件。通过对KKT条件求导，可以得到最优解对参数的梯度。</p>
                     
-                    <h4>算法流程</h4>
-                    <ol>
-                        <li>前向传播：给定预测 $y_{pred}$，求解最优决策 $z^* = \arg\min_z C(z, y_{pred})$</li>
-                        <li>计算海森矩阵：$H = \nabla_z^2 C(z^*, y_{pred})$</li>
-                        <li>求解线性系统：$Hp = \nabla_z \nabla_{y_{pred}} C(z^*, y_{pred})$</li>
-                        <li>反向传播：使用 $\frac{dz^*}{dy_{pred}} = -p$ 计算梯度</li>
-                    </ol>
-
-                    <h4>优缺点</h4>
-                    <ul>
-                        <li><strong>优点</strong>：理论严格，精确可微，无近似误差</li>
-                        <li><strong>缺点</strong>：
-                            <ul>
-                                <li>计算复杂度高，需要求解线性系统</li>
-                                <li>要求海森矩阵可逆（即优化问题严格凸）</li>
-                                <li>对于大规模问题可能不可行</li>
-                            </ul>
-                        </li>
-                    </ul>
-
-                    <h4>代码示例</h4>
-                    <div class="code-block">
-import torch
-import torch.nn as nn
-
-class ImplicitDifferentiationLayer(nn.Module):
-    def __init__(self, optimizer_fn):
-        super().__init__()
-        self.optimizer_fn = optimizer_fn
-    
-    def forward(self, y_pred):
-        # 求解最优决策 z*
-        z_star = self.optimizer_fn(y_pred)
-        return z_star
-    
-    def backward(self, grad_output):
-        # 使用隐函数定理计算梯度
-        # 这里需要计算海森矩阵和线性系统求解
-        # 实现细节取决于具体的优化问题
-        pass
+                    <h5>数学原理</h5>
+                    <div class="formula">
+                        <p>对于优化问题：</p>
+                        $$z^* = \arg\min_z f(z; y)$$
+                        <p>其中 $y$ 是预测值。最优性条件为：</p>
+                        $$\nabla_z f(z^*; y) = 0$$
+                        <p>对 $y$ 求导：</p>
+                        $$\frac{\partial z^*}{\partial y} = -[\nabla_{zz}^2 f(z^*; y)]^{-1} \nabla_{yz}^2 f(z^*; y)$$
+                    </div>
+                    
+                    <h5>隐式微分的梯度计算</h5>
+                    <div class="formula">
+                        <p>对于复合函数 $L(z^*(y))$，链式法则给出：</p>
+                        $$\frac{\partial L}{\partial y} = \frac{\partial L}{\partial z^*} \cdot \frac{\partial z^*}{\partial y}$$
                     </div>
                 </div>
-
-                <h3 id="2-代理损失surrogate-loss以-spo-为代表">2 代理损失（Surrogate Loss，以 SPO+ 为代表）</h3>
-                <div class="method-card">
-                    <h4>原理</h4>
-                    <p>SPO+（Shortest Path Operator+）为线性优化问题设计了一个可微的代理损失函数。对于线性优化问题：</p>
-                    <p>$$z^*(y_{pred}) = \arg\min_z c(y_{pred})^T z$$</p>
-                    
-                    <p>SPO+ 定义损失函数为：</p>
-                    <p>$$L_{SPO+}(y_{pred}, y_{true}) = c(y_{pred})^T z^*(y_{true}) - c(y_{true})^T z^*(y_{true})$$</p>
-                    
-                    <p>其中 $z^*(y_{true})$ 是在真实成本下的最优解。</p>
-
-                    <h4>直观理解</h4>
-                    <p>SPO+ 损失衡量的是：使用预测成本 $c(y_{pred})$ 求得的最优解在真实成本 $c(y_{true})$ 下的性能与真实最优解的差距。</p>
-
-                    <h4>优缺点</h4>
+                
+                <h4>适合场景</h4>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>场景</th>
+                            <th>描述</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>凸优化问题</td>
+                            <td>目标函数和约束都是凸的，保证最优解唯一</td>
+                        </tr>
+                        <tr>
+                            <td>可微分问题</td>
+                            <td>目标函数二阶可微，Hessian矩阵可逆</td>
+                        </tr>
+                        <tr>
+                            <td>参数化线性规划</td>
+                            <td>如库存管理、资源分配等</td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <h4>优点</h4>
+                <div class="pros">
+                    <h5>优点</h5>
                     <ul>
-                        <li><strong>优点</strong>：
-                            <ul>
-                                <li>实现简单，只需求解两个线性优化问题</li>
-                                <li>计算高效，适合大规模问题</li>
-                                <li>有理论保证（在某些条件下）</li>
-                            </ul>
-                        </li>
-                        <li><strong>缺点</strong>：
-                            <ul>
-                                <li>仅适用于线性优化问题</li>
-                                <li>可能存在近似误差</li>
-                                <li>需要能够求解优化问题</li>
-                            </ul>
-                        </li>
+                        <li>精确计算梯度，无近似误差</li>
+                        <li>理论基础坚实，数学上严格</li>
+                        <li>对小规模问题效率高</li>
+                        <li>可以处理任意可微的目标函数</li>
                     </ul>
-
-                    <h4>代码示例</h4>
-                    <div class="code-block">
-import torch
-import torch.nn as nn
-
-class SPOPlusLayer(nn.Module):
-    def __init__(self, solver):
-        super().__init__()
-        self.solver = solver  # 线性优化求解器
-    
-    def forward(self, y_pred, y_true):
-        # 求解在预测成本下的最优解
-        z_pred = self.solver(y_pred)
-        # 求解在真实成本下的最优解
-        z_true = self.solver(y_true)
-        
-        # SPO+ 损失
-        loss = torch.sum(y_pred * z_true) - torch.sum(y_true * z_true)
-        return loss, z_pred
+                </div>
+                
+                <h4>缺点</h4>
+                <div class="cons">
+                    <h5>缺点</h5>
+                    <ul>
+                        <li>需要计算和反演Hessian矩阵，计算复杂度高</li>
+                        <li>对于大规模问题不可行</li>
+                        <li>Hessian矩阵可能不可逆或病态</li>
+                        <li>需要调用外部优化求解器</li>
+                        <li>对于非凸问题可能失效</li>
+                    </ul>
+                </div>
+                
+                <h4>典型应用</h4>
+                <ul>
+                    <li><strong>库存管理</strong>：预测需求，通过隐式微分优化库存决策</li>
+                    <li><strong>投资组合优化</strong>：预测收益，通过隐式微分优化资产配置</li>
+                    <li><strong>电力调度</strong>：预测负荷，通过隐式微分优化发电计划</li>
+                    <li><strong>运输路由</strong>：预测需求，通过隐式微分优化配送方案</li>
+                </ul>
+                
+                <!-- 代理损失 -->
+                <h3 id="surrogate-loss">2. 代理损失（Surrogate Loss，SPO+）</h3>
+                
+                <div class="comparison-box">
+                    <h4>核心思想</h4>
+                    <p>代理损失方法（特别是SPO+）的核心思想是设计一个替代的损失函数，使得最小化这个替代损失函数等价于或近似等价于最小化原始的决策成本。这样可以避免直接处理离散或非光滑的决策问题。</p>
+                    
+                    <h5>SPO+ 损失函数</h5>
+                    <div class="formula">
+                        <p>SPO+ 的损失函数定义为：</p>
+                        $$L_{SPO+} = -(2\hat{y} - y)^T M(2\hat{y} - y) + (2\hat{y} - y)^T M(y)$$
+                        <p>其中：</p>
+                        <ul>
+                            <li>$\hat{y}$ 是预测值</li>
+                            <li>$y$ 是真实值</li>
+                            <li>$M(\cdot)$ 是决策函数</li>
+                            <li>$2\hat{y} - y$ 是预测误差的倍数</li>
+                        </ul>
+                    </div>
+                    
+                    <h5>梯度计算</h5>
+                    <div class="formula">
+                        $$\frac{\partial L_{SPO+}}{\partial \hat{y}} = 2M(y) - 2M(2\hat{y} - y)$$
                     </div>
                 </div>
-
-                <h3 id="3-近似方法approximation-methods">3 近似方法（Approximation Methods）</h3>
-                <div class="method-card">
-                    <h4>原理</h4>
-                    <p>使用一个参数化的神经网络 $\tilde{z}_\phi(y_{pred})$ 来近似最优决策函数 $z^*(y_{pred})$：</p>
-                    <p>$$\tilde{z}_\phi(y_{pred}) \approx z^*(y_{pred})$$</p>
-                    
-                    <p>学习目标是最小化：</p>
-                    <p>$$\min_{\phi} \mathbb{E}[\|z^*(y_{pred}) - \tilde{z}_\phi(y_{pred})\|^2]$$</p>
-
-                    <h4>两阶段训练</h4>
-                    <ol>
-                        <li><strong>第一阶段</strong>：预训练近似函数
-                            <ul>
-                                <li>生成训练数据：对多个 $y_{pred}$ 值求解 $z^*(y_{pred})$</li>
-                                <li>训练神经网络 $\tilde{z}_\phi$ 来拟合这些解</li>
-                            </ul>
-                        </li>
-                        <li><strong>第二阶段</strong>：端到端微调
-                            <ul>
-                                <li>将 $\tilde{z}_\phi$ 作为可微的优化器</li>
-                                <li>通过决策损失反向传播来调整预测模型</li>
-                            </ul>
-                        </li>
-                    </ol>
-
-                    <h4>优缺点</h4>
+                
+                <h4>适合场景</h4>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>场景</th>
+                            <th>描述</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>线性决策问题</td>
+                            <td>决策函数是参数的线性函数</td>
+                        </tr>
+                        <tr>
+                            <td>组合优化问题</td>
+                            <td>如旅行商问题、背包问题等</td>
+                        </tr>
+                        <tr>
+                            <td>整数规划问题</td>
+                            <td>决策变量是整数</td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <h4>关键限制</h4>
+                <div class="cons">
+                    <h5>主要限制</h5>
                     <ul>
-                        <li><strong>优点</strong>：
-                            <ul>
-                                <li>灵活性高，可处理任意类型的优化问题（包括非凸、整数规划）</li>
-                                <li>推理速度快，只需一次前向传播</li>
-                                <li>可以利用深度学习的表达能力</li>
-                            </ul>
-                        </li>
-                        <li><strong>缺点</strong>：
-                            <ul>
-                                <li>需要大量的预训练数据</li>
-                                <li>近似精度难以保证</li>
-                                <li>需要两个训练阶段，工程复杂度高</li>
-                            </ul>
-                        </li>
+                        <li><strong>线性假设</strong>：SPO+ 要求决策函数是参数的线性函数，对于非线性决策问题不适用</li>
+                        <li><strong>完全信息假设</strong>：假设真实参数 $y$ 已知，但实际中 $y$ 也是预测的</li>
+                        <li><strong>凸性要求</strong>：要求决策问题是凸的</li>
+                        <li><strong>参数规模</strong>：对于高维参数空间，计算效率下降</li>
                     </ul>
-
-                    <h4>代码示例</h4>
-                    <div class="code-block">
-import torch
-import torch.nn as nn
-
-class ApproximationOptimizer(nn.Module):
-    def __init__(self, input_dim, output_dim, hidden_dim=128):
-        super().__init__()
-        self.net = nn.Sequential(
-            nn.Linear(input_dim, hidden_dim),
-            nn.ReLU(),
-            nn.Linear(hidden_dim, hidden_dim),
-            nn.ReLU(),
-            nn.Linear(hidden_dim, output_dim)
-        )
-    
-    def forward(self, y_pred):
-        return self.net(y_pred)
-
-# 预训练阶段
-def pretrain_approximator(solver, train_data, epochs=100):
-    model = ApproximationOptimizer(input_dim=10, output_dim=5)
-    optimizer = torch.optim.Adam(model.parameters())
-    
-    for epoch in range(epochs):
-        for y_pred in train_data:
-            z_true = solver(y_pred)
-            z_pred = model(y_pred)
-            loss = torch.nn.functional.mse_loss(z_pred, z_true)
-            
-            optimizer.zero_grad()
-            loss.backward()
-            optimizer.step()
-    
-    return model
-
-# 使用示例
-class PerturbationOptimizer(nn.Module):
-    def __init__(self, solver, sigma=0.05, n_samples=20):
-        super().__init__()
-        self.solver = solver  # 你的 MILP 求解器
-        self.sigma = sigma    # 噪声标准差
-        self.n_samples = n_samples  # 扰动样本数
-
-    def forward(self, y_pred):
-        # 添加噪声，求解多次
-        z_samples = []
-        for _ in range(self.n_samples):
-            y_noisy = y_pred + torch.randn_like(y_pred) * self.sigma
-            z = self.solver(y_noisy)
-            z_samples.append(z)
-
-        # 返回期望解
-        return torch.stack(z_samples).mean(dim=0)
+                </div>
+                
+                <h4>典型应用</h4>
+                <ul>
+                    <li><strong>库存管理</strong>：SPO+ 最初应用于库存优化问题</li>
+                    <li><strong>价格优化</strong>：预测需求曲线，优化定价策略</li>
+                    <li><strong>资源分配</strong>：在约束条件下优化资源分配</li>
+                    <li><strong>运输物流</strong>：预测需求，优化运输方案</li>
+                </ul>
+                
+                <h4>优点</h4>
+                <div class="pros">
+                    <h5>优点</h5>
+                    <ul>
+                        <li>实现简单，易于集成到神经网络中</li>
+                        <li>计算效率高，梯度计算快速</li>
+                        <li>对于线性决策问题理论上最优</li>
+                        <li>已有成熟的理论分析</li>
+                        <li>在多个实际应用中验证有效</li>
+                    </ul>
+                </div>
+                
+                <h4>缺点</h4>
+                <div class="cons">
+                    <h5>缺点</h5>
+                    <ul>
+                        <li>仅限于线性决策问题</li>
+                        <li>对非线性或组合优化问题的扩展困难</li>
+                        <li>在某些情况下可能导致预测偏差</li>
+                        <li>需要显式计算决策函数 $M(\cdot)$</li>
+                        <li>对于大规模问题可能不够高效</li>
+                    </ul>
+                </div>
+                
+                <!-- 近似方法 -->
+                <h3 id="approximation">3. 近似方法（Approximation Methods）</h3>
+                
+                <div class="comparison-box">
+                    <h4>核心思想</h4>
+                    <p>近似方法通过用光滑的、可微分的函数来近似原始的决策函数（通常是非光滑或离散的），从而使得梯度计算变得可行。常见的近似方法包括Softmax近似、Gumbel-Softmax等。</p>
+                    
+                    <h5>数学原理</h5>
+                    <div class="formula">
+                        <p>对于离散决策问题，用光滑函数近似：</p>
+                        $$\tilde{z}^* = g_{\tau}(\nabla_z f(z; y))$$
+                        <p>其中 $g_{\tau}(\cdot)$ 是温度参数为 $\tau$ 的光滑函数（如Softmax）。</p>
+                        <p>当 $\tau \to 0$ 时，$\tilde{z}^* \to z^*$。</p>
                     </div>
+                    
+                    <h5>扰动方法</h5>
+                    <div class="formula">
+                        <p>另一种近似方法是通过添加随机扰动：</p>
+                        $$z_{\text{perturb}}^* = \mathbb{E}_{\varepsilon}[M(\tilde{y} + \varepsilon Z)]$$
+                        <p>其中 $\varepsilon$ 是扰动强度，$Z$ 是随机矩阵。</p>
+                    </div>
+                </div>
+                
+                <img src="https://km.sankuai.com/api/file/cdn/2741552238/229347334702?contentType=1&isNewContent=false" alt="近似方法示意图">
+                
+                <h4>适合场景</h4>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>场景</th>
+                            <th>描述</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>非凸优化问题</td>
+                            <td>决策问题是非凸的</td>
+                        </tr>
+                        <tr>
+                            <td>离散决策问题</td>
+                            <td>决策变量是离散的</td>
+                        </tr>
+                        <tr>
+                            <td>组合优化问题</td>
+                            <td>涉及排列、组合等离散结构</td>
+                        </tr>
+                        <tr>
+                            <td>通用场景</td>
+                            <td>对大多数决策问题都适用</td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <h4>典型应用</h4>
+                <ul>
+                    <li><strong>神经组合优化</strong>：使用注意力机制近似旅行商问题（TSP）的解</li>
+                    <li><strong>排序问题</strong>：使用Softmax近似排序操作</li>
+                    <li><strong>图神经网络</strong>：在图结构学习中使用Gumbel-Softmax</li>
+                    <li><strong>强化学习</strong>：使用温度缩放的Softmax作为策略</li>
+                </ul>
+                
+                <h4>优点</h4>
+                <div class="pros">
+                    <h5>优点</h5>
+                    <ul>
+                        <li>通用性强，适用于各种类型的决策问题</li>
+                        <li>实现相对简单，易于与深度学习框架集成</li>
+                        <li>计算效率高，梯度计算快速</li>
+                        <li>可以处理离散和组合优化问题</li>
+                        <li>灵活性高，可根据问题特点调整近似方式</li>
+                    </ul>
+                </div>
+                
+                <h4>缺点</h4>
+                <div class="cons">
+                    <h5>缺点</h5>
+                    <ul>
+                        <li>近似引入误差，可能影响决策质量</li>
+                        <li>需要调优近似参数（如温度 $\tau$）</li>
+                        <li>理论分析相对复杂，收敛性保证困难</li>
+                        <li>对于某些问题，近似效果不理想</li>
+                        <li>可能需要多次实验来找到最优的近似方式</li>
+                    </ul>
                 </div>
             </section>
-
-            <img src="https://km.sankuai.com/api/file/cdn/2741552238/229347334702?contentType=1&isNewContent=false" alt="方法对比详解" class="decision-image">
-
-            <footer class="footer">
-                <p>📚 本文档基于最新的预测与决策研究</p>
-                <p>🔗 <a href="index.html">← 返回时序模型调研主页</a></p>
-            </footer>
-        </main>
+            
+            <!-- 第四部分：常见问题 -->
+            <section id="section4" class="section">
+                <h2>四、常见问题</h2>
+                
+                <h3>如何处理不确定性和模型误差？</h3>
+                
+                <div class="faq-item">
+                    <h4>现象</h4>
+                    <p>在实际应用中，预测模型往往存在系统偏差或过度自信，导致决策偏离最优。特别是在以下情况下问题更突出：</p>
+                    <ul>
+                        <li>训练数据分布与实际数据分布不一致</li>
+                        <li>模型容量不足，无法捕捉复杂的数据关系</li>
+                        <li>特征工程不充分，遗漏了关键特征</li>
+                        <li>超参数设置不合理，导致过拟合或欠拟合</li>
+                        <li>数据中存在异常值或标注错误</li>
+                    </ul>
+                </div>
+                
+                <div class="faq-item">
+                    <h4>Root Cause</h4>
+                    <p>不确定性和模型误差的根本原因包括：</p>
+                    <ul>
+                        <li><strong>数据质量问题</strong>：训练数据不足、噪声大、标注不准确</li>
+                        <li><strong>模型设计缺陷</strong>：模型结构不适合问题，超参数设置不当</li>
+                        <li><strong>分布偏移</strong>：训练数据与测试数据来自不同分布</li>
+                        <li><strong>特征空间不完整</strong>：缺少关键信息，无法完全解释目标变量</li>
+                        <li><strong>优化困难</strong>：优化过程陷入局部最优，未收敛到全局最优</li>
+                    </ul>
+                </div>
+                
+                <div class="faq-item">
+                    <h4>解决方案</h4>
+                    <p>针对不确定性和模型误差，有以下几种处理方法：</p>
+                    
+                    <h5>1. 不确定性量化</h5>
+                    <ul>
+                        <li><strong>贝叶斯深度学习</strong>：使用Bayesian Neural Networks或MC Dropout来估计预测的不确定性</li>
+                        <li><strong>集成方法</strong>：训练多个模型，通过预测的方差来衡量不确定性</li>
+                        <li><strong>分位数回归</strong>：预测置信区间而不仅仅是点估计</li>
+                    </ul>
+                    
+                    <h5>2. 鲁棒决策</h5>
+                    <ul>
+                        <li><strong>鲁棒优化</strong>：在最坏情况下优化决策，对不确定性进行防御</li>
+                        <li><strong>随机规划</strong>：考虑不确定性的概率分布，进行期望值优化</li>
+                        <li><strong>自适应决策</strong>：根据实时反馈动态调整决策</li>
+                    </ul>
+                    
+                    <h5>3. 模型改进</h5>
+                    <ul>
+                        <li><strong>数据增强</strong>：增加训练数据量，改进数据质量</li>
+                        <li><strong>特征工程</strong>：发现和创造更好的特征</li>
+                        <li><strong>模型选择</strong>：尝试不同的模型架构和算法</li>
+                        <li><strong>超参数优化</strong>：系统地搜索最优的超参数组合</li>
+                    </ul>
+                    
+                    <h5>4. 在线学习和反馈</h5>
+                    <ul>
+                        <li><strong>持续学习</strong>：随着新数据到达，不断更新模型</li>
+                        <li><strong>反馈循环</strong>：收集决策反馈，用于改进预测模型</li>
+                        <li><strong>多臂赌博机</strong>：在探索和利用之间平衡，逐步学习最优决策</li>
+                    </ul>
+                </div>
+                
+                <div class="faq-item">
+                    <h4>脚注与参考</h4>
+                    <p>处理不确定性的关键要点：</p>
+                    <ul>
+                        <li>不确定性是不可避免的，关键是如何有效地量化和利用它</li>
+                        <li>鲁棒性和适应性是实际应用中的重要考虑</li>
+                        <li>端到端学习可以自动学习如何在不确定性下做出最优决策</li>
+                        <li>多种方法的组合通常优于单一方法</li>
+                        <li>持续的反馈和改进是长期成功的关键</li>
+                    </ul>
+                </div>
+            </section>
+            
+            <!-- 结论 -->
+            <section class="section">
+                <h2>总结</h2>
+                <div class="summary-box">
+                    <h4>关键要点</h4>
+                    <ul>
+                        <li><strong>预测与决策的结合</strong>是现代优化和机器学习的重要方向</li>
+                        <li><strong>端到端学习</strong>通过联合优化预测和决策，可以获得更好的性能</li>
+                        <li><strong>三种主要方法</strong>（隐式微分、代理损失、近似方法）各有优缺点，应根据具体问题选择</li>
+                        <li><strong>不确定性处理</strong>是实际应用中的关键，需要量化、量化和适应</li>
+                        <li><strong>持续改进</strong>是获得最优性能的必要条件</li>
+                    </ul>
+                </div>
+            </section>
+        </div>
     </div>
-
-    <script>
-        // 平滑滚动
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({ behavior: 'smooth' });
-                }
-            });
-        });
-
-        // 返回主页链接
-        document.querySelector('a[href="index.html"]').addEventListener('click', function(e) {
-            // 允许正常导航
-        });
-    </script>
-    <!-- 在线编辑器 - Quill.js + GitHub API -->
-    <link rel="stylesheet" href="https://cdn.quilljs.com/1.3.7/quill.snow.css">
-    <link rel="stylesheet" href="editor.css">
-    <script src="https://cdn.quilljs.com/1.3.7/quill.min.js"></script>
-    <script src="editor.js"></script>
 </body>
 </html>
