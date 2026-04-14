@@ -296,7 +296,7 @@
                 </div>
 
                 <h3>3. 顺序正则化（Ordinal Regularization）</h3>
-                <p>强制 \(\hat{\phi}_m\) 随 $m$ 增加而单调递减：</p>
+                <p>强制 \(\hat{\phi}_m\) 随 \(m\) 增加而单调递减：</p>
                 <div class="formula">
                     \[\mathcal{L}_{\text{ord}} = \sum_{m=1}^{M-1} \max(\hat{\phi}_{m+1} - \hat{\phi}_m, 0)\]
                 </div>
@@ -363,7 +363,7 @@
                     <li>\(\alpha\) 可调，平衡两种误差</li>
                 </ul>
 
-                <p>通过网格搜索选择最优 \(\alpha\)，实验表明 $\beta = 3.0$ 时性能最佳。</p>
+                <p>通过网格搜索选择最优 \(\alpha\)，实验表明 \(\beta = 3.0\) 时性能最佳。</p>
 
                 <h2 id="六实验与结果">六、实验与结果</h2>
 
@@ -413,7 +413,7 @@
                         <li><strong>EAD 优于等宽和等频</strong>：适当 \(\beta\) 能显著提升性能。</li>
                         <li><strong>顺序正则化有效</strong>：尤其在尾部桶中误差降低明显。</li>
                         <li><strong>Huber 损失最佳</strong>：优于 MSE 和 MAE。</li>
-                        <li><strong>桶数 $M = 30$</strong> 为最佳折中。</li>
+                        <li><strong>桶数 \(M = 30\)</strong> 为最佳折中。</li>
                     </ul>
                 </div>
 
