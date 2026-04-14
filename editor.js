@@ -87,10 +87,50 @@ function handleTokenClick() {
     updateTokenButtonStatus(false);
     showStatus('Token 已清除', 'info');
   } else {
+    // 验证 Token 是否有效
+    verifyToken(token);
+  }
+}
+
+/**
+ * 验证 GitHub Token 是否有效
+ */
+async function verifyToken(token) {
+  try {
+    showStatus('正在验证 Token...', 'info');
+
+    const response = await fetch('https://api.github.com/user', {
+      method: 'GET',
+      headers: {
+        'Authorization': `token ${token}`,
+        'Accept': 'application/vnd.github.v3+json'
+      }
+    });
+
+    console.log('Token 验证响应状态:', response.status);
+
+    if (response.status === 401 || response.status === 403) {
+      throw new Error('Token 无效或权限不足');
+    }
+
+    if (!response.ok) {
+      throw new Error(`验证失败: ${response.status} ${response.statusText}`);
+    }
+
+    const userData = await response.json();
+    console.log('Token 有效，用户:', userData.login);
+
+    // Token 有效，保存它
     EditorState.githubToken = token;
     localStorage.setItem('github_editor_token', token);
     updateTokenButtonStatus(true);
-    showStatus('Token 已保存', 'success');
+    showStatus(`✓ Token 已验证并保存 (用户: ${userData.login})`, 'success');
+  } catch (error) {
+    console.error('Token 验证失败:', error);
+    EditorState.githubToken = null;
+    localStorage.removeItem('github_editor_token');
+    updateTokenButtonStatus(false);
+    showStatus(`✗ Token 验证失败: ${error.message}`, 'error');
   }
 }
 
