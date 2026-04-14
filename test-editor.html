@@ -195,7 +195,7 @@
                 const response = await fetch('https://api.github.com/user', {
                     headers: {
                         'Authorization': `token ${TOKEN}`,
-                        'Accept': 'application/vnd.github.v3+json',
+                        'Accept': 'application/json',
                         'User-Agent': 'Mozilla/5.0'
                     }
                 });
@@ -231,7 +231,7 @@
                 const response = await fetch(GITHUB_API_BASE, {
                     headers: {
                         'Authorization': `token ${TOKEN}`,
-                        'Accept': 'application/vnd.github.v3+json',
+                        'Accept': 'application/json',
                         'User-Agent': 'Mozilla/5.0'
                     }
                 });
@@ -275,7 +275,7 @@
                     mode: 'cors',
                     headers: {
                         'Authorization': `token ${TOKEN}`,
-                        'Accept': 'application/vnd.github.v3+json',
+                        'Accept': 'application/json',
                         'User-Agent': 'Mozilla/5.0'
                     }
                 });

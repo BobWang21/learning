@@ -103,7 +103,7 @@ async function verifyToken(token) {
       method: 'GET',
       headers: {
         'Authorization': `token ${token}`,
-        'Accept': 'application/vnd.github.v3+json',
+        'Accept': 'application/json',
         'User-Agent': 'Mozilla/5.0'
       }
     });
@@ -287,7 +287,7 @@ async function fetchFileFromGitHub(filePath) {
     method: 'GET',
     headers: {
       'Authorization': `token ${EditorState.githubToken}`,
-      'Accept': 'application/vnd.github.v3+json',
+      'Accept': 'application/json',
       'User-Agent': 'Mozilla/5.0'
     }
   });
