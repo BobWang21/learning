@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CREAD: 视频推荐系统中的观看时长预测</title>
     <link rel="stylesheet" href="styles.css">
+    <!-- MathJax for LaTeX -->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <style>
         .ai-section {
             background: white;
@@ -180,7 +183,7 @@
         <main class="content">
             <header class="header">
                 <h1>CREAD: 视频推荐系统中的观看时长预测</h1>
-                <p class="subtitle">分类-恢复框架与误差自适应离散化</p>
+                <p class="subtitle">分类-恢复框架与误差自适应离散化（Error Adaptive Discretization）</p>
             </header>
 
             <div class="breadcrumb">
@@ -250,43 +253,43 @@
                 <p>CREAD 提出一个<strong>分类-恢复框架</strong>，包含三个模块：</p>
 
                 <h3>1. 离散化模块（Discretization Module）</h3>
-                <p>将连续观看时长 <code>y</code> 划分为 <code>M</code> 个桶：<code>d_m = [t_{m-1}, t_m]</code></p>
-                <p>定义 <code>M</code> 个二分类任务：<code>φ_m(x) = P(y > t_m | x)</code></p>
+                <p>将连续观看时长 $y$ 划分为 $M$ 个桶：$d_m = [t_{m-1}, t_m]$</p>
+                <p>定义 $M$ 个二分类任务：$\phi_m(x) = P(y > t_m | x)$</p>
 
                 <h3>2. 分类模块（Classification Module）</h3>
-                <p>使用神经网络训练 <code>M</code> 个分类器，输出概率 <code>φ̂_m</code></p>
+                <p>使用神经网络训练 $M$ 个分类器，输出概率 $\hat{\phi}_m$</p>
 
                 <h3>3. 恢复模块（Restoration Module）</h3>
-                <p>根据概率 <code>φ̂_m</code> 恢复预测值：</p>
+                <p>根据概率 $\hat{\phi}_m$ 恢复预测值：</p>
                 <div class="formula">
-                    ŷ = Σ(φ̂_m) · (t_m - t_{m-1})
+                    $$\hat{y} = \sum_{m=1}^{M} \hat{\phi}_m \cdot (t_m - t_{m-1})$$
                 </div>
 
                 <h2 id="四损失函数设计">四、损失函数设计</h2>
 
                 <p>总损失函数为：</p>
                 <div class="formula">
-                    L_CREAD = λ_ce · L_ce + λ_restore · L_restore + λ_ord · L_ord
+                    $$\mathcal{L}_{\text{CREAD}} = \lambda_{\text{ce}} \mathcal{L}_{\text{ce}} + \lambda_{\text{restore}} \mathcal{L}_{\text{restore}} + \lambda_{\text{ord}} \mathcal{L}_{\text{ord}}$$
                 </div>
 
                 <h3>1. 分类损失（Cross-Entropy Loss）</h3>
                 <div class="formula">
-                    L_ce = Σ -y_m log(φ̂_m) - (1 - y_m) log(1 - φ̂_m)
+                    $$\mathcal{L}_{\text{ce}} = \sum_{m=1}^{M} -y_m \log(\hat{\phi}_m) - (1 - y_m) \log(1 - \hat{\phi}_m)$$
                 </div>
 
                 <h3>2. 恢复损失（Restoration Loss）</h3>
                 <p>使用 <strong>Huber Loss</strong>，结合 MSE 和 MAE 的优点，对异常值不敏感。</p>
                 <div class="formula">
-                    L_restore = {
-                        0.5(y - ŷ)² if |y - ŷ| < δ
-                        δ|y - ŷ| - 0.5δ² otherwise
-                    }
+                    $$\mathcal{L}_{\text{restore}} = \begin{cases}
+                    \frac{1}{2}(y - \hat{y})^2, & |y - \hat{y}| < \delta \\
+                    \delta |y - \hat{y}| - \frac{1}{2}\delta^2, & \text{otherwise}
+                    \end{cases}$$
                 </div>
 
                 <h3>3. 顺序正则化（Ordinal Regularization）</h3>
-                <p>强制 <code>φ̂_m</code> 随 <code>m</code> 增加而单调递减：</p>
+                <p>强制 $\hat{\phi}_m$ 随 $m$ 增加而单调递减：</p>
                 <div class="formula">
-                    L_ord = Σ max(φ̂_{m+1} - φ̂_m, 0)
+                    $$\mathcal{L}_{\text{ord}} = \sum_{m=1}^{M-1} \max(\hat{\phi}_{m+1} - \hat{\phi}_m, 0)$$
                 </div>
 
                 <h2 id="五离散化误差分析与-ead-方法">五、离散化误差分析与 EAD 方法</h2>
@@ -294,24 +297,24 @@
                 <h3>1. 误差分解（Lemma 4.1）</h3>
                 <p>将预测误差分解为：</p>
                 <ul>
-                    <li><code>V_p</code>：学习误差（分类器误差）</li>
-                    <li><code>V_w</code>：桶内均值估计误差</li>
-                    <li><code>V_b</code>：恢复误差（用桶内均值替代真实分布）</li>
-                    <li><code>V_y</code>：数据本身方差</li>
+                    <li>$V_p$：学习误差（分类器误差）</li>
+                    <li>$V_w$：桶内均值估计误差</li>
+                    <li>$V_b$：恢复误差（用桶内均值替代真实分布）</li>
+                    <li>$V_y$：数据本身方差</li>
                 </ul>
 
                 <h3>2. 误差上界（Theorem 4.2）</h3>
                 <p>在最大似然估计和输入有限假设下：</p>
                 <div class="formula">
-                    V_p ≤ (C_p |X|) / N · A_p(D)
-                    V_w ≤ C_w / N · A_w(D)
-                    V_b ≤ C_b · A_b(D)
+                    $$V_p \leq \frac{C_p |\mathcal{X}|}{N} \cdot A_p(\mathcal{D})$$
+                    $$V_w \leq \frac{C_w}{N} \cdot A_w(\mathcal{D})$$
+                    $$V_b \leq C_b \cdot A_b(\mathcal{D})$$
                 </div>
 
                 <p>其中：</p>
                 <ul>
-                    <li><code>A_w</code> 与桶内样本数成反比 → 影响学习误差</li>
-                    <li><code>A_b</code> 与桶宽度成正比 → 影响恢复误差</li>
+                    <li>$A_w$ 与桶内样本数成反比 → 影响学习误差</li>
+                    <li>$A_b$ 与桶宽度成正比 → 影响恢复误差</li>
                 </ul>
 
                 <h3>3. 等宽 vs 等频的问题</h3>
@@ -325,12 +328,12 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td>等宽</td>
+                            <td><strong>等宽</strong></td>
                             <td>桶宽固定</td>
                             <td>尾部桶样本极少 → 学习误差大</td>
                         </tr>
                         <tr>
-                            <td>等频</td>
+                            <td><strong>等频</strong></td>
                             <td>每个桶样本数固定</td>
                             <td>尾部桶极宽 → 恢复误差大</td>
                         </tr>
@@ -338,20 +341,20 @@
                 </table>
 
                 <h3>4. 提出的 EAD 方法</h3>
-                <p>目标：最小化 <code>J(D) = A_w(D) + β A_b(D)</code></p>
+                <p>目标：最小化 $J(\mathcal{D}) = A_w(\mathcal{D}) + \beta A_b(\mathcal{D})$</p>
 
-                <p>引入校准函数 <code>γ(z; α)</code>：</p>
+                <p>引入校准函数 $\gamma(z; \alpha)$：</p>
                 <div class="formula">
-                    t_m = Ψ^{-1}(γ(m/M; α))
+                    $$t_m = \Psi^{-1}\left( \gamma\left(\frac{m}{M}; \alpha\right) \right)$$
                 </div>
 
                 <ul>
-                    <li><code>α = 0</code>：等频</li>
-                    <li><code>α = 5</code>：等宽</li>
-                    <li><code>α</code> 可调，平衡两种误差</li>
+                    <li>$\alpha = 0$：等频</li>
+                    <li>$\alpha = 5$：等宽</li>
+                    <li>$\alpha$ 可调，平衡两种误差</li>
                 </ul>
 
-                <p>通过网格搜索选择最优 <code>α</code>，实验表明 <code>β = 3.0</code> 时性能最佳。</p>
+                <p>通过网格搜索选择最优 $\alpha$，实验表明 $\beta = 3.0$ 时性能最佳。</p>
 
                 <h2 id="六实验与结果">六、实验与结果</h2>
 
@@ -398,10 +401,10 @@
                 <h3>4. 消融实验</h3>
                 <div class="highlight-box">
                     <ul>
-                        <li><strong>EAD 优于等宽和等频</strong>：适当 β 能显著提升性能。</li>
+                        <li><strong>EAD 优于等宽和等频</strong>：适当 $\beta$ 能显著提升性能。</li>
                         <li><strong>顺序正则化有效</strong>：尤其在尾部桶中误差降低明显。</li>
                         <li><strong>Huber 损失最佳</strong>：优于 MSE 和 MAE。</li>
-                        <li><strong>桶数 M = 30</strong> 为最佳折中。</li>
+                        <li><strong>桶数 $M = 30$</strong> 为最佳折中。</li>
                     </ul>
                 </div>
 
