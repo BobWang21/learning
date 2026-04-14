@@ -199,32 +199,44 @@ async function enterEditMode() {
 
   try {
     showStatus('正在加载文件...', 'info');
+    console.log('=== 进入编辑模式 ===');
+    console.log('Token 长度:', EditorState.githubToken.length);
+    console.log('Token 前缀:', EditorState.githubToken.substring(0, 10) + '...');
 
     const filePath = getCurrentFilePath();
+    console.log('文件路径:', filePath);
     EditorState.currentFilePath = filePath;
 
     // 从 GitHub 获取文件
+    console.log('正在从 GitHub 获取文件...');
     const fileData = await fetchFileFromGitHub(filePath);
+    console.log('文件获取成功，SHA:', fileData.sha);
     EditorState.currentFileSha = fileData.sha;
     EditorState.originalFileContent = fileData.content;
 
     // 提取 .ai-section 内容
+    console.log('正在提取 .ai-section 内容...');
     const sectionContent = extractSectionContent(fileData.content);
+    console.log('提取成功，内容长度:', sectionContent.length);
     EditorState.originalSectionContent = sectionContent;
 
     // 创建编辑器容器
+    console.log('正在创建编辑器容器...');
     createEditorContainer();
 
     // 初始化 Quill
+    console.log('正在初始化 Quill...');
     initQuill(sectionContent);
 
     // 更新 UI
     EditorState.isEditing = true;
     updateEditUI();
     showStatus('编辑模式已启用', 'success');
+    console.log('✓ 编辑模式启用成功');
 
   } catch (error) {
     console.error('进入编辑模式失败:', error);
+    console.error('错误堆栈:', error.stack);
     showStatus(`错误: ${error.message}`, 'error');
   }
 }
@@ -234,8 +246,11 @@ async function enterEditMode() {
  */
 async function fetchFileFromGitHub(filePath) {
   const url = `${GITHUB_API_BASE}/${filePath}`;
-  console.log('正在获取文件:', url);
+  console.log('GitHub API URL:', url);
+  console.log('Authorization header:', `token ${EditorState.githubToken.substring(0, 10)}...`);
 
+  // 第一次请求：获取原始内容
+  console.log('第一次请求：获取原始内容...');
   const response = await fetch(url, {
     method: 'GET',
     headers: {
@@ -244,9 +259,10 @@ async function fetchFileFromGitHub(filePath) {
     }
   });
 
-  console.log('第一次请求状态:', response.status);
+  console.log('第一次请求状态:', response.status, response.statusText);
 
   if (response.status === 401 || response.status === 403) {
+    console.error('Token 认证失败');
     localStorage.removeItem('github_editor_token');
     EditorState.githubToken = null;
     updateTokenButtonStatus(false);
@@ -254,13 +270,17 @@ async function fetchFileFromGitHub(filePath) {
   }
 
   if (!response.ok) {
+    const errorText = await response.text();
+    console.error('API 错误响应:', errorText.substring(0, 200));
     throw new Error(`GitHub API 错误: ${response.status} ${response.statusText}`);
   }
 
   // 获取原始内容
   const content = await response.text();
+  console.log('原始内容获取成功，长度:', content.length);
 
-  // 再次调用获取 SHA（用于提交）
+  // 第二次请求：获取 SHA（用于提交）
+  console.log('第二次请求：获取文件元数据...');
   const jsonResponse = await fetch(url, {
     method: 'GET',
     headers: {
@@ -269,9 +289,10 @@ async function fetchFileFromGitHub(filePath) {
     }
   });
 
-  console.log('第二次请求状态:', jsonResponse.status);
+  console.log('第二次请求状态:', jsonResponse.status, jsonResponse.statusText);
 
   if (jsonResponse.status === 401 || jsonResponse.status === 403) {
+    console.error('Token 认证失败（第二次请求）');
     localStorage.removeItem('github_editor_token');
     EditorState.githubToken = null;
     updateTokenButtonStatus(false);
@@ -279,14 +300,20 @@ async function fetchFileFromGitHub(filePath) {
   }
 
   if (!jsonResponse.ok) {
+    const errorText = await jsonResponse.text();
+    console.error('API 错误响应:', errorText.substring(0, 200));
     throw new Error(`GitHub API 错误: ${jsonResponse.status} ${jsonResponse.statusText}`);
   }
 
+  // 解析 JSON
   let jsonData;
   try {
     jsonData = await jsonResponse.json();
+    console.log('JSON 解析成功，SHA:', jsonData.sha);
   } catch (error) {
     console.error('JSON 解析错误:', error);
+    const responseText = await jsonResponse.text();
+    console.error('响应内容:', responseText.substring(0, 200));
     throw new Error(`无法解析 GitHub API 响应: ${error.message}`);
   }
 
