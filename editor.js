@@ -194,6 +194,7 @@ async function enterEditMode() {
  */
 async function fetchFileFromGitHub(filePath) {
   const url = `${GITHUB_API_BASE}/${filePath}`;
+  console.log('正在获取文件:', url);
 
   const response = await fetch(url, {
     method: 'GET',
@@ -202,6 +203,8 @@ async function fetchFileFromGitHub(filePath) {
       'Accept': 'application/vnd.github.v3.raw'
     }
   });
+
+  console.log('第一次请求状态:', response.status);
 
   if (response.status === 401 || response.status === 403) {
     localStorage.removeItem('github_editor_token');
@@ -226,6 +229,15 @@ async function fetchFileFromGitHub(filePath) {
     }
   });
 
+  console.log('第二次请求状态:', jsonResponse.status);
+
+  if (jsonResponse.status === 401 || jsonResponse.status === 403) {
+    localStorage.removeItem('github_editor_token');
+    EditorState.githubToken = null;
+    updateTokenButtonStatus(false);
+    throw new Error('Token 无效或已过期，请重新设置');
+  }
+
   if (!jsonResponse.ok) {
     throw new Error(`GitHub API 错误: ${jsonResponse.status} ${jsonResponse.statusText}`);
   }
@@ -234,6 +246,7 @@ async function fetchFileFromGitHub(filePath) {
   try {
     jsonData = await jsonResponse.json();
   } catch (error) {
+    console.error('JSON 解析错误:', error);
     throw new Error(`无法解析 GitHub API 响应: ${error.message}`);
   }
 
