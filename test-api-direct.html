@@ -44,12 +44,16 @@
 
             try {
                 log('发送 fetch 请求...');
-                const response = await fetch(url, {
+                const urlWithCache = url + '?t=' + Date.now();
+                log(`实际 URL: ${urlWithCache}\n`);
+                const response = await fetch(urlWithCache, {
                     method: 'GET',
+                    cache: 'no-store',
                     headers: {
                         'Authorization': `token ${token}`,
                         'Accept': 'application/json',
-                        'User-Agent': 'Mozilla/5.0'
+                        'User-Agent': 'Mozilla/5.0',
+                        'X-GitHub-Api-Version': '2022-11-28'
                     }
                 });
 

@@ -250,18 +250,21 @@ async function fetchFileFromGitHub(filePath) {
   console.log('GitHub API URL:', url);
   console.log('Authorization header:', `token ${EditorState.githubToken.substring(0, 10)}...`);
 
-  // 第一次请求：获取原始内容
-  console.log('第一次请求：获取原始内容...');
-  const response = await fetch(url, {
+  // 只需要一次请求获取 JSON 元数据（包含 SHA 和文件内容的 base64 编码）
+  console.log('正在获取文件元数据...');
+  const jsonUrl = url + '?t=' + Date.now();
+  const response = await fetch(jsonUrl, {
     method: 'GET',
+    cache: 'no-store',
     headers: {
       'Authorization': `token ${EditorState.githubToken}`,
-      'Accept': 'application/vnd.github.v3.raw',
-      'User-Agent': 'Mozilla/5.0'
+      'Accept': 'application/json',
+      'User-Agent': 'Mozilla/5.0',
+      'X-GitHub-Api-Version': '2022-11-28'
     }
   });
 
-  console.log('第一次请求状态:', response.status, response.statusText);
+  console.log('请求状态:', response.status, response.statusText);
 
   if (response.status === 401 || response.status === 403) {
     console.error('Token 认证失败');
@@ -277,47 +280,26 @@ async function fetchFileFromGitHub(filePath) {
     throw new Error(`GitHub API 错误: ${response.status} ${response.statusText}`);
   }
 
-  // 获取原始内容
-  const content = await response.text();
-  console.log('原始内容获取成功，长度:', content.length);
-
-  // 第二次请求：获取 SHA（用于提交）
-  console.log('第二次请求：获取文件元数据...');
-  const jsonResponse = await fetch(url, {
-    method: 'GET',
-    headers: {
-      'Authorization': `token ${EditorState.githubToken}`,
-      'Accept': 'application/json',
-      'User-Agent': 'Mozilla/5.0'
-    }
-  });
-
-  console.log('第二次请求状态:', jsonResponse.status, jsonResponse.statusText);
-
-  if (jsonResponse.status === 401 || jsonResponse.status === 403) {
-    console.error('Token 认证失败（第二次请求）');
-    localStorage.removeItem('github_editor_token');
-    EditorState.githubToken = null;
-    updateTokenButtonStatus(false);
-    throw new Error('Token 无效或已过期，请重新设置');
-  }
-
-  if (!jsonResponse.ok) {
-    const errorText = await jsonResponse.text();
-    console.error('API 错误响应:', errorText.substring(0, 200));
-    throw new Error(`GitHub API 错误: ${jsonResponse.status} ${jsonResponse.statusText}`);
-  }
-
   // 解析 JSON
   let jsonData;
   try {
-    jsonData = await jsonResponse.json();
+    jsonData = await response.json();
     console.log('JSON 解析成功，SHA:', jsonData.sha);
   } catch (error) {
     console.error('JSON 解析错误:', error);
-    const responseText = await jsonResponse.text();
+    const responseText = await response.text();
     console.error('响应内容:', responseText.substring(0, 200));
     throw new Error(`无法解析 GitHub API 响应: ${error.message}`);
+  }
+
+  // 从 JSON 中解码 base64 内容
+  let content;
+  try {
+    content = atob(jsonData.content);
+    console.log('Base64 解码成功，内容长度:', content.length);
+  } catch (error) {
+    console.error('Base64 解码错误:', error);
+    throw new Error(`无法解码文件内容: ${error.message}`);
   }
 
   return {
