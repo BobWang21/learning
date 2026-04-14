@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CREAD: 视频推荐系统中的观看时长预测</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .ai-section {
+            background: white;
+            border-radius: 8px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .ai-section h2 {
+            color: #1e40af;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 15px;
+            margin-top: 0;
+        }
+
+        .ai-section h3 {
+            color: #7c3aed;
+            margin-top: 25px;
+            margin-bottom: 15px;
+        }
+
+        .ai-section h4 {
+            color: #1e293b;
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, rgba(30, 64, 175, 0.05), rgba(124, 58, 237, 0.05));
+            border-left: 4px solid #1e40af;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            padding: 10px 20px;
+            background: #1e40af;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .back-link:hover {
+            background: #0c4a6e;
+            transform: translateY(-2px);
+        }
+
+        .breadcrumb {
+            color: #64748b;
+            font-size: 0.95rem;
+            margin-bottom: 20px;
+        }
+
+        .breadcrumb a {
+            color: #1e40af;
+            text-decoration: none;
+        }
+
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+
+        .formula {
+            background: #f8fafc;
+            padding: 15px;
+            border-radius: 4px;
+            margin: 15px 0;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            line-height: 1.6;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        table th {
+            background: linear-gradient(135deg, #1e40af, #7c3aed);
+            color: white;
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        table td {
+            border: 1px solid #e2e8f0;
+            padding: 12px;
+        }
+
+        table tr:hover {
+            background: #f8fafc;
+        }
+
+        .comparison-table {
+            width: 100%;
+        }
+
+        .comparison-table th {
+            background: linear-gradient(135deg, #1e40af, #7c3aed);
+            color: white;
+            padding: 12px;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .comparison-table td {
+            border: 1px solid #e2e8f0;
+            padding: 12px;
+            text-align: center;
+        }
+
+        .comparison-table td:first-child {
+            text-align: left;
+            font-weight: 600;
+            color: #1e40af;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="sidebar">
+            <div class="logo">📚 索引</div>
+            <ul class="toc">
+                <li><a href="index.html">🏠 首页</a></li>
+                <li><a href="index.html#ai">🤖 AI</a>
+                    <ul>
+                        <li><a href="ai-model.html">1. Model</a>
+                            <ul>
+                                <li><a href="ai-model-gpt-principles.html">GPT 模型原理</a></li>
+                                <li><a href="ai-model-attention-mechanism.html">注意力机制</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="ai-pretraining.html">2. Pre-training</a>
+                            <ul>
+                                <li><a href="ai-pretraining-token-bpe.html">token-BPE 算法</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="ai-posttraining.html">3. Post-training</a>
+                            <ul>
+                                <li><a href="ai-posttraining-overview.html">Post-Training 全景指南</a></li>
+                                <li><a href="ai-posttraining-peft.html">PEFT 详解</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="ai-agent.html">4. Agent</a>
+                            <ul>
+                                <li><a href="ai-agent-llm-survey.html">LLM Agent Survey</a></li>
+                                <li><a href="ai-agent-agentic-reasoning.html">Agentic Reasoning</a></li>
+                                <li><a href="ai-agent-memory.html">Memory</a></li>
+                                <li><a href="ai-agent-self-evolving.html">Self-Evolving</a></li>
+                                <li><a href="ai-agent-multi-agent.html">Multi-Agent Systems</a></li>
+                                <li><a href="ai-agent-agentic-rl.html">Agentic RL</a></li>
+                                <li><a href="ai-agent-knowledge-graph.html">Knowledge Graph</a></li>
+                                <li><a href="ai-agent-rag.html">RAG</a></li>
+                                <li><a href="ai-agent-tree-of-thoughts.html">Tree of Thoughts</a></li>
+                                <li><a href="ai-agent-function-calling.html">Tools</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+                <li><a href="decision.html">🔄 端到端</a></li>
+                <li><a href="models.html">⏱️ 预测</a></li>
+            </ul>
+        </div>
+
+        <main class="content">
+            <header class="header">
+                <h1>CREAD: 视频推荐系统中的观看时长预测</h1>
+                <p class="subtitle">分类-恢复框架与误差自适应离散化</p>
+            </header>
+
+            <div class="breadcrumb">
+                <a href="index.html">首页</a> > <a href="index.html#prediction">预测</a> > CREAD 论文详解
+            </div>
+
+            <div class="page-toc">
+    <h4 style="margin-bottom: 15px; color: #1e40af;">📑 页面目录</h4>
+    <ul style="list-style: none; padding: 0; margin: 0;">
+        <li style="margin-bottom: 8px;"><a href="#一研究背景与问题定义" style="color: #1e40af; text-decoration: none; font-weight: 600;">一、研究背景与问题定义</a></li>
+        <li style="margin-bottom: 8px;"><a href="#二传统方法的问题" style="color: #1e40af; text-decoration: none; font-weight: 600;">二、传统方法的问题</a></li>
+        <li style="margin-bottom: 8px;"><a href="#三cread-模型框架" style="color: #1e40af; text-decoration: none; font-weight: 600;">三、CREAD 模型框架</a></li>
+        <li style="margin-bottom: 8px;"><a href="#四损失函数设计" style="color: #1e40af; text-decoration: none; font-weight: 600;">四、损失函数设计</a></li>
+        <li style="margin-bottom: 8px;"><a href="#五离散化误差分析与-ead-方法" style="color: #1e40af; text-decoration: none; font-weight: 600;">五、离散化误差分析与 EAD 方法</a></li>
+        <li style="margin-bottom: 8px;"><a href="#六实验与结果" style="color: #1e40af; text-decoration: none; font-weight: 600;">六、实验与结果</a></li>
+        <li style="margin-bottom: 8px;"><a href="#七在线-ab-测试" style="color: #1e40af; text-decoration: none; font-weight: 600;">七、在线 A/B 测试</a></li>
+        <li style="margin-bottom: 8px;"><a href="#八总结与贡献" style="color: #1e40af; text-decoration: none; font-weight: 600;">八、总结与贡献</a></li>
+    </ul>
+</div>
+
+            <section class="ai-section">
+                <h2 id="一研究背景与问题定义">一、研究背景与问题定义</h2>
+
+                <p>在短视频推荐系统中，<strong>观看时长（watch time）</strong>是衡量用户满意度的关键指标。与传统的点击率（CTR）不同，观看时长是连续值，且具有以下特点：</p>
+
+                <ul>
+                    <li><strong>长尾分布</strong>：大部分观看时长集中在短时间（如30%的观看在3秒内，80%在32秒内），而长时间观看样本极少。</li>
+                    <li><strong>回归任务困难</strong>：直接使用回归模型（如L1/L2损失）容易受到异常值和数据不平衡的影响。</li>
+                    <li><strong>排序需求</strong>：推荐系统更关注视频之间的相对顺序（如哪个视频更可能被长时间观看），而传统回归损失不直接优化排序。</li>
+                </ul>
+
+                <h2 id="二传统方法的问题">二、传统方法的问题</h2>
+
+                <p>传统方法主要分为两类：</p>
+
+                <h3>1. 连续回归方法（Continuous Regression）</h3>
+                <ul>
+                    <li><strong>代表模型</strong>：Value Regression (VR)、Weighted Logistic Regression (WLR)</li>
+                    <li><strong>问题</strong>：
+                        <ul>
+                            <li>对长尾分布不敏感，难以预测尾部大值。</li>
+                            <li>不优化排序关系，只关注误差绝对值或平方。</li>
+                            <li>易受异常值影响。</li>
+                        </ul>
+                    </li>
+                </ul>
+
+                <h3>2. 离散化回归方法（Discrete Regression）</h3>
+                <ul>
+                    <li><strong>代表模型</strong>：Ordinal Regression (OR)、D2Q</li>
+                    <li><strong>做法</strong>：将连续观看时长划分为多个桶（buckets），然后分类预测。</li>
+                    <li><strong>问题</strong>：
+                        <ul>
+                            <li><strong>离散化方式不优</strong>：常用等宽（equal-width）或等频（equal-frequency）方法，无法平衡两类误差：
+                                <ul>
+                                    <li><strong>学习误差</strong>：桶太细 → 每个桶样本少 → 分类器难训练。</li>
+                                    <li><strong>恢复误差</strong>：桶太宽 → 用桶内均值替代真实值 → 误差大。</li>
+                                </ul>
+                            </li>
+                            <li>缺乏对桶间顺序关系的建模。</li>
+                        </ul>
+                    </li>
+                </ul>
+
+                <h2 id="三cread-模型框架">三、CREAD 模型框架</h2>
+
+                <p>CREAD 提出一个<strong>分类-恢复框架</strong>，包含三个模块：</p>
+
+                <h3>1. 离散化模块（Discretization Module）</h3>
+                <p>将连续观看时长 <code>y</code> 划分为 <code>M</code> 个桶：<code>d_m = [t_{m-1}, t_m]</code></p>
+                <p>定义 <code>M</code> 个二分类任务：<code>φ_m(x) = P(y > t_m | x)</code></p>
+
+                <h3>2. 分类模块（Classification Module）</h3>
+                <p>使用神经网络训练 <code>M</code> 个分类器，输出概率 <code>φ̂_m</code></p>
+
+                <h3>3. 恢复模块（Restoration Module）</h3>
+                <p>根据概率 <code>φ̂_m</code> 恢复预测值：</p>
+                <div class="formula">
+                    ŷ = Σ(φ̂_m) · (t_m - t_{m-1})
+                </div>
+
+                <h2 id="四损失函数设计">四、损失函数设计</h2>
+
+                <p>总损失函数为：</p>
+                <div class="formula">
+                    L_CREAD = λ_ce · L_ce + λ_restore · L_restore + λ_ord · L_ord
+                </div>
+
+                <h3>1. 分类损失（Cross-Entropy Loss）</h3>
+                <div class="formula">
+                    L_ce = Σ -y_m log(φ̂_m) - (1 - y_m) log(1 - φ̂_m)
+                </div>
+
+                <h3>2. 恢复损失（Restoration Loss）</h3>
+                <p>使用 <strong>Huber Loss</strong>，结合 MSE 和 MAE 的优点，对异常值不敏感。</p>
+                <div class="formula">
+                    L_restore = {
+                        0.5(y - ŷ)² if |y - ŷ| < δ
+                        δ|y - ŷ| - 0.5δ² otherwise
+                    }
+                </div>
+
+                <h3>3. 顺序正则化（Ordinal Regularization）</h3>
+                <p>强制 <code>φ̂_m</code> 随 <code>m</code> 增加而单调递减：</p>
+                <div class="formula">
+                    L_ord = Σ max(φ̂_{m+1} - φ̂_m, 0)
+                </div>
+
+                <h2 id="五离散化误差分析与-ead-方法">五、离散化误差分析与 EAD 方法</h2>
+
+                <h3>1. 误差分解（Lemma 4.1）</h3>
+                <p>将预测误差分解为：</p>
+                <ul>
+                    <li><code>V_p</code>：学习误差（分类器误差）</li>
+                    <li><code>V_w</code>：桶内均值估计误差</li>
+                    <li><code>V_b</code>：恢复误差（用桶内均值替代真实分布）</li>
+                    <li><code>V_y</code>：数据本身方差</li>
+                </ul>
+
+                <h3>2. 误差上界（Theorem 4.2）</h3>
+                <p>在最大似然估计和输入有限假设下：</p>
+                <div class="formula">
+                    V_p ≤ (C_p |X|) / N · A_p(D)
+                    V_w ≤ C_w / N · A_w(D)
+                    V_b ≤ C_b · A_b(D)
+                </div>
+
+                <p>其中：</p>
+                <ul>
+                    <li><code>A_w</code> 与桶内样本数成反比 → 影响学习误差</li>
+                    <li><code>A_b</code> 与桶宽度成正比 → 影响恢复误差</li>
+                </ul>
+
+                <h3>3. 等宽 vs 等频的问题</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>方法</th>
+                            <th>特点</th>
+                            <th>问题</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>等宽</td>
+                            <td>桶宽固定</td>
+                            <td>尾部桶样本极少 → 学习误差大</td>
+                        </tr>
+                        <tr>
+                            <td>等频</td>
+                            <td>每个桶样本数固定</td>
+                            <td>尾部桶极宽 → 恢复误差大</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>4. 提出的 EAD 方法</h3>
+                <p>目标：最小化 <code>J(D) = A_w(D) + β A_b(D)</code></p>
+
+                <p>引入校准函数 <code>γ(z; α)</code>：</p>
+                <div class="formula">
+                    t_m = Ψ^{-1}(γ(m/M; α))
+                </div>
+
+                <ul>
+                    <li><code>α = 0</code>：等频</li>
+                    <li><code>α = 5</code>：等宽</li>
+                    <li><code>α</code> 可调，平衡两种误差</li>
+                </ul>
+
+                <p>通过网格搜索选择最优 <code>α</code>，实验表明 <code>β = 3.0</code> 时性能最佳。</p>
+
+                <h2 id="六实验与结果">六、实验与结果</h2>
+
+                <h3>1. 数据集</h3>
+                <ul>
+                    <li><strong>KuaiRec</strong>、<strong>CIKM</strong>（公开）</li>
+                    <li><strong>Industrial</strong>（快手真实数据，60亿样本/天）</li>
+                </ul>
+
+                <h3>2. 评估指标</h3>
+                <ul>
+                    <li><strong>MAE</strong>：平均绝对误差</li>
+                    <li><strong>XAUC</strong>：排序一致性指标</li>
+                </ul>
+
+                <h3>3. 主要结果</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>数据集</th>
+                            <th>对比模型</th>
+                            <th>性能提升</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>KuaiRec</td>
+                            <td>vs D2Q</td>
+                            <td>XAUC +5.85%</td>
+                        </tr>
+                        <tr>
+                            <td>Industrial</td>
+                            <td>vs D2Q</td>
+                            <td>MAE -2.11%</td>
+                        </tr>
+                        <tr>
+                            <td>所有数据集</td>
+                            <td>vs VR/WLR/OR</td>
+                            <td>显著优于</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>4. 消融实验</h3>
+                <div class="highlight-box">
+                    <ul>
+                        <li><strong>EAD 优于等宽和等频</strong>：适当 β 能显著提升性能。</li>
+                        <li><strong>顺序正则化有效</strong>：尤其在尾部桶中误差降低明显。</li>
+                        <li><strong>Huber 损失最佳</strong>：优于 MSE 和 MAE。</li>
+                        <li><strong>桶数 M = 30</strong> 为最佳折中。</li>
+                    </ul>
+                </div>
+
+                <h2 id="七在线-ab-测试">七、在线 A/B 测试（快手 App）</h2>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>指标</th>
+                            <th>结果</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>实验时间</td>
+                            <td>5 天</td>
+                        </tr>
+                        <tr>
+                            <td>流量分配</td>
+                            <td>20% 实验组（CREAD），20% 对照组（D2Q）</td>
+                        </tr>
+                        <tr>
+                            <td>观看时长提升</td>
+                            <td><strong>+0.291%</strong>（远超常规 0.1%-0.2%）</td>
+                        </tr>
+                        <tr>
+                            <td>其他指标</td>
+                            <td>点赞、关注、分享、评论无显著波动</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="highlight-box">
+                    <p><strong>关键发现</strong>：在线 A/B 测试中观看时长平均提升 <strong>0.291%</strong>，这在推荐系统领域是一个显著的改进，远超常规的 0.1%-0.2% 提升。</p>
+                </div>
+
+                <h2 id="八总结与贡献">八、总结与贡献</h2>
+
+                <h3>核心贡献</h3>
+                <ol>
+                    <li><strong>提出 CREAD 框架</strong>：将观看时长预测建模为分类-恢复问题。</li>
+                    <li><strong>理论分析误差</strong>：分解学习误差与恢复误差，推导上界。</li>
+                    <li><strong>提出 EAD 方法</strong>：通过校准函数平衡两类误差，优于等宽/等频。</li>
+                    <li><strong>引入顺序正则化</strong>：增强模型对桶间顺序的建模能力。</li>
+                    <li><strong>离线+在线验证</strong>：在公开和工业数据集上均显著提升，线上观看时长提升近 0.3%。</li>
+                </ol>
+
+                <h3>实际应用价值</h3>
+                <p>CREAD 框架在快手等大规模短视频平台的实际应用中取得显著效果，证明了分类-恢复框架在处理长尾分布连续预测问题上的有效性。该方法不仅理论完备，而且具有较强的实用性和可扩展性。</p>
+
+                <a href="index.html#prediction" class="back-link">← 返回预测</a>
+            </section>
+
+            <footer class="footer">
+                <p>更新时间：2026-04-14</p>
+                <p><a href="index.html">← 返回首页</a></p>
+            </footer>
+        </main>
+    </div>
+
+    <!-- 在线编辑器 - Quill.js + GitHub API -->
+    <link rel="stylesheet" href="https://cdn.quilljs.com/1.3.7/quill.snow.css">
+    <link rel="stylesheet" href="editor.css">
+    <script src="https://cdn.quilljs.com/1.3.7/quill.min.js"></script>
+    <script src="editor.js"></script>
+</body>
+</html>
