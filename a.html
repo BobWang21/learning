@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LLM在运筹学中的应用 - AI</title>
+    <title>Post-Training 全景指南 - AI</title>
     <link rel="stylesheet" href="styles.css">
     <style>
         .ai-section {
@@ -14,8 +14,13 @@
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
         }
 
-        .ai-section h2 {
+        .ai-section h2, .ai-section h3, .ai-section h4, .ai-section h5 {
             color: #1e40af;
+            margin-top: 25px;
+            margin-bottom: 15px;
+        }
+
+        .ai-section h2 {
             border-bottom: 2px solid #e2e8f0;
             padding-bottom: 15px;
             margin-top: 0;
@@ -23,8 +28,17 @@
 
         .ai-section h3 {
             color: #7c3aed;
-            margin-top: 25px;
-            margin-bottom: 15px;
+        }
+
+        .ai-section h4 {
+            color: #1e40af;
+            font-size: 1.1rem;
+        }
+
+        .ai-section h5 {
+            color: #1e40af;
+            font-size: 1rem;
+            font-weight: 600;
         }
 
         .highlight-box {
@@ -33,6 +47,31 @@
             padding: 15px;
             margin: 15px 0;
             border-radius: 4px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        table thead {
+            background: linear-gradient(135deg, #1e40af, #7c3aed);
+            color: white;
+        }
+
+        table th, table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        table tbody tr:hover {
+            background-color: rgba(30, 64, 175, 0.05);
         }
 
         .back-link {
@@ -52,136 +91,70 @@
             transform: translateY(-2px);
         }
 
-        .content-container {
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 40px 20px;
-        }
-
-        .article-header {
-            text-align: center;
-            margin-bottom: 40px;
-        }
-
-        .article-header h1 {
-            color: #1e40af;
-            font-size: 2.5rem;
-            margin-bottom: 15px;
-        }
-
-        .article-meta {
+        .breadcrumb {
             color: #64748b;
+            font-size: 0.95rem;
+            margin-bottom: 20px;
+        }
+
+        .breadcrumb a {
+            color: #1e40af;
+            text-decoration: none;
+        }
+
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+
+        code {
+            background: #f1f5f9;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
             font-size: 0.9rem;
         }
 
-        .article-content {
-            line-height: 1.8;
-            font-size: 1.1rem;
-        }
-
-        .article-content h2 {
-            color: #1e40af;
-            margin-top: 40px;
-            margin-bottom: 20px;
-            padding-bottom: 10px;
-            border-bottom: 2px solid #e2e8f0;
-        }
-
-        .article-content h3 {
-            color: #7c3aed;
-            margin-top: 30px;
-            margin-bottom: 15px;
-        }
-
-        .article-content p {
-            margin-bottom: 20px;
-            text-align: justify;
-        }
-
-        .article-content ul, .article-content ol {
-            margin-left: 30px;
-            margin-bottom: 20px;
-        }
-
-        .article-content li {
-            margin-bottom: 10px;
-        }
-
-        .article-content strong {
-            color: #1e40af;
-            font-weight: 600;
-        }
-
-        .article-content em {
-            color: #7c3aed;
-            font-style: italic;
-        }
-
-        .article-content code {
+        .code-block {
             background: #f1f5f9;
-            padding: 2px 6px;
-            border-radius: 4px;
-            font-family: 'Menlo', 'Monaco', 'Courier New', monospace;
-            font-size: 0.9em;
-        }
-
-        .article-content pre {
-            background: #1e293b;
-            color: #e2e8f0;
-            padding: 20px;
-            border-radius: 8px;
-            overflow-x: auto;
-            margin: 20px 0;
-        }
-
-        .article-content pre code {
-            background: none;
-            padding: 0;
-            color: inherit;
-        }
-
-        .article-content blockquote {
             border-left: 4px solid #1e40af;
-            padding-left: 20px;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+            overflow-x: auto;
+            font-size: 0.9rem;
+            font-family: 'Courier New', monospace;
+        }
+
+        .content-image {
+            max-width: 100%;
+            height: auto;
             margin: 20px 0;
-            color: #64748b;
-            font-style: italic;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
         }
 
-        .article-content table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 20px 0;
+        ul, ol {
+            margin: 15px 0;
+            padding-left: 30px;
         }
 
-        .article-content th, .article-content td {
-            border: 1px solid #e2e8f0;
-            padding: 12px;
-            text-align: left;
+        li {
+            margin-bottom: 8px;
+            line-height: 1.6;
         }
 
-        .article-content th {
-            background: #f8fafc;
+        strong {
             color: #1e40af;
             font-weight: 600;
         }
 
-        .article-content tr:nth-child(even) {
-            background: #f8fafc;
-        }
-
-        @media (max-width: 768px) {
-            .content-container {
-                padding: 20px 15px;
-            }
-            
-            .article-header h1 {
-                font-size: 2rem;
-            }
-            
-            .article-content {
-                font-size: 1rem;
-            }
+        .formula {
+            background: #f1f5f9;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            overflow-x: auto;
         }
     </style>
 </head>
@@ -208,162 +181,486 @@
 
         <!-- 主内容 -->
         <main class="content">
-            <div class="content-container">
-                <a href="index.html#ai" class="back-link">← 返回 AI 页面</a>
-                
-                <div class="article-header">
-                    <h1>LLM在运筹学中的应用：方法、应用与挑战</h1>
-                    <div class="article-meta">文档转换自：LLM在运筹上的方法、应用和挑战.docx | 更新时间：2026-04-23</div>
-                </div>
-
-                <div class="article-content">
-                    <p><strong>LLM 在运筹学中的应用：方法、应用与挑战</strong></p>
-
-<p>大语言模型（LLM）在运筹学（OR）中的应用可以系统地划分为三大核心范式：<strong>自动建模</strong>（Automatic Modeling）、<strong>辅助优化求解</strong>（LLM-Assisted Optimization）和 <strong>LLM 主导的直接求解</strong>（LLM-Dominated Optimization Solving）。以下是对这三大范式、当前学术界/业界的聚焦点以及基准测试（Benchmarks）的总结。</p>
-
-<h2>一、LLM + OR 的三大核心范式深度解析</h2>
-
-<h3>1. 自动建模范式（Automatic Modeling）</h3>
-
-<p>这是将自然语言问题转化为计算机可识别的数学模型的"桥梁"阶段。</p>
-
-<p><strong>解决的问题</strong>：</p>
-
-<p>降低运筹学建模门槛，解决传统依赖专家建模耗时耗力的问题。</p>
-
-<p>解决长文本描述中关键约束遗漏和语义歧义的问题。</p>
-
-<p><strong>基本逻辑与流程</strong>：核心在于<strong>翻译</strong>。LLM 接收自然语言描述的优化问题，将其转化为形式化的数学模型（如变量、目标函数、约束条件）或可执行代码（如 Python/Gurobi 代码）。流程通常包含五个步骤闭环：<strong>理解</strong>（解析目标与约束）→ <strong>提取</strong>（识别决策变量等元素）→ <strong>结构化</strong>（生成标准模型）→ <strong>转译</strong>（生成求解器代码）→ <strong>评估与反馈</strong>（运行代码并修正错误）。</p>
-
-<p><strong>主要子路径</strong>：</p>
-
-<p><strong>基于提示词（Prompting）</strong>：通过多阶段或多智能体提示，引导 LLM 生成模型组件。</p>
-
-<p><strong>提示词与微调协同（Prompt-Fine-tuning Synergy）</strong>：结合 SFT 和提示工程，解决单一提示的不稳定性。</p>
-
-<p><strong>外部知识引导（Knowledge-Augmented）</strong>：引入 RAG 注入领域特定知识，处理复杂约束。</p>
-
-<p><strong>关键发表</strong>：OptiMUS、Chain-of-Experts、LLaMoCo、IndustryOR、DROC 等。</p>
-
-<p><strong>评估</strong>：具有工业应用价值，是实现"人人可用的运筹学"的关键，正从简单 MILP 向复杂图结构和非标准约束扩展。</p>
-
-<h3>2. 辅助优化求解范式（LLM-Assisted Optimization）</h3>
-
-<p>LLM 不直接给出最终解，而是充当<strong>算法设计师</strong>或<strong>搜索算子</strong>，辅助传统算法（如进化算法、强化学习）进行求解。</p>
-
-<p><strong>解决的问题</strong>：</p>
-
-<p>自动化算法设计，解决传统启发式设计依赖人工经验的问题。</p>
-
-<p>突破局部最优，发现人类未曾想到的新算法结构。</p>
-
-<p><strong>基本逻辑与流程</strong>：LLM 利用其代码生成能力和推理能力，生成启发式算法、搜索算子或奖励函数，与传统优化算法形成"感知-推理-反馈"闭环。</p>
-
-<p><strong>主要子路径</strong>：</p>
-
-<p>启发式结构进化（Heuristic Evolution）</p>
-
-<p>多目标协同（Multi-Objective）</p>
-
-<p>跨范式融合（Cross-Paradigm）</p>
-
-<p><strong>关键发表</strong>：FunSearch、EoH、LMEA、AEL、ReEvo、Hercules、MEoH、HSEvo、PoH、CALM、EALG、HeurAgenix、GraphThought 等。</p>
-
-<p><strong>评估</strong>：学术界最热门方向，结合了 LLM 的创造力与传统算法的严谨性，<strong>是通向"自动算法设计"的必经之路。</strong></p>
-
-<h3>3. LLM 主导的直接求解范式（LLM-Dominated Optimization Solving）</h3>
-
-<p>LLM 被视为一个独立的"求解器"，直接输出最终解。</p>
-
-<p><strong>解决的问题</strong>：</p>
-
-<p>针对难以显式建模的"黑盒"问题提供快速、通用的解决方案。</p>
-
-<p>适用于小规模或快速原型验证场景。</p>
-
-<p><strong>基本逻辑与流程</strong>：</p>
-
-<p><strong>零建模</strong>：无需构建数学模型或编写算法代码，用户输入问题描述，LLM 直接输出解决方案。</p>
-
-<p>通常利用 CoT 或 Meta-Prompt 技术，通过多轮对话引导 LLM 自我修正。</p>
-
-<p><strong>主要子路径</strong>：</p>
-
-<p><strong>单模态</strong>：仅依赖文本交互。</p>
-
-<p><strong>多模态结构感知</strong>：结合视觉输入增强空间感知能力。</p>
-
-<p><strong>关键发表</strong>：OPRO、MLLM-V 等。</p>
-
-<p><strong>特点与局限</strong>：</p>
-
-<p><strong>特点</strong>：通用性强，无需训练，交互灵活。</p>
-
-<p><strong>局限</strong>：容易产生幻觉，难以处理大规模问题或复杂约束，性能波动大。</p>
-
-<h2>二、学术界与业界当前的聚焦点</h2>
-
-<p><strong>系统化与闭环</strong>：研究重心已从单点任务验证转向构建完整的智能优化系统，强调"生成-验证-修复"闭环。</p>
-
-<p><strong>核心聚焦范式</strong>：</p>
-
-<p>辅助优化（特别是启发式进化）是学术界的焦点：FunSearch 等工作证明了其发现新知识的潜力。</p>
-
-<p>自动建模是工业界的应用热点：通过微调和 RAG 技术，该方向正变得越来越实用。</p>
-
-<p>直接求解范式相对边缘化：目前更多用于简单问题或作为启发式初值生成器。</p>
-
-<h2>三、当前的基准测试总结</h2>
-
-<h3>1. 针对"自动建模"能力的 Benchmark</h3>
-
-<p>NL4OPT：早期基础基准。</p>
-
-<p>IndustryOR：工业覆盖面最广，含 16 个行业 1556 个问题。</p>
-
-<p>ComplexOR：高难度验证基准。</p>
-
-<p>MAMO、OptiBench / ReSocratic、EquivaMap 等。</p>
-
-<h3>2. 针对"求解与推理"能力的 Benchmark</h3>
-
-<p>NLGraph、GraphArena、CO-Bench、FrontierCO、HeuriGym、ALE-Bench 等。</p>
-
-<h3>3. 针对"可解释性"的 Benchmark</h3>
-
-<p>EOR：第一个工业级可解释性优化数据集。</p>
-
-<p><strong>更详细论文及应用见附录</strong></p>
-
-<h3>1. 关键范式一：自动建模</h3>
-
-<p>1.1 基于提示词的路径</p>
-
-<p>1.2 提示词与微调协同</p>
-
-<p>1.3 外部知识引导机制</p>
-
-<h3>2. 关键范式二：辅助优化求解</h3>
-
-<p>2.1 启发式结构进化与策略优化</p>
-
-<p>2.2 多目标优化协作</p>
-
-<p>2.3 跨范式融合</p>
-
-<h3>3. 关键范式三：LLM 主导的直接求解</h3>
-
-<p>3.1 单模态生成优化</p>
-
-<p>3.2 多模态结构感知</p>
-
-<h3>4. 综合基准测试</h3>
-
-<p>4.1 自动建模基准测试</p>
-
-<p>4.2 优化求解基准测试</p>
-                </div>
+            <header class="header">
+                <h1>Post-Training 全景指南</h1>
+                <p class="subtitle">从 RLHF 到 GRPO 再到 Agentic RL</p>
+            </header>
+
+            <div class="breadcrumb">
+                <a href="index.html">首页</a> > <a href="index.html#ai">AI</a> > <a href="ai-posttraining.html">3. Post-training</a> > Post-Training 全景指南
             </div>
+
+            <div class="page-toc">
+                <h4 style="margin-bottom: 15px; color: #1e40af;">📑 页面目录</h4>
+                <ul style="list-style: none; padding: 0; margin: 0;">
+                    <li style="margin-bottom: 8px;"><a href="#1-引言什么是-post-training" style="color: #1e40af; text-decoration: none; font-weight: 600;">1. 引言：什么是 Post-Training？</a></li>
+                    <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#2-直观理解" style="color: #7c3aed; text-decoration: none; font-size: 0.95rem;">2. 直观理解</a></li>
+                    <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#3-核心方法详解" style="color: #7c3aed; text-decoration: none; font-size: 0.95rem;">3. 核心方法详解</a></li>
+                    <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#4-全局视角技术如何协同工作" style="color: #7c3aed; text-decoration: none; font-size: 0.95rem;">4. 全局视角：技术如何协同工作</a></li>
+                    <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#5-前沿方向agentic-rl" style="color: #7c3aed; text-decoration: none; font-size: 0.95rem;">5. 前沿方向：Agentic RL</a></li>
+                    <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#6-总结与关键要点" style="color: #7c3aed; text-decoration: none; font-size: 0.95rem;">6. 总结与关键要点</a></li>
+                    <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#7-参考文献" style="color: #7c3aed; text-decoration: none; font-size: 0.95rem;">7. 参考文献</a></li>
+                </ul>
+            </div>
+
+            <section class="ai-section">
+                <h2 id="1-引言什么是-post-training">1. 引言：什么是 Post-Training？</h2>
+
+                <p>LLM的训练通常分为两个大阶段：预训练（Pre-training） 和 后训练（Post-training）。预训练阶段通过海量无标注文本让模型学会语言的基本规律和世界知识，产出的是一个"什么都知道一点、但什么都不太好用"的基座模型。而 Post-training 则是将这个"毛坯房"精装修成真正好用的产品的过程——让模型学会遵循指令、与人类偏好对齐、具备推理能力，甚至能使用工具完成复杂任务。从 2022 年 ChatGPT 横空出世至今，Post-training 技术经历了爆发式的演进。</p>
+
+                <div class="highlight-box">
+                    <p><strong>Post-training 的三个核心目标：</strong></p>
+                    <ul>
+                        <li>SFT 教模型"说什么"</li>
+                        <li>RL 教模型"怎么想"</li>
+                        <li>偏好优化教模型"怎么选"</li>
+                    </ul>
+                </div>
+
+                <h2 id="2-直观理解">2. 直观理解</h2>
+
+                <p>一个餐厅的类比。在深入技术细节之前，让我们用一个餐厅培训厨师的类比来建立直觉：想象你开了一家餐厅，招了一个天赋异禀的厨师（Pre-trained Model）。这个厨师读过所有的菜谱书（预训练数据），知道各种食材和烹饪技法，但从没真正为客人做过菜。</p>
+
+                <ul>
+                    <li><strong>SFT</strong>（监督微调） 就像是让资深厨师手把手教他做几道招牌菜——"这道菜应该这样做"。学完之后，他能按照标准流程做出不错的菜品。</li>
+                    <li><strong>RLHF</strong>（基于人类反馈的强化学习） 则更进一步：让食客品尝他做的多道菜并排序——"这道比那道好吃"。然后根据食客的偏好反复调整口味。这里的"食客评分系统"就是 Reward Model，而厨师根据评分不断改进的过程就是 PPO/GRPO 等 RL 算法在做的事。</li>
+                    <li><strong>DPO</strong>（直接偏好优化） 则是一种更简洁的方式：不需要单独训练一个评分系统，而是直接从"A 菜比 B 菜好"的对比数据中学习，省去了中间环节。</li>
+                    <li><strong>RLVR</strong>（基于可验证奖励的 RL） 适用于有标准答案的场景，比如做数学题——答案对就是对、错就是错，不需要人来打分。这就像是让厨师参加烹饪比赛，评判标准完全客观（比如"蛋糕是否在 30 分钟内烤熟且内部温度达标"）。</li>
+                    <li><strong>Agentic RL</strong> 则是最新的方向：不仅要求厨师会做菜，还要会查菜谱、去市场采购、协调后厨——像一个完整的"主厨智能体"一样工作。</li>
+                </ul>
+
+                <h2 id="3-核心方法详解">3. 核心方法详解</h2>
+
+                <h3>3.1 SFT：监督微调——一切的起点</h3>
+
+                <p>监督微调是 Post-training 最基础也最直观的方法。其核心思路是：收集高质量的 (prompt, response) 数据对，然后用标准的交叉熵损失函数对预训练模型进行微调。</p>
+
+                <p>SFT 常见实现方式包括<strong>全参数微调（Full Fine-tuning）</strong>和 <strong>参数高效微调（PEFT）</strong>，后者以 LoRA 和 QLoRA 最为流行。LoRA 通过在模型权重矩阵旁边添加低秩分解矩阵来实现高效训练，通常只需要训练原始参数量的 0.1%~1% 。</p>
+
+                <p>SFT 的数据通常包括指令跟随数据（如 Alpaca、ShareGPT 格式的对话）、特定领域的专业数据、以及多轮对话数据。近年来，<u>合成数据（Synthetic Data） 在 SFT 中扮演着越来越重要的角色——用更强的模型（如 GPT-4）生成训练数据来教较小的模型，这种做法被称为知识蒸馏（Knowledge Distillation）。</u></p>
+
+                <div class="highlight-box">
+                    <p><strong>关键认知</strong>： SFT 教会模型"输出的格式和风格应该是什么样的"，但本质上是在模仿，无法让模型学会超越训练数据的能力。这就是为什么需要 RL。</p>
+                </div>
+
+                <h3>3.2 RLHF：基于人类反馈的强化学习——对齐的经典范式</h3>
+
+                <p>RLHF 是 InstructGPT 和 ChatGPT 背后的核心技术，由 OpenAI 在 2022 年的论文中系统阐述。其完整流程分为三步：</p>
+
+                <img src="https://km.sankuai.com/api/file/cdn/2751026429/226631464529?contentType=1&isNewContent=false" alt="RLHF 流程图" class="content-image">
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>步骤</th>
+                            <th>说明</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Step 1：SFT</strong></td>
+                            <td>首先收集人类撰写的高质量回答，对预训练模型进行监督微调，得到一个初始的 SFT 模型。这一步是后续 RL 训练的前提条件。</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Step 2：训练 Reward Model</strong></td>
+                            <td>对于每个 prompt，让 SFT 模型生成多个（通常 4 个）不同的回答，然后由人类标注者对这些回答进行排序。利用这些排序数据，训练一个 Reward Model（奖励模型），使其能够对任意回答给出一个标量分数，反映该回答的质量。</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Step 3：PPO 优化</strong></td>
+                            <td>使用训练好的 Reward Model 作为奖励信号，通过 PPO 算法对 SFT 模型进行进一步优化。在这个过程中，模型不断生成回答、获得奖励、更新策略，逐步学会生成更符合人类偏好的内容。</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h4>RLHF 的缺点</h4>
+                <ul>
+                    <li><strong>成本高</strong>: 人工标注成本高，难以规模化；训练成本高</li>
+                    <li><strong>可能存在奖励黑客、过度优化</strong></li>
+                    <li><strong>过程不稳定</strong>，调试困难</li>
+                    <li><strong>分布外场景可能失效</strong></li>
+                </ul>
+
+                <p>RLHF 的一个重要变体是 <strong>RLAIF</strong>（Reinforcement Learning from AI Feedback），其核心区别在于用 AI 模型（而非人类）来提供偏好反馈，从而大幅降低标注成本。Anthropic 的 Constitutional AI 就是这一思路的典型代表。</p>
+
+                <h4>3.3 PPO：经典的 RL 优化算法</h4>
+
+                <p>PPO（Proximal Policy Optimization）是 RLHF 中最经典的 RL 优化算法。在 RL 的语境下，LLM 就是 策略（Policy），它根据输入的 prompt（状态）生成 token 序列（动作）。</p>
+
+                <div class="highlight-box">
+                    <p><strong>PPO 核心思想：</strong>在每次更新中，让策略朝着获得更高奖励的方向改进，但又不能改变太大（通过 clipping 机制约束），以保证训练的稳定性。</p>
+                </div>
+
+                <p><strong>损失函数 clipped surrogate objective：</strong></p>
+                <div class="formula">
+                    L = min(r(θ) · A, clip(r(θ), 1-ε, 1+ε) · A)
+                </div>
+
+                <p>其中 r(θ) 是新旧策略的概率比，A 是 advantage（优势函数），ε 是 clip 范围（通常 0.1~0.2）。<u>clip 机制确保每次更新的幅度不会太大，是 PPO 稳定性的关键。</u></p>
+
+                <p>PPO 在 LLM 训练中需要同时维护四个模型：</p>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>模型</th>
+                            <th>角色</th>
+                            <th>是否更新</th>
+                            <th>说明</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Policy Model (Actor)</td>
+                            <td>被训练的 LLM</td>
+                            <td>是</td>
+                            <td>生成回答，是我们最终要得到的模型</td>
+                        </tr>
+                        <tr>
+                            <td>Reference Model</td>
+                            <td>初始策略的冻结副本</td>
+                            <td>否</td>
+                            <td>用于计算 KL 散度，防止策略偏离太远</td>
+                        </tr>
+                        <tr>
+                            <td>Reward Model</td>
+                            <td>评估回答质量</td>
+                            <td>否</td>
+                            <td>对生成的回答打分</td>
+                        </tr>
+                        <tr>
+                            <td>Value Model (Critic)</td>
+                            <td>估计状态价值</td>
+                            <td>是</td>
+                            <td>用于计算 Advantage，即"这个回答比平均水平好多少"</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h4>PPO 的主要问题</h4>
+                <ul>
+                    <li>需要同时加载四个模型，显存开销巨大</li>
+                    <li>训练过程中需要在生成（rollout）和更新之间反复切换，工程复杂度高</li>
+                    <li>超参数敏感，调参困难</li>
+                </ul>
+
+                <h3>3.4 GRPO：去掉 Critic 的轻量级 RL</h3>
+
+                <p>GRPO（Group Relative Policy Optimization）由 DeepSeek 团队在 2024 年提出，是当前开源推理模型训练中最流行的 RL 算法。<strong>GRPO 的核心创新在于用组内相对排名来替代 Value Model 估计 advantage，从而去掉 Critic 模型。</strong></p>
+
+                <p>GRPO 的工作流程如下：对于每个 prompt，采样 G 个（通常 8~64 个）回答，分别获得奖励分数 r₁, r₂, ..., r<sub>G</sub>。然后对这组奖励进行归一化：</p>
+
+                <div class="formula">
+                    Advantage_i = (r_i - mean(r)) / std(r)
+                </div>
+
+                <p>组内表现好于平均水平的回答获得正的被鼓励，差于平均水平的获得负的被抑制。<strong>这种方式不需要单独训练一个 Value Model</strong>，大幅降低了资源需求。</p>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>维度</th>
+                            <th>PPO</th>
+                            <th>GRPO</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>所需模型数</td>
+                            <td>4 个</td>
+                            <td>2~3 个（无 Critic）</td>
+                        </tr>
+                        <tr>
+                            <td>Advantage 估计</td>
+                            <td>Value Model (Critic)</td>
+                            <td>组内归一化</td>
+                        </tr>
+                        <tr>
+                            <td>显存需求</td>
+                            <td>高</td>
+                            <td>较低</td>
+                        </tr>
+                        <tr>
+                            <td>采样方式</td>
+                            <td>每个 prompt 1 个回答</td>
+                            <td>每个 prompt G 个回答</td>
+                        </tr>
+                        <tr>
+                            <td>训练稳定性</td>
+                            <td>需要精细调参</td>
+                            <td>相对简单</td>
+                        </tr>
+                        <tr>
+                            <td>典型应用</td>
+                            <td>ChatGPT, InstructGPT</td>
+                            <td>DeepSeek-R1, Qwen3</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <img src="https://km.sankuai.com/api/file/cdn/2751026429/226633377207?contentType=1&compress=@3825w_1l" alt="GRPO 架构图" class="content-image">
+
+                <h3>3.5 RLVR：可验证奖励——推理模型的关键</h3>
+
+                <p>RLVR（Reinforcement Learning with Verifiable Rewards）是 2025 年最重要的技术趋势之一。DeepSeek-R1 就是使用 GRPO + RLVR 训练的典型代表。RLHF 的 Reward Model 存在两大痛点：reward hacking 和标注成本高。在可验证领域，RLVR 使用基于规则的确定性验证器来提供奖励信号。</p>
+
+                <p>RLVR 的奖励通常包含两部分：</p>
+                <ul>
+                    <li><strong>准确性奖励（答案是否正确）</strong></li>
+                    <li><strong>格式奖励（输出是否符合要求的格式，如 &lt;think&gt;...&lt;/think&gt;&lt;answer&gt;...&lt;/answer&gt;）</strong></li>
+                </ul>
+
+                <p>RLVR 的适用场景是那些答案可以被客观验证的领域：</p>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>领域</th>
+                            <th>验证方式</th>
+                            <th>示例</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>数学</td>
+                            <td>字符串匹配 / Math-Verify</td>
+                            <td>"答案是 42" vs 标准答案</td>
+                        </tr>
+                        <tr>
+                            <td>代码</td>
+                            <td>沙箱执行 + 测试用例</td>
+                            <td>运行代码，检查输出是否通过所有测试</td>
+                        </tr>
+                        <tr>
+                            <td>逻辑推理</td>
+                            <td>规则验证</td>
+                            <td>检查推理步骤的逻辑一致性</td>
+                        </tr>
+                        <tr>
+                            <td>科学问题</td>
+                            <td>LLM Judge</td>
+                            <td>用另一个 LLM 判断答案等价性</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="highlight-box">
+                    <p><strong>关键认知</strong>： 在可验证领域，规则就是最好的奖励函数。</p>
+                </div>
+
+                <h3>3.6 DPO 及其变体：不需要 RL 的偏好优化</h3>
+
+                <p>DPO（Direct Preference Optimization）在 2023 年横空出世，提供了一种完全不同的思路：<strong>直接从偏好数据中优化策略，不需要训练 Reward Model，也不需要 RL 训练循环。</strong></p>
+
+                <div class="highlight-box">
+                    <p><u><strong>DPO 核心洞察：</strong>最优奖励函数与最优策略之间存在解析关系，因此无需单独建模奖励函数，直接优化策略即可。</u></p>
+                </div>
+
+                <p><strong>最优奖励函数与最优策略之间存在解析关系</strong></p>
+                <img src="https://km.sankuai.com/api/file/cdn/2751026429/227227267496?contentType=1&isNewContent=false" alt="DPO 理论基础" class="content-image">
+
+                <p><strong>RLHF 的最优解可以被重新参数化为一个简单的分类损失函数。给定一对 (preferred response, rejected response)，DPO 直接最大化 preferred response 的对数概率相对于 rejected response 的优势</strong>，同时通过 reference model 进行正则化。</p>
+
+                <p><strong>Loss - 本质为带参考模型约束的对比分类损失</strong></p>
+                <img src="https://km.sankuai.com/api/file/cdn/2751026429/227218039898?contentType=1&isNewContent=false" alt="DPO 损失函数" class="content-image">
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>符号</th>
+                            <th>含义</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>x</td>
+                            <td>输入提示（prompt）</td>
+                        </tr>
+                        <tr>
+                            <td>y<sub>w</sub></td>
+                            <td>偏好数据中的<strong>胜出</strong>回答（win/chosen）</td>
+                        </tr>
+                        <tr>
+                            <td>y<sub>l</sub></td>
+                            <td>偏好数据中的<strong>失败</strong>回答（lose/rejected）</td>
+                        </tr>
+                        <tr>
+                            <td>π<sub>θ</sub></td>
+                            <td>当前训练的策略模型（待优化）</td>
+                        </tr>
+                        <tr>
+                            <td>π<sub>ref</sub></td>
+                            <td>参考策略（通常是冻结的 SFT 模型）</td>
+                        </tr>
+                        <tr>
+                            <td>β</td>
+                            <td>温度系数，控制与参考模型的偏离程度</td>
+                        </tr>
+                        <tr>
+                            <td>σ</td>
+                            <td>sigmoid 函数，将值映射到 (0,1)</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <p>然而，随着实践的深入，DPO 暴露出一些局限性，催生了一系列变体：</p>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>方法</th>
+                            <th>核心改进</th>
+                            <th>适用场景</th>
+                            <th>数据需求</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>DPO</strong></td>
+                            <td>用分类损失替代 RL</td>
+                            <td>通用对齐</td>
+                            <td>Pairwise 偏好对</td>
+                        </tr>
+                        <tr>
+                            <td><strong>SimPO</strong></td>
+                            <td>移除 reference log-ratio，梯度更稳定</td>
+                            <td>噪声数据、众包标注</td>
+                            <td>Pairwise 偏好对</td>
+                        </tr>
+                        <tr>
+                            <td><strong>ORPO</strong></td>
+                            <td>在 odds-space 中优化，处理类别不平衡</td>
+                            <td>多语言、长尾数据</td>
+                            <td>Pairwise 偏好对</td>
+                        </tr>
+                        <tr>
+                            <td><strong>KTO</strong></td>
+                            <td>基于前景理论的不对称损失</td>
+                            <td>高风险领域（法律、医疗）</td>
+                            <td>Pointwise（只需好/坏标签）</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="highlight-box">
+                    <p><strong>值得注意的是，DPO 系列方法属于 offline 方法——它们使用预先收集的静态数据进行训练，不需要在训练过程中让模型生成新的回答。这使得它们比 PPO/GRPO 等 online RL 方法更简单、更稳定，但也意味着它们无法从模型自身的探索中学习，在提升推理能力方面不如 online RL 方法有效。</strong></p>
+                </div>
+
+                <h3>3.7 DeepSeek-R1：纯 RL 训练推理模型的里程碑</h3>
+
+                <p>DeepSeek-R1 是 2025 年初最具影响力的工作之一，它首次证明了 <strong>纯 RL 训练（不需要 SFT）就能让模型涌现出强大的推理能力</strong>。</p>
+
+                <p>DeepSeek-R1 的训练分为两条路线：</p>
+
+                <ul>
+                    <li><strong>R1-Zero（纯 RL 路线）</strong>：直接在预训练的 DeepSeek-V3 基座模型上，使用 GRPO + RLVR 进行训练，完全跳过 SFT 阶段。令人惊讶的是，模型在训练过程中自发涌现出了复杂的推理行为——包括自我反思（"Wait, let me reconsider..."）、问题分解、多路径探索等。这些行为并非被显式编程，而是 RL 训练过程中自然产生的，被称为 "Aha moment"。</li>
+                    <li><strong>R1（完整路线）</strong>：在 R1-Zero 的基础上，加入了 SFT 数据进行冷启动（cold start），然后再进行 RL 训练。这种方式产出的模型在格式规范性和可读性上优于 R1-Zero，同时保持了强大的推理能力。</li>
+                </ul>
+
+                <p>DeepSeek-R1 的训练过程中还有一个重要发现：<strong>随着 RL 训练的推进，模型生成的回答长度会自然增长——模型学会了"多想一会儿"来解决更难的问题。这本质上是 inference-time scaling 的训练端体现。</strong></p>
+
+                <h3>3.8 GRPO 的改进：DAPO、Dr.GRPO 和工程技巧</h3>
+
+                <p>原始的 GRPO 在大规模训练中存在<strong>Entropy Collapse（熵坍塌）</strong>现象：随着训练推进，策略的熵快速下降，模型对同一个 prompt 采样出的 G 个回答变得几乎完全相同，失去了探索能力。这在 RL 中是经典的 exploration vs. exploitation 困境。</p>
+
+                <p><strong>DAPO（Decoupled Alignment Policy Optimization）针对这些问题提出了四个关键改进：</strong></p>
+
+                <ul>
+                    <li><strong>Clip-Higher</strong>：对正 advantage 的回答放宽 clipping 上界（从 1+ε 提高到 1+ε'，其中 ε' > ε），鼓励模型更大胆地探索好的方向，同时保持对坏方向的严格约束。</li>
+                    <li><strong>Dynamic Sampling</strong>：过滤掉那些 G 个回答全对或全错的 prompt。全对意味着这个问题太简单、没有学习价值；全错意味着太难、当前学不会。只保留有区分度的 prompt 进行训练。</li>
+                    <li><strong>Overlong Filtering</strong>：对超过最大长度限制的回答，不给予惩罚（设 reward 为 0），而不是像原始 GRPO 那样给负奖励。这避免了模型学会"为了不被惩罚而生成短回答"的不良行为。</li>
+                    <li><strong>Token-level Loss</strong>：按 token 而非 sequence 计算损失，避免长序列在梯度中被过度加权。</li>
+                </ul>
+
+                <p><strong>Dr.GRPO</strong> 则发现了 GRPO 中 length normalization 引入的 length bias 问题，并通过移除这一归一化来修复。</p>
+
+                <h2 id="4-全局视角技术如何协同工作">4. 全局视角：技术如何协同工作</h2>
+
+                <p>理解了各个组件之后，让我们看看它们如何在一个完整的 Post-training pipeline 中协同工作。以当前主流的推理模型训练流程为例：</p>
+
+                <ol>
+                    <li><strong>SFT 冷启动</strong>。 使用高质量的指令跟随数据和推理数据（包含 chain-of-thought）对基座模型进行监督微调。<strong>这一步的目标是让模型学会基本的输出格式和推理模式。</strong></li>
+                    <li><strong>RL 推理训练（RLVR）</strong>。 在数学、代码等可验证领域，使用 GRPO（或其改进版本 DAPO）进行大规模 RL 训练。<strong>这一步是推理能力提升的核心</strong>。</li>
+                    <li><strong>偏好对齐</strong>。 使用 DPO 或 RLHF 对模型进行最终的偏好对齐，<strong>确保模型的输出风格、安全性和有用性符合要求。</strong></li>
+                    <li><strong>拒绝采样 + 蒸馏（可选）</strong>。 用训练好的大模型生成高质量的推理数据，蒸馏到更小的模型中。DeepSeek-R1 就是通过这种方式将推理能力蒸馏到 1.5B~70B 的小模型中。</li>
+                </ol>
+
+                <img src="https://km.sankuai.com/api/file/cdn/2751026429/226631782907?contentType=1&isNewContent=false" alt="Post-Training 完整流程" class="content-image">
+
+                <h2 id="5-前沿方向agentic-rl">5. 前沿方向：Agentic RL</h2>
+
+                <h3>5.1 SRL - Supervised Reinforcement Learning</h3>
+
+                <p>当前大模型在复杂推理和 agent 任务上的后训练，主要依赖两类方法：</p>
+
+                <ul>
+                    <li><strong>SFT</strong>（监督微调） 直接模仿专家长推理轨迹；SFT 的训练目标本质上是逐 token 模仿。容易让模型过度学习专家解答的表面表达方式，而不是中间决策结构。这种方式反而可能导致模型泛化变差，甚至出现"训完比 base 还差"的退化现象。</li>
+                    <li><strong>RLVR</strong>（带可验证奖励的强化学习） 只根据最终答案是否正确来给奖励。在复杂难题上往往采不到正确轨迹，导致奖励极其稀疏</li>
+                </ul>
+
+                <p>这两类方法在高难任务上都存在明显短板。</p>
+
+                <p>SRL 这篇论文的核心出发点是：与其让模型去"复读整段专家推理"，或者只在"最后答对了没"这一点上获得奖励，不如直接学习专家在每一步做出的关键决策，并对这些中间决策提供稠密、可计算的监督信号。</p>
+
+                <p>基于这一想法，SRL 将专家解答重新表述为一串 action 序列，并在 RL 框架下对每一步 action 进行相似度奖励学习。</p>
+
+                <h3>5.2 Agentic RL：从"回答问题"到"完成任务"</h3>
+
+                <p>传统的 RLHF/RLVR 训练的是单轮问答能力，而 Agentic RL 则训练模型在多步骤任务中交替进行推理和工具调用。例如，Search-R1 训练模型学会"什么时候该搜索、搜索什么、如何利用搜索结果"；ReTool 训练模型学会在推理过程中调用计算器、代码解释器等工具。</p>
+
+                <p>Agentic RL 面临的核心挑战包括：多轮交互中的 credit assignment（哪一步决策导致了最终的成功或失败）、稀疏奖励（只有任务完成时才有反馈）、以及推理与工具使用之间的资源竞争。</p>
+
+                <h3>5.3 Reward Model 的演进</h3>
+
+                <p>Reward Model 正在从简单的标量打分模型演进为更复杂的形式：</p>
+                <ul>
+                    <li><strong>Process Reward Model（PRM）</strong> 对推理的每一步进行评分，而非只看最终答案</li>
+                    <li><strong>Generative Reward Model</strong> 用 LLM 本身作为 judge 来评估回答质量</li>
+                    <li><strong>Multi-objective Reward</strong> 同时优化多个维度（准确性、安全性、简洁性等）</li>
+                </ul>
+
+                <h3>5.4 Synthetic Data 的角色</h3>
+
+                <p>合成数据在 Post-training 中的重要性持续上升。当前的最佳实践是：用强模型生成大量候选回答，通过 verifier 筛选出正确的，再用这些数据进行 SFT 或作为 RL 的 warm-up。这种 "生成-验证-训练" 的循环正在成为标准范式。</p>
+
+                <h2 id="6-总结与关键要点">6. 总结与关键要点</h2>
+
+                <p>LLM Post-training 是一个快速演进的领域，但其核心逻辑可以归纳为以下几点：</p>
+
+                <ul>
+                    <li><strong>第一，SFT 是基础但不够。</strong> SFT 教会模型输出的格式和风格，但无法让模型学会超越训练数据的推理能力。对于对齐和推理，我们需要更强大的训练信号。</li>
+                    <li><strong>第二，RL 是提升推理能力的关键。</strong> 从 PPO 到 GRPO，RL 算法在不断简化和高效化。GRPO 去掉了 Critic 模型，DAPO 进一步解决了熵坍塌等工程问题。DeepSeek-R1 证明了纯 RL 就能涌现推理能力。</li>
+                    <li><strong>第三，奖励信号的设计至关重要。</strong> 从 RLHF（人类反馈）到 RLAIF（AI 反馈）再到 RLVR（可验证奖励），奖励信号的获取方式在不断演进。RLVR 在可验证领域（数学、代码）表现出色，但如何将其扩展到开放域任务仍是开放问题。</li>
+                    <li><strong>第四，Online RL vs. Offline Preference Optimization 各有所长。</strong> DPO 等 offline 方法简单稳定，适合偏好对齐；PPO/GRPO 等 online 方法能从探索中学习，更适合提升推理能力。实践中通常两者结合使用。</li>
+                    <li><strong>第五，Agentic RL 是下一个前沿。</strong> 从单轮问答到多轮工具使用，Post-training 正在向训练完整的"智能体"方向发展。</li>
+                </ul>
+
+                <h2 id="7-参考文献">7. 参考文献</h2>
+
+                <ol>
+                    <li>Tie, G. et al. "A Survey on Post-training of Large Language Models." arXiv:2503.06072, 2025.</li>
+                    <li>Fahey, J. "DPO Isn't Enough: The Modern Post-Training Stack." Medium, Oct 2025.</li>
+                    <li>"A Deep Dive Into the Role of Synthetic Data in Post-Training." ICML 2025.</li>
+                    <li>Ouyang, L. et al. "Training language models to follow instructions with human feedback." NeurIPS 2022.</li>
+                    <li>Lee, H. et al. "RLAIF: Scaling Reinforcement Learning from Human Feedback with AI Feedback." arXiv:2309.00267, 2023.</li>
+                    <li>Schulman, J. et al. "Proximal Policy Optimization Algorithms." arXiv:1707.06347, 2017.</li>
+                    <li>Raschka, S. "The State of Reinforcement Learning for LLM Reasoning." Ahead of AI, Apr 2025.</li>
+                    <li>Shao, Z. et al. "DeepSeekMath: Pushing the Limits of Mathematical Reasoning in Open Language Models." arXiv:2402.03300, 2024.</li>
+                    <li>"Reinforcement Learning with Verified Rewards (RLVR)." Emergent Mind, 2025.</li>
+                    <li>Guo, D. et al. "DeepSeek-R1: Incentivizing Reasoning Capability in LLMs via Reinforcement Learning." arXiv:2501.12948, 2025.</li>
+                    <li>Rafailov, R. et al. "Direct Preference Optimization: Your Language Model is Secretly a Reward Model." NeurIPS 2023.</li>
+                    <li>Yu, Q. et al. "DAPO: An Open-Source LLM Reinforcement Learning System at Scale." arXiv:2503.14476, 2025.</li>
+                    <li>Wolfe, C. "GRPO++: Tricks for Making RL Actually Work." Deep (Learning) Focus, Jan 2026.</li>
+                    <li>"Reasoning and Tool-use Compete in Agentic RL." arXiv:2602.00994, 2026.</li>
+                    <li>"Unlocking Agentic RL Training for GPT-OSS." Hugging Face Blog, Jan 2026.</li>
+                </ol>
+
+                <a href="ai-posttraining.html" class="back-link">← 返回 3. Post-training</a>
+            </section>
+
+            <footer class="footer">
+                <p>更新时间：2026-04-13</p>
+                <p><a href="index.html">← 返回首页</a></p>
+            </footer>
         </main>
     </div>
 
