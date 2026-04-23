@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>3. Post-training - AI</title>
+    <title>Training - AI</title>
     <link rel="stylesheet" href="styles.css">
     <style>
         .ai-section {
@@ -182,14 +182,10 @@
                                 <li><a href="ai-model-attention-mechanism.html">注意力机制</a></li>
                             </ul>
                         </li>
-                        <li><a href="ai-pretraining.html">2. Pre-training</a>
+                        <li><a href="ai-posttraining.html">Training</a>
                             <ul>
-                                <li><a href="ai-pretraining-token-bpe.html">token-BPE 算法</a></li>
-                            </ul>
-                        </li>
-                        <li><a href="ai-posttraining.html">3. Post-training</a>
-                            <ul>
-                                <li><a href="ai-posttraining-overview.html">Post-Training 全景指南</a></li>
+                                <li><a href="ai-pretraining.html">Pre-training</a></li>
+                                <li><a href="ai-posttraining-overview.html">Post-training 全景指南</a></li>
                                 <li><a href="ai-posttraining-peft.html">PEFT 详解</a></li>
                             </ul>
                         </li>
@@ -216,38 +212,56 @@
 
         <main class="content">
             <header class="header">
-                <h1>3. Post-training</h1>
-                <p class="subtitle">后训练阶段的优化与对齐方法</p>
+                <h1>Training</h1>
+                <p class="subtitle">Pre-training + Mid-training + Post-training 全流程解析</p>
             </header>
 
             <div class="breadcrumb">
-                <a href="index.html">首页</a> > <a href="index.html#ai">AI</a> > 3. Post-training
+                <a href="index.html">首页</a> > <a href="index.html#ai">AI</a> > Training
             </div>
 
             <div class="page-toc">
     <h4 style="margin-bottom: 15px; color: #1e40af;">📑 页面目录</h4>
     <ul style="list-style: none; padding: 0; margin: 0;">
-        <li style="margin-bottom: 8px;"><a href="#3-post-training" style="color: #1e40af; text-decoration: none; font-weight: 600;">3. Post-training</a></li>
-        <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#1-post-training-全景指南" style="color: #7c3aed; text-decoration: none; font-size: 0.95rem;">1. Post-Training 全景指南</a></li>
-        <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#2-peft-详解" style="color: #7c3aed; text-decoration: none; font-size: 0.95rem;">2. PEFT 详解</a></li>
+        <li style="margin-bottom: 8px;"><a href="#training" style="color: #1e40af; text-decoration: none; font-weight: 600;">Training</a></li>
+        <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#pre-training" style="color: #7c3aed; text-decoration: none; font-size: 0.95rem;">Pre-training</a></li>
+        <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#mid-training" style="color: #7c3aed; text-decoration: none; font-size: 0.95rem;">Mid-training</a></li>
+        <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#post-training" style="color: #7c3aed; text-decoration: none; font-size: 0.95rem;">Post-training</a></li>
     </ul>
 </div>
 
 
             <section class="ai-section">
-                <h2 id="3-post-training">3. Post-training</h2>
-                <p>后训练阶段的优化与对齐方法</p>
+                <h2 id="training">Training</h2>
+                <p>大语言模型训练全流程：Pre-training → Mid-training → Post-training</p>
 
+                <h3 id="pre-training">Pre-training</h3>
+                <p>预训练是 LLM 训练的第一阶段，通过海量无标注文本数据让模型学习语言规律和世界知识。模型在大量语料上进行自监督学习（如 Next Token Prediction），产出一个"什么都知道一点、但什么都不太好用"的基座模型。</p>
+                <div class="article-grid">
+                    <a href="ai-pretraining.html" class="article-card-link">
+                        <div class="article-card">
+                            <h3>Pre-training</h3>
+                            <p>系统学习预训练阶段的关键技术与方法，包括 tokenization、BPE 算法等基础知识。</p>
+                        </div>
+                    </a>
+                </div>
+
+                <h3 id="mid-training">Mid-training</h3>
+                <p>训练与领域适应是连接预训练与后训练的中间阶段。在预训练完成后，通过持续训练（Continue Training）在特定领域数据上进一步优化模型，使其在特定领域（如代码、数学、科学）表现更好。Mid-training 通常使用比预训练更小但更高质量的数据集。</p>
+                <p>相关技术包括：领域自适应预训练（Domain-Adaptive Pretraining）、任务导向的持续训练等。这一阶段在 DeepSeek、Codex 等专业模型中尤为关键。</p>
+
+                <h3 id="post-training">Post-training</h3>
+                <p>后训练是将基座模型"精装修"为可用产品的关键阶段，涵盖监督微调（SFT）、偏好优化（RLHF/DPO）和强化学习训练（PPO/GRPO）等核心技术。</p>
                 <div class="article-grid">
                     <a href="ai-posttraining-overview.html" class="article-card-link">
                         <div class="article-card">
-                            <h3 id="1-post-training-全景指南">1. Post-Training 全景指南</h3>
+                            <h3>Post-Training 全景指南</h3>
                             <p>从 RLHF 到 GRPO 再到 Agentic RL，系统梳理后训练的核心方法和最新进展。</p>
                         </div>
                     </a>
                     <a href="ai-posttraining-peft.html" class="article-card-link">
                         <div class="article-card">
-                            <h3 id="2-peft-详解">2. PEFT 详解</h3>
+                            <h3>PEFT 详解</h3>
                             <p>参数高效微调方法详解，包括 LoRA、QLoRA、Prefix Tuning、Prompt Tuning 等技术。</p>
                         </div>
                     </a>
