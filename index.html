@@ -453,6 +453,30 @@
                             </div>
                         </a>
                     </div>
+
+                    <!-- Application 子栏目 -->
+                    <h3 style="color: #7c3aed; margin-bottom: 25px; margin-top: 40px; font-size: 1.3rem;">📱 Application</h3>
+                    
+                    <!-- OR X AI 子标签页头 -->
+                    <div class="subtabs-header" style="margin-bottom: 30px; border-bottom: 2px solid #e2e8f0;">
+                        <button class="subtab-button active" data-subtab="orxai-ai">
+                            <span class="tab-icon">🔬</span>OR X AI
+                        </button>
+                    </div>
+                    
+                    <!-- OR X AI 子标签页内容 -->
+                    <div class="subtabs-content">
+                        <div class="subtab-pane active" id="orxai-ai">
+                            <div class="agent-grid">
+                                <a href="a.html" class="article-card-link">
+                                    <div class="article-card">
+                                        <h3>LLM在运筹上的应用</h3>
+                                        <p>LLM在运筹学中的方法、应用与挑战：自动建模、辅助优化求解、直接求解三大范式详解。</p>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <!-- 预测与决策 Tab -->
@@ -551,6 +575,83 @@
                 switchTab(tabName);
             }
         });
+
+        // 子标签页功能
+        const subTabButtons = document.querySelectorAll('.subtab-button');
+        const subTabPanes = document.querySelectorAll('.subtab-pane');
+
+        function switchSubTab(subTabName) {
+            // 移除所有 active 类
+            subTabButtons.forEach(btn => btn.classList.remove('active'));
+            subTabPanes.forEach(pane => pane.classList.remove('active'));
+
+            // 添加 active 类到当前按钮和对应的 pane
+            const activeButton = document.querySelector(`[data-subtab="${subTabName}"]`);
+            const activePane = document.getElementById(subTabName);
+
+            if (activeButton && activePane) {
+                activeButton.classList.add('active');
+                activePane.classList.add('active');
+            }
+        }
+
+        // 点击子标签页按钮时切换
+        subTabButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const subTabName = button.getAttribute('data-subtab');
+                switchSubTab(subTabName);
+            });
+        });
     </script>
+    <style>
+        /* 子标签页样式 */
+        .subtabs-header {
+            display: flex;
+            border-bottom: 2px solid #e2e8f0;
+            margin-bottom: 30px;
+        }
+        
+        .subtab-button {
+            padding: 12px 24px;
+            border: none;
+            background: none;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            color: #64748b;
+            transition: all 0.3s ease;
+            text-align: center;
+            position: relative;
+        }
+        
+        .subtab-button:hover {
+            color: #1e40af;
+            background-color: rgba(30, 64, 175, 0.05);
+        }
+        
+        .subtab-button.active {
+            color: #1e40af;
+            background-color: rgba(30, 64, 175, 0.1);
+        }
+        
+        .subtab-button.active::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #1e40af, #0c4a6e);
+        }
+        
+        .subtab-pane {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        .subtab-pane.active {
+            display: block;
+        }
+    </style>
 </body>
 </html>

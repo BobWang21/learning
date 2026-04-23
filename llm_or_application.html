@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LLM在运筹学中的应用：方法、应用与挑战</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Microsoft YaHei', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f8f9fa;
+            padding: 20px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        .container {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            padding: 40px;
+            margin-top: 20px;
+        }
+        h1 {
+            color: #1e40af;
+            margin-bottom: 20px;
+            border-bottom: 3px solid #1e40af;
+            padding-bottom: 10px;
+        }
+        h2 {
+            color: #7c3aed;
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
+        h3 {
+            color: #0c4a6e;
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+        p {
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+        ol, ul {
+            margin-left: 30px;
+            margin-bottom: 15px;
+        }
+        li {
+            margin-bottom: 8px;
+        }
+        .meta {
+            color: #64748b;
+            font-size: 0.9rem;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        .back-link {
+            display: inline-block;
+            margin-top: 30px;
+            padding: 10px 20px;
+            background: #1e40af;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+        .back-link:hover {
+            background: #0c4a6e;
+        }
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+            .container {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>LLM在运筹学中的应用：方法、应用与挑战</h1>
+        <div class="meta">
+            文档转换自：LLM在运筹上的方法、应用和挑战.docx | 生成时间：2026-04-23
+        </div>
+        <div id="content">
+            <p>LLM 在运筹学中的应用：方法、应用与挑战</p>
+<p>大语言模型（LLM）在运筹学（OR）中的应用可以系统地划分为三大核心范式：自动建模（Automatic Modeling）、辅助优化求解（LLM-Assisted Optimization）和 LLM 主导的直接求解（LLM-Dominated Optimization Solving）。以下是对这三大范式、当前学术界/业界的聚焦点以及基准测试（Benchmarks）的总结。</p>
+<p>一、LLM + OR 的三大核心范式深度解析</p>
+<ol>
+<li>自动建模范式（Automatic Modeling）</li>
+</ol>
+<p>这是将自然语言问题转化为计算机可识别的数学模型的“桥梁”阶段。</p>
+<p>解决的问题：</p>
+<p>降低运筹学建模门槛，解决传统依赖专家建模耗时耗力的问题。</p>
+<p>解决长文本描述中关键约束遗漏和语义歧义的问题。</p>
+<p>基本逻辑与流程：核心在于翻译。LLM 接收自然语言描述的优化问题，将其转化为形式化的数学模型（如变量、目标函数、约束条件）或可执行代码（如 Python/Gurobi 代码）。流程通常包含五个步骤闭环：理解（解析目标与约束）→ 提取（识别决策变量等元素）→ 结构化（生成标准模型）→ 转译（生成求解器代码）→ 评估与反馈（运行代码并修正错误）。</p>
+<p>主要子路径：</p>
+<p>基于提示词（Prompting）：通过多阶段或多智能体提示，引导 LLM 生成模型组件。</p>
+<p>提示词与微调协同（Prompt-Fine-tuning Synergy）：结合 SFT 和提示工程，解决单一提示的不稳定性。</p>
+<p>外部知识引导（Knowledge-Augmented）：引入 RAG 注入领域特定知识，处理复杂约束。</p>
+<p>关键发表：OptiMUS、Chain-of-Experts、LLaMoCo、IndustryOR、DROC 等。</p>
+<p>评估：具有工业应用价值，是实现“人人可用的运筹学”的关键，正从简单 MILP 向复杂图结构和非标准约束扩展。</p>
+<ol>
+<li>辅助优化求解范式（LLM-Assisted Optimization）</li>
+</ol>
+<p>LLM 不直接给出最终解，而是充当算法设计师或搜索算子，辅助传统算法（如进化算法、强化学习）进行求解。</p>
+<p>解决的问题：</p>
+<p>自动化算法设计，解决传统启发式设计依赖人工经验的问题。</p>
+<p>突破局部最优，发现人类未曾想到的新算法结构。</p>
+<p>基本逻辑与流程：LLM 利用其代码生成能力和推理能力，生成启发式算法、搜索算子或奖励函数，与传统优化算法形成“感知-推理-反馈”闭环。</p>
+<p>主要子路径：</p>
+<p>启发式结构进化（Heuristic Evolution）</p>
+<p>多目标协同（Multi-Objective）</p>
+<p>跨范式融合（Cross-Paradigm）</p>
+<p>关键发表：FunSearch、EoH、LMEA、AEL、ReEvo、Hercules、MEoH、HSEvo、PoH、CALM、EALG、HeurAgenix、GraphThought 等。</p>
+<p>评估：学术界最热门方向，结合了 LLM 的创造力与传统算法的严谨性，是通向“自动算法设计”的必经之路。</p>
+<ol>
+<li>LLM 主导的直接求解范式（LLM-Dominated Optimization Solving）</li>
+</ol>
+<p>LLM 被视为一个独立的“求解器”，直接输出最终解。</p>
+<p>解决的问题：</p>
+<p>针对难以显式建模的“黑盒”问题提供快速、通用的解决方案。</p>
+<p>适用于小规模或快速原型验证场景。</p>
+<p>基本逻辑与流程：</p>
+<p>零建模：无需构建数学模型或编写算法代码，用户输入问题描述，LLM 直接输出解决方案。</p>
+<p>通常利用 CoT 或 Meta-Prompt 技术，通过多轮对话引导 LLM 自我修正。</p>
+<p>主要子路径：</p>
+<p>单模态：仅依赖文本交互。</p>
+<p>多模态结构感知：结合视觉输入增强空间感知能力。</p>
+<p>关键发表：OPRO、MLLM-V 等。</p>
+<p>特点与局限：</p>
+<p>特点：通用性强，无需训练，交互灵活。</p>
+<p>局限：容易产生幻觉，难以处理大规模问题或复杂约束，性能波动大。</p>
+<p>二、学术界与业界当前的聚焦点</p>
+<p>系统化与闭环：研究重心已从单点任务验证转向构建完整的智能优化系统，强调“生成-验证-修复”闭环。</p>
+<p>核心聚焦范式：</p>
+<p>辅助优化（特别是启发式进化）是学术界的焦点：FunSearch 等工作证明了其发现新知识的潜力。</p>
+<p>自动建模是工业界的应用热点：通过微调和 RAG 技术，该方向正变得越来越实用。</p>
+<p>直接求解范式相对边缘化：目前更多用于简单问题或作为启发式初值生成器。</p>
+<p>三、当前的基准测试总结</p>
+<ol>
+<li>针对“自动建模”能力的 Benchmark</li>
+</ol>
+<p>NL4OPT：早期基础基准。</p>
+<p>IndustryOR：工业覆盖面最广，含 16 个行业 1556 个问题。</p>
+<p>ComplexOR：高难度验证基准。</p>
+<p>MAMO、OptiBench / ReSocratic、EquivaMap 等。</p>
+<ol>
+<li>针对“求解与推理”能力的 Benchmark</li>
+</ol>
+<p>NLGraph、GraphArena、CO-Bench、FrontierCO、HeuriGym、ALE-Bench 等。</p>
+<ol>
+<li>针对“可解释性”的 Benchmark</li>
+</ol>
+<p>EOR：第一个工业级可解释性优化数据集。</p>
+<p>更详细论文及应用见附录</p>
+<ol>
+<li>关键范式一：自动建模</li>
+</ol>
+<p>1.1 基于提示词的路径</p>
+<p>1.2 提示词与微调协同</p>
+<p>1.3 外部知识引导机制</p>
+<ol>
+<li>关键范式二：辅助优化求解</li>
+</ol>
+<p>2.1 启发式结构进化与策略优化</p>
+<p>2.2 多目标优化协作</p>
+<p>2.3 跨范式融合</p>
+<ol>
+<li>关键范式三：LLM 主导的直接求解</li>
+</ol>
+<p>3.1 单模态生成优化</p>
+<p>3.2 多模态结构感知</p>
+<ol>
+<li>综合基准测试</li>
+</ol>
+<p>4.1 自动建模基准测试</p>
+<p>4.2 优化求解基准测试</p>
+        </div>
+        <a href="javascript:history.back()" class="back-link">返回</a>
+    </div>
+</body>
+</html>
