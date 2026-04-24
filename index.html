@@ -386,21 +386,30 @@
                     <h2 style="color: #1e40af; margin-bottom: 30px;">🤖 AI</h2>
                     <p style="color: #64748b; margin-bottom: 20px;">大语言模型与智能体的前沿研究</p>
 
-                    <!-- 基座 + Training 并列 -->
-                    <h3 style="color: #7c3aed; margin-bottom: 25px; margin-top: 30px; font-size: 1.3rem;">🏗️ 基座 · 🔄 Training</h3>
-                    <div class="foundation-grid">
-                        <a href="ai-model.html" class="article-card-link">
-                            <div class="article-card">
-                                <h3>1. Model</h3>
-                                <p>深入探讨大语言模型的基础架构、设计原理、技术演进及注意力机制等核心概念。</p>
+                    <!-- 基座 + Training 并列（各自独立标题，同一行） -->
+                    <div class="base-row">
+                        <div class="base-column">
+                            <h3 style="color: #7c3aed; margin-bottom: 20px; font-size: 1.3rem;">🏗️ 基座</h3>
+                            <div class="foundation-grid single-card">
+                                <a href="ai-model.html" class="article-card-link">
+                                    <div class="article-card">
+                                        <h3>1. Model</h3>
+                                        <p>深入探讨大语言模型的基础架构、设计原理、技术演进及注意力机制等核心概念。</p>
+                                    </div>
+                                </a>
                             </div>
-                        </a>
-                        <a href="ai-posttraining.html" class="article-card-link">
-                            <div class="article-card">
-                                <h3>Pre-training + Mid-training + Post-training</h3>
-                                <p>全面解析大语言模型训练全流程：从预训练到后训练，涵盖 SFT、RLHF、GRPO 等核心技术方法。</p>
+                        </div>
+                        <div class="base-column">
+                            <h3 style="color: #7c3aed; margin-bottom: 20px; font-size: 1.3rem;">🔄 Training</h3>
+                            <div class="foundation-grid single-card">
+                                <a href="ai-posttraining.html" class="article-card-link">
+                                    <div class="article-card">
+                                        <h3>Pre-training + Mid-training + Post-training</h3>
+                                        <p>全面解析大语言模型训练全流程：从预训练到后训练，涵盖 SFT、RLHF、GRPO 等核心技术方法。</p>
+                                    </div>
+                                </a>
                             </div>
-                        </a>
+                        </div>
                     </div>
 
                     <!-- Agent 部分 -->
