@@ -14,330 +14,217 @@
                 displayMath: [['$$', '$$'], ['\\[', '\\]']],
                 processEscapes: true
             },
-            svg: {
-                fontCache: 'global',
-                scale: 1.1,
-                minScale: 0.8
-            },
-            startup: {
-                pageReady: function() {
-                    return MathJax.typesetPromise();
-                }
-            }
+            svg: { fontCache: 'global', scale: 1.1, minScale: 0.8 },
+            startup: { pageReady: function() { return MathJax.typesetPromise(); } }
         };
     </script>
     <style>
-        
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-            line-height: 1.6;
-            color: #333;
-            background-color: #f5f5f5;
+        .ai-section {
+            background: white;
+            border-radius: 8px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
         }
-        
-        .container {
-            display: flex;
-            max-width: 1400px;
-            margin: 0 auto;
-            background-color: #fff;
+        .ai-section h1 {
+            color: #1e40af;
+            border-bottom: 3px solid #1e40af;
+            padding-bottom: 15px;
+            margin-top: 0;
+            font-size: 1.8rem;
         }
-        
-        .sidebar {
-            width: 250px;
-            background-color: #2c3e50;
-            color: #ecf0f1;
-            padding: 20px;
-            position: fixed;
-            height: 100vh;
-            overflow-y: auto;
+        .ai-section h2 {
+            color: #1e40af;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 10px;
+            margin-top: 35px;
         }
-        
-        .sidebar h3 {
-            color: #3498db;
+        .ai-section h3 {
+            color: #7c3aed;
+            margin-top: 25px;
+            margin-bottom: 12px;
+        }
+        .ai-section h4 {
+            color: #1e293b;
             margin-top: 20px;
             margin-bottom: 10px;
-            font-size: 14px;
-            text-transform: uppercase;
-        }
-        
-        .sidebar ul {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-        
-        .sidebar li {
-            margin: 8px 0;
-        }
-        
-        .sidebar a {
-            color: #ecf0f1;
-            text-decoration: none;
-            font-size: 14px;
-            display: block;
-            padding: 5px 10px;
-            border-radius: 4px;
-            transition: background-color 0.3s;
-        }
-        
-        .sidebar a:hover {
-            background-color: #34495e;
-        }
-        
-        .main-content {
-            margin-left: 250px;
-            padding: 40px;
-            flex: 1;
-        }
-        
-        h1 {
-            color: #2c3e50;
-            border-bottom: 3px solid #3498db;
-            padding-bottom: 10px;
-            margin-bottom: 30px;
-        }
-        
-        h2 {
-            color: #34495e;
-            margin-top: 40px;
-            margin-bottom: 20px;
-            border-left: 4px solid #3498db;
-            padding-left: 15px;
-        }
-        
-        h3 {
-            color: #34495e;
-            margin-top: 25px;
-            margin-bottom: 15px;
-        }
-        
-        .summary-box {
-            background-color: #ecf0f1;
-            border-left: 4px solid #3498db;
-            padding: 15px 20px;
-            margin: 20px 0;
-            border-radius: 4px;
-        }
-        
-        .summary-box h4 {
-            margin-top: 0;
-            color: #2c3e50;
-        }
-        
-        .summary-box ul {
-            margin: 10px 0;
-            padding-left: 20px;
-        }
-        
-        .summary-box li {
-            margin: 5px 0;
-        }
-        
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 20px 0;
-            background-color: #fff;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-        
-        table th {
-            background-color: #3498db;
-            color: white;
-            padding: 12px;
-            text-align: left;
             font-weight: 600;
         }
-        
-        table td {
-            padding: 12px;
-            border-bottom: 1px solid #ecf0f1;
+        .ai-section p {
+            line-height: 1.8;
+            margin-bottom: 15px;
         }
-        
-        table tr:hover {
-            background-color: #f9f9f9;
+        .ai-section ul, .ai-section ol {
+            margin-bottom: 15px;
+            padding-left: 1.5rem;
         }
-        
-        table tr:last-child td {
-            border-bottom: none;
-        }
-        
-        img {
-            max-width: 100%;
-            height: auto;
-            margin: 20px 0;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-        }
-        
-        .formula {
-            background-color: #f9f9f9;
-            padding: 15px;
-            margin: 15px 0;
-            border-radius: 4px;
-            border-left: 3px solid #3498db;
-            overflow-x: auto;
-        }
-        
-        code {
-            background-color: #2c3e50;
-            color: #ecf0f1;
-            padding: 2px 6px;
-            border-radius: 3px;
-            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
-        }
-        
-        pre {
-            background-color: #2c3e50;
-            color: #ecf0f1;
-            padding: 15px;
-            border-radius: 4px;
-            overflow-x: auto;
-            margin: 15px 0;
-        }
-        
-        pre code {
-            background-color: transparent;
-            color: #ecf0f1;
-            padding: 0;
-        }
-        
-        .section {
-            margin-bottom: 40px;
-        }
-        
-        .comparison-box {
-            background-color: #f0f8ff;
-            border: 1px solid #3498db;
-            padding: 20px;
-            margin: 20px 0;
-            border-radius: 4px;
-        }
-        
-        .comparison-box h4 {
-            color: #2c3e50;
-            margin-top: 0;
-        }
-        
-        .pros {
-            background-color: #e8f8f5;
-            border-left: 4px solid #27ae60;
-            padding: 15px;
-            margin: 15px 0;
-            border-radius: 4px;
-        }
-        
-        .cons {
-            background-color: #fadbd8;
-            border-left: 4px solid #e74c3c;
-            padding: 15px;
-            margin: 15px 0;
-            border-radius: 4px;
-        }
-        
-        .pros h5, .cons h5 {
-            margin-top: 0;
-            color: #2c3e50;
-        }
-        
-        .pros ul, .cons ul {
-            margin: 10px 0;
-            padding-left: 20px;
-        }
-        
-        .pros li, .cons li {
-            margin: 5px 0;
-        }
-        
-        .faq-item {
-            background-color: #fef5e7;
-            border: 1px solid #f8c471;
-            padding: 20px;
-            margin: 20px 0;
-            border-radius: 4px;
-        }
-        
-        .faq-item h4 {
-            color: #d68910;
-            margin-top: 0;
-        }
-        
-        @media (max-width: 768px) {
-            .sidebar {
-                position: relative;
-                width: 100%;
-                height: auto;
-                padding: 15px;
-            }
-            
-            .main-content {
-                margin-left: 0;
-                padding: 20px;
-            }
-        }
-    
-        
-        pre {
-            background-color: #f4f4f4;
-            border-left: 4px solid #3498db;
-            padding: 12px 16px;
-            overflow-x: auto;
-            font-size: 13px;
-            line-height: 1.4;
-            border-radius: 4px;
-            font-family: 'Courier New', monospace;
-        }
-        code {
-            background-color: #f0f0f0;
-            padding: 2px 6px;
-            border-radius: 3px;
-            font-family: 'Courier New', monospace;
-            font-size: 0.9em;
-        }
-        pre code {
-            background: none;
-            padding: 0;
-        }
-        blockquote {
-            border-left: 3px solid #e74c3c;
-            background: #fdf2f2;
-            padding: 10px 15px;
-            margin: 15px 0;
-            border-radius: 4px;
+        .ai-section li {
+            margin-bottom: 6px;
+            line-height: 1.8;
         }
         .breadcrumb {
+            color: #64748b;
+            font-size: 0.95rem;
             margin-bottom: 20px;
-            font-size: 14px;
-            color: #7f8c8d;
         }
         .breadcrumb a {
-            color: #3498db;
+            color: #1e40af;
             text-decoration: none;
         }
         .breadcrumb a:hover {
             text-decoration: underline;
         }
+        .summary-box {
+            background: linear-gradient(135deg, rgba(30, 64, 175, 0.05), rgba(124, 58, 237, 0.05));
+            border-left: 4px solid #1e40af;
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        .summary-box h4 {
+            margin-top: 0;
+            color: #1e40af;
+        }
+        .summary-box ul {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+        .summary-box li {
+            margin: 4px 0;
+        }
+        .ai-section pre {
+            background-color: #1e293b;
+            color: #e2e8f0;
+            padding: 15px;
+            border-radius: 6px;
+            overflow-x: auto;
+            margin: 15px 0;
+            font-size: 13px;
+            line-height: 1.5;
+            font-family: 'Courier New', 'Menlo', monospace;
+        }
+        .ai-section pre code {
+            background: none;
+            color: inherit;
+            padding: 0;
+            font-size: inherit;
+        }
+        .ai-section code {
+            background-color: #f1f5f9;
+            color: #7c3aed;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', 'Menlo', monospace;
+            font-size: 0.9em;
+        }
+        .ai-section table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        .ai-section table thead {
+            background: linear-gradient(135deg, #1e40af, #7c3aed);
+            color: white;
+        }
+        .ai-section table th {
+            padding: 10px 14px;
+            text-align: left;
+            font-weight: 600;
+        }
+        .ai-section table td {
+            padding: 8px 14px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        .ai-section table tbody tr:hover {
+            background-color: rgba(30, 64, 175, 0.05);
+        }
+        .ai-section blockquote {
+            border-left: 4px solid #e74c3c;
+            background: #fdf2f2;
+            padding: 10px 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+        }
+        .page-toc {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 15px 20px;
+            margin: 20px 0;
+        }
+        .page-toc h4 {
+            margin: 0 0 10px 0;
+            color: #1e40af;
+        }
+        .page-toc ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .page-toc li {
+            margin: 4px 0;
+        }
+        .page-toc a {
+            color: #1e40af;
+            text-decoration: none;
+        }
+        .page-toc a:hover {
+            text-decoration: underline;
+        }
+        .page-toc a[href*="#"] {
+            color: #7c3aed;
+        }
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            padding: 10px 20px;
+            background: #1e40af;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: 600;
+        }
+        .back-link:hover {
+            background: #0c4a6e;
+        }
 
+        /* Override table colgroup setting null bg */
+        .ai-section table colgroup { display: none; }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="sidebar">
-    <h2>导航菜单</h2>
-    <h3>章节</h3>
-    <ul>
-        <li><a href="#section1">1 动机与问题背景</a></li>
-        <li><a href="#section2">2 解决方法</a></li>
-        <li><a href="#section3">3 效果</a></li>
-        <li><a href="#section4">4 总结与展望</a></li>
+    <div class="logo">📚 索引</div>
+    <ul class="toc">
+        <li><a href="index.html">🏠 首页</a></li>
+        <li><a href="index.html#e2e">🔄 端到端</a>
+            <ul>
+                <li><a href="decision.html">预测与决策结合的范式</a></li>
+                <li><a href="r-dfl.html">R-DFL 递归决策聚焦学习</a></li>
+            </ul>
+        </li>
     </ul>
 </div>
-        <div class="main-content">
-            <div class="breadcrumb">
+        <main class="content">
+            <section class="ai-section">
+<div class="breadcrumb">
     <a href="index.html">首页</a> &gt; <a href="index.html#e2e">端到端</a> &gt; R-DFL
 </div>
-<h1 id="top">《From Sequential to Recursive: Enhancing Decision-Focused Learning with Bidirectional Feedback》读书笔记</h1>
-<section class="section"><h2 id="section1">1 动机或问题背景</h2>
+<h1>《From Sequential to Recursive: Enhancing Decision-Focused Learning with Bidirectional Feedback》读书笔记</h1>
+<div class="summary-box">
+    <h4>📄 论文信息</h4>
+    <ul>
+        <li><strong>标题</strong>：From Sequential to Recursive: Enhancing Decision-Focused Learning with Bidirectional Feedback</li>
+        <li><strong>作者</strong>：Xinyu Wang, Jinxiao Du, Yiyang Peng, Wei Ma (The Hong Kong Polytechnic University)</li>
+        <li><strong>核心贡献</strong>：提出递归决策聚焦学习（R-DFL）框架，在预测与优化之间引入反馈回路，并给出两种梯度计算方法（显式展开与隐式微分）。</li>
+    </ul>
+</div>
+<h2 id="section1">1 动机或问题背景</h2>
 <h3 id="传统方法的局限">1.1 传统方法的局限</h3>
 <p>现实世界中的决策问题（如车辆路径规划、库存管理、网约车匹配）通常面临<strong>不确定性</strong>。传统的”预测后优化”（Predict-then-Optimize,
 PTO）框架采用两阶段方式：</p>
@@ -345,9 +232,7 @@ PTO）框架采用两阶段方式：</p>
 <li>用机器学习模型预测不确定参数</li>
 <li>基于预测结果求解优化问题</li>
 </ol>
-<div class="summary-box">
-    <h4>📌 核心问题</h4>
-    <p><strong>核心问题</strong>：PTO
+<p><strong>核心问题</strong>：PTO
 最小化的是<strong>预测误差</strong>，而非<strong>决策损失</strong>。预测误差小不一定带来决策质量高。</p>
 <pre><code>PTO 流程（两阶段分离）:
 ┌─────────┐     ┌─────────┐     ┌─────────┐
@@ -355,7 +240,6 @@ PTO）框架采用两阶段方式：</p>
 └─────────┘     └─────────┘     └─────────┘
                  ↑               ↑
             最小化预测误差   但决策可能次优</code></pre>
-</div>
 <h3 id="决策聚焦学习的出现">1.2 决策聚焦学习的出现</h3>
 <p>决策聚焦学习（Decision-Focused Learning,
 DFL）将优化模块作为可微分层嵌入神经网络，实现<strong>端到端</strong>训练，直接优化决策质量。</p>
@@ -394,8 +278,8 @@ S-DFL）仍保持<strong>顺序结构</strong>：</p>
 <li><strong>如何建模双向预测-优化系统？</strong></li>
 <li><strong>在循环结构中如何实现梯度传播？</strong></li>
 </ol>
-<hr />
-</section><section class="section"><h2 id="section2">2 解决方法</h2>
+
+<h2 id="section2">2 解决方法</h2>
 <h3 id="r-dfl-框架概述">2.1 R-DFL 框架概述</h3>
 <p>论文提出<strong>递归决策聚焦学习</strong>（Recursive Decision-Focused
 Learning,
@@ -628,8 +512,8 @@ J_{<em>}|</em>{x<sup>*})</sup>{-1} ]</p>
 │                                                                         │
 │  ∴ 两种方法梯度等价                                                       │
 └─────────────────────────────────────────────────────────────────────────┘</code></pre>
-<hr />
-</section><section class="section"><h2 id="section3">3 效果</h2>
+
+<h2 id="section3">3 效果</h2>
 <h3 id="实验设置">3.1 实验设置</h3>
 <table>
 <thead>
@@ -807,7 +691,7 @@ R-DFL-U：显式展开 - R-DFL-I：隐式微分</p>
 ║  • R-DFL 的 RMSE 在所有配置下均优于 S-DFL 和 PTO                                                                  ║
 ║                                                                                                                  ║
 ╚══════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝</code></pre>
-<hr />
+
 <h2 id="后续规划">4 后续规划</h2>
 <h3 id="论文提出的未来方向">4.1 论文提出的未来方向</h3>
 <pre><code>╔═══════════════════════════════════════════════════════════════════════════╗
@@ -866,8 +750,9 @@ R-DFL-U：显式展开 - R-DFL-I：隐式微分</p>
 收敛性保证：研究非凸/非光滑情况下的收敛条件 │ ║ ║ │ •
 泛化界：递归结构对样本复杂度的理论影响 │ ║ ║ │ •
 均衡分析：多智能体R-DFL的纳什均衡性质</p>
-</section>        
-        </div>
+
+</section>
+        </main>
     </div>
 </body>
 </html>
