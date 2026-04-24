@@ -298,9 +298,6 @@
             background: none;
             padding: 0;
         }
-        .section {
-            margin-bottom: 40px;
-        }
         blockquote {
             border-left: 3px solid #e74c3c;
             background: #fdf2f2;
@@ -336,11 +333,10 @@
     </ul>
 </div>
         <div class="main-content">
-            <h1 id="top">
-<div class="breadcrumb">
+            <div class="breadcrumb">
     <a href="index.html">首页</a> &gt; <a href="index.html#e2e">端到端</a> &gt; R-DFL
 </div>
-《From Sequential to Recursive: Enhancing Decision-Focused Learning with Bidirectional Feedback》读书笔记</h1>
+<h1 id="top">《From Sequential to Recursive: Enhancing Decision-Focused Learning with Bidirectional Feedback》读书笔记</h1>
 <section class="section"><h2 id="section1">1 动机或问题背景</h2>
 <h3 id="传统方法的局限">1.1 传统方法的局限</h3>
 <p>现实世界中的决策问题（如车辆路径规划、库存管理、网约车匹配）通常面临<strong>不确定性</strong>。传统的”预测后优化”（Predict-then-Optimize,
@@ -359,6 +355,7 @@ PTO）框架采用两阶段方式：</p>
 └─────────┘     └─────────┘     └─────────┘
                  ↑               ↑
             最小化预测误差   但决策可能次优</code></pre>
+</div>
 <h3 id="决策聚焦学习的出现">1.2 决策聚焦学习的出现</h3>
 <p>决策聚焦学习（Decision-Focused Learning,
 DFL）将优化模块作为可微分层嵌入神经网络，实现<strong>端到端</strong>训练，直接优化决策质量。</p>
