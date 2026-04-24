@@ -156,6 +156,18 @@
             font-family: 'Courier New', monospace;
             overflow-x: auto;
         }
+        
+        figure {
+            margin: 20px 0;
+            text-align: center;
+        }
+        
+        figcaption {
+            margin-top: 8px;
+            font-size: 0.9rem;
+            color: #64748b;
+            font-style: italic;
+        }
     </style>
 </head>
 <body>
@@ -267,7 +279,10 @@
 
                 <p>RLHF 是 InstructGPT 和 ChatGPT 背后的核心技术，由 OpenAI 在 2022 年的论文中系统阐述。其完整流程分为三步：</p>
 
-                <img src="https://km.sankuai.com/api/file/cdn/2751026429/226631464529?contentType=1&isNewContent=false" alt="RLHF 流程图" class="content-image">
+                <figure>
+                <img src="images/papers/instructgpt-fig2-rlhf.png" alt="RLHF 流程图" class="content-image">
+                <figcaption>图1: RLHF 三步流程 (Source: <a href="https://arxiv.org/abs/2203.02155" target="_blank" style="color:var(--accent-color);">InstructGPT, Ouyang et al. 2022, Figure 2</a>)</figcaption>
+                </figure>
 
                 <table>
                     <thead>
@@ -417,7 +432,10 @@
                     </tbody>
                 </table>
 
-                <img src="https://km.sankuai.com/api/file/cdn/2751026429/226633377207?contentType=1&compress=@3825w_1l" alt="GRPO 架构图" class="content-image">
+                <figure>
+                <img src="images/papers/deepseek-grpo-fig4.png" alt="GRPO 架构图" class="content-image">
+                <figcaption>图2: PPO vs GRPO 对比 (Source: <a href="https://arxiv.org/abs/2402.03300" target="_blank" style="color:var(--accent-color);">DeepSeekMath, Shao et al. 2024, Figure 4</a>)</figcaption>
+                </figure>
 
                 <h3>3.5 RLVR：可验证奖励——推理模型的关键</h3>
 
@@ -476,12 +494,18 @@
                 </div>
 
                 <p><strong>最优奖励函数与最优策略之间存在解析关系</strong></p>
-                <img src="https://km.sankuai.com/api/file/cdn/2751026429/227227267496?contentType=1&isNewContent=false" alt="DPO 理论基础" class="content-image">
+                <figure>
+                <img src="images/papers/dpo-fig1.png" alt="DPO 理论基础" class="content-image">
+                <figcaption>图3: DPO 与 RLHF 对比 (Source: <a href="https://arxiv.org/abs/2305.18290" target="_blank" style="color:var(--accent-color);">Direct Preference Optimization, Rafailov et al. 2023, Figure 1</a>)</figcaption>
+                </figure>
 
                 <p><strong>RLHF 的最优解可以被重新参数化为一个简单的分类损失函数。给定一对 (preferred response, rejected response)，DPO 直接最大化 preferred response 的对数概率相对于 rejected response 的优势</strong>，同时通过 reference model 进行正则化。</p>
 
                 <p><strong>Loss - 本质为带参考模型约束的对比分类损失</strong></p>
-                <img src="https://km.sankuai.com/api/file/cdn/2751026429/227218039898?contentType=1&isNewContent=false" alt="DPO 损失函数" class="content-image">
+                <figure>
+                <img src="images/papers/dpo-loss-eq7.png" alt="DPO 损失函数" class="content-image">
+                <figcaption>图4: DPO 损失函数 L<sub>DPO</sub> (Source: <a href="https://arxiv.org/abs/2305.18290" target="_blank" style="color:var(--accent-color);">Direct Preference Optimization, Rafailov et al. 2023, Eq. 7</a>)</figcaption>
+                </figure>
 
                 <table>
                     <thead>
@@ -604,7 +628,10 @@
                     <li><strong>拒绝采样 + 蒸馏（可选）</strong>。 用训练好的大模型生成高质量的推理数据，蒸馏到更小的模型中。DeepSeek-R1 就是通过这种方式将推理能力蒸馏到 1.5B~70B 的小模型中。</li>
                 </ol>
 
-                <img src="https://km.sankuai.com/api/file/cdn/2751026429/226631782907?contentType=1&isNewContent=false" alt="Post-Training 完整流程" class="content-image">
+                <figure>
+                <img src="images/papers/dsr1-fig2-pipeline.png" alt="Post-Training 完整流程" class="content-image">
+                <figcaption>图5: DeepSeek-R1 多阶段训练流程 (Source: <a href="https://arxiv.org/abs/2501.12948" target="_blank" style="color:var(--accent-color);">DeepSeek-R1, DeepSeek-AI 2025, Figure 2</a>)</figcaption>
+                </figure>
 
                 <h2 id="5-前沿方向agentic-rl">5. 前沿方向：Agentic RL</h2>
 
