@@ -498,7 +498,7 @@
                         </tr>
                         <tr>
                             <td>可解释性降低</td>
-                            <td>端到端模型的决策过程相对黑盒，可解释性较差</td>
+                            <td><span style="color: red;">端到端模型的决策过程相对黑盒，可解释性较差</span></td>
                         </tr>
                         <tr>
                             <td>计算成本</td>
@@ -510,7 +510,7 @@
                         </tr>
                         <tr>
                             <td>泛化性能</td>
-                            <td>在分布外数据上的泛化性能可能不如两阶段方法</td>
+                            <td><span style="color: red;">在分布外数据上的泛化性能可能不如两阶段方法</span></td>
                         </tr>
                         <tr>
                             <td>调试困难</td>
@@ -624,13 +624,13 @@
                     </ul>
                     
                     <h5>梯度计算挑战</h5>
-                    <p>主要挑战在于计算中间项 $\frac{\partial\mathcal{M}(\hat{\mathbf{y}})}{\partial\hat{\mathbf{y}}}$（即最优决策 $\mathcal{M}(\hat{\mathbf{y}})$ 对预测参数 $\hat{\mathbf{y}}$ 的梯度）。对于具有解析解的优化任务，这些梯度可以使用显式表达式直接导出[27]。在无约束优化场景中，泰勒展开技术可以有效简化梯度计算[28]。然而，在一般的约束优化问题中，决策结果由底层的优化结构隐式决定，这一过程变得非常复杂，需要专门的方法来精确评估梯度。</p>
+                    <p><span style="color: red;">主要挑战在于计算中间项 $\frac{\partial\mathcal{M}(\hat{\mathbf{y}})}{\partial\hat{\mathbf{y}}}$（即最优决策 $\mathcal{M}(\hat{\mathbf{y}})$ 对预测参数 $\hat{\mathbf{y}}$ 的梯度）。对于具有解析解的优化任务，这些梯度可以使用显式表达式直接导出[27]。在无约束优化场景中，泰勒展开技术可以有效简化梯度计算[28]。然而，在一般的约束优化问题中，决策结果由底层的优化结构隐式决定，这一过程变得非常复杂，需要专门的方法来精确评估梯度。</span></p>
                 </div>
                 
                 <h3>3. DL 直接学习</h3>
                 <div class="comparison-box">
                     <h4>核心思想</h4>
-                    <p>直接学习（Direct Learning）跳过显式的预测步骤，直接学习从原始特征到决策的映射函数。这种方法适用于只关心最终决策结果，不需要中间预测结果的场景。</p>
+                    <p><span style="color: red;">直接学习（Direct Learning）跳过显式的预测步骤，直接学习从原始特征到决策的映射函数。这种方法适用于只关心最终决策结果，不需要中间预测结果的场景。</span></p>
                     
                     <h5>适用场景</h5>
                     <ul>
@@ -756,8 +756,8 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td>凸优化问题</td>
-                            <td>目标函数和约束都是凸的，保证最优解唯一</td>
+                            <td><span style="color: red;">凸优化问题</span></td>
+                            <td><span style="color: red;">目标函数和约束都是凸的，保证最优解唯一</span></td>
                         </tr>
                         <tr>
                             <td>可微分问题</td>
