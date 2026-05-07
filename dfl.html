@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Decision-Focused Learning 最新进展</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f5f5f5;
+        }
+        
+        .container {
+            display: flex;
+            max-width: 1400px;
+            margin: 0 auto;
+            background-color: #fff;
+        }
+        
+        .sidebar {
+            width: 250px;
+            background-color: #2c3e50;
+            color: #ecf0f1;
+            padding: 20px;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+        }
+        
+        .sidebar h3 {
+            color: #3498db;
+            margin-top: 20px;
+            margin-bottom: 10px;
+            font-size: 14px;
+            text-transform: uppercase;
+        }
+        
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .sidebar li {
+            margin: 8px 0;
+        }
+        
+        .sidebar a {
+            color: #ecf0f1;
+            text-decoration: none;
+            font-size: 14px;
+            display: block;
+            padding: 5px 10px;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+        
+        .sidebar a:hover {
+            background-color: #34495e;
+        }
+        
+        .main-content {
+            margin-left: 250px;
+            padding: 40px;
+            flex: 1;
+        }
+        
+        h1 {
+            color: #2c3e50;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+            margin-bottom: 30px;
+        }
+        
+        h2 {
+            color: #34495e;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            border-left: 4px solid #3498db;
+            padding-left: 15px;
+        }
+        
+        h3 {
+            color: #34495e;
+            margin-top: 25px;
+            margin-bottom: 15px;
+        }
+        
+        .summary-box {
+            background-color: #ecf0f1;
+            border-left: 4px solid #3498db;
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, rgba(52, 152, 219, 0.1), rgba(46, 204, 113, 0.1));
+            border-left: 4px solid #27ae60;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+
+        .highlight-box blockquote {
+            margin: 0;
+            padding: 0;
+            border: none;
+            font-size: 1.1rem;
+            font-style: italic;
+            color: #2c3e50;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background-color: #fff;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        table th {
+            background-color: #3498db;
+            color: white;
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+        }
+        
+        table td {
+            padding: 12px;
+            border-bottom: 1px solid #ecf0f1;
+        }
+        
+        table tr:hover {
+            background-color: #f0f8ff;
+        }
+        
+        table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .section {
+            margin-bottom: 40px;
+        }
+
+        .fire-icon {
+            color: #e74c3c;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                position: relative;
+                width: 100%;
+                height: auto;
+                padding: 15px;
+            }
+            
+            .main-content {
+                margin-left: 0;
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="sidebar">
+            <h2>导航菜单</h2>
+            <h3>主要章节</h3>
+            <ul>
+                <li><a href="#summary">一句话总结</a></li>
+                <li><a href="#progress">最新进展总览</a></li>
+                <li><a href="#evolution">三大核心演化主线</a></li>
+                <li><a href="#framework">统一DFL框架</a></li>
+            </ul>
+            <h3>相关页面</h3>
+            <ul>
+                <li><a href="index.html">🏠 返回首页</a></li>
+                <li><a href="decision.html">🔄 预测与决策结合的范式</a></li>
+            </ul>
+        </div>
+        
+        <div class="main-content">
+            <h1>Decision-Focused Learning（DFL）最新进展总结（2024–2026）</h1>
+            
+            <!-- 一句话总结 -->
+            <section id="summary" class="section">
+                <div class="highlight-box">
+                    <blockquote>
+                        DFL 正在从"预测驱动优化"演化为"分布建模 + 闭环决策 + 高效训练"的统一决策学习范式，并逐步融合生成模型、强化学习与鲁棒优化。
+                    </blockquote>
+                </div>
+            </section>
+
+            <!-- 最新进展总览 -->
+            <section id="progress" class="section">
+                <h2>最新进展总览</h2>
+                
+                <table>
+                    <thead>
+                        <tr>
+                            <th>方向</th>
+                            <th>核心问题</th>
+                            <th>本质变化</th>
+                            <th>最新进展（2024–2026）</th>
+                            <th>关键技术</th>
+                            <th>代表工作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>基础定义与综述</strong></td>
+                            <td>预测与决策割裂</td>
+                            <td>从"预测准确"→"决策最优"</td>
+                            <td>统一 end-to-end 决策学习框架</td>
+                            <td>decision loss / regret</td>
+                            <td>Mandi et al. (2024)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>不确定性建模 <span class="fire-icon">🔥</span></strong></td>
+                            <td>点预测不鲁棒</td>
+                            <td>从"一个值"→"整个分布"</td>
+                            <td>分布建模 + 生成模型（risk-aware）</td>
+                            <td>diffusion、generative model、DRO、CVaR</td>
+                            <td>Gen-DFL、Diffusion-DFL、DF²</td>
+                        </tr>
+                        <tr>
+                            <td><strong>在线与闭环决策 <span class="fire-icon">🔥</span></strong></td>
+                            <td>静态数据、单步优化</td>
+                            <td>从"单步优化"→"序列决策系统"</td>
+                            <td>online + recursive DFL</td>
+                            <td>unrolling、feedback、regret learning</td>
+                            <td>Online DFL、Recursive DFL</td>
+                        </tr>
+                        <tr>
+                            <td><strong>训练效率优化 <span class="fire-icon">🔥</span></strong></td>
+                            <td>求解器慢、不可导</td>
+                            <td>从"依赖求解器"→"摆脱求解器"</td>
+                            <td>solver-free / proxy / dual方法</td>
+                            <td>surrogate loss、dual reformulation、implicit gradient</td>
+                            <td>Solver-Free DFL、Dual DFL</td>
+                        </tr>
+                        <tr>
+                            <td><strong>理论深化</strong></td>
+                            <td>梯度不稳定</td>
+                            <td>从"经验方法"→"理论可解释"</td>
+                            <td>梯度表达与优化路径改进</td>
+                            <td>tangent-space projection、prediction-guided gradient</td>
+                            <td>Lee et al. (2026)、Jeon et al. (2025)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>鲁棒性与泛化</strong></td>
+                            <td>分布偏移（OOD）</td>
+                            <td>从"拟合数据"→"对抗环境变化"</td>
+                            <td>DRO + uncertainty-aware DFL</td>
+                            <td>worst-case optimization、distributionally robust learning</td>
+                            <td>DR-DFL、Generalized DFL</td>
+                        </tr>
+                        <tr>
+                            <td><strong>复杂约束与可行性</strong></td>
+                            <td>约束难处理/不确定</td>
+                            <td>从"参数预测"→"约束学习"</td>
+                            <td>可学习约束 + 概率约束优化</td>
+                            <td>constraint learning、chance constraint</td>
+                            <td>Feasibility-aware DFL</td>
+                        </tr>
+                        <tr>
+                            <td><strong>大规模与工业化</strong></td>
+                            <td>计算复杂、难落地</td>
+                            <td>从"论文方法"→"工业系统"</td>
+                            <td>real-time + large-scale optimization</td>
+                            <td>approximate solver、caching、warm-start</td>
+                            <td>DeepChance-OPT、Planning DFL</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <!-- 三大核心演化主线 -->
+            <section id="evolution" class="section">
+                <h2>三大核心演化主线</h2>
+                
+                <table>
+                    <thead>
+                        <tr>
+                            <th>主线</th>
+                            <th>本质变化</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>建模对象</strong></td>
+                            <td>点预测 → 分布 / 生成模型</td>
+                        </tr>
+                        <tr>
+                            <td><strong>决策结构</strong></td>
+                            <td>单步 → 在线 / 闭环</td>
+                        </tr>
+                        <tr>
+                            <td><strong>训练范式</strong></td>
+                            <td>solver-based → solver-free</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <!-- 统一DFL框架 -->
+            <section id="framework" class="section">
+                <h2>统一DFL框架（系统视角）</h2>
+                
+                <table>
+                    <thead>
+                        <tr>
+                            <th>模块</th>
+                            <th>作用</th>
+                            <th>对应方向</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>分布建模</strong></td>
+                            <td>学习不确定性</td>
+                            <td>Diffusion-DFL / Gen-DFL</td>
+                        </tr>
+                        <tr>
+                            <td><strong>决策优化</strong></td>
+                            <td>输出最优决策</td>
+                            <td>Solver-free / Proxy</td>
+                        </tr>
+                        <tr>
+                            <td><strong>系统演化</strong></td>
+                            <td>多轮决策影响状态</td>
+                            <td>Recursive / Online</td>
+                        </tr>
+                        <tr>
+                            <td><strong>鲁棒机制</strong></td>
+                            <td>抵抗分布偏移</td>
+                            <td>DR-DFL</td>
+                        </tr>
+                        <tr>
+                            <td><strong>高效训练</strong></td>
+                            <td>降低计算成本</td>
+                            <td>Dual / Gradient方法</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+        </div>
+    </div>
+</body>
+</html>
