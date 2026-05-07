@@ -501,23 +501,21 @@
                     <p>Chronos 是一个极简主义的时间序列预训练框架，核心思想是将时间序列预测视为<strong>语言建模任务</strong>。通过将实数值时间序列缩放并量化为<strong>离散token（固定词汇表）</strong>，Chronos 直接在现成的<strong>Transformer</strong>语言模型架构（T5 家族，20M-710M参数）上进行训练，无需任何时间序列特定的架构修改。</p>
 
                     <h4>模型架构</h4>
-                    <img src="images/chronos_Chronos1架构_1.png" alt="Chronos 模型架构" class="model-image">
+                    <img src="images/chronos1_arch-02.png" alt="Chronos 模型架构" class="model-image">
 
                     <h4>Chronos 2</h4>
                     <p>采用encoder架构，是一种预训练时间序列基础模型，突破了现有方法仅支持单变量预测的局限，能够零样本处理单变量、多变量及协变量信息预测任务。通过创新的<strong>组注意力机制</strong>实现上下文学习(ICL)。</p>
 
                     <h4>Chronos 2 架构</h4>
-                    <img src="images/chronos2_fig1.png" alt="Chronos 2 架构" class="model-image">
-
-                    <img src="images/chronos2_fig2.png" alt="Chronos 2 详解" class="model-image">
+                    <img src="images/chronos2_arch-02.png" alt="Chronos 2 架构" class="model-image">
 
                     <h4>Chronos X</h4>
                     <p>提出"即插即用"式轻量 Adapter，冻结原预训练权重，仅训练 Adapter 的几百万参数。</p>
 
                     <h4>ChronosX 架构</h4>
-                    <img src="images/chronosx_fig1.png" alt="ChronosX 架构1" class="model-image">
+                    <img src="images/chronosx_arch1-03.png" alt="ChronosX 架构1" class="model-image">
 
-                    <img src="images/chronosx_fig2.png" alt="ChronosX 架构2" class="model-image">
+                    <img src="images/chronosx_arch2-04.png" alt="ChronosX 架构2" class="model-image">
 
                     <p><strong>代码：</strong><a href="https://github.com/amazon-science/chronos-forecasting" target="_blank">https://github.com/amazon-science/chronos-forecasting</a></p>
                 </article>
