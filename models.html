@@ -174,9 +174,6 @@
                     <h4>简介</h4>
                     <p>多步预测（multi-horizon forecasting）通常需要融合多种输入：静态协变量（时不变）、已知的未来信息，以及仅在过去可观测的外生时间序列，且事先并不清楚它们如何与目标变量交互。虽已提出多种深度学习方法，但多为"黑箱"，无法揭示模型在实际场景中如何利用全部输入。论文提出 Temporal Fusion Transformer（TFT）— 一种基于注意力的全新架构，在实现高性能多步预测的同时，提供对时序动态的可解释洞察。</p>
 
-                    <h4>问题定义</h4>
-                    <img src="images/tft_模型架构_2.png" alt="TFT 问题定义" class="model-image">
-
                     <h4>模型架构</h4>
                     <img src="images/tft_模型架构_0.png" alt="TFT 模型架构" class="model-image">
 
@@ -209,7 +206,7 @@
                     </ol>
 
                     <h4>模型架构</h4>
-                    <img src="images/nbeatsx_模型架构_0.png" alt="NBEATSx 模型架构" class="model-image">
+                    <img src="images/nbeatsx_fig1.png" alt="NBEATSx 模型架构" class="model-image">
 
                     <p>NBEATSx 在 NBEATS 基础上扩展，核心架构由 <strong>Stacks（堆叠）</strong> 和 <strong>Blocks（块）</strong> 组成。</p>
 
@@ -332,9 +329,6 @@
                     <h4>简介</h4>
                     <p>近期研究表明，简单的线性模型在长时间序列预测任务中，反而能超过多种基于Transformer 的方法。受此启发，论文提出了一种基于多层感知机（MLP）的编-解码器模型——时序稠密编码器（TiDE），专门用于长期时间序列预测。TiDE 在保持线性模型简洁与快速的同时，也能处理协变量与非线性依赖关系。</p>
 
-                    <h4>问题定义</h4>
-                    <img src="images/tide_问题定义_0.png" alt="TiDE 问题定义" class="model-image">
-
                     <h4>模型架构</h4>
                     <img src="images/tide_模型架构_1.png" alt="TiDE 模型架构" class="model-image">
 
@@ -369,9 +363,6 @@
                     <h4>模型架构</h4>
                     <img src="images/itransformer_架构_1.png" alt="iTransformer 架构" class="model-image">
 
-                    <h4>问题定义</h4>
-                    <img src="images/itransformer_问题定义_0.png" alt="iTransformer 问题" class="model-image">
-
                     <h4>模型详解</h4>
                     <img src="images/itransformer_详解_3.png" alt="iTransformer 详解" class="model-image">
 
@@ -394,15 +385,12 @@
                     </ul>
 
                     <h4>模型架构对比</h4>
-                    <img src="images/timexer_架构对比1_0.png" alt="TimeXer 架构对比1" class="model-image">
+                    <img src="images/timexer_fig1.png" alt="TimeXer 架构对比1" class="model-image">
 
-                    <img src="images/timexer_架构对比2_1.png" alt="TimeXer 架构对比2" class="model-image">
-
-                    <h4>问题定义</h4>
-                    <img src="images/timexer_问题定义_0.png" alt="TimeXer 问题定义" class="model-image">
+                    <img src="images/timexer_fig2.png" alt="TimeXer 架构对比2" class="model-image">
 
                     <h4>模型设计</h4>
-                    <img src="images/timexer_模型设计_2.png" alt="TimeXer 模型设计" class="model-image">
+                    <img src="images/timexer_fig7.png" alt="TimeXer 模型设计" class="model-image">
 
                     <h4>分层建模策略</h4>
                     <ul>
@@ -471,7 +459,7 @@
                     <p>TimePFN 是一种基于 <strong>Prior-data Fitted Networks (PFN)</strong> 的<strong>多变量时间序列</strong>（MTS）预测模型，通过合成数据驱动实现强大的零样本（zero-shot）和少样本（few-shot）学习能力。该模型结合高斯过程核合成数据生成与新颖的 Transformer 架构，能够同时捕捉时序依赖和跨通道（cross-channel）关系。</p>
 
                     <h4>模型架构</h4>
-                    <img src="images/timepfn_模型架构_1.png" alt="TimePFN 模型架构" class="model-image">
+                    <img src="images/timepfn_fig0.png" alt="TimePFN 模型架构" class="model-image">
 
                     <h4>核心贡献</h4>
                     <ul>
@@ -491,7 +479,7 @@
                     <p>传统时间序列预测采用"一个模型对应一个数据集"的范式，缺乏跨数据集泛化能力。Moirai 1 提出通用预测范式，旨在构建单一的大型时间序列模型（LTM），通过零样本学习处理任意下游预测任务。</p>
 
                     <h4>模型架构</h4>
-                    <img src="images/moirai_模型架构_0.png" alt="Moirai 模型架构" class="model-image">
+                    <img src="images/moirai_fig1.png" alt="Moirai 模型架构" class="model-image">
 
                     <h4>Moirai-MOE</h4>
                     <p>针对MOIRAI基于频率的人工分组缺陷，引入稀疏混合专家（MoE）实现自动token级特化。通过去除启发式频率投影层，采用数据驱动的专家路由，模型能自动捕获时间序列的微观模式差异，在39个数据集上实现SOTA零样本预测性能。</p>
@@ -519,17 +507,17 @@
                     <p>采用encoder架构，是一种预训练时间序列基础模型，突破了现有方法仅支持单变量预测的局限，能够零样本处理单变量、多变量及协变量信息预测任务。通过创新的<strong>组注意力机制</strong>实现上下文学习(ICL)。</p>
 
                     <h4>Chronos 2 架构</h4>
-                    <img src="images/chronos2_Chronos2架构_0.png" alt="Chronos 2 架构" class="model-image">
+                    <img src="images/chronos2_fig1.png" alt="Chronos 2 架构" class="model-image">
 
-                    <img src="images/chronos2_Chronos2详解_3.png" alt="Chronos 2 详解" class="model-image">
+                    <img src="images/chronos2_fig2.png" alt="Chronos 2 详解" class="model-image">
 
                     <h4>Chronos X</h4>
                     <p>提出"即插即用"式轻量 Adapter，冻结原预训练权重，仅训练 Adapter 的几百万参数。</p>
 
                     <h4>ChronosX 架构</h4>
-                    <img src="images/chronosx_ChronosX架构1_0.png" alt="ChronosX 架构1" class="model-image">
+                    <img src="images/chronosx_fig1.png" alt="ChronosX 架构1" class="model-image">
 
-                    <img src="images/chronosx_ChronosX架构2_1.png" alt="ChronosX 架构2" class="model-image">
+                    <img src="images/chronosx_fig2.png" alt="ChronosX 架构2" class="model-image">
 
                     <p><strong>代码：</strong><a href="https://github.com/amazon-science/chronos-forecasting" target="_blank">https://github.com/amazon-science/chronos-forecasting</a></p>
                 </article>
