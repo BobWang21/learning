@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>端到端业内落地调研</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .paper-article {
+            background: #f8fafc;
+            border-left: 3px solid #3b82f6;
+            padding: 16px 20px;
+            margin-bottom: 20px;
+            border-radius: 0 8px 8px 0;
+        }
+        .paper-article h3 {
+            margin-top: 0;
+            color: #1e40af;
+        }
+        .paper-meta {
+            font-size: 0.85em;
+            color: #64748b;
+            margin-bottom: 8px;
+        }
+        .paper-meta strong {
+            color: #1e40af;
+        }
+        .highlight-box {
+            background: #fef3c7;
+            border: 1px solid #f59e0b;
+            padding: 12px 16px;
+            border-radius: 8px;
+            margin: 12px 0;
+        }
+        .highlight-box strong {
+            color: #92400e;
+        }
+        .result-box {
+            background: #ecfdf5;
+            border-left: 3px solid #10b981;
+            padding: 12px 16px;
+            margin: 10px 0;
+            border-radius: 0 8px 8px 0;
+        }
+        .result-box strong {
+            color: #065f46;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.92em;
+            margin: 16px 0;
+        }
+        th {
+            background: #1e40af;
+            color: white;
+            padding: 10px 12px;
+            text-align: left;
+            font-weight: 600;
+        }
+        td {
+            padding: 10px 12px;
+            border-bottom: 1px solid #e2e8f0;
+            vertical-align: top;
+        }
+        tr:nth-child(even) td {
+            background: #f8fafc;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="sidebar">
+            <div class="logo">📚 索引</div>
+            <ul class="toc">
+                <li><a href="index.html">🏠 首页</a></li>
+                <li><a href="index.html#ai">🤖 AI</a></li>
+                <li><a href="decision.html">🔄 端到端</a></li>
+                <li><a href="models.html">⏱️ 预测</a></li>
+            </ul>
+        </div>
+
+        <main class="content">
+            <header class="header">
+                <h1>端到端业内落地调研</h1>
+                <p class="subtitle">京东 & 美团：Decision-Focused Learning 在供应链与营销的工业化落地</p>
+            </header>
+
+            <div class="page-toc">
+                <h3>📑 页面目录</h3>
+                <ol>
+                    <li><a href="#一论文解读">一、论文解读（按公司及时间顺序）</a></li>
+                    <li><a href="#二调研表格">二、调研表格（按公司及时间顺序）</a></li>
+                </ol>
+            </div>
+
+            <section class="section" id="一论文解读">
+                <h2>一、论文解读（按公司及时间顺序）</h2>
+
+                <div class="paper-article">
+                    <h3>1. 京东 — 2023年（Management Science）：A Practical End-to-End Inventory Management Model with Deep Learning</h3>
+                    <div class="paper-meta">
+                        <strong>作者：</strong>京东 / UC San Diego &nbsp;|&nbsp; <strong>发表：</strong>Management Science, 2023
+                    </div>
+                    <p>这篇论文是京东与学界合作的早期端到端库存管理探索。传统多周期库存管理需要先预测需求和供应商提前期（VLT），再代入库存策略（如 (s,S) 策略）。论文指出这种"预测后优化"会导致误差累积且目标不一致。</p>
+                    <div class="highlight-box">
+                        <strong>核心贡献：</strong>理论证明了多周期库存问题可以分解为多个独立的单周期问题，从而可以利用"事后最优解"作为深度学习模型的训练标签；设计了包含 MQRNN（多分位数循环神经网络）和 MLP 的定制化神经网络结构，端到端输出补货决策。
+                    </div>
+                    <div class="result-box">
+                        <strong>落地结果：</strong>在京东真实数据上的离线仿真和 2020 年的实地实验（覆盖数千 SKU）中，该 E2E 模型显著降低了持有成本、缺货成本和总库存成本。
+                    </div>
+                </div>
+
+                <div class="paper-article">
+                    <h3>2. 京东 — 2025年（arXiv）：OTPTO: Joint Product Selection and Inventory Optimization in Fresh E-Commerce Front-End Warehouses</h3>
+                    <div class="paper-meta">
+                        <strong>作者：</strong>京东 &nbsp;|&nbsp; <strong>发表：</strong>arXiv, 2025
+                    </div>
+                    <p>这是京东针对生鲜电商前置仓场景提出的更精细化的端到端方案。核心挑战是容量极小（SKU 种类上限、总库存量上限、单品最低库存量），需同时决定"选哪些品"和"各存多少"，目标是最大化订单完全履约率。</p>
+                    <div class="highlight-box">
+                        <strong>创新点：</strong>采用 <strong>Optimize-then-Predict-then-Optimize</strong> 三阶段流程。先通过 0-1 混合整数规划（OM1）求解历史上的最优库存决策（作为"黄金标签"），再用 LightGBM 并行学习选品（PM1）和库存量（PM2），最后通过后处理（OM2）满足实际约束。特别针对 MIP 多最优解导致的样本不一致问题，设计了标签生成与平滑策略。
+                    </div>
+                    <div class="result-box">
+                        <strong>落地结果：</strong>在京东 7Fresh 真实数据上，订单完全履约率相对提升 7.05%，与理论最优的差距缩小 5.27%，并在多个前置仓验证了鲁棒性。
+                    </div>
+                </div>
+
+                <div class="paper-article">
+                    <h3>3. 美团 — 2024年（KDD）：Decision Focused Causal Learning for Direct Counterfactual Marketing Optimization</h3>
+                    <div class="paper-meta">
+                        <strong>作者：</strong>美团 / 南京大学 &nbsp;|&nbsp; <strong>发表：</strong>KDD, 2024
+                    </div>
+                    <p>这是美团将决策焦点学习（DFL）应用于营销优化的早期工作，主要解决三个实际问题：预算约束不确定、反事实导致决策损失无法直接计算、大规模数据下高频调用 OR 求解器的计算成本高。</p>
+                    <div class="highlight-box">
+                        <strong>核心思想：</strong>将预算分配问题转化为对偶问题，利用拉格朗日乘子将不确定的预算约束吸收进目标函数，从而定义可微分的"对偶决策损失"。提出了多种可微替代损失（Policy Learning Loss, Maximum Entropy Regularized Loss）和改进的有限差分法（IFD）来高效估计梯度。
+                    </div>
+                    <div class="result-box">
+                        <strong>落地结果：</strong>在 Criteo 公开数据和美团折扣营销数据上离线评估（EOM/AUCC）优于传统两阶段方法；在线 A/B 测试四週，DFCL 相对 TSM-SL 订单提升 2.17%，优于 DPM 的 1.32%。
+                    </div>
+                </div>
+
+                <div class="paper-article">
+                    <h3>4. 美团 — 2025年（NeurIPS）：Bi-Level Decision-Focused Causal Learning for Large-Scale Marketing Optimization</h3>
+                    <div class="paper-meta">
+                        <strong>作者：</strong>美团 / 南京大学 &nbsp;|&nbsp; <strong>发表：</strong>NeurIPS, 2025
+                    </div>
+                    <p>这是美团 DFCL 的进阶版本，核心突破是系统性地解决营销优化中的两大难题：<strong>预测-决策目标错位</strong> 和 <strong>偏差-方差困境</strong>（观测数据量大但有偏，RCT 数据无偏但量小且昂贵）。</p>
+                    <div class="highlight-box">
+                        <strong>核心思想：</strong>提出双层优化框架。上层（Upper Level）利用无偏的 RCT 数据优化决策损失（L<sub>DL</sub>），下层（Lower Level）利用大规模的观测数据（OBS）优化预测损失（L<sub>PL</sub>）。通过隐式微分和共轭梯度法高效求解双层优化，并引入"桥接网络"动态生成反事实伪标签，使下层预测学习方向得到上层的无偏校正。
+                    </div>
+                    <div class="result-box">
+                        <strong>落地结果：</strong>在美团两个营销数据集和公开数据集上，EOM 指标提升显著；在线 A/B 测试中，Bi-DFCL-PIFD 相对 TSM-SL 订单提升 <strong>3.22%</strong>，优于 DFCL-PIFD 的 1.80%。目前已部署于美团多个营销场景。
+                    </div>
+                </div>
+            </section>
+
+            <section class="section" id="二调研表格">
+                <h2>二、调研表格（按公司及时间顺序）</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>方法/框架</th>
+                            <th>公司/机构</th>
+                            <th>时间</th>
+                            <th>解决的问题</th>
+                            <th>核心思想</th>
+                            <th>关键技术/创新点</th>
+                            <th>实验/落地情况</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>E2E Inventory Management</strong></td>
+                            <td>京东 / UC San Diego</td>
+                            <td>2023 (Management Science)</td>
+                            <td>多周期库存管理，同时存在随机需求和随机供应商提前期（VLT），最小化总库存成本。</td>
+                            <td>端到端（E2E）学习：直接训练深度学习模型从输入特征输出最优补货决策。</td>
+                            <td>理论证明多周期问题可分解，利用"事后最优解"作为标签；定制 MQRNN+MLP 网络结构；多任务损失（补货主任务+预测辅助任务）。</td>
+                            <td>离线仿真（京东真实数据）优于传统策略；2020 年实地实验（数千 SKU）显著降低持有成本、缺货成本、缺货率。</td>
+                        </tr>
+                        <tr>
+                            <td><strong>OTPTO</strong></td>
+                            <td>京东</td>
+                            <td>2025 (arXiv)</td>
+                            <td>生鲜电商前置仓的联合选品与库存优化，受限于极小容量，最大化订单完全履约率。</td>
+                            <td>Optimize-then-Predict-then-Optimize：先求解历史最优解作为标签，再学习该最优决策，最后后处理满足约束。</td>
+                            <td>0-1 MIP 模型 OM1 获取历史最优库存；标签平滑+特征工程解决样本不一致性；PM1+PM2 并行预测；OM2 后处理约束校准。</td>
+                            <td>京东 7Fresh 数据：订单完全履约率绝对提升 4.34%（相对 7.05%），与理论上界差距缩小 5.27%；多仓库验证鲁棒。</td>
+                        </tr>
+                        <tr>
+                            <td><strong>DFCL</strong></td>
+                            <td>美团 / 南京大学</td>
+                            <td>2024 (KDD)</td>
+                            <td>营销预算分配（多折扣选择），应对预算不确定性、反事实缺失、大规模计算成本。</td>
+                            <td>决策焦点学习 + 拉格朗日对偶：将对偶问题作为学习目标，设计可微分替代损失，对预算不敏感。</td>
+                            <td>对偶决策损失；策略学习损失（PLL）和最大熵正则损失（MERL）；改进有限差分法（IFD）提升训练效率。</td>
+                            <td>Criteo 和美团数据离线评估（EOM/AUCC）优于 TSM、DPM；在线 A/B 测试四週，订单相对提升 2.17%，已部署。</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Bi-DFCL</strong></td>
+                            <td>美团 / 南京大学</td>
+                            <td>2025 (NeurIPS)</td>
+                            <td>大规模营销优化，同时解决预测-决策目标错位和观测数据有偏（偏差-方差困境）。</td>
+                            <td>双层优化：上层用 RCT 无偏数据优化决策损失，下层用大规模 OBS 数据优化预测损失，通过隐式微分端到端训练。</td>
+                            <td>基于 RCT 的无偏决策损失估计；双层优化+隐式微分+共轭梯度求解；桥接网络生成反事实伪标签，动态校正观测数据学习方向。</td>
+                            <td>公开及美团数据集上显著优于 SOTA；在线 A/B 测试订单相对提升 3.22%（vs TSM-SL），优于 DFCL 和 DPM；已部署于多个营销场景。</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="conclusion-box">
+                    <strong>总结：</strong>京东侧重供应链（库存管理 → 联合选品与库存），路线从"事后标签学习"到"Optimize-Predict-Optimize"；美团侧重营销（预算分配 → 双层反事实优化），从单一对偶损失演进到双层桥接网络。两家公司的共同趋势：都在消除"预测-决策"之间的目标错位，且都通过在线 A/B 测试验证了真实的业务效果。
+                </div>
+            </section>
+
+            <footer class="footer">
+                <p><a href="index.html">← 返回首页</a></p>
+            </footer>
+        </main>
+    </div>
+</body>
+</html>
