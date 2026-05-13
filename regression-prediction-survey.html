@@ -105,7 +105,7 @@
                         <li><strong>分类模块 (Classification)：</strong> 预测用户行为落入哪个预定义的桶，输出概率分布。</li>
                         <li><strong>还原模块 (Restoration)：</strong> 学习从离散桶到连续值的映射，通过回归校准还原具体的物理时长。</li>
                     </ol>
-                    <img src="cread.png" alt="CREAD 网络架构" style="max-width:80%; display:block; margin:20px auto; border-radius:8px; box-shadow:0 2px 8px rgba(0,0,0,0.1);">
+                    <img src="cread.png" alt="CREAD 网络架构" style="max-width:55%; display:block; margin:20px auto; border-radius:8px; box-shadow:0 2px 8px rgba(0,0,0,0.1);">
                     <h4>Loss 函数</h4>
                     <p>联合优化分类、还原与保序三个任务：</p>
                     <ul>
@@ -135,7 +135,7 @@
                         <li><strong>隐含表示编码器：</strong> 提取高维特征表示。</li>
                         <li><strong>混合参数生成器：</strong> 分支输出指数参数 $\lambda$、高斯均值/方差 $(\mu_k, \sigma_k)$ 及混合权重 $\omega$。</li>
                     </ol>
-                    <img src="egmn.png" alt="EGMN 网络架构" style="max-width:80%; display:block; margin:20px auto; border-radius:8px; box-shadow:0 2px 8px rgba(0,0,0,0.1);">
+                    <img src="egmn.png" alt="EGMN 网络架构" style="max-width:55%; display:block; margin:20px auto; border-radius:8px; box-shadow:0 2px 8px rgba(0,0,0,0.1);">
                     <h4>Loss 函数</h4>
                     <ul>
                         <li><strong>$\mathcal{L}_{MLE}$:</strong> 极大似然估计，提升观测样本在分布中的概率。</li>
@@ -156,7 +156,7 @@
                         <li><strong>价值等级层 (Leveling)：</strong> 将用户划分为不同的价值桶。</li>
                         <li><strong>参数预测层：</strong> 基于混合分布假设，预测每个价值能级下的分布参数。</li>
                     </ol>
-                    <img src="HiLTV.png" alt="HiLTV 网络架构" style="max-width:80%; display:block; margin:20px auto; border-radius:8px; box-shadow:0 2px 8px rgba(0,0,0,0.1);">
+                    <img src="HiLTV.png" alt="HiLTV 网络架构" style="max-width:55%; display:block; margin:20px auto; border-radius:8px; box-shadow:0 2px 8px rgba(0,0,0,0.1);">
                     <h4>Loss 函数</h4>
                     <ul>
                         <li><strong>分类损失：</strong> 交叉熵（意愿与等级分类）。</li>
@@ -177,29 +177,29 @@
                     <table>
                         <thead>
                             <tr>
-                                <th>维度</th>
-                                <th>CREAD (快手)</th>
-                                <th>EGMN (小红书)</th>
-                                <th>HiLTV (腾讯)</th>
+                                <th>方法</th>
+                                <th>技术路线</th>
+                                <th>解决痛点</th>
+                                <th>关键 Loss</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
-                                <td><strong>技术路线</strong></td>
+                                <td><strong>CREAD</strong><br><small>快手</small></td>
                                 <td>离散化分桶 + 还原回归</td>
-                                <td>指数-高斯混合分布</td>
-                                <td>分层分类 + 混合分布参数化</td>
-                            </tr>
-                            <tr>
-                                <td><strong>解决痛点</strong></td>
                                 <td>分桶带来的离散化误差</td>
-                                <td>长尾流失与多峰兴趣解耦</td>
-                                <td>充值档位多峰与支付异质性</td>
+                                <td>CE + Huber + Ranking Loss</td>
                             </tr>
                             <tr>
-                                <td><strong>关键 Loss</strong></td>
-                                <td>CE + Huber + Ranking Loss</td>
+                                <td><strong>EGMN</strong><br><small>小红书</small></td>
+                                <td>指数-高斯混合分布</td>
+                                <td>长尾流失与多峰兴趣解耦</td>
                                 <td>MLE + Entropy Regularization</td>
+                            </tr>
+                            <tr>
+                                <td><strong>HiLTV</strong><br><small>腾讯</small></td>
+                                <td>分层分类 + 混合分布参数化</td>
+                                <td>充值档位多峰与支付异质性</td>
                                 <td>NLL + Hierarchical Cls</td>
                             </tr>
                         </tbody>
