@@ -431,7 +431,7 @@
                 <p>在输入序列前添加一系列可学习的任务特定向量，同时保持预训练模型冻结。前缀参数被插入到模型的所有层中。</p>
                 <ul>
                     <li>在输入序列的<strong>最前面</strong>添加一组<strong>连续的、可训练的虚拟向量</strong>，称为 <strong>Prefix</strong>（前缀）</li>
-                    <li>前缀会参与到每一层 Transformer 的注意力计算中，被放在每个 multi-head attention 的 key 矩阵和 value 矩阵之前</li>
+                    <li><span style="color:red;">前缀会参与到每一层 Transformer 的注意力计算中，被放在每个 multi-head attention 的 key 矩阵和 value 矩阵之前</span></li>
                     <li>特征向量长度未变，相当于增加了原始的 token 和这些 soft prompt token 计算相似度，然后聚合</li>
                     <li>训练时，<strong>冻结原始语言模型参数</strong>，<strong>仅优化前缀参数</strong></li>
                 </ul>
