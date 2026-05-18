@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PhaseFormer 论文读书笔记</title>
     <link rel="stylesheet" href="styles.css">
-    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>
         MathJax = {
             tex: {
@@ -13,10 +12,11 @@
                 displayMath: [['$$', '$$'], ['\\[', '\\]']],
                 processEscapes: true
             },
-            svg: { fontCache: 'global', scale: 1.1, minScale: 0.8 },
+            chtml: { scale: 1.1, minScale: 0.8 },
             startup: { pageReady: function() { return MathJax.typesetPromise(); } }
         };
     </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <style>
         .pros-section h2 { color: #059669; }
         .highlight-red { color: #dc2626; }
