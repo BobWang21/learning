@@ -162,158 +162,135 @@
 
             <section class="section" id="design-principles">
                 <h2>Claude Code 的设计原则</h2>
-                <p>以下原则不是 Claude Code 功能列表，而是从它的设计中抽象出的 agent 设计启发。它们适用于设计新的 coding agent，也适用于设计面向分析、运营、财务、供应链、客服等领域的业务 agent。</p>
+                <p>以下原则不是 Claude Code 功能列表，而是从它的设计中抽象出的 agent 系统目标。一个新的 agent 如果想从演示走向生产，不只是要“更聪明”，还要做到低成本、高可用、安全确定。</p>
 
                 <table class="design-principles-table">
                     <thead>
                         <tr>
-                            <th>分类</th>
+                            <th>抽象原则</th>
                             <th>核心目标</th>
                             <th>对新 agent 的启发</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <td class="design-category">效率、成本</td>
-                            <td>快速响应，降低 token 和计算成本</td>
-                            <td>让 agent 在需要时看到足够信息，而不是始终携带所有信息</td>
+                            <td class="design-category">低成本</td>
+                            <td>快速响应，控制 token、延迟和计算开销</td>
+                            <td>默认上下文轻量化，能力按需加载，重复信息可缓存</td>
                         </tr>
                         <tr>
-                            <td class="design-category">安全与可控</td>
-                            <td>能行动，但有权限边界和回滚能力</td>
-                            <td>按动作风险分层授权，把强约束放进系统层</td>
+                            <td class="design-category">高可用</td>
+                            <td>长任务可持续推进，失败后能恢复，结果可验证</td>
+                            <td>让 agent 形成“计划、行动、观察、修正、验证”的闭环</td>
                         </tr>
                         <tr>
-                            <td class="design-category">任务质量与可靠性</td>
-                            <td>有行动闭环，有验证证据</td>
-                            <td>让 agent 基于真实反馈迭代，而不是只生成答案</td>
-                        </tr>
-                        <tr>
-                            <td class="design-category">复用与扩展</td>
-                            <td>经验沉淀，能力组合，团队分发</td>
-                            <td>把知识、工具和流程做成可加载、可组合资产</td>
+                            <td class="design-category">安全确定</td>
+                            <td>能行动但不失控，关键规则由系统强制执行</td>
+                            <td>把权限、审批、沙箱、回滚和审计放在 harness 层，而不是只靠 prompt</td>
                         </tr>
                     </tbody>
                 </table>
 
-                <h3>1. 效率、成本</h3>
-                <p>目标是快速响应、降低 token 消耗，让长任务在成本和延迟上可持续。Claude Code 的很多上下文设计，核心都是为了节约成本和提升响应速度。</p>
+                <h3>1. 低成本</h3>
+                <p>低成本不是简单地少用模型，而是在保证任务质量的前提下，减少每一轮不必要的上下文、工具和计算开销。Claude Code 的上下文工程、prompt caching 和按需扩展，本质上都是为了让长会话在成本和延迟上可持续。</p>
 
                 <div class="principle-grid">
                     <div class="principle-card">
-                        <h4>📦 默认上下文保持轻量</h4>
-                        <p>不把所有工具、规则、知识都塞进默认上下文，减少每轮请求的基础 token 成本。</p>
+                        <h4>📦 默认上下文轻量化</h4>
+                        <p>不把所有工具、规则、知识都塞进默认上下文，基础 prompt 越小，每一轮调用的固定成本越低。</p>
                     </div>
                     <div class="principle-card">
                         <h4>🔌 能力按需加载</h4>
-                        <p>基础能力常驻，专业能力通过 skills、MCP、subagents、plugins 按需加载，减少默认 prompt 体积。</p>
+                        <p>基础能力常驻，专业能力通过 skills、MCP、subagents、plugins 在需要时加载，避免低频能力长期占用上下文。</p>
                     </div>
                     <div class="principle-card">
-                        <h4>⚡ Prompt caching</h4>
-                        <p>通过复用稳定前缀，减少长会话中重复处理相同上下文的成本和延迟。</p>
+                        <h4>⚡ 重复上下文可缓存</h4>
+                        <p>通过 prompt caching 复用稳定前缀，让长会话中重复出现的系统规则、工具定义和项目说明不必反复支付完整成本。</p>
                     </div>
                     <div class="principle-card">
-                        <h4>🗜️ 上下文压缩</h4>
-                        <p>用 <code>/compact</code> 把长历史压成摘要，避免会话无限膨胀。</p>
+                        <h4>🗜️ 长历史可压缩</h4>
+                        <p>用 <code>/compact</code> 等机制把冗长历史压缩成任务摘要，保留决策所需信息，清理低价值过程细节。</p>
                     </div>
                     <div class="principle-card">
-                        <h4>🔒 上下文隔离</h4>
-                        <p>subagents 处理大规模搜索、探索和并行任务，只把结论返回主会话，避免主上下文被污染。</p>
+                        <h4>🔒 探索成本隔离</h4>
+                        <p>大规模搜索、并行调查和独立评审交给 subagent，主会话只接收结论，避免主上下文被大量中间信息拖慢。</p>
                     </div>
                     <div class="principle-card">
-                        <h4>🧹 常驻信息少而稳定</h4>
-                        <p><code>CLAUDE.md</code> 适合放长期规则，但不适合塞大量低频资料，提高缓存命中率。</p>
+                        <h4>🧹 常驻知识少而稳定</h4>
+                        <p><code>CLAUDE.md</code> 适合放长期规则和高频约定，不适合塞大量临时资料，这既降低 token 成本，也提高缓存命中率。</p>
                     </div>
                 </div>
 
                 <div class="conclusion-box">
-                    <p><strong>核心概括：</strong>让 agent 在需要时看到足够信息，而不是始终携带所有信息。</p>
+                    <p><strong>核心概括：</strong>低成本的 agent 不是少做事，而是只在必要时加载必要信息，并复用稳定上下文。</p>
                 </div>
 
-                <h3>2. 安全与可控</h3>
-                <p>目标是让 agent 能行动，但不能失控。Claude Code 能编辑文件、运行命令、调用外部工具，因此必须同时设计权限、审计和回滚机制。</p>
-
-                <div class="principle-grid">
-                    <div class="principle-card">
-                        <h4>🛡️ 权限分层</h4>
-                        <p>低风险自动执行，中风险请求确认，高风险禁止或进入审批流。</p>
-                    </div>
-                    <div class="principle-card">
-                        <h4>💾 Checkpoints / rollback</h4>
-                        <p>修改前保留快照，出错后可以回滚。</p>
-                    </div>
-                    <div class="principle-card">
-                        <h4>🔐 Sandbox / permissions</h4>
-                        <p>限制 agent 能访问什么、能运行什么。</p>
-                    </div>
-                    <div class="principle-card">
-                        <h4>⚙️ 确定性约束系统化</h4>
-                        <p>安全、合规、审批、格式校验等硬规则通过 hooks、permissions、settings 强制执行。</p>
-                    </div>
-                    <div class="principle-card">
-                        <h4>🧑‍💻 人类保留方向盘</h4>
-                        <p>用户可以审阅计划、批准动作、暂停、回滚、恢复或分叉会话。</p>
-                    </div>
-                </div>
-
-                <div class="conclusion-box">
-                    <p><strong>核心概括：</strong>自治不是无限自由，而是在明确边界内减少人工摩擦。</p>
-                </div>
-
-                <h3>3. 任务质量与可靠性</h3>
-                <p>目标是不只是"回答得像完成"，而是真的把任务完成。Claude Code 的核心不是单轮回答，而是一个能持续推进的 agentic loop。</p>
+                <h3>2. 高可用</h3>
+                <p>高可用意味着 agent 不能只在理想路径上工作，还要能处理长任务、路径错误、工具失败、上下文变长和中途恢复。Claude Code 的价值不只是生成答案，而是持续推进任务直到有可验证结果。</p>
 
                 <div class="principle-grid">
                     <div class="principle-card">
                         <h4>🔄 行动闭环</h4>
-                        <p>围绕"理解 → 行动 → 观察 → 修正"设计，而不是只做"prompt → answer"。</p>
+                        <p>围绕“理解 → 计划 → 行动 → 观察 → 修正 → 验证”设计，让每次工具结果都能成为下一轮决策的输入。</p>
                     </div>
                     <div class="principle-card">
-                        <h4>🧩 模型与系统分工</h4>
-                        <p>模型负责理解、规划、判断；系统负责工具调用、权限检查、状态保存和结果采集。</p>
+                        <h4>🧭 显式任务状态</h4>
+                        <p>用 todo、计划、检查点记录任务进展，避免长任务中遗忘目标，也方便用户理解 agent 当前在做什么。</p>
                     </div>
                     <div class="principle-card">
-                        <h4>✅ 可验证优先</h4>
-                        <p>运行测试、检查类型错误、查看 diff、读取日志和命令输出，用证据证明任务是否完成。</p>
+                        <h4>✅ 结果可验证</h4>
+                        <p>运行测试、检查类型错误、查看 diff、读取日志和命令输出，用证据证明任务是否完成，而不是只给文字承诺。</p>
                     </div>
                     <div class="principle-card">
-                        <h4>🔁 从真实反馈中迭代</h4>
-                        <p>失败不是终点，而是下一轮行动的输入。</p>
+                        <h4>🔁 失败可恢复</h4>
+                        <p>路径错误、命令失败、测试失败都不是终点，而是反馈信号；agent 应能调整策略继续推进。</p>
                     </div>
                     <div class="principle-card">
-                        <h4>🧪 复杂任务隔离处理</h4>
-                        <p>大规模搜索、并行探索、独立评审放到 subagent 中完成，主会话只接收结论。</p>
+                        <h4>🧩 模型与 harness 分工</h4>
+                        <p>模型负责理解、规划、判断；harness 负责执行工具、保存状态、收集结果和维持生命周期。</p>
+                    </div>
+                    <div class="principle-card">
+                        <h4>🧱 能力可扩展</h4>
+                        <p>tools、skills、MCP、hooks、subagents、plugins 让 agent 可以接入新工具和新流程，提高不同任务场景下的可用性。</p>
                     </div>
                 </div>
 
                 <div class="conclusion-box">
-                    <p><strong>核心概括：</strong>让 agent 用行动和证据推进任务，而不是只用语言推进任务。</p>
+                    <p><strong>核心概括：</strong>高可用的 agent 要能持续推进、遇错修正、保留状态，并用真实证据闭环。</p>
                 </div>
 
-                <h3>4. 复用与扩展</h3>
-                <p>目标是把一次性的经验沉淀为可复用能力。Claude Code 不是封闭单体，而是由 tools、skills、MCP、hooks、subagents、plugins 组合出的系统。</p>
+                <h3>3. 安全确定</h3>
+                <p>安全确定意味着 agent 可以执行真实动作，但动作边界、审批规则、可回滚能力和审计记录必须由系统保证。越是能改文件、跑命令、连外部系统的 agent，越不能只依赖模型“自觉”。</p>
 
                 <div class="principle-grid">
                     <div class="principle-card">
-                        <h4>📋 专家经验产品化</h4>
-                        <p>把项目规范、操作流程、常见问题、工具使用方式沉淀到 <code>CLAUDE.md</code>、skills、plugins。</p>
+                        <h4>🛡️ 权限分层</h4>
+                        <p>低风险动作自动执行，中风险动作请求确认，高风险动作禁止或进入审批流，让授权成本和动作风险匹配。</p>
                     </div>
                     <div class="principle-card">
-                        <h4>🧱 能力可组合</h4>
-                        <p>tools、skills、MCP、hooks、subagents、plugins 可以按需组合。</p>
+                        <h4>🔐 沙箱与访问边界</h4>
+                        <p>限制 agent 能访问哪些目录、能运行哪些命令、能连接哪些外部服务，避免一次错误决策扩大影响面。</p>
                     </div>
                     <div class="principle-card">
-                        <h4>🚀 团队分发</h4>
-                        <p>同一套能力可以跨项目、跨团队复用。</p>
+                        <h4>⚙️ 硬规则系统化</h4>
+                        <p>安全、合规、审批、格式校验等确定性约束通过 hooks、permissions、settings、schema 校验强制执行。</p>
                     </div>
                     <div class="principle-card">
-                        <h4>🔗 模型与工具解耦</h4>
-                        <p>新能力可以通过外部工具、MCP 或插件接入，而不是每次改核心 agent。</p>
+                        <h4>💾 可回滚</h4>
+                        <p>修改前创建 checkpoint，出错后可以恢复现场，让 agent 的行动具备工程上的可逆性。</p>
+                    </div>
+                    <div class="principle-card">
+                        <h4>🧑‍💻 人类保留最终控制权</h4>
+                        <p>用户可以审阅计划、批准动作、暂停、回滚、恢复或分叉会话，agent 的自治必须服务于人的目标。</p>
+                    </div>
+                    <div class="principle-card">
+                        <h4>📜 行为可审计</h4>
+                        <p>工具调用、权限决策、文件修改和验证结果都应被记录，方便追踪问题和复盘 agent 的执行路径。</p>
                     </div>
                 </div>
 
                 <div class="conclusion-box">
-                    <p><strong>核心概括：</strong>好的 agent 不是一次性会话窗口，而是组织知识和工具能力的执行入口。</p>
+                    <p><strong>核心概括：</strong>安全确定的 agent 把不可妥协的规则放进系统层，用权限、沙箱、回滚和审计约束模型行动。</p>
                 </div>
             </section>
 
