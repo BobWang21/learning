@@ -162,7 +162,7 @@
 
             <section class="section" id="design-principles">
                 <h2>Claude Code 的设计原则</h2>
-                <p>以下原则不是 Claude Code 功能列表，而是从它的设计中抽象出的 agent 系统目标。一个新的 agent 如果想从演示走向生产，不只是要“更聪明”，还要做到低成本、高可用、安全确定。</p>
+                <p>以下原则不是 Claude Code 功能列表，而是从它的设计中抽象出的 agent 系统目标。一个新的 agent 如果想从演示走向生产，不只是要“更聪明”，还要做到高可用、低成本、安全确定。</p>
 
                 <table class="design-principles-table">
                     <thead>
@@ -174,14 +174,14 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td class="design-category">低成本</td>
-                            <td>快速响应，控制 token、延迟和计算开销</td>
-                            <td>默认上下文轻量化，能力按需加载，重复信息可缓存</td>
-                        </tr>
-                        <tr>
                             <td class="design-category">高可用</td>
                             <td>长任务可持续推进，失败后能恢复，结果可验证</td>
                             <td>让 agent 形成“计划、行动、观察、修正、验证”的闭环</td>
+                        </tr>
+                        <tr>
+                            <td class="design-category">低成本</td>
+                            <td>快速响应，控制 token、延迟和计算开销</td>
+                            <td>默认上下文轻量化，能力按需加载，重复信息可缓存</td>
                         </tr>
                         <tr>
                             <td class="design-category">安全确定</td>
@@ -191,41 +191,7 @@
                     </tbody>
                 </table>
 
-                <h3>1. 低成本</h3>
-                <p>低成本不是简单地少用模型，而是在保证任务质量的前提下，减少每一轮不必要的上下文、工具和计算开销。Claude Code 的上下文工程、prompt caching 和按需扩展，本质上都是为了让长会话在成本和延迟上可持续。</p>
-
-                <div class="principle-grid">
-                    <div class="principle-card">
-                        <h4>📦 默认上下文轻量化</h4>
-                        <p>不把所有工具、规则、知识都塞进默认上下文，基础 prompt 越小，每一轮调用的固定成本越低。</p>
-                    </div>
-                    <div class="principle-card">
-                        <h4>🔌 能力按需加载</h4>
-                        <p>基础能力常驻，专业能力通过 skills、MCP、subagents、plugins 在需要时加载，避免低频能力长期占用上下文。</p>
-                    </div>
-                    <div class="principle-card">
-                        <h4>⚡ 重复上下文可缓存</h4>
-                        <p>通过 prompt caching 复用稳定前缀，让长会话中重复出现的系统规则、工具定义和项目说明不必反复支付完整成本。</p>
-                    </div>
-                    <div class="principle-card">
-                        <h4>🗜️ 长历史可压缩</h4>
-                        <p>用 <code>/compact</code> 等机制把冗长历史压缩成任务摘要，保留决策所需信息，清理低价值过程细节。</p>
-                    </div>
-                    <div class="principle-card">
-                        <h4>🔒 探索成本隔离</h4>
-                        <p>大规模搜索、并行调查和独立评审交给 subagent，主会话只接收结论，避免主上下文被大量中间信息拖慢。</p>
-                    </div>
-                    <div class="principle-card">
-                        <h4>🧹 常驻知识少而稳定</h4>
-                        <p><code>CLAUDE.md</code> 适合放长期规则和高频约定，不适合塞大量临时资料，这既降低 token 成本，也提高缓存命中率。</p>
-                    </div>
-                </div>
-
-                <div class="conclusion-box">
-                    <p><strong>核心概括：</strong>低成本的 agent 不是少做事，而是只在必要时加载必要信息，并复用稳定上下文。</p>
-                </div>
-
-                <h3>2. 高可用</h3>
+                <h3>1. 高可用</h3>
                 <p>高可用意味着 agent 不能只在理想路径上工作，还要能处理长任务、路径错误、工具失败、上下文变长和中途恢复。Claude Code 的价值不只是生成答案，而是持续推进任务直到有可验证结果。</p>
 
                 <div class="principle-grid">
@@ -257,6 +223,40 @@
 
                 <div class="conclusion-box">
                     <p><strong>核心概括：</strong>高可用的 agent 要能持续推进、遇错修正、保留状态，并用真实证据闭环。</p>
+                </div>
+
+                <h3>2. 低成本</h3>
+                <p>低成本不是简单地少用模型，而是在保证任务质量的前提下，减少每一轮不必要的上下文、工具和计算开销。Claude Code 的上下文工程、prompt caching 和按需扩展，本质上都是为了让长会话在成本和延迟上可持续。</p>
+
+                <div class="principle-grid">
+                    <div class="principle-card">
+                        <h4>📦 默认上下文轻量化</h4>
+                        <p>不把所有工具、规则、知识都塞进默认上下文，基础 prompt 越小，每一轮调用的固定成本越低。</p>
+                    </div>
+                    <div class="principle-card">
+                        <h4>🔌 能力按需加载</h4>
+                        <p>基础能力常驻，专业能力通过 skills、MCP、subagents、plugins 在需要时加载，避免低频能力长期占用上下文。</p>
+                    </div>
+                    <div class="principle-card">
+                        <h4>⚡ 重复上下文可缓存</h4>
+                        <p>通过 prompt caching 复用稳定前缀，让长会话中重复出现的系统规则、工具定义和项目说明不必反复支付完整成本。</p>
+                    </div>
+                    <div class="principle-card">
+                        <h4>🗜️ 长历史可压缩</h4>
+                        <p>用 <code>/compact</code> 等机制把冗长历史压缩成任务摘要，保留决策所需信息，清理低价值过程细节。</p>
+                    </div>
+                    <div class="principle-card">
+                        <h4>🔒 探索成本隔离</h4>
+                        <p>大规模搜索、并行调查和独立评审交给 subagent，主会话只接收结论，避免主上下文被大量中间信息拖慢。</p>
+                    </div>
+                    <div class="principle-card">
+                        <h4>🧹 常驻知识少而稳定</h4>
+                        <p><code>CLAUDE.md</code> 适合放长期规则和高频约定，不适合塞大量临时资料，这既降低 token 成本，也提高缓存命中率。</p>
+                    </div>
+                </div>
+
+                <div class="conclusion-box">
+                    <p><strong>核心概括：</strong>低成本的 agent 不是少做事，而是只在必要时加载必要信息，并复用稳定上下文。</p>
                 </div>
 
                 <h3>3. 安全确定</h3>
