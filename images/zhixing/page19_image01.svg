@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" width="1180" height="680" viewBox="0 0 1180 680" role="img" aria-label="第 19 页图片 1">
+<svg xmlns="http://www.w3.org/2000/svg" width="1180" height="680" viewBox="0 0 1180 680" role="img" aria-label="系统思维">
   <defs>
     <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
       <stop offset="0" stop-color="#ffffff"/>
@@ -11,25 +11,21 @@
   </defs>
   <rect width="1180" height="680" rx="28" fill="#f8fafc"/>
   <rect x="52" y="52" width="1076" height="576" rx="24" fill="url(#bg)" stroke="#dbe4f0" filter="url(#shadow)"/>
-  <path d="M92 555 C230 480, 340 604, 500 520 S780 440, 1090 520" fill="none" stroke="hsl(194 70% 42%)" stroke-width="7" opacity="0.35"/>
-  <path d="M92 185 C250 108, 370 244, 528 174 S814 104, 1088 188" fill="none" stroke="hsl(249 72% 46%)" stroke-width="7" opacity="0.30"/>
-  <circle cx="170.0" cy="451.1" r="58" fill="none" stroke="hsl(194 70% 42%)" stroke-width="5" opacity="0.32"/>
-<circle cx="305.0" cy="470.8" r="70" fill="none" stroke="hsl(249 72% 46%)" stroke-width="5" opacity="0.375"/>
-<circle cx="440.0" cy="428.7" r="34" fill="none" stroke="hsl(194 70% 42%)" stroke-width="5" opacity="0.43"/>
-<circle cx="575.0" cy="353.5" r="46" fill="none" stroke="hsl(249 72% 46%)" stroke-width="5" opacity="0.485"/>
-<circle cx="710.0" cy="296.3" r="58" fill="none" stroke="hsl(194 70% 42%)" stroke-width="5" opacity="0.54"/>
-<circle cx="845.0" cy="296.1" r="70" fill="none" stroke="hsl(249 72% 46%)" stroke-width="5" opacity="0.595"/>
-<circle cx="980.0" cy="352.9" r="34" fill="none" stroke="hsl(194 70% 42%)" stroke-width="5" opacity="0.65"/>
-  <path d="M210.0 260.7 C280.0 200.7, 290.0 284.1, 360.0 224.1" fill="none" stroke="#94a3b8" stroke-width="4" opacity="0.55"/>
-    <circle cx="210.0" cy="260.7" r="28" fill="hsl(194 70% 42%)" opacity="0.86"/>
-<path d="M360.0 224.1 C430.0 164.1, 440.0 262.1, 510.0 202.1" fill="none" stroke="#94a3b8" stroke-width="4" opacity="0.55"/>
-    <circle cx="360.0" cy="224.1" r="28" fill="hsl(249 72% 46%)" opacity="0.86"/>
-<path d="M510.0 202.1 C580.0 142.1, 590.0 264.9, 660.0 204.9" fill="none" stroke="#94a3b8" stroke-width="4" opacity="0.55"/>
-    <circle cx="510.0" cy="202.1" r="28" fill="hsl(304 65% 52%)" opacity="0.86"/>
-<path d="M660.0 204.9 C730.0 144.9, 740.0 291.3, 810.0 231.3" fill="none" stroke="#94a3b8" stroke-width="4" opacity="0.55"/>
-    <circle cx="660.0" cy="204.9" r="28" fill="hsl(194 70% 42%)" opacity="0.86"/>
-<path d="M810.0 231.3 C880.0 171.3, 890.0 328.9, 960.0 268.9" fill="none" stroke="#94a3b8" stroke-width="4" opacity="0.55"/>
-    <circle cx="810.0" cy="231.3" r="28" fill="hsl(249 72% 46%)" opacity="0.86"/>
-
-    <circle cx="960.0" cy="268.9" r="28" fill="hsl(304 65% 52%)" opacity="0.86"/>
+  <text x="92" y="112" text-anchor="start" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','Microsoft YaHei',Arial,sans-serif" font-size="36" font-weight="800" fill="#1e40af">系统思维</text>
+  <text x="92" y="150" text-anchor="start" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','Microsoft YaHei',Arial,sans-serif" font-size="20" font-weight="500" fill="#64748b">把问题放在关联整体中处理</text>
+  <circle cx="590" cy="175" r="62" fill="#fff" stroke="#1e40af" stroke-width="4"/>
+      <text x="590" y="169" text-anchor="middle" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','Microsoft YaHei',Arial,sans-serif" font-size="18" font-weight="800" fill="#1e40af">目标</text>
+      <path d="M590 175 Q590 360 765.9454555146034 302.83185604063476" fill="none" stroke="#1e40af" stroke-width="3" opacity="0.35"/>
+<circle cx="765.9454555146034" cy="302.83185604063476" r="62" fill="#fff" stroke="#7c3aed" stroke-width="4"/>
+      <text x="765.9454555146034" y="296.83185604063476" text-anchor="middle" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','Microsoft YaHei',Arial,sans-serif" font-size="18" font-weight="800" fill="#7c3aed">过程</text>
+      <path d="M765.9454555146034 302.83185604063476 Q590 360 698.7402716741076 509.66814395936524" fill="none" stroke="#7c3aed" stroke-width="3" opacity="0.35"/>
+<circle cx="698.7402716741076" cy="509.66814395936524" r="62" fill="#fff" stroke="#0f766e" stroke-width="4"/>
+      <text x="698.7402716741076" y="503.66814395936524" text-anchor="middle" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','Microsoft YaHei',Arial,sans-serif" font-size="18" font-weight="800" fill="#0f766e">反馈</text>
+      <path d="M698.7402716741076 509.66814395936524 Q590 360 481.2597283258925 509.66814395936524" fill="none" stroke="#0f766e" stroke-width="3" opacity="0.35"/>
+<circle cx="481.2597283258925" cy="509.66814395936524" r="62" fill="#fff" stroke="#d97706" stroke-width="4"/>
+      <text x="481.2597283258925" y="503.66814395936524" text-anchor="middle" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','Microsoft YaHei',Arial,sans-serif" font-size="18" font-weight="800" fill="#d97706">优化</text>
+      <path d="M481.2597283258925 509.66814395936524 Q590 360 414.0545444853966 302.83185604063465" fill="none" stroke="#d97706" stroke-width="3" opacity="0.35"/>
+<circle cx="414.0545444853966" cy="302.83185604063465" r="62" fill="#fff" stroke="#be123c" stroke-width="4"/>
+      <text x="414.0545444853966" y="296.83185604063465" text-anchor="middle" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','Microsoft YaHei',Arial,sans-serif" font-size="18" font-weight="800" fill="#be123c">未来影响</text>
+      <path d="M414.0545444853966 302.83185604063465 Q590 360 590 175" fill="none" stroke="#be123c" stroke-width="3" opacity="0.35"/><text x="590" y="368" text-anchor="middle" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','Microsoft YaHei',Arial,sans-serif" font-size="34" font-weight="800" fill="#1e40af">循环</text>
 </svg>

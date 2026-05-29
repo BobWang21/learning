@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" width="1180" height="680" viewBox="0 0 1180 680" role="img" aria-label="第 10 页图片 1">
+<svg xmlns="http://www.w3.org/2000/svg" width="1180" height="680" viewBox="0 0 1180 680" role="img" aria-label="设计思维">
   <defs>
     <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
       <stop offset="0" stop-color="#ffffff"/>
@@ -11,25 +11,25 @@
   </defs>
   <rect width="1180" height="680" rx="28" fill="#f8fafc"/>
   <rect x="52" y="52" width="1076" height="576" rx="24" fill="url(#bg)" stroke="#dbe4f0" filter="url(#shadow)"/>
-  <path d="M92 555 C230 480, 340 604, 500 520 S780 440, 1090 520" fill="none" stroke="hsl(183 70% 42%)" stroke-width="7" opacity="0.35"/>
-  <path d="M92 185 C250 108, 370 244, 528 174 S814 104, 1088 188" fill="none" stroke="hsl(238 72% 46%)" stroke-width="7" opacity="0.30"/>
-  <circle cx="170.0" cy="302.6" r="46" fill="none" stroke="hsl(183 70% 42%)" stroke-width="5" opacity="0.32"/>
-<circle cx="305.0" cy="366.3" r="58" fill="none" stroke="hsl(238 72% 46%)" stroke-width="5" opacity="0.375"/>
-<circle cx="440.0" cy="439.3" r="70" fill="none" stroke="hsl(183 70% 42%)" stroke-width="5" opacity="0.43"/>
-<circle cx="575.0" cy="472.0" r="34" fill="none" stroke="hsl(238 72% 46%)" stroke-width="5" opacity="0.485"/>
-<circle cx="710.0" cy="442.1" r="46" fill="none" stroke="hsl(183 70% 42%)" stroke-width="5" opacity="0.54"/>
-<circle cx="845.0" cy="370.0" r="58" fill="none" stroke="hsl(238 72% 46%)" stroke-width="5" opacity="0.595"/>
-<circle cx="980.0" cy="304.7" r="70" fill="none" stroke="hsl(183 70% 42%)" stroke-width="5" opacity="0.65"/>
-  <path d="M210.0 225.7 C280.0 165.7, 290.0 262.6, 360.0 202.6" fill="none" stroke="#94a3b8" stroke-width="4" opacity="0.55"/>
-    <circle cx="210.0" cy="225.7" r="28" fill="hsl(183 70% 42%)" opacity="0.86"/>
-<path d="M360.0 202.6 C430.0 142.6, 440.0 264.2, 510.0 204.2" fill="none" stroke="#94a3b8" stroke-width="4" opacity="0.55"/>
-    <circle cx="360.0" cy="202.6" r="28" fill="hsl(238 72% 46%)" opacity="0.86"/>
-<path d="M510.0 204.2 C580.0 144.2, 590.0 289.7, 660.0 229.7" fill="none" stroke="#94a3b8" stroke-width="4" opacity="0.55"/>
-    <circle cx="510.0" cy="204.2" r="28" fill="hsl(293 65% 52%)" opacity="0.86"/>
-<path d="M660.0 229.7 C730.0 169.7, 740.0 327.1, 810.0 267.1" fill="none" stroke="#94a3b8" stroke-width="4" opacity="0.55"/>
-    <circle cx="660.0" cy="229.7" r="28" fill="hsl(183 70% 42%)" opacity="0.86"/>
-<path d="M810.0 267.1 C880.0 207.1, 890.0 358.8, 960.0 298.8" fill="none" stroke="#94a3b8" stroke-width="4" opacity="0.55"/>
-    <circle cx="810.0" cy="267.1" r="28" fill="hsl(238 72% 46%)" opacity="0.86"/>
-
-    <circle cx="960.0" cy="298.8" r="28" fill="hsl(293 65% 52%)" opacity="0.86"/>
+  <text x="92" y="112" text-anchor="start" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','Microsoft YaHei',Arial,sans-serif" font-size="36" font-weight="800" fill="#1e40af">设计思维</text>
+  <text x="92" y="150" text-anchor="start" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','Microsoft YaHei',Arial,sans-serif" font-size="20" font-weight="500" fill="#64748b">以人为本解决问题</text>
+  <rect x="95" y="310" width="180" height="92" rx="14" fill="#fff" stroke="#1e40af" stroke-width="2"/>
+      <text x="185" y="348" text-anchor="middle" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','Microsoft YaHei',Arial,sans-serif" font-size="22" font-weight="800" fill="#1e40af">共情</text>
+      <path d="M287 356 L300 356" stroke="#1e40af" stroke-width="4" stroke-linecap="round"/>
+  <path d="M286 346 L300 356 L286 366" fill="none" stroke="#1e40af" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="305" y="310" width="180" height="92" rx="14" fill="#fff" stroke="#7c3aed" stroke-width="2"/>
+      <text x="395" y="348" text-anchor="middle" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','Microsoft YaHei',Arial,sans-serif" font-size="22" font-weight="800" fill="#7c3aed">定义</text>
+      <path d="M497 356 L510 356" stroke="#7c3aed" stroke-width="4" stroke-linecap="round"/>
+  <path d="M496 346 L510 356 L496 366" fill="none" stroke="#7c3aed" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="515" y="310" width="180" height="92" rx="14" fill="#fff" stroke="#0f766e" stroke-width="2"/>
+      <text x="605" y="348" text-anchor="middle" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','Microsoft YaHei',Arial,sans-serif" font-size="22" font-weight="800" fill="#0f766e">构思</text>
+      <path d="M707 356 L720 356" stroke="#0f766e" stroke-width="4" stroke-linecap="round"/>
+  <path d="M706 346 L720 356 L706 366" fill="none" stroke="#0f766e" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="725" y="310" width="180" height="92" rx="14" fill="#fff" stroke="#d97706" stroke-width="2"/>
+      <text x="815" y="348" text-anchor="middle" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','Microsoft YaHei',Arial,sans-serif" font-size="22" font-weight="800" fill="#d97706">原型</text>
+      <path d="M917 356 L930 356" stroke="#d97706" stroke-width="4" stroke-linecap="round"/>
+  <path d="M916 346 L930 356 L916 366" fill="none" stroke="#d97706" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="935" y="310" width="180" height="92" rx="14" fill="#fff" stroke="#be123c" stroke-width="2"/>
+      <text x="1025" y="348" text-anchor="middle" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','Microsoft YaHei',Arial,sans-serif" font-size="22" font-weight="800" fill="#be123c">测试</text>
+      
 </svg>

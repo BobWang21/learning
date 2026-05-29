@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" width="1180" height="680" viewBox="0 0 1180 680" role="img" aria-label="第 22 页图片 2">
+<svg xmlns="http://www.w3.org/2000/svg" width="1180" height="680" viewBox="0 0 1180 680" role="img" aria-label="五项有效领导力实践">
   <defs>
     <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
       <stop offset="0" stop-color="#ffffff"/>
@@ -11,25 +11,21 @@
   </defs>
   <rect width="1180" height="680" rx="28" fill="#f8fafc"/>
   <rect x="52" y="52" width="1076" height="576" rx="24" fill="url(#bg)" stroke="#dbe4f0" filter="url(#shadow)"/>
-  <path d="M92 555 C230 480, 340 604, 500 520 S780 440, 1090 520" fill="none" stroke="hsl(49 70% 42%)" stroke-width="7" opacity="0.35"/>
-  <path d="M92 185 C250 108, 370 244, 528 174 S814 104, 1088 188" fill="none" stroke="hsl(104 72% 46%)" stroke-width="7" opacity="0.30"/>
-  <circle cx="170.0" cy="296.1" r="70" fill="none" stroke="hsl(49 70% 42%)" stroke-width="5" opacity="0.32"/>
-<circle cx="305.0" cy="352.9" r="34" fill="none" stroke="hsl(104 72% 46%)" stroke-width="5" opacity="0.375"/>
-<circle cx="440.0" cy="428.2" r="46" fill="none" stroke="hsl(49 70% 42%)" stroke-width="5" opacity="0.43"/>
-<circle cx="575.0" cy="470.7" r="58" fill="none" stroke="hsl(104 72% 46%)" stroke-width="5" opacity="0.485"/>
-<circle cx="710.0" cy="451.5" r="70" fill="none" stroke="hsl(49 70% 42%)" stroke-width="5" opacity="0.54"/>
-<circle cx="845.0" cy="383.7" r="34" fill="none" stroke="hsl(104 72% 46%)" stroke-width="5" opacity="0.595"/>
-<circle cx="980.0" cy="313.4" r="46" fill="none" stroke="hsl(49 70% 42%)" stroke-width="5" opacity="0.65"/>
-  <path d="M210.0 268.9 C280.0 208.9, 290.0 359.9, 360.0 299.9" fill="none" stroke="#94a3b8" stroke-width="4" opacity="0.55"/>
-    <circle cx="210.0" cy="268.9" r="28" fill="hsl(49 70% 42%)" opacity="0.86"/>
-<path d="M360.0 299.9 C430.0 239.9, 440.0 369.8, 510.0 309.8" fill="none" stroke="#94a3b8" stroke-width="4" opacity="0.55"/>
-    <circle cx="360.0" cy="299.9" r="28" fill="hsl(104 72% 46%)" opacity="0.86"/>
-<path d="M510.0 309.8 C580.0 249.8, 590.0 353.9, 660.0 293.9" fill="none" stroke="#94a3b8" stroke-width="4" opacity="0.55"/>
-    <circle cx="510.0" cy="309.8" r="28" fill="hsl(159 65% 52%)" opacity="0.86"/>
-<path d="M660.0 293.9 C730.0 233.9, 740.0 319.8, 810.0 259.8" fill="none" stroke="#94a3b8" stroke-width="4" opacity="0.55"/>
-    <circle cx="660.0" cy="293.9" r="28" fill="hsl(49 70% 42%)" opacity="0.86"/>
-<path d="M810.0 259.8 C880.0 199.8, 890.0 283.3, 960.0 223.3" fill="none" stroke="#94a3b8" stroke-width="4" opacity="0.55"/>
-    <circle cx="810.0" cy="259.8" r="28" fill="hsl(104 72% 46%)" opacity="0.86"/>
-
-    <circle cx="960.0" cy="223.3" r="28" fill="hsl(159 65% 52%)" opacity="0.86"/>
+  <text x="92" y="112" text-anchor="start" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','Microsoft YaHei',Arial,sans-serif" font-size="36" font-weight="800" fill="#1e40af">五项有效领导力实践</text>
+  <text x="92" y="150" text-anchor="start" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','Microsoft YaHei',Arial,sans-serif" font-size="20" font-weight="500" fill="#64748b">领导力实践</text>
+  <path d="M590 370 L590 160" stroke="#1e40af" stroke-width="3" opacity="0.45"/>
+      <circle cx="590" cy="160" r="58" fill="#fff" stroke="#1e40af" stroke-width="4"/>
+      <text x="590" y="156" text-anchor="middle" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','Microsoft YaHei',Arial,sans-serif" font-size="18" font-weight="800" fill="#1e40af">以身作则</text>
+<path d="M590 370 L789.7218684219822 305.10643118126103" stroke="#7c3aed" stroke-width="3" opacity="0.45"/>
+      <circle cx="789.7218684219822" cy="305.10643118126103" r="58" fill="#fff" stroke="#7c3aed" stroke-width="4"/>
+      <text x="789.7218684219822" y="301.10643118126103" text-anchor="middle" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','Microsoft YaHei',Arial,sans-serif" font-size="18" font-weight="800" fill="#7c3aed">共启愿景</text>
+<path d="M590 370 L713.4349029814193 539.8935688187389" stroke="#0f766e" stroke-width="3" opacity="0.45"/>
+      <circle cx="713.4349029814193" cy="539.8935688187389" r="58" fill="#fff" stroke="#0f766e" stroke-width="4"/>
+      <text x="713.4349029814193" y="535.8935688187389" text-anchor="middle" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','Microsoft YaHei',Arial,sans-serif" font-size="18" font-weight="800" fill="#0f766e">挑战现状</text>
+<path d="M590 370 L466.5650970185807 539.8935688187389" stroke="#d97706" stroke-width="3" opacity="0.45"/>
+      <circle cx="466.5650970185807" cy="539.8935688187389" r="58" fill="#fff" stroke="#d97706" stroke-width="4"/>
+      <text x="466.5650970185807" y="535.8935688187389" text-anchor="middle" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','Microsoft YaHei',Arial,sans-serif" font-size="18" font-weight="800" fill="#d97706">使众人行</text>
+<path d="M590 370 L390.2781315780178 305.106431181261" stroke="#be123c" stroke-width="3" opacity="0.45"/>
+      <circle cx="390.2781315780178" cy="305.106431181261" r="58" fill="#fff" stroke="#be123c" stroke-width="4"/>
+      <text x="390.2781315780178" y="301.106431181261" text-anchor="middle" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','Microsoft YaHei',Arial,sans-serif" font-size="18" font-weight="800" fill="#be123c">激励人心</text><circle cx="590" cy="370" r="82" fill="#eff6ff" stroke="#1e40af" stroke-width="4"/><text x="590" y="365" text-anchor="middle" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','Microsoft YaHei',Arial,sans-serif" font-size="25" font-weight="800" fill="#1e40af">成就卓越</text>
 </svg>

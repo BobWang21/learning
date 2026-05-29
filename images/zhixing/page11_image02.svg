@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" width="1180" height="680" viewBox="0 0 1180 680" role="img" aria-label="第 11 页图片 2">
+<svg xmlns="http://www.w3.org/2000/svg" width="1180" height="680" viewBox="0 0 1180 680" role="img" aria-label="上瘾模型 Hook">
   <defs>
     <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
       <stop offset="0" stop-color="#ffffff"/>
@@ -11,25 +11,18 @@
   </defs>
   <rect width="1180" height="680" rx="28" fill="#f8fafc"/>
   <rect x="52" y="52" width="1076" height="576" rx="24" fill="url(#bg)" stroke="#dbe4f0" filter="url(#shadow)"/>
-  <path d="M92 555 C230 480, 340 604, 500 520 S780 440, 1090 520" fill="none" stroke="hsl(355 70% 42%)" stroke-width="7" opacity="0.35"/>
-  <path d="M92 185 C250 108, 370 244, 528 174 S814 104, 1088 188" fill="none" stroke="hsl(50 72% 46%)" stroke-width="7" opacity="0.30"/>
-  <circle cx="170.0" cy="442.1" r="46" fill="none" stroke="hsl(355 70% 42%)" stroke-width="5" opacity="0.32"/>
-<circle cx="305.0" cy="370.0" r="58" fill="none" stroke="hsl(50 72% 46%)" stroke-width="5" opacity="0.375"/>
-<circle cx="440.0" cy="304.7" r="70" fill="none" stroke="hsl(355 70% 42%)" stroke-width="5" opacity="0.43"/>
-<circle cx="575.0" cy="290.6" r="34" fill="none" stroke="hsl(50 72% 46%)" stroke-width="5" opacity="0.485"/>
-<circle cx="710.0" cy="337.3" r="46" fill="none" stroke="hsl(355 70% 42%)" stroke-width="5" opacity="0.54"/>
-<circle cx="845.0" cy="413.0" r="58" fill="none" stroke="hsl(50 72% 46%)" stroke-width="5" opacity="0.595"/>
-<circle cx="980.0" cy="466.3" r="70" fill="none" stroke="hsl(355 70% 42%)" stroke-width="5" opacity="0.65"/>
-  <path d="M210.0 267.1 C280.0 207.1, 290.0 358.8, 360.0 298.8" fill="none" stroke="#94a3b8" stroke-width="4" opacity="0.55"/>
-    <circle cx="210.0" cy="267.1" r="28" fill="hsl(355 70% 42%)" opacity="0.86"/>
-<path d="M360.0 298.8 C430.0 238.8, 440.0 369.9, 510.0 309.9" fill="none" stroke="#94a3b8" stroke-width="4" opacity="0.55"/>
-    <circle cx="360.0" cy="298.8" r="28" fill="hsl(50 72% 46%)" opacity="0.86"/>
-<path d="M510.0 309.9 C580.0 249.9, 590.0 355.2, 660.0 295.2" fill="none" stroke="#94a3b8" stroke-width="4" opacity="0.55"/>
-    <circle cx="510.0" cy="309.9" r="28" fill="hsl(105 65% 52%)" opacity="0.86"/>
-<path d="M660.0 295.2 C730.0 235.2, 740.0 321.6, 810.0 261.6" fill="none" stroke="#94a3b8" stroke-width="4" opacity="0.55"/>
-    <circle cx="660.0" cy="295.2" r="28" fill="hsl(355 70% 42%)" opacity="0.86"/>
-<path d="M810.0 261.6 C880.0 201.6, 890.0 284.9, 960.0 224.9" fill="none" stroke="#94a3b8" stroke-width="4" opacity="0.55"/>
-    <circle cx="810.0" cy="261.6" r="28" fill="hsl(50 72% 46%)" opacity="0.86"/>
-
-    <circle cx="960.0" cy="224.9" r="28" fill="hsl(105 65% 52%)" opacity="0.86"/>
+  <text x="92" y="112" text-anchor="start" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','Microsoft YaHei',Arial,sans-serif" font-size="36" font-weight="800" fill="#1e40af">上瘾模型 Hook</text>
+  <text x="92" y="150" text-anchor="start" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','Microsoft YaHei',Arial,sans-serif" font-size="20" font-weight="500" fill="#64748b">让用户形成连续循环的行为模型</text>
+  <circle cx="590" cy="175" r="62" fill="#fff" stroke="#1e40af" stroke-width="4"/>
+      <text x="590" y="169" text-anchor="middle" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','Microsoft YaHei',Arial,sans-serif" font-size="18" font-weight="800" fill="#1e40af">触发</text>
+      <path d="M590 175 Q590 360 775 360" fill="none" stroke="#1e40af" stroke-width="3" opacity="0.35"/>
+<circle cx="775" cy="360" r="62" fill="#fff" stroke="#7c3aed" stroke-width="4"/>
+      <text x="775" y="354" text-anchor="middle" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','Microsoft YaHei',Arial,sans-serif" font-size="18" font-weight="800" fill="#7c3aed">行动</text>
+      <path d="M775 360 Q590 360 590 545" fill="none" stroke="#7c3aed" stroke-width="3" opacity="0.35"/>
+<circle cx="590" cy="545" r="62" fill="#fff" stroke="#0f766e" stroke-width="4"/>
+      <text x="590" y="539" text-anchor="middle" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','Microsoft YaHei',Arial,sans-serif" font-size="18" font-weight="800" fill="#0f766e">多变的酬赏</text>
+      <path d="M590 545 Q590 360 405 360" fill="none" stroke="#0f766e" stroke-width="3" opacity="0.35"/>
+<circle cx="405" cy="360" r="62" fill="#fff" stroke="#d97706" stroke-width="4"/>
+      <text x="405" y="354" text-anchor="middle" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','Microsoft YaHei',Arial,sans-serif" font-size="18" font-weight="800" fill="#d97706">投入</text>
+      <path d="M405 360 Q590 360 590 175" fill="none" stroke="#d97706" stroke-width="3" opacity="0.35"/><text x="590" y="368" text-anchor="middle" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','Microsoft YaHei',Arial,sans-serif" font-size="34" font-weight="800" fill="#1e40af">循环</text>
 </svg>
