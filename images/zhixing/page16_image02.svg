@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1180" height="680" viewBox="0 0 1180 680" role="img" aria-label="第 16 页图片 2">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset="1" stop-color="#eef6ff"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#0f172a" flood-opacity="0.12"/>
+    </filter>
+  </defs>
+  <rect width="1180" height="680" rx="28" fill="#f8fafc"/>
+  <rect x="52" y="52" width="1076" height="576" rx="24" fill="url(#bg)" stroke="#dbe4f0" filter="url(#shadow)"/>
+  <path d="M92 555 C230 480, 340 604, 500 520 S780 440, 1090 520" fill="none" stroke="hsl(296 70% 42%)" stroke-width="7" opacity="0.35"/>
+  <path d="M92 185 C250 108, 370 244, 528 174 S814 104, 1088 188" fill="none" stroke="hsl(351 72% 46%)" stroke-width="7" opacity="0.30"/>
+  <circle cx="170.0" cy="460.9" r="34" fill="none" stroke="hsl(296 70% 42%)" stroke-width="5" opacity="0.32"/>
+<circle cx="305.0" cy="400.5" r="46" fill="none" stroke="hsl(351 72% 46%)" stroke-width="5" opacity="0.375"/>
+<circle cx="440.0" cy="326.1" r="58" fill="none" stroke="hsl(296 70% 42%)" stroke-width="5" opacity="0.43"/>
+<circle cx="575.0" cy="288.4" r="70" fill="none" stroke="hsl(351 72% 46%)" stroke-width="5" opacity="0.485"/>
+<circle cx="710.0" cy="313.0" r="34" fill="none" stroke="hsl(296 70% 42%)" stroke-width="5" opacity="0.54"/>
+<circle cx="845.0" cy="383.1" r="46" fill="none" stroke="hsl(351 72% 46%)" stroke-width="5" opacity="0.595"/>
+<circle cx="980.0" cy="451.1" r="58" fill="none" stroke="hsl(296 70% 42%)" stroke-width="5" opacity="0.65"/>
+  <path d="M210.0 204.5 C280.0 144.5, 290.0 290.5, 360.0 230.5" fill="none" stroke="#94a3b8" stroke-width="4" opacity="0.55"/>
+    <circle cx="210.0" cy="204.5" r="28" fill="hsl(296 70% 42%)" opacity="0.86"/>
+<path d="M360.0 230.5 C430.0 170.5, 440.0 328.0, 510.0 268.0" fill="none" stroke="#94a3b8" stroke-width="4" opacity="0.55"/>
+    <circle cx="360.0" cy="230.5" r="28" fill="hsl(351 72% 46%)" opacity="0.86"/>
+<path d="M510.0 268.0 C580.0 208.0, 590.0 359.4, 660.0 299.4" fill="none" stroke="#94a3b8" stroke-width="4" opacity="0.55"/>
+    <circle cx="510.0" cy="268.0" r="28" fill="hsl(46 65% 52%)" opacity="0.86"/>
+<path d="M660.0 299.4 C730.0 239.4, 740.0 369.9, 810.0 309.9" fill="none" stroke="#94a3b8" stroke-width="4" opacity="0.55"/>
+    <circle cx="660.0" cy="299.4" r="28" fill="hsl(296 70% 42%)" opacity="0.86"/>
+<path d="M810.0 309.9 C880.0 249.9, 890.0 354.6, 960.0 294.6" fill="none" stroke="#94a3b8" stroke-width="4" opacity="0.55"/>
+    <circle cx="810.0" cy="309.9" r="28" fill="hsl(351 72% 46%)" opacity="0.86"/>
+
+    <circle cx="960.0" cy="294.6" r="28" fill="hsl(46 65% 52%)" opacity="0.86"/>
+</svg>
