@@ -14,17 +14,17 @@
   <text x="92" y="112" text-anchor="start" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','Microsoft YaHei',Arial,sans-serif" font-size="36" font-weight="800" fill="#1e40af">RIA 阅读法</text>
   <text x="92" y="150" text-anchor="start" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','Microsoft YaHei',Arial,sans-serif" font-size="20" font-weight="500" fill="#64748b">主动式学习便签法</text>
   <rect x="95" y="310" width="180" height="92" rx="14" fill="#fff" stroke="#1e40af" stroke-width="2"/>
-      <text x="185" y="348" text-anchor="middle" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','Microsoft YaHei',Arial,sans-serif" font-size="22" font-weight="800" fill="#1e40af">Read</text>
-<text x="185" y="376" text-anchor="middle" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','Microsoft YaHei',Arial,sans-serif" font-size="22" font-weight="800" fill="#1e40af">阅读原文</text>
+      <text x="185" y="342" text-anchor="middle" dominant-baseline="middle" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','Microsoft YaHei',Arial,sans-serif" font-size="21" font-weight="800" fill="#1e40af">Read</text>
+<text x="185" y="370" text-anchor="middle" dominant-baseline="middle" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','Microsoft YaHei',Arial,sans-serif" font-size="21" font-weight="800" fill="#1e40af">阅读原文</text>
       <path d="M287 356 L300 356" stroke="#1e40af" stroke-width="4" stroke-linecap="round"/>
   <path d="M286 346 L300 356 L286 366" fill="none" stroke="#1e40af" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
 <rect x="305" y="310" width="180" height="92" rx="14" fill="#fff" stroke="#7c3aed" stroke-width="2"/>
-      <text x="395" y="348" text-anchor="middle" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','Microsoft YaHei',Arial,sans-serif" font-size="22" font-weight="800" fill="#7c3aed">Interpretation</text>
-<text x="395" y="376" text-anchor="middle" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','Microsoft YaHei',Arial,sans-serif" font-size="22" font-weight="800" fill="#7c3aed">复述理解</text>
+      <text x="395" y="342" text-anchor="middle" dominant-baseline="middle" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','Microsoft YaHei',Arial,sans-serif" font-size="21" font-weight="800" fill="#7c3aed">Interpretation</text>
+<text x="395" y="370" text-anchor="middle" dominant-baseline="middle" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','Microsoft YaHei',Arial,sans-serif" font-size="21" font-weight="800" fill="#7c3aed">复述理解</text>
       <path d="M497 356 L510 356" stroke="#7c3aed" stroke-width="4" stroke-linecap="round"/>
   <path d="M496 346 L510 356 L496 366" fill="none" stroke="#7c3aed" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
 <rect x="515" y="310" width="180" height="92" rx="14" fill="#fff" stroke="#0f766e" stroke-width="2"/>
-      <text x="605" y="348" text-anchor="middle" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','Microsoft YaHei',Arial,sans-serif" font-size="22" font-weight="800" fill="#0f766e">Appropriation</text>
-<text x="605" y="376" text-anchor="middle" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','Microsoft YaHei',Arial,sans-serif" font-size="22" font-weight="800" fill="#0f766e">化为己用</text>
+      <text x="605" y="342" text-anchor="middle" dominant-baseline="middle" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','Microsoft YaHei',Arial,sans-serif" font-size="21" font-weight="800" fill="#0f766e">Appropriation</text>
+<text x="605" y="370" text-anchor="middle" dominant-baseline="middle" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','Microsoft YaHei',Arial,sans-serif" font-size="21" font-weight="800" fill="#0f766e">化为己用</text>
       
 </svg>

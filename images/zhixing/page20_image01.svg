@@ -14,15 +14,15 @@
   <text x="92" y="112" text-anchor="start" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','Microsoft YaHei',Arial,sans-serif" font-size="36" font-weight="800" fill="#1e40af">领导力梯队</text>
   <text x="92" y="150" text-anchor="start" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','Microsoft YaHei',Arial,sans-serif" font-size="20" font-weight="500" fill="#64748b">从员工成长为企业领导的六个阶段</text>
   <rect x="150" y="500" width="120" height="70" rx="12" fill="#0f766e"/>
-<text x="210" y="545" text-anchor="middle" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','Microsoft YaHei',Arial,sans-serif" font-size="18" font-weight="800" fill="#fff">员工</text>
+<text x="210" y="545" text-anchor="middle" dominant-baseline="middle" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','Microsoft YaHei',Arial,sans-serif" font-size="18" font-weight="800" fill="#fff">员工</text>
 <rect x="295" y="445" width="120" height="78" rx="12" fill="#1e40af"/>
-<text x="355" y="490" text-anchor="middle" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','Microsoft YaHei',Arial,sans-serif" font-size="18" font-weight="800" fill="#fff">经理</text>
+<text x="355" y="490" text-anchor="middle" dominant-baseline="middle" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','Microsoft YaHei',Arial,sans-serif" font-size="18" font-weight="800" fill="#fff">经理</text>
 <rect x="440" y="390" width="120" height="86" rx="12" fill="#7c3aed"/>
-<text x="500" y="435" text-anchor="middle" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','Microsoft YaHei',Arial,sans-serif" font-size="18" font-weight="800" fill="#fff">总监</text>
+<text x="500" y="435" text-anchor="middle" dominant-baseline="middle" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','Microsoft YaHei',Arial,sans-serif" font-size="18" font-weight="800" fill="#fff">总监</text>
 <rect x="585" y="335" width="120" height="94" rx="12" fill="#d97706"/>
-<text x="645" y="380" text-anchor="middle" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','Microsoft YaHei',Arial,sans-serif" font-size="18" font-weight="800" fill="#fff">事业负责人</text>
+<text x="645" y="380" text-anchor="middle" dominant-baseline="middle" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','Microsoft YaHei',Arial,sans-serif" font-size="18" font-weight="800" fill="#fff">事业负责人</text>
 <rect x="730" y="280" width="120" height="102" rx="12" fill="#be123c"/>
-<text x="790" y="325" text-anchor="middle" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','Microsoft YaHei',Arial,sans-serif" font-size="18" font-weight="800" fill="#fff">集团领导</text>
+<text x="790" y="325" text-anchor="middle" dominant-baseline="middle" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','Microsoft YaHei',Arial,sans-serif" font-size="18" font-weight="800" fill="#fff">集团领导</text>
 <rect x="875" y="225" width="120" height="110" rx="12" fill="#15803d"/>
-<text x="935" y="270" text-anchor="middle" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','Microsoft YaHei',Arial,sans-serif" font-size="18" font-weight="800" fill="#fff">企业领导</text>
+<text x="935" y="270" text-anchor="middle" dominant-baseline="middle" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','Microsoft YaHei',Arial,sans-serif" font-size="18" font-weight="800" fill="#fff">企业领导</text>
 </svg>

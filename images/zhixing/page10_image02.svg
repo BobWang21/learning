@@ -14,15 +14,15 @@
   <text x="92" y="112" text-anchor="start" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','Microsoft YaHei',Arial,sans-serif" font-size="36" font-weight="800" fill="#1e40af">最小可行产品 MVP</text>
   <text x="92" y="150" text-anchor="start" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','Microsoft YaHei',Arial,sans-serif" font-size="20" font-weight="500" fill="#64748b">最快、最简明地验证用户是否喜欢</text>
   <circle cx="590" cy="175" r="62" fill="#fff" stroke="#1e40af" stroke-width="4"/>
-      <text x="590" y="169" text-anchor="middle" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','Microsoft YaHei',Arial,sans-serif" font-size="18" font-weight="800" fill="#1e40af">建立原型</text>
+      <text x="590" y="175" text-anchor="middle" dominant-baseline="middle" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','Microsoft YaHei',Arial,sans-serif" font-size="18" font-weight="800" fill="#1e40af">建立原型</text>
       <path d="M590 175 Q590 360 775 360" fill="none" stroke="#1e40af" stroke-width="3" opacity="0.35"/>
 <circle cx="775" cy="360" r="62" fill="#fff" stroke="#7c3aed" stroke-width="4"/>
-      <text x="775" y="354" text-anchor="middle" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','Microsoft YaHei',Arial,sans-serif" font-size="18" font-weight="800" fill="#7c3aed">推向市场</text>
+      <text x="775" y="360" text-anchor="middle" dominant-baseline="middle" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','Microsoft YaHei',Arial,sans-serif" font-size="18" font-weight="800" fill="#7c3aed">推向市场</text>
       <path d="M775 360 Q590 360 590 545" fill="none" stroke="#7c3aed" stroke-width="3" opacity="0.35"/>
 <circle cx="590" cy="545" r="62" fill="#fff" stroke="#0f766e" stroke-width="4"/>
-      <text x="590" y="539" text-anchor="middle" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','Microsoft YaHei',Arial,sans-serif" font-size="18" font-weight="800" fill="#0f766e">测试反馈</text>
+      <text x="590" y="545" text-anchor="middle" dominant-baseline="middle" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','Microsoft YaHei',Arial,sans-serif" font-size="18" font-weight="800" fill="#0f766e">测试反馈</text>
       <path d="M590 545 Q590 360 405 360" fill="none" stroke="#0f766e" stroke-width="3" opacity="0.35"/>
 <circle cx="405" cy="360" r="62" fill="#fff" stroke="#d97706" stroke-width="4"/>
-      <text x="405" y="354" text-anchor="middle" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','Microsoft YaHei',Arial,sans-serif" font-size="18" font-weight="800" fill="#d97706">迭代完善</text>
-      <path d="M405 360 Q590 360 590 175" fill="none" stroke="#d97706" stroke-width="3" opacity="0.35"/><text x="590" y="368" text-anchor="middle" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','Microsoft YaHei',Arial,sans-serif" font-size="34" font-weight="800" fill="#1e40af">循环</text>
+      <text x="405" y="360" text-anchor="middle" dominant-baseline="middle" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','Microsoft YaHei',Arial,sans-serif" font-size="18" font-weight="800" fill="#d97706">迭代完善</text>
+      <path d="M405 360 Q590 360 590 175" fill="none" stroke="#d97706" stroke-width="3" opacity="0.35"/><text x="590" y="368" text-anchor="middle" dominant-baseline="middle" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','Microsoft YaHei',Arial,sans-serif" font-size="34" font-weight="800" fill="#1e40af">循环</text>
 </svg>

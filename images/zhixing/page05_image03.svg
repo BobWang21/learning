@@ -15,23 +15,23 @@
   <text x="92" y="150" text-anchor="start" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','Microsoft YaHei',Arial,sans-serif" font-size="20" font-weight="500" fill="#64748b">增加衡量产出的 How much</text>
   <path d="M590 370 L590 160" stroke="#1e40af" stroke-width="3" opacity="0.45"/>
       <circle cx="590" cy="160" r="58" fill="#fff" stroke="#1e40af" stroke-width="4"/>
-      <text x="590" y="156" text-anchor="middle" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','Microsoft YaHei',Arial,sans-serif" font-size="18" font-weight="800" fill="#1e40af">Why</text>
+      <text x="590" y="160" text-anchor="middle" dominant-baseline="middle" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','Microsoft YaHei',Arial,sans-serif" font-size="18" font-weight="800" fill="#1e40af">Why</text>
 <path d="M590 370 L754.1846113182862 239.06714160966598" stroke="#7c3aed" stroke-width="3" opacity="0.45"/>
       <circle cx="754.1846113182862" cy="239.06714160966598" r="58" fill="#fff" stroke="#7c3aed" stroke-width="4"/>
-      <text x="754.1846113182862" y="235.06714160966598" text-anchor="middle" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','Microsoft YaHei',Arial,sans-serif" font-size="18" font-weight="800" fill="#7c3aed">What</text>
+      <text x="754.1846113182862" y="239.06714160966598" text-anchor="middle" dominant-baseline="middle" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','Microsoft YaHei',Arial,sans-serif" font-size="18" font-weight="800" fill="#7c3aed">What</text>
 <path d="M590 370 L794.734861558183 416.72939613082605" stroke="#0f766e" stroke-width="3" opacity="0.45"/>
       <circle cx="794.734861558183" cy="416.72939613082605" r="58" fill="#fff" stroke="#0f766e" stroke-width="4"/>
-      <text x="794.734861558183" y="412.72939613082605" text-anchor="middle" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','Microsoft YaHei',Arial,sans-serif" font-size="18" font-weight="800" fill="#0f766e">Where</text>
+      <text x="794.734861558183" y="416.72939613082605" text-anchor="middle" dominant-baseline="middle" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','Microsoft YaHei',Arial,sans-serif" font-size="18" font-weight="800" fill="#0f766e">Where</text>
 <path d="M590 370 L681.1155852146873 559.203462259508" stroke="#d97706" stroke-width="3" opacity="0.45"/>
       <circle cx="681.1155852146873" cy="559.203462259508" r="58" fill="#fff" stroke="#d97706" stroke-width="4"/>
-      <text x="681.1155852146873" y="555.203462259508" text-anchor="middle" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','Microsoft YaHei',Arial,sans-serif" font-size="18" font-weight="800" fill="#d97706">When</text>
+      <text x="681.1155852146873" y="559.203462259508" text-anchor="middle" dominant-baseline="middle" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','Microsoft YaHei',Arial,sans-serif" font-size="18" font-weight="800" fill="#d97706">When</text>
 <path d="M590 370 L498.88441478531274 559.203462259508" stroke="#be123c" stroke-width="3" opacity="0.45"/>
       <circle cx="498.88441478531274" cy="559.203462259508" r="58" fill="#fff" stroke="#be123c" stroke-width="4"/>
-      <text x="498.88441478531274" y="555.203462259508" text-anchor="middle" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','Microsoft YaHei',Arial,sans-serif" font-size="18" font-weight="800" fill="#be123c">Who</text>
+      <text x="498.88441478531274" y="559.203462259508" text-anchor="middle" dominant-baseline="middle" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','Microsoft YaHei',Arial,sans-serif" font-size="18" font-weight="800" fill="#be123c">Who</text>
 <path d="M590 370 L385.26513844181704 416.72939613082605" stroke="#15803d" stroke-width="3" opacity="0.45"/>
       <circle cx="385.26513844181704" cy="416.72939613082605" r="58" fill="#fff" stroke="#15803d" stroke-width="4"/>
-      <text x="385.26513844181704" y="412.72939613082605" text-anchor="middle" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','Microsoft YaHei',Arial,sans-serif" font-size="18" font-weight="800" fill="#15803d">How</text>
+      <text x="385.26513844181704" y="416.72939613082605" text-anchor="middle" dominant-baseline="middle" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','Microsoft YaHei',Arial,sans-serif" font-size="18" font-weight="800" fill="#15803d">How</text>
 <path d="M590 370 L425.8153886817137 239.06714160966598" stroke="#1e40af" stroke-width="3" opacity="0.45"/>
       <circle cx="425.8153886817137" cy="239.06714160966598" r="58" fill="#fff" stroke="#1e40af" stroke-width="4"/>
-      <text x="425.8153886817137" y="235.06714160966598" text-anchor="middle" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','Microsoft YaHei',Arial,sans-serif" font-size="18" font-weight="800" fill="#1e40af">How much</text><circle cx="590" cy="370" r="82" fill="#eff6ff" stroke="#1e40af" stroke-width="4"/><text x="590" y="365" text-anchor="middle" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','Microsoft YaHei',Arial,sans-serif" font-size="25" font-weight="800" fill="#1e40af">对象</text>
+      <text x="425.8153886817137" y="239.06714160966598" text-anchor="middle" dominant-baseline="middle" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','Microsoft YaHei',Arial,sans-serif" font-size="18" font-weight="800" fill="#1e40af">How much</text><circle cx="590" cy="370" r="82" fill="#eff6ff" stroke="#1e40af" stroke-width="4"/><text x="590" y="370" text-anchor="middle" dominant-baseline="middle" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','Microsoft YaHei',Arial,sans-serif" font-size="25" font-weight="800" fill="#1e40af">对象</text>
 </svg>
