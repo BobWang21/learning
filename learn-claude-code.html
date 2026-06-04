@@ -248,12 +248,12 @@
 <p>将这个过程翻译成代码。分步来看：</p>
 <p><strong>第 1 步</strong>：把用户的问题作为第一条消息。</p>
 <details class="code-collapse">
-<summary>查看代码</summary>
+<summary>代码</summary>
 <div class="sourceCode" id="cb1"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb1-1"><a aria-hidden="true" href="#cb1-1" tabindex="-1"></a>messages <span class="op">=</span> [{<span class="st">"role"</span>: <span class="st">"user"</span>, <span class="st">"content"</span>: query}]</span></code></pre></div>
 </details>
 <p><strong>第 2 步</strong>：将消息和工具定义一起发给 LLM。</p>
 <details class="code-collapse">
-<summary>查看代码</summary>
+<summary>代码</summary>
 <div class="sourceCode" id="cb2"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb2-1"><a aria-hidden="true" href="#cb2-1" tabindex="-1"></a>response <span class="op">=</span> client.messages.create(</span>
 <span id="cb2-2"><a aria-hidden="true" href="#cb2-2" tabindex="-1"></a>    model<span class="op">=</span>MODEL, system<span class="op">=</span>SYSTEM, messages<span class="op">=</span>messages,</span>
 <span id="cb2-3"><a aria-hidden="true" href="#cb2-3" tabindex="-1"></a>    tools<span class="op">=</span>TOOLS, max_tokens<span class="op">=</span><span class="dv">8000</span>,</span>
@@ -262,14 +262,14 @@
 <p><strong>第 3 步</strong>：追加模型回答，检查它是否调了工具。没调 →
 结束。</p>
 <details class="code-collapse">
-<summary>查看代码</summary>
+<summary>代码</summary>
 <div class="sourceCode" id="cb3"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb3-1"><a aria-hidden="true" href="#cb3-1" tabindex="-1"></a>messages.append({<span class="st">"role"</span>: <span class="st">"assistant"</span>, <span class="st">"content"</span>: response.content})</span>
 <span id="cb3-2"><a aria-hidden="true" href="#cb3-2" tabindex="-1"></a><span class="cf">if</span> response.stop_reason <span class="op">!=</span> <span class="st">"tool_use"</span>:</span>
 <span id="cb3-3"><a aria-hidden="true" href="#cb3-3" tabindex="-1"></a>    <span class="cf">return</span></span></code></pre></div>
 </details>
 <p><strong>第 4 步</strong>：执行模型要求的工具，收集结果。</p>
 <details class="code-collapse">
-<summary>查看代码</summary>
+<summary>代码</summary>
 <div class="sourceCode" id="cb4"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb4-1"><a aria-hidden="true" href="#cb4-1" tabindex="-1"></a>results <span class="op">=</span> []</span>
 <span id="cb4-2"><a aria-hidden="true" href="#cb4-2" tabindex="-1"></a><span class="cf">for</span> block <span class="kw">in</span> response.content:</span>
 <span id="cb4-3"><a aria-hidden="true" href="#cb4-3" tabindex="-1"></a>    <span class="cf">if</span> block.<span class="bu">type</span> <span class="op">==</span> <span class="st">"tool_use"</span>:</span>
@@ -282,12 +282,12 @@
 </details>
 <p><strong>第 5 步</strong>：把工具结果作为新消息追加，回到第 2 步。</p>
 <details class="code-collapse">
-<summary>查看代码</summary>
+<summary>代码</summary>
 <div class="sourceCode" id="cb5"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb5-1"><a aria-hidden="true" href="#cb5-1" tabindex="-1"></a>messages.append({<span class="st">"role"</span>: <span class="st">"user"</span>, <span class="st">"content"</span>: results})</span></code></pre></div>
 </details>
 <p>组装为一个完整函数：</p>
 <details class="code-collapse">
-<summary>查看代码</summary>
+<summary>代码</summary>
 <div class="sourceCode" id="cb6"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb6-1"><a aria-hidden="true" href="#cb6-1" tabindex="-1"></a><span class="kw">def</span> agent_loop(messages):</span>
 <span id="cb6-2"><a aria-hidden="true" href="#cb6-2" tabindex="-1"></a>    <span class="cf">while</span> <span class="va">True</span>:</span>
 <span id="cb6-3"><a aria-hidden="true" href="#cb6-3" tabindex="-1"></a>        response <span class="op">=</span> client.messages.create(</span>
@@ -345,7 +345,7 @@
 用于其他逻辑，但 query loop 本身靠 <code>needsFollowUp</code>
 决定是否继续。</p>
 <details class="code-collapse">
-<summary>查看代码</summary>
+<summary>代码</summary>
 <div class="sourceCode" id="cb9"><pre class="sourceCode typescript"><code class="sourceCode typescript"><span id="cb9-1"><a aria-hidden="true" href="#cb9-1" tabindex="-1"></a><span class="co">// query.ts:554-558</span></span>
 <span id="cb9-2"><a aria-hidden="true" href="#cb9-2" tabindex="-1"></a><span class="co">// stop_reason === 'tool_use' is unreliable.</span></span>
 <span id="cb9-3"><a aria-hidden="true" href="#cb9-3" tabindex="-1"></a><span class="co">// Set during streaming whenever a tool_use block arrives.</span></span>
@@ -484,14 +484,14 @@ token，还容易拼错。</p>
 <h2 id="从-1-个工具到-5-个工具">从 1 个工具到 5 个工具</h2>
 <p>01 只有一个 bash：</p>
 <details class="code-collapse">
-<summary>查看代码</summary>
+<summary>代码</summary>
 <div class="sourceCode" id="cb10"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb10-1"><a aria-hidden="true" href="#cb10-1" tabindex="-1"></a>TOOLS <span class="op">=</span> [{<span class="st">"name"</span>: <span class="st">"bash"</span>, ...}]</span>
 <span id="cb10-2"><a aria-hidden="true" href="#cb10-2" tabindex="-1"></a></span>
 <span id="cb10-3"><a aria-hidden="true" href="#cb10-3" tabindex="-1"></a><span class="kw">def</span> run_bash(command): ...</span></code></pre></div>
 </details>
 <p>02 加到 5 个，每个工具都是独立定义：</p>
 <details class="code-collapse">
-<summary>查看代码</summary>
+<summary>代码</summary>
 <div class="sourceCode" id="cb11"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb11-1"><a aria-hidden="true" href="#cb11-1" tabindex="-1"></a>TOOLS <span class="op">=</span> [</span>
 <span id="cb11-2"><a aria-hidden="true" href="#cb11-2" tabindex="-1"></a>    {<span class="st">"name"</span>: <span class="st">"bash"</span>,       <span class="st">"description"</span>: <span class="st">"Run a shell command."</span>, ...},</span>
 <span id="cb11-3"><a aria-hidden="true" href="#cb11-3" tabindex="-1"></a>    {<span class="st">"name"</span>: <span class="st">"read_file"</span>,  <span class="st">"description"</span>: <span class="st">"Read file contents."</span>,  ...},</span>
@@ -502,7 +502,7 @@ token，还容易拼错。</p>
 </details>
 <p>每个工具有自己的实现函数：</p>
 <details class="code-collapse">
-<summary>查看代码</summary>
+<summary>代码</summary>
 <div class="sourceCode" id="cb12"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb12-1"><a aria-hidden="true" href="#cb12-1" tabindex="-1"></a><span class="kw">def</span> run_read(path, limit<span class="op">=</span><span class="va">None</span>):</span>
 <span id="cb12-2"><a aria-hidden="true" href="#cb12-2" tabindex="-1"></a>    lines <span class="op">=</span> safe_path(path).read_text().splitlines()</span>
 <span id="cb12-3"><a aria-hidden="true" href="#cb12-3" tabindex="-1"></a>    <span class="cf">if</span> limit:</span>
@@ -527,7 +527,7 @@ token，还容易拼错。</p>
 <hr/>
 <h2 id="工具分发">工具分发</h2>
 <details class="code-collapse">
-<summary>查看代码</summary>
+<summary>代码</summary>
 <div class="sourceCode" id="cb13"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb13-1"><a aria-hidden="true" href="#cb13-1" tabindex="-1"></a>TOOL_HANDLERS <span class="op">=</span> {</span>
 <span id="cb13-2"><a aria-hidden="true" href="#cb13-2" tabindex="-1"></a>    <span class="st">"bash"</span>:       run_bash,</span>
 <span id="cb13-3"><a aria-hidden="true" href="#cb13-3" tabindex="-1"></a>    <span class="st">"read_file"</span>:  run_read,</span>
@@ -685,7 +685,7 @@ schema、验证、权限、执行。<code>getAllBaseTools()</code>
 <p>CC 的
 <code>partitionToolCalls()</code>（<code>toolOrchestration.ts:91-115</code>）不是分两组，而是把工具调用<strong>按连续块分批</strong>：</p>
 <details class="code-collapse">
-<summary>查看代码</summary>
+<summary>代码</summary>
 <pre><code>[read A, read B, glob *.py, bash "rm x", read C]
   → batch1(并发): [read A, read B, glob *.py]
   → batch2(串行): [bash "rm x"]
@@ -779,7 +779,7 @@ FileRead 的结果超过阈值被落盘，模型下次读那个落盘文件时�
 1</strong>：一张硬拒绝表，先查，命中就返回阻止信息。（教学示意：简单字符串匹配不是可靠安全机制，命令变体和
 shell 展开可能绕过。CC 的做法见附录。）</p>
 <details class="code-collapse">
-<summary>查看代码</summary>
+<summary>代码</summary>
 <div class="sourceCode" id="cb16"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb16-1"><a aria-hidden="true" href="#cb16-1" tabindex="-1"></a>DENY_LIST <span class="op">=</span> [</span>
 <span id="cb16-2"><a aria-hidden="true" href="#cb16-2" tabindex="-1"></a>    <span class="st">"rm -rf /"</span>, <span class="st">"sudo"</span>, <span class="st">"shutdown"</span>, <span class="st">"reboot"</span>,</span>
 <span id="cb16-3"><a aria-hidden="true" href="#cb16-3" tabindex="-1"></a>    <span class="st">"mkfs"</span>, <span class="st">"dd if="</span>, <span class="st">"&gt; /dev/sda"</span>,</span>
@@ -794,7 +794,7 @@ shell 展开可能绕过。CC 的做法见附录。）</p>
 <p><strong>闸门
 2</strong>：规则匹配——描述"什么时候需要问用户"。每条规则指定工具和检查条件。</p>
 <details class="code-collapse">
-<summary>查看代码</summary>
+<summary>代码</summary>
 <div class="sourceCode" id="cb17"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb17-1"><a aria-hidden="true" href="#cb17-1" tabindex="-1"></a>PERMISSION_RULES <span class="op">=</span> [</span>
 <span id="cb17-2"><a aria-hidden="true" href="#cb17-2" tabindex="-1"></a>    {</span>
 <span id="cb17-3"><a aria-hidden="true" href="#cb17-3" tabindex="-1"></a>        <span class="st">"tools"</span>: [<span class="st">"write_file"</span>, <span class="st">"edit_file"</span>],</span>
@@ -816,7 +816,7 @@ shell 展开可能绕过。CC 的做法见附录。）</p>
 </details>
 <p><strong>闸门 3</strong>：规则命中后，暂停等用户输入。</p>
 <details class="code-collapse">
-<summary>查看代码</summary>
+<summary>代码</summary>
 <div class="sourceCode" id="cb18"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb18-1"><a aria-hidden="true" href="#cb18-1" tabindex="-1"></a><span class="kw">def</span> ask_user(tool_name: <span class="bu">str</span>, args: <span class="bu">dict</span>, reason: <span class="bu">str</span>) <span class="op">-&gt;</span> <span class="bu">str</span>:</span>
 <span id="cb18-2"><a aria-hidden="true" href="#cb18-2" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">⚠  </span><span class="sc">{</span>reason<span class="sc">}</span><span class="ss">"</span>)</span>
 <span id="cb18-3"><a aria-hidden="true" href="#cb18-3" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"   Tool: </span><span class="sc">{</span>tool_name<span class="sc">}</span><span class="ss">(</span><span class="sc">{</span>args<span class="sc">}</span><span class="ss">)"</span>)</span>
@@ -825,7 +825,7 @@ shell 展开可能绕过。CC 的做法见附录。）</p>
 </details>
 <p><strong>三道闸门串在一起</strong>，插在工具执行之前：</p>
 <details class="code-collapse">
-<summary>查看代码</summary>
+<summary>代码</summary>
 <div class="sourceCode" id="cb19"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb19-1"><a aria-hidden="true" href="#cb19-1" tabindex="-1"></a><span class="kw">def</span> check_permission(block) <span class="op">-&gt;</span> <span class="bu">bool</span>:</span>
 <span id="cb19-2"><a aria-hidden="true" href="#cb19-2" tabindex="-1"></a>    <span class="co"># 闸门 1: 硬拒绝</span></span>
 <span id="cb19-3"><a aria-hidden="true" href="#cb19-3" tabindex="-1"></a>    <span class="cf">if</span> block.name <span class="op">==</span> <span class="st">"bash"</span>:</span>
@@ -1057,7 +1057,7 @@ Agent 的终端</strong>，而不是在子 Agent 里静默拒绝。Bash
 调用"、"操作后自动 git add"，都要修改 <code>agent_loop</code> 函数。</p>
 <p>循环很快就变成了这样：</p>
 <details class="code-collapse">
-<summary>查看代码</summary>
+<summary>代码</summary>
 <div class="sourceCode" id="cb21"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb21-1"><a aria-hidden="true" href="#cb21-1" tabindex="-1"></a><span class="kw">def</span> agent_loop(messages):</span>
 <span id="cb21-2"><a aria-hidden="true" href="#cb21-2" tabindex="-1"></a>    <span class="cf">while</span> <span class="va">True</span>:</span>
 <span id="cb21-3"><a aria-hidden="true" href="#cb21-3" tabindex="-1"></a>        <span class="co"># ... LLM call ...</span></span>
@@ -1117,7 +1117,7 @@ Agent 的终端</strong>，而不是在子 Agent 里静默拒绝。Bash
 <h2 id="工作原理-2">工作原理</h2>
 <p><strong>hook 注册表</strong>：一个字典，事件名映射到回调列表。</p>
 <details class="code-collapse">
-<summary>查看代码</summary>
+<summary>代码</summary>
 <div class="sourceCode" id="cb22"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb22-1"><a aria-hidden="true" href="#cb22-1" tabindex="-1"></a>HOOKS <span class="op">=</span> {</span>
 <span id="cb22-2"><a aria-hidden="true" href="#cb22-2" tabindex="-1"></a>    <span class="st">"UserPromptSubmit"</span>: [],</span>
 <span id="cb22-3"><a aria-hidden="true" href="#cb22-3" tabindex="-1"></a>    <span class="st">"PreToolUse"</span>: [],</span>
@@ -1141,7 +1141,7 @@ None 返回值会强制续跑。UserPromptSubmit 和 PostToolUse
 <p><strong>UserPromptSubmit</strong>，用户输入提交后、进入 LLM
 前触发。CC 中可以拦截或修改输入，教学版只做日志演示：</p>
 <details class="code-collapse">
-<summary>查看代码</summary>
+<summary>代码</summary>
 <div class="sourceCode" id="cb23"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb23-1"><a aria-hidden="true" href="#cb23-1" tabindex="-1"></a><span class="kw">def</span> context_inject_hook(query: <span class="bu">str</span>) <span class="op">-&gt;</span> <span class="bu">str</span> <span class="op">|</span> <span class="va">None</span>:</span>
 <span id="cb23-2"><a aria-hidden="true" href="#cb23-2" tabindex="-1"></a>    <span class="co">"""Inject current working directory info into every prompt."""</span></span>
 <span id="cb23-3"><a aria-hidden="true" href="#cb23-3" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\033</span><span class="ss">[90m[HOOK] UserPromptSubmit: working in </span><span class="sc">{</span>WORKDIR<span class="sc">}</span><span class="ch">\033</span><span class="ss">[0m"</span>)</span>
@@ -1151,7 +1151,7 @@ None 返回值会强制续跑。UserPromptSubmit 和 PostToolUse
 </details>
 <p>在主循环中，用户输入后立即触发：</p>
 <details class="code-collapse">
-<summary>查看代码</summary>
+<summary>代码</summary>
 <div class="sourceCode" id="cb24"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb24-1"><a aria-hidden="true" href="#cb24-1" tabindex="-1"></a>query <span class="op">=</span> <span class="bu">input</span>(<span class="st">"s04 &gt;&gt; "</span>)</span>
 <span id="cb24-2"><a aria-hidden="true" href="#cb24-2" tabindex="-1"></a>trigger_hooks(<span class="st">"UserPromptSubmit"</span>, query)   <span class="co"># ← 进入 LLM 之前</span></span>
 <span id="cb24-3"><a aria-hidden="true" href="#cb24-3" tabindex="-1"></a>history.append({<span class="st">"role"</span>: <span class="st">"user"</span>, <span class="st">"content"</span>: query})</span>
@@ -1161,7 +1161,7 @@ None 返回值会强制续跑。UserPromptSubmit 和 PostToolUse
 的权限检查逻辑现在包装成 PreToolUse hook，再加一个日志 hook
 和一个大输出提醒：</p>
 <details class="code-collapse">
-<summary>查看代码</summary>
+<summary>代码</summary>
 <div class="sourceCode" id="cb25"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb25-1"><a aria-hidden="true" href="#cb25-1" tabindex="-1"></a><span class="co"># PreToolUse: 权限检查（s03 的逻辑，从循环移到 hook）</span></span>
 <span id="cb25-2"><a aria-hidden="true" href="#cb25-2" tabindex="-1"></a><span class="kw">def</span> permission_hook(block):</span>
 <span id="cb25-3"><a aria-hidden="true" href="#cb25-3" tabindex="-1"></a>    <span class="cf">if</span> block.name <span class="op">==</span> <span class="st">"bash"</span>:</span>
@@ -1191,7 +1191,7 @@ None 返回值会强制续跑。UserPromptSubmit 和 PostToolUse
 </details>
 <p><strong>Stop</strong>，循环即将退出时触发（<code>stop_reason != "tool_use"</code>）。教学版用于打印收尾统计：</p>
 <details class="code-collapse">
-<summary>查看代码</summary>
+<summary>代码</summary>
 <div class="sourceCode" id="cb26"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb26-1"><a aria-hidden="true" href="#cb26-1" tabindex="-1"></a><span class="kw">def</span> summary_hook(messages: <span class="bu">list</span>) <span class="op">-&gt;</span> <span class="bu">str</span> <span class="op">|</span> <span class="va">None</span>:</span>
 <span id="cb26-2"><a aria-hidden="true" href="#cb26-2" tabindex="-1"></a>    <span class="co">"""Print a summary when the loop is about to stop."""</span></span>
 <span id="cb26-3"><a aria-hidden="true" href="#cb26-3" tabindex="-1"></a>    tool_count <span class="op">=</span> <span class="bu">sum</span>(<span class="dv">1</span> <span class="cf">for</span> m <span class="kw">in</span> messages</span>
@@ -1204,7 +1204,7 @@ None 返回值会强制续跑。UserPromptSubmit 和 PostToolUse
 </details>
 <p>在 agent_loop 中，退出前触发：</p>
 <details class="code-collapse">
-<summary>查看代码</summary>
+<summary>代码</summary>
 <div class="sourceCode" id="cb27"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb27-1"><a aria-hidden="true" href="#cb27-1" tabindex="-1"></a><span class="cf">if</span> response.stop_reason <span class="op">!=</span> <span class="st">"tool_use"</span>:</span>
 <span id="cb27-2"><a aria-hidden="true" href="#cb27-2" tabindex="-1"></a>    force <span class="op">=</span> trigger_hooks(<span class="st">"Stop"</span>, messages)   <span class="co"># ← 退出之前</span></span>
 <span id="cb27-3"><a aria-hidden="true" href="#cb27-3" tabindex="-1"></a>    <span class="cf">if</span> force:</span>
@@ -1217,7 +1217,7 @@ None 返回值会强制续跑。UserPromptSubmit 和 PostToolUse
 <code>check_permission(block)</code>，04 改为
 <code>trigger_hooks("PreToolUse", block)</code>：</p>
 <details class="code-collapse">
-<summary>查看代码</summary>
+<summary>代码</summary>
 <div class="sourceCode" id="cb28"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb28-1"><a aria-hidden="true" href="#cb28-1" tabindex="-1"></a><span class="cf">for</span> block <span class="kw">in</span> response.content:</span>
 <span id="cb28-2"><a aria-hidden="true" href="#cb28-2" tabindex="-1"></a>    <span class="cf">if</span> block.<span class="bu">type</span> <span class="op">!=</span> <span class="st">"tool_use"</span>:</span>
 <span id="cb28-3"><a aria-hidden="true" href="#cb28-3" tabindex="-1"></a>        <span class="cf">continue</span></span>
@@ -1481,7 +1481,7 @@ reminder，循环里加了一个计数器：连续 3 轮没调 <code>todo_write<
 <p><strong>todo_write
 工具</strong>，接收一个带状态的列表，保存在当前进程内存中，同时在终端显示进度：</p>
 <details class="code-collapse">
-<summary>查看代码</summary>
+<summary>代码</summary>
 <div class="sourceCode" id="cb30"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb30-1"><a aria-hidden="true" href="#cb30-1" tabindex="-1"></a>CURRENT_TODOS: <span class="bu">list</span>[<span class="bu">dict</span>] <span class="op">=</span> []</span>
 <span id="cb30-2"><a aria-hidden="true" href="#cb30-2" tabindex="-1"></a></span>
 <span id="cb30-3"><a aria-hidden="true" href="#cb30-3" tabindex="-1"></a><span class="kw">def</span> run_todo_write(todos: <span class="bu">list</span>) <span class="op">-&gt;</span> <span class="bu">str</span>:</span>
@@ -1497,7 +1497,7 @@ reminder，循环里加了一个计数器：连续 3 轮没调 <code>todo_write<
 </details>
 <p>工具定义和其他 5 个工具一起加入 dispatch map：</p>
 <details class="code-collapse">
-<summary>查看代码</summary>
+<summary>代码</summary>
 <div class="sourceCode" id="cb31"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb31-1"><a aria-hidden="true" href="#cb31-1" tabindex="-1"></a>TOOLS <span class="op">=</span> [</span>
 <span id="cb31-2"><a aria-hidden="true" href="#cb31-2" tabindex="-1"></a>    {<span class="st">"name"</span>: <span class="st">"bash"</span>,       ...},</span>
 <span id="cb31-3"><a aria-hidden="true" href="#cb31-3" tabindex="-1"></a>    {<span class="st">"name"</span>: <span class="st">"read_file"</span>,  ...},</span>
@@ -1530,7 +1530,7 @@ reminder，循环里加了一个计数器：连续 3 轮没调 <code>todo_write<
 <code>todo_write</code> 时，自动注入一条提醒（教学版机制，CC
 源码中没有这个固定轮数逻辑）：</p>
 <details class="code-collapse">
-<summary>查看代码</summary>
+<summary>代码</summary>
 <div class="sourceCode" id="cb32"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb32-1"><a aria-hidden="true" href="#cb32-1" tabindex="-1"></a><span class="cf">if</span> rounds_since_todo <span class="op">&gt;=</span> <span class="dv">3</span> <span class="kw">and</span> messages:</span>
 <span id="cb32-2"><a aria-hidden="true" href="#cb32-2" tabindex="-1"></a>    messages.append({</span>
 <span id="cb32-3"><a aria-hidden="true" href="#cb32-3" tabindex="-1"></a>        <span class="st">"role"</span>: <span class="st">"user"</span>,</span>
@@ -1657,7 +1657,7 @@ hook，安全策略不因上下文隔离而跳过。</p>
 <p><strong>spawn_subagent</strong>，给子 Agent 一个全新的 messages
 列表，跑自己的循环，只回传结论：</p>
 <details class="code-collapse">
-<summary>查看代码</summary>
+<summary>代码</summary>
 <div class="sourceCode" id="cb34"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb34-1"><a aria-hidden="true" href="#cb34-1" tabindex="-1"></a><span class="kw">def</span> spawn_subagent(description: <span class="bu">str</span>) <span class="op">-&gt;</span> <span class="bu">str</span>:</span>
 <span id="cb34-2"><a aria-hidden="true" href="#cb34-2" tabindex="-1"></a>    <span class="co"># 子 Agent 的工具：基础工具，但没有 task（禁止递归）</span></span>
 <span id="cb34-3"><a aria-hidden="true" href="#cb34-3" tabindex="-1"></a>    sub_tools <span class="op">=</span> [</span>
@@ -1693,7 +1693,7 @@ hook，安全策略不因上下文隔离而跳过。</p>
 </details>
 <p>主 Agent 调用时，跟调其他工具一样：</p>
 <details class="code-collapse">
-<summary>查看代码</summary>
+<summary>代码</summary>
 <div class="sourceCode" id="cb35"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb35-1"><a aria-hidden="true" href="#cb35-1" tabindex="-1"></a>TOOLS <span class="op">=</span> [</span>
 <span id="cb35-2"><a aria-hidden="true" href="#cb35-2" tabindex="-1"></a>    {<span class="st">"name"</span>: <span class="st">"bash"</span>, ...},</span>
 <span id="cb35-3"><a aria-hidden="true" href="#cb35-3" tabindex="-1"></a>    {<span class="st">"name"</span>: <span class="st">"read_file"</span>, ...},</span>
@@ -1910,7 +1910,7 @@ async、coordinator/proactive 等路径。</p>
 设计文档。你希望 Agent 自动遵守这些规范。最直接的想法，全塞进 system
 prompt：</p>
 <details class="code-collapse">
-<summary>查看代码</summary>
+<summary>代码</summary>
 <div class="sourceCode" id="cb37"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb37-1"><a aria-hidden="true" href="#cb37-1" tabindex="-1"></a>SYSTEM <span class="op">=</span> (</span>
 <span id="cb37-2"><a aria-hidden="true" href="#cb37-2" tabindex="-1"></a>    <span class="ss">f"You are a coding agent. "</span></span>
 <span id="cb37-3"><a aria-hidden="true" href="#cb37-3" tabindex="-1"></a>    <span class="op">+</span> <span class="bu">open</span>(<span class="st">"docs/react-style.md"</span>).read()       <span class="co"># 2000 行</span></span>
@@ -1959,7 +1959,7 @@ prompt，运行时多注册一个工具加载完整内容，用到才花 token�
 <p><strong>skills/ 目录</strong>，每个技能一个子目录，包含
 <code>SKILL.md</code> 文件：</p>
 <details class="code-collapse">
-<summary>查看代码</summary>
+<summary>代码</summary>
 <pre><code>skills/
   agent-builder/SKILL.md
   code-review/SKILL.md
@@ -1973,7 +1973,7 @@ frontmatter（<code>name</code>、<code>description</code>），存入
 从注册表生成目录，注入 SYSTEM prompt。Agent
 每轮都能看到"我有哪些技能可用"，不花额外 API 调用：</p>
 <details class="code-collapse">
-<summary>查看代码</summary>
+<summary>代码</summary>
 <div class="sourceCode" id="cb39"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb39-1"><a aria-hidden="true" href="#cb39-1" tabindex="-1"></a>SKILL_REGISTRY: <span class="bu">dict</span>[<span class="bu">str</span>, <span class="bu">dict</span>] <span class="op">=</span> {}</span>
 <span id="cb39-2"><a aria-hidden="true" href="#cb39-2" tabindex="-1"></a></span>
 <span id="cb39-3"><a aria-hidden="true" href="#cb39-3" tabindex="-1"></a><span class="kw">def</span> _scan_skills():</span>
@@ -2010,7 +2010,7 @@ frontmatter（<code>name</code>、<code>description</code>），存入
 <code>load_skill("sql-style")</code>。通过注册表查找，不走文件路径，没有路径遍历风险。内容通过
 <code>tool_result</code> 注入：</p>
 <details class="code-collapse">
-<summary>查看代码</summary>
+<summary>代码</summary>
 <div class="sourceCode" id="cb40"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb40-1"><a aria-hidden="true" href="#cb40-1" tabindex="-1"></a><span class="kw">def</span> load_skill(name: <span class="bu">str</span>) <span class="op">-&gt;</span> <span class="bu">str</span>:</span>
 <span id="cb40-2"><a aria-hidden="true" href="#cb40-2" tabindex="-1"></a>    skill <span class="op">=</span> SKILL_REGISTRY.get(name)</span>
 <span id="cb40-3"><a aria-hidden="true" href="#cb40-3" tabindex="-1"></a>    <span class="cf">if</span> <span class="kw">not</span> skill:</span>
@@ -2199,7 +2199,7 @@ API），API 报错时应急裁剪。</p>
 <p>消息数超过 50 条 → 保留头部 3 条（初始上下文）和尾部 47
 条（当前工作），中间裁掉：</p>
 <details class="code-collapse">
-<summary>查看代码</summary>
+<summary>代码</summary>
 <div class="sourceCode" id="cb42"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb42-1"><a aria-hidden="true" href="#cb42-1" tabindex="-1"></a><span class="kw">def</span> snip_compact(messages, max_messages<span class="op">=</span><span class="dv">50</span>):</span>
 <span id="cb42-2"><a aria-hidden="true" href="#cb42-2" tabindex="-1"></a>    <span class="cf">if</span> <span class="bu">len</span>(messages) <span class="op">&lt;=</span> max_messages:</span>
 <span id="cb42-3"><a aria-hidden="true" href="#cb42-3" tabindex="-1"></a>        <span class="cf">return</span> messages</span>
@@ -2219,7 +2219,7 @@ API），API 报错时应急裁剪。</p>
 <p>只保留最近 3 条 <code>tool_result</code>
 的完整内容，更旧的替换为一行占位符：</p>
 <details class="code-collapse">
-<summary>查看代码</summary>
+<summary>代码</summary>
 <div class="sourceCode" id="cb43"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb43-1"><a aria-hidden="true" href="#cb43-1" tabindex="-1"></a>KEEP_RECENT_TOOL_RESULTS <span class="op">=</span> <span class="dv">3</span></span>
 <span id="cb43-2"><a aria-hidden="true" href="#cb43-2" tabindex="-1"></a></span>
 <span id="cb43-3"><a aria-hidden="true" href="#cb43-3" tabindex="-1"></a><span class="kw">def</span> micro_compact(messages):</span>
@@ -2244,7 +2244,7 @@ API），API 报错时应急裁剪。</p>
 <code>&lt;persisted-output&gt;</code> 标记 + 前 2000
 字符预览。模型看到标记后知道完整内容在磁盘上，需要时可以重新读。</p>
 <details class="code-collapse">
-<summary>查看代码</summary>
+<summary>代码</summary>
 <div class="sourceCode" id="cb44"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb44-1"><a aria-hidden="true" href="#cb44-1" tabindex="-1"></a><span class="kw">def</span> tool_result_budget(messages, max_bytes<span class="op">=</span><span class="dv">200_000</span>):</span>
 <span id="cb44-2"><a aria-hidden="true" href="#cb44-2" tabindex="-1"></a>    last <span class="op">=</span> messages[<span class="op">-</span><span class="dv">1</span>]</span>
 <span id="cb44-3"><a aria-hidden="true" href="#cb44-3" tabindex="-1"></a>    blocks <span class="op">=</span> [(i, b) <span class="cf">for</span> i, b <span class="kw">in</span> <span class="bu">enumerate</span>(last[<span class="st">"content"</span>])</span>
@@ -2280,7 +2280,7 @@ Claude Code 会在 compact 后重新附加部分最近文件、计划、agent/sk
 等上下文。</li>
 </ol>
 <details class="code-collapse">
-<summary>查看代码</summary>
+<summary>代码</summary>
 <div class="sourceCode" id="cb45"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb45-1"><a aria-hidden="true" href="#cb45-1" tabindex="-1"></a><span class="kw">def</span> compact_history(messages):</span>
 <span id="cb45-2"><a aria-hidden="true" href="#cb45-2" tabindex="-1"></a>    transcript_path <span class="op">=</span> write_transcript(messages)  <span class="co"># 先保存完整对话</span></span>
 <span id="cb45-3"><a aria-hidden="true" href="#cb45-3" tabindex="-1"></a>    summary <span class="op">=</span> summarize_history(messages)          <span class="co"># LLM 生成摘要</span></span>
@@ -2296,7 +2296,7 @@ Claude Code 会在 compact 后重新附加部分最近文件、计划、agent/sk
 更激进，从尾部回退，以字节级精度裁剪到 API 可接受的大小，只保留最后 5
 条消息 + 摘要。</p>
 <details class="code-collapse">
-<summary>查看代码</summary>
+<summary>代码</summary>
 <div class="sourceCode" id="cb46"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb46-1"><a aria-hidden="true" href="#cb46-1" tabindex="-1"></a><span class="kw">def</span> reactive_compact(messages):</span>
 <span id="cb46-2"><a aria-hidden="true" href="#cb46-2" tabindex="-1"></a>    transcript <span class="op">=</span> write_transcript(messages)</span>
 <span id="cb46-3"><a aria-hidden="true" href="#cb46-3" tabindex="-1"></a>    summary <span class="op">=</span> summarize_history(messages)</span>
@@ -2308,7 +2308,7 @@ Claude Code 会在 compact 后重新附加部分最近文件、计划、agent/sk
 次）。再失败就抛出异常，不无限循环。完整的错误恢复逻辑留给 11。</p>
 <h3 id="合起来跑">合起来跑</h3>
 <details class="code-collapse">
-<summary>查看代码</summary>
+<summary>代码</summary>
 <div class="sourceCode" id="cb47"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb47-1"><a aria-hidden="true" href="#cb47-1" tabindex="-1"></a><span class="kw">def</span> agent_loop(messages):</span>
 <span id="cb47-2"><a aria-hidden="true" href="#cb47-2" tabindex="-1"></a>    reactive_retries <span class="op">=</span> <span class="dv">0</span></span>
 <span id="cb47-3"><a aria-hidden="true" href="#cb47-3" tabindex="-1"></a>    <span class="cf">while</span> <span class="va">True</span>:</span>
@@ -2645,7 +2645,7 @@ cache）。写入由每轮结束后的提取器完成：用户显式说"记住"�
 <p>每个记忆是一个 <code>.md</code> 文件，YAML frontmatter
 记录元数据：</p>
 <details class="code-collapse">
-<summary>查看代码</summary>
+<summary>代码</summary>
 <div class="sourceCode" id="cb49"><pre class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb49-1"><a aria-hidden="true" href="#cb49-1" tabindex="-1"></a><span class="co">---</span></span>
 <span id="cb49-2"><a aria-hidden="true" href="#cb49-2" tabindex="-1"></a><span class="an">name:</span><span class="co"> user-preference-tabs</span></span>
 <span id="cb49-3"><a aria-hidden="true" href="#cb49-3" tabindex="-1"></a><span class="an">description:</span><span class="co"> User prefers tabs for indentation</span></span>
@@ -2658,12 +2658,12 @@ cache）。写入由每轮结束后的提取器完成：用户显式说"记住"�
 </details>
 <p><code>MEMORY.md</code> 是索引，一行一个链接：</p>
 <details class="code-collapse">
-<summary>查看代码</summary>
+<summary>代码</summary>
 <div class="sourceCode" id="cb50"><pre class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb50-1"><a aria-hidden="true" href="#cb50-1" tabindex="-1"></a><span class="ss">- </span><span class="co">[</span><span class="ot">user-preference-tabs</span><span class="co">](user-preference-tabs.md)</span> — User prefers tabs for indentation</span></code></pre></div>
 </details>
 <p>写入新记忆时自动重建索引：</p>
 <details class="code-collapse">
-<summary>查看代码</summary>
+<summary>代码</summary>
 <div class="sourceCode" id="cb51"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb51-1"><a aria-hidden="true" href="#cb51-1" tabindex="-1"></a><span class="kw">def</span> write_memory_file(name, mem_type, description, body):</span>
 <span id="cb51-2"><a aria-hidden="true" href="#cb51-2" tabindex="-1"></a>    slug <span class="op">=</span> name.lower().replace(<span class="st">" "</span>, <span class="st">"-"</span>)</span>
 <span id="cb51-3"><a aria-hidden="true" href="#cb51-3" tabindex="-1"></a>    filepath <span class="op">=</span> MEMORY_DIR <span class="op">/</span> <span class="ss">f"</span><span class="sc">{</span>slug<span class="sc">}</span><span class="ss">.md"</span></span>
@@ -2683,7 +2683,7 @@ description）一起发给 LLM 做一次轻量
 side-query，选出相关的文件名，再读文件内容临时注入到当前 user turn。最多
 5 条，控制开销。</p>
 <details class="code-collapse">
-<summary>查看代码</summary>
+<summary>代码</summary>
 <div class="sourceCode" id="cb52"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb52-1"><a aria-hidden="true" href="#cb52-1" tabindex="-1"></a><span class="kw">def</span> select_relevant_memories(messages, max_items<span class="op">=</span><span class="dv">5</span>):</span>
 <span id="cb52-2"><a aria-hidden="true" href="#cb52-2" tabindex="-1"></a>    files <span class="op">=</span> list_memory_files()</span>
 <span id="cb52-3"><a aria-hidden="true" href="#cb52-3" tabindex="-1"></a>    <span class="cf">if</span> <span class="kw">not</span> files:</span>
@@ -2709,7 +2709,7 @@ name + description。</p>
 在每轮结束时运行，条件是模型停止且没有
 tool_use（说明对话告一段落）：</p>
 <details class="code-collapse">
-<summary>查看代码</summary>
+<summary>代码</summary>
 <div class="sourceCode" id="cb53"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb53-1"><a aria-hidden="true" href="#cb53-1" tabindex="-1"></a><span class="co"># In agent_loop:</span></span>
 <span id="cb53-2"><a aria-hidden="true" href="#cb53-2" tabindex="-1"></a><span class="cf">if</span> response.stop_reason <span class="op">!=</span> <span class="st">"tool_use"</span>:</span>
 <span id="cb53-3"><a aria-hidden="true" href="#cb53-3" tabindex="-1"></a>    extract_memories(pre_compress)   <span class="co"># 从压缩前快照提取新记忆</span></span>
@@ -2720,7 +2720,7 @@ tool_use（说明对话告一段落）：</p>
 <code>{name, type, description, body}</code> 的 JSON
 数组，只有确实有新信息时才写文件。</p>
 <details class="code-collapse">
-<summary>查看代码</summary>
+<summary>代码</summary>
 <div class="sourceCode" id="cb54"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb54-1"><a aria-hidden="true" href="#cb54-1" tabindex="-1"></a><span class="kw">def</span> extract_memories(messages):</span>
 <span id="cb54-2"><a aria-hidden="true" href="#cb54-2" tabindex="-1"></a>    dialogue <span class="op">=</span> format_recent_messages(messages[<span class="op">-</span><span class="dv">10</span>:])</span>
 <span id="cb54-3"><a aria-hidden="true" href="#cb54-3" tabindex="-1"></a>    existing <span class="op">=</span> <span class="st">"</span><span class="ch">\n</span><span class="st">"</span>.join(<span class="ss">f"- </span><span class="sc">{</span>m[<span class="st">'name'</span>]<span class="sc">}</span><span class="ss">: </span><span class="sc">{</span>m[<span class="st">'description'</span>]<span class="sc">}</span><span class="ss">"</span> <span class="cf">for</span> m <span class="kw">in</span> list_memory_files())</span>
@@ -2738,7 +2738,7 @@ tool_use（说明对话告一段落）：</p>
 在文件数达到阈值（默认 10）时触发，让 LLM
 去重、合并矛盾、淘汰过时记忆：</p>
 <details class="code-collapse">
-<summary>查看代码</summary>
+<summary>代码</summary>
 <div class="sourceCode" id="cb55"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb55-1"><a aria-hidden="true" href="#cb55-1" tabindex="-1"></a>CONSOLIDATE_THRESHOLD <span class="op">=</span> <span class="dv">10</span></span>
 <span id="cb55-2"><a aria-hidden="true" href="#cb55-2" tabindex="-1"></a></span>
 <span id="cb55-3"><a aria-hidden="true" href="#cb55-3" tabindex="-1"></a><span class="kw">def</span> consolidate_memories():</span>
@@ -3016,13 +3016,13 @@ TTL，避免每次都重写 system prompt 的大段内容</li>
 <h2 id="问题-8">问题</h2>
 <p>从 01 到 09，system prompt 都是一行硬编码：</p>
 <details class="code-collapse">
-<summary>查看代码</summary>
+<summary>代码</summary>
 <div class="sourceCode" id="cb57"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb57-1"><a aria-hidden="true" href="#cb57-1" tabindex="-1"></a>SYSTEM <span class="op">=</span> <span class="ss">f"You are a coding agent at </span><span class="sc">{</span>WORKDIR<span class="sc">}</span><span class="ss">. Use tools to solve tasks."</span></span></code></pre></div>
 </details>
 <p>01 够用，只有 bash、read、write 三个工具。但到 09，Agent
 已经有记忆、有压缩、有技能加载。prompt 该提的能力越来越多：</p>
 <details class="code-collapse">
-<summary>查看代码</summary>
+<summary>代码</summary>
 <div class="sourceCode" id="cb58"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb58-1"><a aria-hidden="true" href="#cb58-1" tabindex="-1"></a>SYSTEM <span class="op">=</span> (</span>
 <span id="cb58-2"><a aria-hidden="true" href="#cb58-2" tabindex="-1"></a>    <span class="ss">f"You are a coding agent at </span><span class="sc">{</span>WORKDIR<span class="sc">}</span><span class="ss">. "</span></span>
 <span id="cb58-3"><a aria-hidden="true" href="#cb58-3" tabindex="-1"></a>    <span class="st">"Use tools to solve tasks. Act, don't explain. "</span></span>
@@ -3094,7 +3094,7 @@ prompt cache。</p>
 <h3 id="prompt_sections-分段定义">PROMPT_SECTIONS: 分段定义</h3>
 <p>把一大段字符串拆成字典，每个 key 是一个主题：</p>
 <details class="code-collapse">
-<summary>查看代码</summary>
+<summary>代码</summary>
 <div class="sourceCode" id="cb59"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb59-1"><a aria-hidden="true" href="#cb59-1" tabindex="-1"></a>PROMPT_SECTIONS <span class="op">=</span> {</span>
 <span id="cb59-2"><a aria-hidden="true" href="#cb59-2" tabindex="-1"></a>    <span class="st">"identity"</span>: <span class="st">"You are a coding agent. Act, don't explain."</span>,</span>
 <span id="cb59-3"><a aria-hidden="true" href="#cb59-3" tabindex="-1"></a>    <span class="st">"tools"</span>: <span class="st">"Available tools: bash, read_file, write_file."</span>,</span>
@@ -3110,7 +3110,7 @@ prompt cache。</p>
 <p>不是所有 section 每次都需要。当前没有记忆文件，加载 memory section
 只是浪费 token。根据 context 的真实状态决定加载哪些：</p>
 <details class="code-collapse">
-<summary>查看代码</summary>
+<summary>代码</summary>
 <div class="sourceCode" id="cb60"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb60-1"><a aria-hidden="true" href="#cb60-1" tabindex="-1"></a><span class="kw">def</span> assemble_system_prompt(context: <span class="bu">dict</span>) <span class="op">-&gt;</span> <span class="bu">str</span>:</span>
 <span id="cb60-2"><a aria-hidden="true" href="#cb60-2" tabindex="-1"></a>    sections <span class="op">=</span> []</span>
 <span id="cb60-3"><a aria-hidden="true" href="#cb60-3" tabindex="-1"></a></span>
@@ -3134,7 +3134,7 @@ prompt cache。</p>
 <p>上下文没变时（同一轮对话的多次 LLM 调用，context
 相同），重新拼接是浪费。用确定性序列化检测变化，命中缓存直接返回：</p>
 <details class="code-collapse">
-<summary>查看代码</summary>
+<summary>代码</summary>
 <div class="sourceCode" id="cb61"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb61-1"><a aria-hidden="true" href="#cb61-1" tabindex="-1"></a><span class="kw">def</span> get_system_prompt(context: <span class="bu">dict</span>) <span class="op">-&gt;</span> <span class="bu">str</span>:</span>
 <span id="cb61-2"><a aria-hidden="true" href="#cb61-2" tabindex="-1"></a>    <span class="kw">global</span> _last_context_key, _last_prompt</span>
 <span id="cb61-3"><a aria-hidden="true" href="#cb61-3" tabindex="-1"></a>    key <span class="op">=</span> json.dumps(context, sort_keys<span class="op">=</span><span class="va">True</span>, ensure_ascii<span class="op">=</span><span class="va">False</span>, default<span class="op">=</span><span class="bu">str</span>)</span>
@@ -3156,7 +3156,7 @@ cache，不因动态内容变化而失效。</p>
 真实状态，不是关键词猜测</h3>
 <p>context 反映当前运行态的真实状态：</p>
 <details class="code-collapse">
-<summary>查看代码</summary>
+<summary>代码</summary>
 <div class="sourceCode" id="cb62"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb62-1"><a aria-hidden="true" href="#cb62-1" tabindex="-1"></a><span class="kw">def</span> update_context(context: <span class="bu">dict</span>, messages: <span class="bu">list</span>) <span class="op">-&gt;</span> <span class="bu">dict</span>:</span>
 <span id="cb62-2"><a aria-hidden="true" href="#cb62-2" tabindex="-1"></a>    memories <span class="op">=</span> <span class="st">""</span></span>
 <span id="cb62-3"><a aria-hidden="true" href="#cb62-3" tabindex="-1"></a>    <span class="cf">if</span> MEMORY_INDEX.exists():</span>
@@ -3174,7 +3174,7 @@ cache，不因动态内容变化而失效。</p>
 加载基于这些真实状态，不在消息里搜关键词。</p>
 <h3 id="合起来跑-1">合起来跑</h3>
 <details class="code-collapse">
-<summary>查看代码</summary>
+<summary>代码</summary>
 <div class="sourceCode" id="cb63"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb63-1"><a aria-hidden="true" href="#cb63-1" tabindex="-1"></a><span class="kw">def</span> agent_loop(messages: <span class="bu">list</span>, context: <span class="bu">dict</span>):</span>
 <span id="cb63-2"><a aria-hidden="true" href="#cb63-2" tabindex="-1"></a>    system <span class="op">=</span> get_system_prompt(context)</span>
 <span id="cb63-3"><a aria-hidden="true" href="#cb63-3" tabindex="-1"></a>    <span class="cf">while</span> <span class="va">True</span>:</span>
@@ -3257,7 +3257,7 @@ section</strong>（按状态加载）：session_guidance、memory、ant_model_ov
 server 可以在轮次间连接和断开。</p>
 <h3 id="组装函数">组装函数</h3>
 <details class="code-collapse">
-<summary>查看代码</summary>
+<summary>代码</summary>
 <div class="sourceCode" id="cb65"><pre class="sourceCode typescript"><code class="sourceCode typescript"><span id="cb65-1"><a aria-hidden="true" href="#cb65-1" tabindex="-1"></a><span class="fu">getSystemPrompt</span>(tools<span class="op">,</span> model<span class="op">,</span> additionalWorkingDirs<span class="op">?,</span> mcpClients<span class="op">?</span>)<span class="op">:</span> <span class="bu">Promise</span><span class="op">&lt;</span><span class="dt">string</span>[]<span class="op">&gt;</span></span></code></pre></div>
 </details>
 <p>返回 <code>string[]</code>（每个元素是一个 section），由
@@ -3334,7 +3334,7 @@ token、压缩上下文、切换模型。</p>
 <h2 id="问题-9">问题</h2>
 <p>Agent 跑着跑着报错了：</p>
 <details class="code-collapse">
-<summary>查看代码</summary>
+<summary>代码</summary>
 <pre><code>Error: 529 overloaded</code></pre>
 </details>
 <p>Agent 崩溃了。它没有重试，没有换模型，没有减少上下文——直接崩溃。</p>
@@ -3389,7 +3389,7 @@ messages，保持原始请求不变。如果 64K
 还是不够，才保存截断输出并注入续写提示让模型接着刚才的话继续说，最多 3
 次：</p>
 <details class="code-collapse">
-<summary>查看代码</summary>
+<summary>代码</summary>
 <div class="sourceCode" id="cb67"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb67-1"><a aria-hidden="true" href="#cb67-1" tabindex="-1"></a><span class="cf">if</span> response.stop_reason <span class="op">==</span> <span class="st">"max_tokens"</span>:</span>
 <span id="cb67-2"><a aria-hidden="true" href="#cb67-2" tabindex="-1"></a>    <span class="co"># First escalation: don't append truncated output, retry same request</span></span>
 <span id="cb67-3"><a aria-hidden="true" href="#cb67-3" tabindex="-1"></a>    <span class="cf">if</span> <span class="kw">not</span> state.has_escalated:</span>
@@ -3417,7 +3417,7 @@ messages，保持原始请求不变。如果 64K
 条消息模拟压缩效果；真实实现会调用 LLM 生成 compact
 摘要再重试。压缩后重试。但如果压缩过一次还是超限，只能退出——再压缩也不会变小：</p>
 <details class="code-collapse">
-<summary>查看代码</summary>
+<summary>代码</summary>
 <div class="sourceCode" id="cb68"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb68-1"><a aria-hidden="true" href="#cb68-1" tabindex="-1"></a><span class="cf">except</span> PromptTooLongError:</span>
 <span id="cb68-2"><a aria-hidden="true" href="#cb68-2" tabindex="-1"></a>    <span class="cf">if</span> <span class="kw">not</span> state.has_attempted_reactive_compact:</span>
 <span id="cb68-3"><a aria-hidden="true" href="#cb68-3" tabindex="-1"></a>        messages[:] <span class="op">=</span> reactive_compact(messages)</span>
@@ -3432,7 +3432,7 @@ messages，保持原始请求不变。如果 64K
 次。加随机抖动让并发请求不在同一时刻重试。连续 3 次 529 过载 →
 切换到备用模型（若配置了 <code>FALLBACK_MODEL_ID</code> 环境变量）：</p>
 <details class="code-collapse">
-<summary>查看代码</summary>
+<summary>代码</summary>
 <div class="sourceCode" id="cb69"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb69-1"><a aria-hidden="true" href="#cb69-1" tabindex="-1"></a><span class="kw">def</span> retry_delay(attempt, retry_after<span class="op">=</span><span class="va">None</span>):</span>
 <span id="cb69-2"><a aria-hidden="true" href="#cb69-2" tabindex="-1"></a>    <span class="cf">if</span> retry_after:</span>
 <span id="cb69-3"><a aria-hidden="true" href="#cb69-3" tabindex="-1"></a>        <span class="cf">return</span> retry_after</span>
@@ -3456,7 +3456,7 @@ messages，保持原始请求不变。如果 64K
 <code>Retry-After</code> header，优先用那个值。</p>
 <h3 id="合起来跑-2">合起来跑</h3>
 <details class="code-collapse">
-<summary>查看代码</summary>
+<summary>代码</summary>
 <div class="sourceCode" id="cb70"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb70-1"><a aria-hidden="true" href="#cb70-1" tabindex="-1"></a><span class="kw">def</span> agent_loop(messages, context):</span>
 <span id="cb70-2"><a aria-hidden="true" href="#cb70-2" tabindex="-1"></a>    system <span class="op">=</span> get_system_prompt(context)</span>
 <span id="cb70-3"><a aria-hidden="true" href="#cb70-3" tabindex="-1"></a>    state <span class="op">=</span> RecoveryState()</span>
@@ -3664,7 +3664,7 @@ reason/transition，每轮 LLM 调用后都会判断：</p>
 <h3 id="二指数退避的精确公式">二、指数退避的精确公式</h3>
 <p>CC 的退避延迟（<code>withRetry.ts:530-548</code>）：</p>
 <details class="code-collapse">
-<summary>查看代码</summary>
+<summary>代码</summary>
 <pre><code>delay = min(500 × 2^(attempt-1), 32000) + random(0~25%)</code></pre>
 </details>
 <table>
@@ -3702,14 +3702,14 @@ reason/transition，每轮 LLM 调用后都会判断：</p>
 <h3 id="三continuation-提示原文">三、CONTINUATION 提示原文</h3>
 <p>CC 的续写提示（<code>query.ts:1225-1227</code>）：</p>
 <details class="code-collapse">
-<summary>查看代码</summary>
+<summary>代码</summary>
 <pre><code>Output token limit hit. Resume directly — no apology, no recap of what
 you were doing. Pick up mid-thought if that is where the cut happened.
 Break remaining work into smaller pieces.</code></pre>
 </details>
 <p>Token budget 的 nudge 提示（<code>tokenBudget.ts:72</code>）：</p>
 <details class="code-collapse">
-<summary>查看代码</summary>
+<summary>代码</summary>
 <pre><code>Stopped at {pct}% of token target. Keep working — do not summarize.</code></pre>
 </details>
 <h3 id="四流式错误处理">四、流式错误处理</h3>
@@ -3812,7 +3812,7 @@ with_retry/RecoveryState 管错误恢复，互不耦合。</p>
 <h3 id="task-数据结构">Task: 数据结构</h3>
 <p>每个任务是一个 JSON 文件，存于 <code>.tasks/</code> 目录：</p>
 <details class="code-collapse">
-<summary>查看代码</summary>
+<summary>代码</summary>
 <div class="sourceCode" id="cb75"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb75-1"><a aria-hidden="true" href="#cb75-1" tabindex="-1"></a><span class="at">@dataclass</span></span>
 <span id="cb75-2"><a aria-hidden="true" href="#cb75-2" tabindex="-1"></a><span class="kw">class</span> Task:</span>
 <span id="cb75-3"><a aria-hidden="true" href="#cb75-3" tabindex="-1"></a>    <span class="bu">id</span>: <span class="bu">str</span></span>
@@ -3826,7 +3826,7 @@ with_retry/RecoveryState 管错误恢复，互不耦合。</p>
 ID + highwatermark 文件防止 ID 重用，是更严谨的设计。</p>
 <h3 id="create_task-创建任务">create_task: 创建任务</h3>
 <details class="code-collapse">
-<summary>查看代码</summary>
+<summary>代码</summary>
 <div class="sourceCode" id="cb76"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb76-1"><a aria-hidden="true" href="#cb76-1" tabindex="-1"></a><span class="kw">def</span> create_task(subject: <span class="bu">str</span>, description: <span class="bu">str</span> <span class="op">=</span> <span class="st">""</span>,</span>
 <span id="cb76-2"><a aria-hidden="true" href="#cb76-2" tabindex="-1"></a>                blockedBy: <span class="bu">list</span>[<span class="bu">str</span>] <span class="op">|</span> <span class="va">None</span> <span class="op">=</span> <span class="va">None</span>) <span class="op">-&gt;</span> Task:</span>
 <span id="cb76-3"><a aria-hidden="true" href="#cb76-3" tabindex="-1"></a>    task <span class="op">=</span> Task(</span>
@@ -3845,7 +3845,7 @@ API" 的 <code>blockedBy</code> 是 <code>["task_schema"]</code>。</p>
 <p>一个任务只能在它的 <code>blockedBy</code> <strong>全部
 completed</strong> 之后才能开始：</p>
 <details class="code-collapse">
-<summary>查看代码</summary>
+<summary>代码</summary>
 <div class="sourceCode" id="cb77"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb77-1"><a aria-hidden="true" href="#cb77-1" tabindex="-1"></a><span class="kw">def</span> can_start(task_id: <span class="bu">str</span>) <span class="op">-&gt;</span> <span class="bu">bool</span>:</span>
 <span id="cb77-2"><a aria-hidden="true" href="#cb77-2" tabindex="-1"></a>    task <span class="op">=</span> load_task(task_id)</span>
 <span id="cb77-3"><a aria-hidden="true" href="#cb77-3" tabindex="-1"></a>    <span class="cf">for</span> dep_id <span class="kw">in</span> task.blockedBy:</span>
@@ -3866,7 +3866,7 @@ completed，就不能认领。不存在的依赖视为 blocked，避免引用错
 <code>in_progress</code>。<code>owner</code> 字段记录谁在做这个任务，多
 Agent 场景下防止重复认领：</p>
 <details class="code-collapse">
-<summary>查看代码</summary>
+<summary>代码</summary>
 <div class="sourceCode" id="cb78"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb78-1"><a aria-hidden="true" href="#cb78-1" tabindex="-1"></a><span class="kw">def</span> claim_task(task_id: <span class="bu">str</span>, owner: <span class="bu">str</span> <span class="op">=</span> <span class="st">"agent"</span>) <span class="op">-&gt;</span> <span class="bu">str</span>:</span>
 <span id="cb78-2"><a aria-hidden="true" href="#cb78-2" tabindex="-1"></a>    task <span class="op">=</span> load_task(task_id)</span>
 <span id="cb78-3"><a aria-hidden="true" href="#cb78-3" tabindex="-1"></a>    <span class="cf">if</span> task.status <span class="op">!=</span> <span class="st">"pending"</span>:</span>
@@ -3886,7 +3886,7 @@ Agent 场景下防止重复认领：</p>
 <p>任务做完后，设为
 <code>completed</code>。同时扫描所有其他任务，找出<strong>刚刚被解锁</strong>的下游任务：</p>
 <details class="code-collapse">
-<summary>查看代码</summary>
+<summary>代码</summary>
 <div class="sourceCode" id="cb79"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb79-1"><a aria-hidden="true" href="#cb79-1" tabindex="-1"></a><span class="kw">def</span> complete_task(task_id: <span class="bu">str</span>) <span class="op">-&gt;</span> <span class="bu">str</span>:</span>
 <span id="cb79-2"><a aria-hidden="true" href="#cb79-2" tabindex="-1"></a>    task <span class="op">=</span> load_task(task_id)</span>
 <span id="cb79-3"><a aria-hidden="true" href="#cb79-3" tabindex="-1"></a>    task.status <span class="op">=</span> <span class="st">"completed"</span></span>
@@ -3907,14 +3907,14 @@ Agent 场景下防止重复认领：</p>
 返回完整的任务 JSON，包括 description 和依赖细节。跨会话恢复时，Agent
 需要读取完整描述才能继续工作：</p>
 <details class="code-collapse">
-<summary>查看代码</summary>
+<summary>代码</summary>
 <div class="sourceCode" id="cb80"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb80-1"><a aria-hidden="true" href="#cb80-1" tabindex="-1"></a><span class="kw">def</span> get_task(task_id: <span class="bu">str</span>) <span class="op">-&gt;</span> <span class="bu">str</span>:</span>
 <span id="cb80-2"><a aria-hidden="true" href="#cb80-2" tabindex="-1"></a>    task <span class="op">=</span> load_task(task_id)</span>
 <span id="cb80-3"><a aria-hidden="true" href="#cb80-3" tabindex="-1"></a>    <span class="cf">return</span> json.dumps(asdict(task), indent<span class="op">=</span><span class="dv">2</span>)</span></code></pre></div>
 </details>
 <h3 id="状态机-两个动作三个状态">状态机: 两个动作，三个状态</h3>
 <details class="code-collapse">
-<summary>查看代码</summary>
+<summary>代码</summary>
 <pre><code>pending ──claim──→ in_progress ──complete──→ completed</code></pre>
 </details>
 <p>这里的 <code>claim</code> / <code>complete</code>
@@ -3932,7 +3932,7 @@ owner），并将 status 重置为 <code>pending</code>，方便其他 agent
 重新认领。教学版省略了这一恢复路径。</p>
 <h3 id="合起来跑-3">合起来跑</h3>
 <details class="code-collapse">
-<summary>查看代码</summary>
+<summary>代码</summary>
 <div class="sourceCode" id="cb82"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb82-1"><a aria-hidden="true" href="#cb82-1" tabindex="-1"></a><span class="co"># 创建有依赖的任务</span></span>
 <span id="cb82-2"><a aria-hidden="true" href="#cb82-2" tabindex="-1"></a>schema <span class="op">=</span> create_task(<span class="st">"setup database schema"</span>)</span>
 <span id="cb82-3"><a aria-hidden="true" href="#cb82-3" tabindex="-1"></a>endpoints <span class="op">=</span> create_task(<span class="st">"create API endpoints"</span>, blockedBy<span class="op">=</span>[schema.<span class="bu">id</span>])</span>
@@ -4184,7 +4184,7 @@ token 计费，空转就是浪费。</p>
 <p>模型通过 bash 工具的 <code>run_in_background</code>
 参数显式请求后台执行。如果模型没指定，教学版用关键词启发式兜底：</p>
 <details class="code-collapse">
-<summary>查看代码</summary>
+<summary>代码</summary>
 <div class="sourceCode" id="cb84"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb84-1"><a aria-hidden="true" href="#cb84-1" tabindex="-1"></a><span class="kw">def</span> is_slow_operation(tool_name: <span class="bu">str</span>, tool_input: <span class="bu">dict</span>) <span class="op">-&gt;</span> <span class="bu">bool</span>:</span>
 <span id="cb84-2"><a aria-hidden="true" href="#cb84-2" tabindex="-1"></a>    <span class="co">"""Fallback heuristic: commands likely to take &gt; 30s."""</span></span>
 <span id="cb84-3"><a aria-hidden="true" href="#cb84-3" tabindex="-1"></a>    <span class="cf">if</span> tool_name <span class="op">!=</span> <span class="st">"bash"</span>:</span>
@@ -4209,7 +4209,7 @@ token 计费，空转就是浪费。</p>
 线程里执行。每个后台任务有唯一 ID，状态存在
 <code>background_tasks</code> 字典里：</p>
 <details class="code-collapse">
-<summary>查看代码</summary>
+<summary>代码</summary>
 <div class="sourceCode" id="cb85"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb85-1"><a aria-hidden="true" href="#cb85-1" tabindex="-1"></a>_bg_counter <span class="op">=</span> <span class="dv">0</span></span>
 <span id="cb85-2"><a aria-hidden="true" href="#cb85-2" tabindex="-1"></a>background_tasks: <span class="bu">dict</span>[<span class="bu">str</span>, <span class="bu">dict</span>] <span class="op">=</span> {}   <span class="co"># bg_id → {tool_use_id, command, status}</span></span>
 <span id="cb85-3"><a aria-hidden="true" href="#cb85-3" tabindex="-1"></a>background_results: <span class="bu">dict</span>[<span class="bu">str</span>, <span class="bu">str</span>] <span class="op">=</span> {}   <span class="co"># bg_id → output</span></span>
@@ -4246,7 +4246,7 @@ Agent 进程退出时线程跟着退出。教学版用内存字典追踪状态�
 <p>后台任务完成后，收集结果并格式化为
 <code>&lt;task_notification&gt;</code> 通知：</p>
 <details class="code-collapse">
-<summary>查看代码</summary>
+<summary>代码</summary>
 <div class="sourceCode" id="cb86"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb86-1"><a aria-hidden="true" href="#cb86-1" tabindex="-1"></a><span class="kw">def</span> collect_background_results() <span class="op">-&gt;</span> <span class="bu">list</span>[<span class="bu">str</span>]:</span>
 <span id="cb86-2"><a aria-hidden="true" href="#cb86-2" tabindex="-1"></a>    <span class="co">"""Collect completed results as task_notification messages."""</span></span>
 <span id="cb86-3"><a aria-hidden="true" href="#cb86-3" tabindex="-1"></a>    <span class="cf">with</span> background_lock:</span>
@@ -4274,7 +4274,7 @@ Agent 进程退出时线程跟着退出。教学版用内存字典追踪状态�
 <h3 id="循环中的集成">循环中的集成</h3>
 <p>agent_loop 里，工具执行分两条路，通知和结果合并为一条 user 消息：</p>
 <details class="code-collapse">
-<summary>查看代码</summary>
+<summary>代码</summary>
 <div class="sourceCode" id="cb87"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb87-1"><a aria-hidden="true" href="#cb87-1" tabindex="-1"></a>results <span class="op">=</span> []</span>
 <span id="cb87-2"><a aria-hidden="true" href="#cb87-2" tabindex="-1"></a><span class="cf">for</span> block <span class="kw">in</span> response.content:</span>
 <span id="cb87-3"><a aria-hidden="true" href="#cb87-3" tabindex="-1"></a>    <span class="cf">if</span> block.<span class="bu">type</span> <span class="op">!=</span> <span class="st">"tool_use"</span>:</span>
@@ -4307,7 +4307,7 @@ Agent 进程退出时线程跟着退出。教学版用内存字典追踪状态�
 turn，不需要等工具循环。</p>
 <h3 id="合起来跑-4">合起来跑</h3>
 <details class="code-collapse">
-<summary>查看代码</summary>
+<summary>代码</summary>
 <pre><code>Turn 1:
   LLM → bash "npm install" (run_in_background=true)
   → start_background_task → bg_0001
@@ -4413,7 +4413,7 @@ await"。<code>ShellCommand.background(taskId)</code> 把 stdout/stderr
 <code>enqueuePendingNotification</code>（<code>messageQueueManager.ts</code>）入队到共享命令队列。通知格式是结构化的
 XML：</p>
 <details class="code-collapse">
-<summary>查看代码</summary>
+<summary>代码</summary>
 <div class="sourceCode" id="cb90"><pre class="sourceCode xml"><code class="sourceCode xml"><span id="cb90-1"><a aria-hidden="true" href="#cb90-1" tabindex="-1"></a>&lt;<span class="kw">task_notification</span>&gt;</span>
 <span id="cb90-2"><a aria-hidden="true" href="#cb90-2" tabindex="-1"></a>  &lt;<span class="kw">status</span>&gt;completed&lt;/<span class="kw">status</span>&gt;</span>
 <span id="cb90-3"><a aria-hidden="true" href="#cb90-3" tabindex="-1"></a>  &lt;<span class="kw">summary</span>&gt;Background command "npm test" completed (exit code 0)&lt;/<span class="kw">summary</span>&gt;</span>
@@ -4512,7 +4512,7 @@ Agent 是否空闲，空闲时自动交付定时任务。真实 CC 的
 <h3 id="cronjob-数据结构">CronJob: 数据结构</h3>
 <p>每个 cron 任务是一个 <code>CronJob</code> 对象：</p>
 <details class="code-collapse">
-<summary>查看代码</summary>
+<summary>代码</summary>
 <div class="sourceCode" id="cb91"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb91-1"><a aria-hidden="true" href="#cb91-1" tabindex="-1"></a><span class="at">@dataclass</span></span>
 <span id="cb91-2"><a aria-hidden="true" href="#cb91-2" tabindex="-1"></a><span class="kw">class</span> CronJob:</span>
 <span id="cb91-3"><a aria-hidden="true" href="#cb91-3" tabindex="-1"></a>    <span class="bu">id</span>: <span class="bu">str</span></span>
@@ -4523,7 +4523,7 @@ Agent 是否空闲，空闲时自动交付定时任务。真实 CC 的
 </details>
 <p>Cron 表达式，五段式，Unix 用了 50 年：</p>
 <details class="code-collapse">
-<summary>查看代码</summary>
+<summary>代码</summary>
 <pre><code>分钟  小时  日  月  星期
   *    *   *   *   *      每分钟
   0    9   *   *   *      每天早上 9:00
@@ -4536,7 +4536,7 @@ Agent 是否空闲，空闲时自动交付定时任务。真实 CC 的
 <p>标准 cron
 语义：分钟、小时、月必须全部匹配；日（DOM）和星期（DOW）同时被约束时任一匹配即可（OR）：</p>
 <details class="code-collapse">
-<summary>查看代码</summary>
+<summary>代码</summary>
 <div class="sourceCode" id="cb93"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb93-1"><a aria-hidden="true" href="#cb93-1" tabindex="-1"></a><span class="kw">def</span> cron_matches(cron_expr: <span class="bu">str</span>, dt: datetime) <span class="op">-&gt;</span> <span class="bu">bool</span>:</span>
 <span id="cb93-2"><a aria-hidden="true" href="#cb93-2" tabindex="-1"></a>    fields <span class="op">=</span> cron_expr.strip().split()</span>
 <span id="cb93-3"><a aria-hidden="true" href="#cb93-3" tabindex="-1"></a>    <span class="cf">if</span> <span class="bu">len</span>(fields) <span class="op">!=</span> <span class="dv">5</span>:</span>
@@ -4567,7 +4567,7 @@ Agent 是否空闲，空闲时自动交付定时任务。真实 CC 的
 <p>调度器跑在独立的 daemon 线程里，不依赖 agent_loop 是否在执行。单个
 job 异常不会杀掉整个线程：</p>
 <details class="code-collapse">
-<summary>查看代码</summary>
+<summary>代码</summary>
 <div class="sourceCode" id="cb94"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb94-1"><a aria-hidden="true" href="#cb94-1" tabindex="-1"></a><span class="kw">def</span> cron_scheduler_loop():</span>
 <span id="cb94-2"><a aria-hidden="true" href="#cb94-2" tabindex="-1"></a>    <span class="cf">while</span> <span class="va">True</span>:</span>
 <span id="cb94-3"><a aria-hidden="true" href="#cb94-3" tabindex="-1"></a>        time.sleep(<span class="dv">1</span>)</span>
@@ -4603,7 +4603,7 @@ agent_loop: 交付端</h3>
 <p>queue processor 不检查时间，只负责在队列有任务且 Agent
 空闲时拉起一轮执行：</p>
 <details class="code-collapse">
-<summary>查看代码</summary>
+<summary>代码</summary>
 <div class="sourceCode" id="cb95"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb95-1"><a aria-hidden="true" href="#cb95-1" tabindex="-1"></a><span class="kw">def</span> queue_processor_loop():</span>
 <span id="cb95-2"><a aria-hidden="true" href="#cb95-2" tabindex="-1"></a>    <span class="cf">while</span> <span class="va">True</span>:</span>
 <span id="cb95-3"><a aria-hidden="true" href="#cb95-3" tabindex="-1"></a>        time.sleep(<span class="fl">0.2</span>)</span>
@@ -4620,7 +4620,7 @@ agent_loop: 交付端</h3>
 <p>agent_loop 也不负责检查时间，它只从 <code>cron_queue</code>
 里拿已触发的任务，注入到 messages 里：</p>
 <details class="code-collapse">
-<summary>查看代码</summary>
+<summary>代码</summary>
 <div class="sourceCode" id="cb96"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb96-1"><a aria-hidden="true" href="#cb96-1" tabindex="-1"></a>fired <span class="op">=</span> consume_cron_queue()</span>
 <span id="cb96-2"><a aria-hidden="true" href="#cb96-2" tabindex="-1"></a><span class="cf">for</span> job <span class="kw">in</span> fired:</span>
 <span id="cb96-3"><a aria-hidden="true" href="#cb96-3" tabindex="-1"></a>    messages.append({<span class="st">"role"</span>: <span class="st">"user"</span>,</span>
@@ -4634,7 +4634,7 @@ processor）和消费者（agent_loop）通过
 <p><code>schedule_job</code> 在注册前校验 cron
 表达式，非法的直接返回错误：</p>
 <details class="code-collapse">
-<summary>查看代码</summary>
+<summary>代码</summary>
 <div class="sourceCode" id="cb97"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb97-1"><a aria-hidden="true" href="#cb97-1" tabindex="-1"></a><span class="kw">def</span> schedule_job(cron, prompt, recurring<span class="op">=</span><span class="va">True</span>, durable<span class="op">=</span><span class="va">True</span>):</span>
 <span id="cb97-2"><a aria-hidden="true" href="#cb97-2" tabindex="-1"></a>    err <span class="op">=</span> validate_cron(cron)</span>
 <span id="cb97-3"><a aria-hidden="true" href="#cb97-3" tabindex="-1"></a>    <span class="cf">if</span> err:</span>
@@ -4659,7 +4659,7 @@ crontab 或 systemd timer。</p>
 </blockquote>
 <h3 id="合起来跑-5">合起来跑</h3>
 <details class="code-collapse">
-<summary>查看代码</summary>
+<summary>代码</summary>
 <pre><code>1. 启动时：
    load_durable_jobs() → 从 .scheduled_tasks.json 恢复持久化任务
    Thread(cron_scheduler_loop, daemon=True).start() → 调度线程开始轮询
@@ -4755,7 +4755,7 @@ Agent 的注意力是有限的，这需要一个团队。</p>
 <code>CLAUDE_CODE_DISABLE_CRON</code> 环境变量做本地覆盖。</p>
 <h3 id="二存储claudescheduled_tasksjson">二、存储：<code>.claude/scheduled_tasks.json</code></h3>
 <details class="code-collapse">
-<summary>查看代码</summary>
+<summary>代码</summary>
 <div class="sourceCode" id="cb100"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb100-1"><a aria-hidden="true" href="#cb100-1" tabindex="-1"></a><span class="fu">{</span> <span class="dt">"tasks"</span><span class="fu">:</span> <span class="ot">[</span><span class="fu">{</span> <span class="dt">"id"</span><span class="fu">:</span> <span class="st">"abc12345"</span><span class="fu">,</span> <span class="dt">"cron"</span><span class="fu">:</span> <span class="st">"0 9 * * *"</span><span class="fu">,</span> <span class="dt">"prompt"</span><span class="fu">:</span> <span class="st">"..."</span><span class="fu">,</span> <span class="dt">"recurring"</span><span class="fu">:</span> <span class="kw">true</span><span class="fu">,</span> <span class="dt">"durable"</span><span class="fu">:</span> <span class="kw">true</span><span class="fu">,</span> <span class="dt">"createdAt"</span><span class="fu">:</span> <span class="dv">1714567890000</span> <span class="fu">}</span><span class="ot">]</span> <span class="fu">}</span></span></code></pre></div>
 </details>
 <p>Durable 任务写磁盘；session-only 任务存于
@@ -4861,7 +4861,7 @@ Agent 的注意力覆盖不了所有模块。</p>
 = 往对方的文件里 append 一行 JSON。读消息 = 读文件 +
 删除（消费式）：</p>
 <details class="code-collapse">
-<summary>查看代码</summary>
+<summary>代码</summary>
 <div class="sourceCode" id="cb101"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb101-1"><a aria-hidden="true" href="#cb101-1" tabindex="-1"></a><span class="kw">class</span> MessageBus:</span>
 <span id="cb101-2"><a aria-hidden="true" href="#cb101-2" tabindex="-1"></a>    <span class="kw">def</span> send(<span class="va">self</span>, from_agent: <span class="bu">str</span>, to_agent: <span class="bu">str</span>,</span>
 <span id="cb101-3"><a aria-hidden="true" href="#cb101-3" tabindex="-1"></a>             content: <span class="bu">str</span>, msg_type: <span class="bu">str</span> <span class="op">=</span> <span class="st">"message"</span>):</span>
@@ -4892,7 +4892,7 @@ CC
 工具启动一个队友。队友跑在自己的 daemon 线程里，有自己的 system
 prompt、自己的 messages、自己的简化工具集：</p>
 <details class="code-collapse">
-<summary>查看代码</summary>
+<summary>代码</summary>
 <div class="sourceCode" id="cb102"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb102-1"><a aria-hidden="true" href="#cb102-1" tabindex="-1"></a><span class="kw">def</span> spawn_teammate_thread(name: <span class="bu">str</span>, role: <span class="bu">str</span>, prompt: <span class="bu">str</span>) <span class="op">-&gt;</span> <span class="bu">str</span>:</span>
 <span id="cb102-2"><a aria-hidden="true" href="#cb102-2" tabindex="-1"></a>    system <span class="op">=</span> <span class="ss">f"You are '</span><span class="sc">{</span>name<span class="sc">}</span><span class="ss">', a </span><span class="sc">{</span>role<span class="sc">}</span><span class="ss">. Use tools to complete tasks."</span></span>
 <span id="cb102-3"><a aria-hidden="true" href="#cb102-3" tabindex="-1"></a></span>
@@ -4928,7 +4928,7 @@ loop：跑完一轮后发 <code>idle_notification</code>，等 inbox
 <p>Lead 在每轮主循环结束后检查收件箱。队友发来的消息注入到 history
 里，让 LLM 能看到并做出反应：</p>
 <details class="code-collapse">
-<summary>查看代码</summary>
+<summary>代码</summary>
 <div class="sourceCode" id="cb103"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb103-1"><a aria-hidden="true" href="#cb103-1" tabindex="-1"></a><span class="co"># 主循环结束后</span></span>
 <span id="cb103-2"><a aria-hidden="true" href="#cb103-2" tabindex="-1"></a>inbox <span class="op">=</span> BUS.read_inbox(<span class="st">"lead"</span>)</span>
 <span id="cb103-3"><a aria-hidden="true" href="#cb103-3" tabindex="-1"></a><span class="cf">if</span> inbox:</span>
@@ -4953,7 +4953,7 @@ turn，不需要等用户输入。</p>
 </ol>
 <h3 id="合起来跑-6">合起来跑</h3>
 <details class="code-collapse">
-<summary>查看代码</summary>
+<summary>代码</summary>
 <pre><code>1. Lead: "搭建后端：一个人搞不定，组队吧"
 2. Lead → spawn_teammate("alice", "backend dev", "创建数据库 schema")
 3. Lead → spawn_teammate("bob", "frontend dev", "写 API 客户端")
@@ -5151,7 +5151,7 @@ team config</li>
 <p>团队注册表在
 <code>~/.claude/teams/{teamName}/config.json</code>（<code>teamHelpers.ts</code>）：</p>
 <details class="code-collapse">
-<summary>查看代码</summary>
+<summary>代码</summary>
 <div class="sourceCode" id="cb106"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb106-1"><a aria-hidden="true" href="#cb106-1" tabindex="-1"></a><span class="fu">{</span></span>
 <span id="cb106-2"><a aria-hidden="true" href="#cb106-2" tabindex="-1"></a>  <span class="dt">"name"</span><span class="fu">:</span> <span class="st">"my-team"</span><span class="fu">,</span></span>
 <span id="cb106-3"><a aria-hidden="true" href="#cb106-3" tabindex="-1"></a>  <span class="dt">"leadAgentId"</span><span class="fu">:</span> <span class="st">"lead@my-team"</span><span class="fu">,</span></span>
@@ -5226,7 +5226,7 @@ approved 时拦截 bash/write_file）。真实 CC 的队友有 permission gating
 <h3 id="protocolstate-请求状态">ProtocolState: 请求状态</h3>
 <p>每个协议请求创建一条状态记录，记录谁发的、发给谁、当前状态、附带内容：</p>
 <details class="code-collapse">
-<summary>查看代码</summary>
+<summary>代码</summary>
 <div class="sourceCode" id="cb107"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb107-1"><a aria-hidden="true" href="#cb107-1" tabindex="-1"></a><span class="at">@dataclass</span></span>
 <span id="cb107-2"><a aria-hidden="true" href="#cb107-2" tabindex="-1"></a><span class="kw">class</span> ProtocolState:</span>
 <span id="cb107-3"><a aria-hidden="true" href="#cb107-3" tabindex="-1"></a>    request_id: <span class="bu">str</span>      <span class="co"># 唯一 ID，如 "req_004281"</span></span>
@@ -5244,7 +5244,7 @@ approved 时拦截 bash/write_file）。真实 CC 的队友有 permission gating
 <h3 id="四步协议流程">四步协议流程</h3>
 <p>以关机为例，完整链路：</p>
 <details class="code-collapse">
-<summary>查看代码</summary>
+<summary>代码</summary>
 <pre><code>① Lead 发请求
    req_id = new_request_id()           # "req_004281"
    pending_requests[req_id] = ProtocolState(type="shutdown", status="pending", ...)
@@ -5276,7 +5276,7 @@ approved 时拦截 bash/write_file）。真实 CC 的队友有 permission gating
 不只收普通消息，还收协议消息。<code>handle_inbox_message</code>
 按消息类型分发：</p>
 <details class="code-collapse">
-<summary>查看代码</summary>
+<summary>代码</summary>
 <div class="sourceCode" id="cb109"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb109-1"><a aria-hidden="true" href="#cb109-1" tabindex="-1"></a><span class="kw">def</span> handle_inbox_message(name, msg, messages):</span>
 <span id="cb109-2"><a aria-hidden="true" href="#cb109-2" tabindex="-1"></a>    msg_type <span class="op">=</span> msg.get(<span class="st">"type"</span>, <span class="st">"message"</span>)</span>
 <span id="cb109-3"><a aria-hidden="true" href="#cb109-3" tabindex="-1"></a>    req_id <span class="op">=</span> msg.get(<span class="st">"metadata"</span>, {}).get(<span class="st">"request_id"</span>, <span class="st">""</span>)</span>
@@ -5297,7 +5297,7 @@ approved 时拦截 bash/write_file）。真实 CC 的队友有 permission gating
 <p><code>match_response</code> 不只按 <code>request_id</code>
 找状态，还会校验响应类型是否匹配请求类型：</p>
 <details class="code-collapse">
-<summary>查看代码</summary>
+<summary>代码</summary>
 <div class="sourceCode" id="cb110"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb110-1"><a aria-hidden="true" href="#cb110-1" tabindex="-1"></a><span class="kw">def</span> match_response(response_type, request_id, approve):</span>
 <span id="cb110-2"><a aria-hidden="true" href="#cb110-2" tabindex="-1"></a>    state <span class="op">=</span> pending_requests.get(request_id)</span>
 <span id="cb110-3"><a aria-hidden="true" href="#cb110-3" tabindex="-1"></a>    <span class="cf">if</span> <span class="kw">not</span> state:</span>
@@ -5317,7 +5317,7 @@ approved 时拦截 bash/write_file）。真实 CC 的队友有 permission gating
 <code>consume_lead_inbox()</code>
 函数，先路由协议消息再返回剩余内容，避免消息被读走但协议状态没更新：</p>
 <details class="code-collapse">
-<summary>查看代码</summary>
+<summary>代码</summary>
 <div class="sourceCode" id="cb111"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb111-1"><a aria-hidden="true" href="#cb111-1" tabindex="-1"></a><span class="kw">def</span> consume_lead_inbox(route_protocol<span class="op">=</span><span class="va">True</span>) <span class="op">-&gt;</span> <span class="bu">list</span>[<span class="bu">dict</span>]:</span>
 <span id="cb111-2"><a aria-hidden="true" href="#cb111-2" tabindex="-1"></a>    msgs <span class="op">=</span> BUS.read_inbox(<span class="st">"lead"</span>)</span>
 <span id="cb111-3"><a aria-hidden="true" href="#cb111-3" tabindex="-1"></a>    <span class="cf">if</span> route_protocol:</span>
@@ -5337,7 +5337,7 @@ loop：等待而不是退出</h3>
 idle 等待：轮询 inbox，收到 shutdown_request
 就响应退出，收到新消息就继续工作。</p>
 <details class="code-collapse">
-<summary>查看代码</summary>
+<summary>代码</summary>
 <pre><code>LLM 返回非 tool_use
   → idle: 每秒轮询 inbox
   → 收到 shutdown_request → 回复 shutdown_response → 退出
@@ -5348,7 +5348,7 @@ idle 等待：轮询 inbox，收到 shutdown_request
 收到后知道队友空闲，可以分配新任务。</p>
 <h3 id="合起来跑-7">合起来跑</h3>
 <details class="code-collapse">
-<summary>查看代码</summary>
+<summary>代码</summary>
 <pre><code>1. Lead: "让 Alice 创建一个文件，然后关机"
 2. Lead → spawn_teammate("alice", "backend", "创建 config.py")
 3. alice 线程启动 → write_file("config.py", "...") → 完成 → idle
@@ -5525,7 +5525,7 @@ claim，不用 Lead 操心）。</p>
 <p>队友完成当前任务后不退出，进入 IDLE 阶段——每 5
 秒检查一次有没有新工作：</p>
 <details class="code-collapse">
-<summary>查看代码</summary>
+<summary>代码</summary>
 <div class="sourceCode" id="cb115"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb115-1"><a aria-hidden="true" href="#cb115-1" tabindex="-1"></a>IDLE_POLL_INTERVAL <span class="op">=</span> <span class="dv">5</span>   <span class="co"># seconds</span></span>
 <span id="cb115-2"><a aria-hidden="true" href="#cb115-2" tabindex="-1"></a>IDLE_TIMEOUT <span class="op">=</span> <span class="dv">60</span>         <span class="co"># seconds</span></span>
 <span id="cb115-3"><a aria-hidden="true" href="#cb115-3" tabindex="-1"></a></span>
@@ -5563,7 +5563,7 @@ claim，不用 Lead 操心）。</p>
 <p>找 pending 状态、无
 owner、所有依赖已完成（<code>can_start</code>）的任务：</p>
 <details class="code-collapse">
-<summary>查看代码</summary>
+<summary>代码</summary>
 <div class="sourceCode" id="cb116"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb116-1"><a aria-hidden="true" href="#cb116-1" tabindex="-1"></a><span class="kw">def</span> scan_unclaimed_tasks() <span class="op">-&gt;</span> <span class="bu">list</span>[<span class="bu">dict</span>]:</span>
 <span id="cb116-2"><a aria-hidden="true" href="#cb116-2" tabindex="-1"></a>    unclaimed <span class="op">=</span> []</span>
 <span id="cb116-3"><a aria-hidden="true" href="#cb116-3" tabindex="-1"></a>    <span class="cf">for</span> f <span class="kw">in</span> <span class="bu">sorted</span>(TASKS_DIR.glob(<span class="st">"task_*.json"</span>)):</span>
@@ -5581,7 +5581,7 @@ owner、所有依赖已完成（<code>can_start</code>）的任务：</p>
 <h3 id="claim_task-owner-检查">claim_task: owner 检查</h3>
 <p>自动认领时检查 claim 结果，不把失败当成功：</p>
 <details class="code-collapse">
-<summary>查看代码</summary>
+<summary>代码</summary>
 <div class="sourceCode" id="cb117"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb117-1"><a aria-hidden="true" href="#cb117-1" tabindex="-1"></a><span class="kw">def</span> claim_task(task_id: <span class="bu">str</span>, owner: <span class="bu">str</span> <span class="op">=</span> <span class="st">"agent"</span>) <span class="op">-&gt;</span> <span class="bu">str</span>:</span>
 <span id="cb117-2"><a aria-hidden="true" href="#cb117-2" tabindex="-1"></a>    task <span class="op">=</span> load_task(task_id)</span>
 <span id="cb117-3"><a aria-hidden="true" href="#cb117-3" tabindex="-1"></a>    <span class="cf">if</span> task.status <span class="op">!=</span> <span class="st">"pending"</span>:</span>
@@ -5604,7 +5604,7 @@ SHUTDOWN</h3>
 <p>16 的队友做完任务就退出。17 加了 IDLE 阶段，队友在外层循环中反复
 WORK → IDLE：</p>
 <details class="code-collapse">
-<summary>查看代码</summary>
+<summary>代码</summary>
 <div class="sourceCode" id="cb118"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb118-1"><a aria-hidden="true" href="#cb118-1" tabindex="-1"></a><span class="co"># Outer loop: WORK → IDLE cycle</span></span>
 <span id="cb118-2"><a aria-hidden="true" href="#cb118-2" tabindex="-1"></a><span class="cf">while</span> <span class="va">True</span>:</span>
 <span id="cb118-3"><a aria-hidden="true" href="#cb118-3" tabindex="-1"></a>    <span class="co"># WORK phase: 内层循环（最多 10 轮 LLM 调用）</span></span>
@@ -5640,7 +5640,7 @@ WORK → IDLE：</p>
 <p>autoCompact（08）之后，队友的 messages
 列表可能被压缩成一段摘要。每次进入新的 WORK 阶段时检查：</p>
 <details class="code-collapse">
-<summary>查看代码</summary>
+<summary>代码</summary>
 <div class="sourceCode" id="cb119"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb119-1"><a aria-hidden="true" href="#cb119-1" tabindex="-1"></a><span class="cf">if</span> <span class="bu">len</span>(messages) <span class="op">&lt;=</span> <span class="dv">3</span>:</span>
 <span id="cb119-2"><a aria-hidden="true" href="#cb119-2" tabindex="-1"></a>    messages.insert(<span class="dv">0</span>, {<span class="st">"role"</span>: <span class="st">"user"</span>,</span>
 <span id="cb119-3"><a aria-hidden="true" href="#cb119-3" tabindex="-1"></a>        <span class="st">"content"</span>: <span class="ss">f"&lt;identity&gt;You are '</span><span class="sc">{</span>name<span class="sc">}</span><span class="ss">', role: </span><span class="sc">{</span>role<span class="sc">}</span><span class="ss">. "</span></span>
@@ -5656,7 +5656,7 @@ inbox 消费</h3>
 不会只打印在终端，Lead 的 LLM 能看到并协调下一步。</p>
 <h3 id="合起来跑-8">合起来跑</h3>
 <details class="code-collapse">
-<summary>查看代码</summary>
+<summary>代码</summary>
 <pre><code>1. Lead: "搭建后端——任务太多，让队友自己认领"
 2. Lead → create_task("创建数据库 schema")
 3. Lead → create_task("写 API 路由")
@@ -5902,7 +5902,7 @@ ID 绑定。</p>
 <h2 id="工作原理-16">工作原理</h2>
 <h3 id="创建任务-worktree-绑定">创建：任务-Worktree 绑定</h3>
 <details class="code-collapse">
-<summary>查看代码</summary>
+<summary>代码</summary>
 <div class="sourceCode" id="cb122"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb122-1"><a aria-hidden="true" href="#cb122-1" tabindex="-1"></a><span class="kw">def</span> create_worktree(name: <span class="bu">str</span>, task_id: <span class="bu">str</span> <span class="op">=</span> <span class="st">""</span>) <span class="op">-&gt;</span> <span class="bu">str</span>:</span>
 <span id="cb122-2"><a aria-hidden="true" href="#cb122-2" tabindex="-1"></a>    validate_worktree_name(name)       <span class="co"># 只允许 [A-Za-z0-9._-]{1,64}</span></span>
 <span id="cb122-3"><a aria-hidden="true" href="#cb122-3" tabindex="-1"></a>    path <span class="op">=</span> WORKTREES_DIR <span class="op">/</span> name</span>
@@ -5930,7 +5930,7 @@ worktree 路径；队友的
 <code>bash</code>、<code>read_file</code>、<code>write_file</code> 在
 worktree 目录下执行：</p>
 <details class="code-collapse">
-<summary>查看代码</summary>
+<summary>代码</summary>
 <div class="sourceCode" id="cb123"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb123-1"><a aria-hidden="true" href="#cb123-1" tabindex="-1"></a><span class="co"># 队友线程内部</span></span>
 <span id="cb123-2"><a aria-hidden="true" href="#cb123-2" tabindex="-1"></a>wt_ctx <span class="op">=</span> {<span class="st">"path"</span>: <span class="va">None</span>}</span>
 <span id="cb123-3"><a aria-hidden="true" href="#cb123-3" tabindex="-1"></a></span>
@@ -5951,7 +5951,7 @@ worktree 目录下执行：</p>
 <h3 id="收尾keep-还是-remove">收尾：Keep 还是 Remove</h3>
 <p>任务完成后，两个选择：</p>
 <details class="code-collapse">
-<summary>查看代码</summary>
+<summary>代码</summary>
 <div class="sourceCode" id="cb124"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb124-1"><a aria-hidden="true" href="#cb124-1" tabindex="-1"></a><span class="kw">def</span> remove_worktree(name: <span class="bu">str</span>, discard_changes: <span class="bu">bool</span> <span class="op">=</span> <span class="va">False</span>) <span class="op">-&gt;</span> <span class="bu">str</span>:</span>
 <span id="cb124-2"><a aria-hidden="true" href="#cb124-2" tabindex="-1"></a>    <span class="co"># 安全检查：有改动时默认拒绝</span></span>
 <span id="cb124-3"><a aria-hidden="true" href="#cb124-3" tabindex="-1"></a>    <span class="cf">if</span> <span class="kw">not</span> discard_changes:</span>
@@ -5975,7 +5975,7 @@ complete task——任务完成由队友的 <code>complete_task</code>
 <h3 id="事件流可审计">事件流：可审计</h3>
 <p>每次生命周期操作写入日志，方便排查：</p>
 <details class="code-collapse">
-<summary>查看代码</summary>
+<summary>代码</summary>
 <div class="sourceCode" id="cb125"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb125-1"><a aria-hidden="true" href="#cb125-1" tabindex="-1"></a><span class="kw">def</span> log_event(event_type: <span class="bu">str</span>, worktree_name: <span class="bu">str</span>, task_id: <span class="bu">str</span> <span class="op">=</span> <span class="st">""</span>):</span>
 <span id="cb125-2"><a aria-hidden="true" href="#cb125-2" tabindex="-1"></a>    event <span class="op">=</span> {<span class="st">"type"</span>: event_type, <span class="st">"worktree"</span>: worktree_name,</span>
 <span id="cb125-3"><a aria-hidden="true" href="#cb125-3" tabindex="-1"></a>             <span class="st">"task_id"</span>: task_id, <span class="st">"ts"</span>: time.time()}</span>
@@ -5985,7 +5985,7 @@ complete task——任务完成由队友的 <code>complete_task</code>
 index 或 <code>git worktree list</code> 扫描。</p>
 <h3 id="run_git返回成功失败">run_git：返回成功/失败</h3>
 <details class="code-collapse">
-<summary>查看代码</summary>
+<summary>代码</summary>
 <div class="sourceCode" id="cb126"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb126-1"><a aria-hidden="true" href="#cb126-1" tabindex="-1"></a><span class="kw">def</span> run_git(args: <span class="bu">list</span>[<span class="bu">str</span>]) <span class="op">-&gt;</span> <span class="bu">tuple</span>[<span class="bu">bool</span>, <span class="bu">str</span>]:</span>
 <span id="cb126-2"><a aria-hidden="true" href="#cb126-2" tabindex="-1"></a>    r <span class="op">=</span> subprocess.run([<span class="st">"git"</span>] <span class="op">+</span> args, cwd<span class="op">=</span>WORKDIR, ...)</span>
 <span id="cb126-3"><a aria-hidden="true" href="#cb126-3" tabindex="-1"></a>    <span class="cf">return</span> r.returncode <span class="op">==</span> <span class="dv">0</span>, output</span></code></pre></div>
@@ -6167,7 +6167,7 @@ stdin/stdout 发送 JSON-RPC 请求。mock
 <h2 id="工作原理-17">工作原理</h2>
 <h3 id="mcpclient发现--调用">MCPClient：发现 + 调用</h3>
 <details class="code-collapse">
-<summary>查看代码</summary>
+<summary>代码</summary>
 <div class="sourceCode" id="cb128"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb128-1"><a aria-hidden="true" href="#cb128-1" tabindex="-1"></a><span class="kw">class</span> MCPClient:</span>
 <span id="cb128-2"><a aria-hidden="true" href="#cb128-2" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, name: <span class="bu">str</span>):</span>
 <span id="cb128-3"><a aria-hidden="true" href="#cb128-3" tabindex="-1"></a>        <span class="va">self</span>.name <span class="op">=</span> name</span>
@@ -6190,7 +6190,7 @@ stdin/stdout 发送 JSON-RPC 请求。mock
 与子进程通信。</p>
 <h3 id="connect_mcp连接--发现">connect_mcp：连接 + 发现</h3>
 <details class="code-collapse">
-<summary>查看代码</summary>
+<summary>代码</summary>
 <div class="sourceCode" id="cb129"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb129-1"><a aria-hidden="true" href="#cb129-1" tabindex="-1"></a><span class="kw">def</span> connect_mcp(name: <span class="bu">str</span>) <span class="op">-&gt;</span> <span class="bu">str</span>:</span>
 <span id="cb129-2"><a aria-hidden="true" href="#cb129-2" tabindex="-1"></a>    <span class="cf">if</span> name <span class="kw">in</span> mcp_clients:</span>
 <span id="cb129-3"><a aria-hidden="true" href="#cb129-3" tabindex="-1"></a>        <span class="cf">return</span> <span class="ss">f"MCP server '</span><span class="sc">{</span>name<span class="sc">}</span><span class="ss">' already connected"</span></span>
@@ -6204,7 +6204,7 @@ stdin/stdout 发送 JSON-RPC 请求。mock
 <p>连接后，server 提供的工具立即可用。</p>
 <h3 id="normalize_mcp_name名称规范化">normalize_mcp_name：名称规范化</h3>
 <details class="code-collapse">
-<summary>查看代码</summary>
+<summary>代码</summary>
 <div class="sourceCode" id="cb130"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb130-1"><a aria-hidden="true" href="#cb130-1" tabindex="-1"></a>_DISALLOWED_CHARS <span class="op">=</span> re.<span class="bu">compile</span>(<span class="vs">r'</span><span class="pp">[^a-zA-Z0-9_-]</span><span class="vs">'</span>)</span>
 <span id="cb130-2"><a aria-hidden="true" href="#cb130-2" tabindex="-1"></a></span>
 <span id="cb130-3"><a aria-hidden="true" href="#cb130-3" tabindex="-1"></a><span class="kw">def</span> normalize_mcp_name(name: <span class="bu">str</span>) <span class="op">-&gt;</span> <span class="bu">str</span>:</span>
@@ -6214,7 +6214,7 @@ stdin/stdout 发送 JSON-RPC 请求。mock
 server 名或工具名中包含特殊字符导致命名冲突或注入问题。</p>
 <h3 id="assemble_tool_pool组装工具池">assemble_tool_pool：组装工具池</h3>
 <details class="code-collapse">
-<summary>查看代码</summary>
+<summary>代码</summary>
 <div class="sourceCode" id="cb131"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb131-1"><a aria-hidden="true" href="#cb131-1" tabindex="-1"></a><span class="kw">def</span> assemble_tool_pool() <span class="op">-&gt;</span> <span class="bu">tuple</span>[<span class="bu">list</span>[<span class="bu">dict</span>], <span class="bu">dict</span>]:</span>
 <span id="cb131-2"><a aria-hidden="true" href="#cb131-2" tabindex="-1"></a>    tools <span class="op">=</span> <span class="bu">list</span>(BUILTIN_TOOLS)</span>
 <span id="cb131-3"><a aria-hidden="true" href="#cb131-3" tabindex="-1"></a>    handlers <span class="op">=</span> <span class="bu">dict</span>(BUILTIN_HANDLERS)</span>
@@ -6239,7 +6239,7 @@ annotations 结构体让权限系统判断。</p>
 <p>10-18 的 agent_loop 用 prompt cache 避免重复序列化。19
 去掉了缓存：</p>
 <details class="code-collapse">
-<summary>查看代码</summary>
+<summary>代码</summary>
 <div class="sourceCode" id="cb132"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb132-1"><a aria-hidden="true" href="#cb132-1" tabindex="-1"></a><span class="kw">def</span> agent_loop(messages, context):</span>
 <span id="cb132-2"><a aria-hidden="true" href="#cb132-2" tabindex="-1"></a>    tools, handlers <span class="op">=</span> assemble_tool_pool()     <span class="co"># 每次重新构建</span></span>
 <span id="cb132-3"><a aria-hidden="true" href="#cb132-3" tabindex="-1"></a>    system <span class="op">=</span> assemble_system_prompt(context)    <span class="co"># 每次重新生成</span></span>
@@ -6379,7 +6379,7 @@ harness。机制很多，循环一个。</p>
 <h3 id="二工具池组装算法">二、工具池组装算法</h3>
 <p><code>assembleToolPool()</code>（<code>tools.ts:345-364</code>）：</p>
 <details class="code-collapse">
-<summary>查看代码</summary>
+<summary>代码</summary>
 <div class="sourceCode" id="cb134"><pre class="sourceCode typescript"><code class="sourceCode typescript"><span id="cb134-1"><a aria-hidden="true" href="#cb134-1" tabindex="-1"></a><span class="co">// 去重时优先保留内置工具（name 相同时内置在前）</span></span>
 <span id="cb134-2"><a aria-hidden="true" href="#cb134-2" tabindex="-1"></a><span class="cf">return</span> <span class="fu">uniqBy</span>(</span>
 <span id="cb134-3"><a aria-hidden="true" href="#cb134-3" tabindex="-1"></a>  [<span class="op">...</span>builtInTools<span class="op">.</span><span class="fu">sort</span>(byName)<span class="op">,</span> <span class="op">...</span>filteredMcpTools<span class="op">.</span><span class="fu">sort</span>(byName)]<span class="op">,</span></span>
@@ -6392,7 +6392,7 @@ harness。机制很多，循环一个。</p>
 <h3 id="三命名规则mcp__server__tool">三、命名规则：<code>mcp__server__tool</code></h3>
 <p><code>buildMcpToolName()</code>（<code>mcpStringUtils.ts:50-52</code>）：</p>
 <details class="code-collapse">
-<summary>查看代码</summary>
+<summary>代码</summary>
 <pre><code>mcp__&lt;normalizedServerName&gt;__&lt;normalizedToolName&gt;</code></pre>
 </details>
 <p>所有非 <code>[a-zA-Z0-9_-]</code> 字符替换为
@@ -6407,7 +6407,7 @@ MCP 工具的检查逻辑不同于内置工具——MCP
 <h3 id="五配置来源与优先级">五、配置来源与优先级</h3>
 <p>MCP 服务器配置来自多个来源。CC 的配置优先级从低到高：</p>
 <details class="code-collapse">
-<summary>查看代码</summary>
+<summary>代码</summary>
 <pre><code>claude.ai 连接器 &lt; plugin &lt; user settings.json &lt; approved project .mcp.json &lt; local settings.local.json</code></pre>
 </details>
 <p><code>claude.ai</code>
@@ -6503,7 +6503,7 @@ Comprehensive Agent — 全部机制，归到一个循环</h1>
 <p>S20 不是再发明一个新机制，而是把前面的教学组件合成一个完整
 harness：</p>
 <details class="code-collapse">
-<summary>查看代码</summary>
+<summary>代码</summary>
 <pre class="text"><code>用户输入
   → UserPromptSubmit hooks
   → cron/background 通知注入
@@ -6603,7 +6603,7 @@ reactive compact</td>
 <h3 id="工具与分发">工具与分发</h3>
 <p>内置工具池包含 27 个工具：</p>
 <details class="code-collapse">
-<summary>查看代码</summary>
+<summary>代码</summary>
 <pre class="text"><code>bash, read_file, write_file, edit_file, glob
 todo_write, task, load_skill, compact
 create_task, list_tasks, get_task, claim_task, complete_task
@@ -6615,7 +6615,7 @@ connect_mcp</code></pre>
 </details>
 <p><code>assemble_tool_pool()</code> 每轮组装：</p>
 <details class="code-collapse">
-<summary>查看代码</summary>
+<summary>代码</summary>
 <pre class="text"><code>BUILTIN_TOOLS + connected MCP tools
 BUILTIN_HANDLERS + mcp__server__tool handlers</code></pre>
 </details>
@@ -6624,7 +6624,7 @@ BUILTIN_HANDLERS + mcp__server__tool handlers</code></pre>
 <h3 id="权限和-hooks">权限和 hooks</h3>
 <p>权限不写死在工具执行行里，而是作为 <code>PreToolUse</code> hook：</p>
 <details class="code-collapse">
-<summary>查看代码</summary>
+<summary>代码</summary>
 <div class="sourceCode" id="cb140"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb140-1"><a aria-hidden="true" href="#cb140-1" tabindex="-1"></a>blocked <span class="op">=</span> trigger_hooks(<span class="st">"PreToolUse"</span>, block)</span>
 <span id="cb140-2"><a aria-hidden="true" href="#cb140-2" tabindex="-1"></a><span class="cf">if</span> blocked:</span>
 <span id="cb140-3"><a aria-hidden="true" href="#cb140-3" tabindex="-1"></a>    results.append(tool_result(block.<span class="bu">id</span>, blocked))</span>
@@ -6663,7 +6663,7 @@ BUILTIN_HANDLERS + mcp__server__tool handlers</code></pre>
 <h3 id="压缩和恢复">压缩和恢复</h3>
 <p>LLM 前先跑压缩管线：</p>
 <details class="code-collapse">
-<summary>查看代码</summary>
+<summary>代码</summary>
 <pre class="text"><code>tool_result_budget → snip_compact → micro_compact → compact_history</code></pre>
 </details>
 <p>调用模型时再包一层恢复：</p>
@@ -6676,7 +6676,7 @@ BUILTIN_HANDLERS + mcp__server__tool handlers</code></pre>
 <h3 id="后台和-cron">后台和 cron</h3>
 <p>慢 bash 操作不会阻塞主循环：</p>
 <details class="code-collapse">
-<summary>查看代码</summary>
+<summary>代码</summary>
 <pre class="text"><code>should_run_background → start_background_task → placeholder tool_result
 后台完成 → task_notification → 下一轮注入 messages</code></pre>
 </details>
@@ -6775,7 +6775,7 @@ BUILTIN_HANDLERS + mcp__server__tool handlers</code></pre>
 <h2 id="结束亦是开始">结束亦是开始</h2>
 <p>从 01 到 20，代码表面越来越复杂，但核心始终没变：</p>
 <details class="code-collapse">
-<summary>查看代码</summary>
+<summary>代码</summary>
 <div class="sourceCode" id="cb144"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb144-1"><a aria-hidden="true" href="#cb144-1" tabindex="-1"></a><span class="cf">while</span> <span class="va">True</span>:</span>
 <span id="cb144-2"><a aria-hidden="true" href="#cb144-2" tabindex="-1"></a>    response <span class="op">=</span> LLM(messages, tools)</span>
 <span id="cb144-3"><a aria-hidden="true" href="#cb144-3" tabindex="-1"></a>    <span class="cf">if</span> <span class="kw">not</span> has_tool_use(response.content):</span>
