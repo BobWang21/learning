@@ -239,26 +239,7 @@
 负责执行（调了就跑、结果喂回去）。后面 18
 个章节都在这个循环上叠加机制，循环本身始终不变。</p>
 <hr/>
-<h2 id="试一下">试一下</h2>
-<blockquote>
-<p><strong>教学 demo 提示</strong>：代码会执行模型生成的 shell
-命令。建议在一个临时测试目录中运行，避免影响你的项目文件。s03
-会讲真正的权限系统。</p>
-</blockquote>
-<p><strong>准备</strong>（首次运行）：</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb7-1"><a aria-hidden="true" href="#cb7-1" tabindex="-1"></a><span class="ex">pip</span> install <span class="at">-r</span> requirements.txt</span>
-<span id="cb7-2"><a aria-hidden="true" href="#cb7-2" tabindex="-1"></a><span class="fu">cp</span> .env.example .env</span>
-<span id="cb7-3"><a aria-hidden="true" href="#cb7-3" tabindex="-1"></a><span class="co"># 编辑 .env，填入 ANTHROPIC_API_KEY 和 MODEL_ID</span></span></code></pre></div>
-<p><strong>运行</strong>：</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb8-1"><a aria-hidden="true" href="#cb8-1" tabindex="-1"></a><span class="ex">python</span> s01_agent_loop/code.py</span></code></pre></div>
-<p>试试这些 prompt：</p>
-<ol type="1">
-<li><code>Create a file called hello.py that prints "Hello, World!"</code></li>
-<li><code>List all Python files in this directory</code></li>
-<li><code>What is the current git branch?</code></li>
-</ol>
-<p>观察重点：模型什么时候调用工具（循环继续），什么时候不调用（循环结束）？</p>
-<hr/>
+
 <h2 id="接下来">接下来</h2>
 <p>现在模型手里只有 bash 一个工具，读文件要 <code>cat</code>，写文件要
 <code>echo ... &gt;</code>，找个文件要
@@ -542,18 +523,7 @@ token，还容易拼错。</p>
 </tbody>
 </table>
 <hr/>
-<h2 id="试一下-1">试一下</h2>
-<div class="sourceCode" id="cb14"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb14-1"><a aria-hidden="true" href="#cb14-1" tabindex="-1"></a><span class="bu">cd</span> learn-claude-code</span>
-<span id="cb14-2"><a aria-hidden="true" href="#cb14-2" tabindex="-1"></a><span class="ex">python</span> s02_tool_use/code.py</span></code></pre></div>
-<p>试试这些 prompt：</p>
-<ol type="1">
-<li><code>Read the file README.md and tell me what this project is about</code></li>
-<li><code>Create a file called test.py that prints "hello", then read it back</code></li>
-<li><code>Find all Python files in this directory</code></li>
-<li><code>Read both README.md and requirements.txt, then create a summary file</code></li>
-</ol>
-<p>观察重点：模型什么时候只调一个工具，什么时候一次调多个？多个工具调用的顺序和结果是否正确？</p>
-<hr/>
+
 <h2 id="接下来-1">接下来</h2>
 <p>现在 Agent 有 5 个专用工具。file tools 受 <code>safe_path</code>
 保护，但 bash 不受限制，<code>rm -rf /</code> 还是能跑。</p>
@@ -805,20 +775,7 @@ shell 展开可能绕过。CC 的做法见附录。）</p>
 </tbody>
 </table>
 <hr/>
-<h2 id="试一下-2">试一下</h2>
-<div class="sourceCode" id="cb20"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb20-1"><a aria-hidden="true" href="#cb20-1" tabindex="-1"></a><span class="bu">cd</span> learn-claude-code</span>
-<span id="cb20-2"><a aria-hidden="true" href="#cb20-2" tabindex="-1"></a><span class="ex">python</span> s03_permission/code.py</span></code></pre></div>
-<p>试试这些 prompt：</p>
-<ol type="1">
-<li><code>Create a file called test.txt in the current directory</code>（应该直接通过）</li>
-<li><code>Delete all temporary files in /tmp</code>（bash + rm
-会触发闸门 2）</li>
-<li><code>What files are in the current directory?</code>（只读，全部通过）</li>
-<li><code>Try to write a file to /etc/something</code>（写工作区外，触发闸门
-2）</li>
-</ol>
-<p>观察重点：哪些操作直接通过？哪些需要你确认？哪些被直接拒绝？</p>
-<hr/>
+
 <h2 id="接下来-2">接下来</h2>
 <p>权限检查做了——但每次都在循环里硬编码
 <code>check_permission()</code>。如果我想在每次工具执行前后加日志？如果想在某些操作后自动触发
@@ -1199,21 +1156,7 @@ summary_hook</td>
 </tbody>
 </table>
 <hr/>
-<h2 id="试一下-3">试一下</h2>
-<div class="sourceCode" id="cb29"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb29-1"><a aria-hidden="true" href="#cb29-1" tabindex="-1"></a><span class="bu">cd</span> learn-claude-code</span>
-<span id="cb29-2"><a aria-hidden="true" href="#cb29-2" tabindex="-1"></a><span class="ex">python</span> s04_hooks/code.py</span></code></pre></div>
-<p>试试这些 prompt：</p>
-<ol type="1">
-<li><code>Read the file README.md</code>（应该直接通过，观察 hook
-日志）</li>
-<li><code>Create a file called test.txt</code>（通过后观察 PostToolUse
-是否触发）</li>
-<li><code>Delete all temporary files in /tmp</code>（bash + rm 触发权限
-hook）</li>
-</ol>
-<p>观察重点：每次工具执行前，是否出现了 <code>[HOOK]</code>
-日志？权限被拒时，是 hook 拦截的还是循环里硬编码的？</p>
-<hr/>
+
 <h2 id="接下来-3">接下来</h2>
 <p>Agent
 现在能安全执行操作了。但它有没有停下来想过"我应该先做什么，再做什么"？给它一个复杂任务，它是一上来就动手，还是先列个计划？</p>
@@ -1497,20 +1440,7 @@ reminder，循环里加了一个计数器：连续 3 轮没调 <code>todo_write<
 </tbody>
 </table>
 <hr/>
-<h2 id="试一下-4">试一下</h2>
-<div class="sourceCode" id="cb33"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb33-1"><a aria-hidden="true" href="#cb33-1" tabindex="-1"></a><span class="bu">cd</span> learn-claude-code</span>
-<span id="cb33-2"><a aria-hidden="true" href="#cb33-2" tabindex="-1"></a><span class="ex">python</span> s05_todo_write/code.py</span></code></pre></div>
-<p>试试这些 prompt：</p>
-<ol type="1">
-<li><code>Refactor s05_todo_write/example/hello.py: add type hints, docstrings, and a main guard</code>（先列
-3 步再执行）</li>
-<li><code>Create a Python package under s05_todo_write/example/demo_pkg with __init__.py, utils.py, and tests/test_utils.py</code></li>
-<li><code>Review Python files under s05_todo_write/example and fix any style issues</code></li>
-</ol>
-<p>观察重点：第一次工具调用是不是 <code>todo_write</code>？TODO
-列了几步？执行过程中状态有没有从 <code>pending</code> 变成
-<code>in_progress</code> / <code>completed</code>？</p>
-<hr/>
+
 <h2 id="接下来-4">接下来</h2>
 <p>Agent 能计划了。但如果一个任务太大，比如"重构整个认证模块"，光靠 TODO
 列表不够。这个任务本身就是几十个小任务的集合，放在同一个对话里会被上下文淹没。</p>
@@ -1703,21 +1633,7 @@ hook，安全策略不因上下文隔离而跳过。</p>
 </tbody>
 </table>
 <hr/>
-<h2 id="试一下-5">试一下</h2>
-<div class="sourceCode" id="cb36"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb36-1"><a aria-hidden="true" href="#cb36-1" tabindex="-1"></a><span class="bu">cd</span> learn-claude-code</span>
-<span id="cb36-2"><a aria-hidden="true" href="#cb36-2" tabindex="-1"></a><span class="ex">python</span> s06_subagent/code.py</span></code></pre></div>
-<p>试试这些 prompt：</p>
-<ol type="1">
-<li><code>Use a subtask to find what testing framework this project uses</code>（子
-Agent 去读文件，主 Agent 只收结论）</li>
-<li><code>Delegate: read all .py files in agents/ and summarize what each one does</code></li>
-<li><code>Use a task to create s06_subagent/example/string_tools.py with a slugify(text: str) function, then verify it from the parent agent</code></li>
-</ol>
-<p>观察重点：是否出现 <code>[Subagent spawned]</code> /
-<code>[Subagent done]</code>？子 Agent 的工具调用是否以
-<code>[sub] ...</code> 输出？主 Agent 最后是否只继续处理子 Agent
-返回的摘要？</p>
-<hr/>
+
 <h2 id="接下来-5">接下来</h2>
 <p>Agent 现在能拆任务了。但每个任务需要的知识不一样：改前端组件需要知道
 React 规范，写 SQL 需要知道表结构。这些知识全塞进 system
@@ -1988,20 +1904,7 @@ s08 的 compact 自然衔接：按需加载解决了"不该提前带的不要带
 </tbody>
 </table>
 <hr/>
-<h2 id="试一下-6">试一下</h2>
-<div class="sourceCode" id="cb41"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb41-1"><a aria-hidden="true" href="#cb41-1" tabindex="-1"></a><span class="bu">cd</span> learn-claude-code</span>
-<span id="cb41-2"><a aria-hidden="true" href="#cb41-2" tabindex="-1"></a><span class="ex">python</span> s07_skill_loading/code.py</span></code></pre></div>
-<p>试试这些 prompt：</p>
-<ol type="1">
-<li><code>What skills are available?</code></li>
-<li><code>Load the code-review skill and follow its instructions</code></li>
-<li><code>I need to do a code review -- load the relevant skill first</code></li>
-</ol>
-<p>观察重点：Agent 是否直接从 SYSTEM
-里的目录知道有哪些技能？需要完整规范时是否出现
-<code>[HOOK] load_skill</code>？加载后回答是否使用了对应 skill
-的说明？</p>
-<hr/>
+
 <h2 id="接下来-6">接下来</h2>
 <p>按需加载解决了"不该带的不要带"。但另一个问题来了：Agent 连续工作 30
 分钟后，messages 列表塞满了中间过程。旧的
@@ -2305,21 +2208,7 @@ reactive_compact</td>
 </tbody>
 </table>
 <hr/>
-<h2 id="试一下-7">试一下</h2>
-<div class="sourceCode" id="cb48"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb48-1"><a aria-hidden="true" href="#cb48-1" tabindex="-1"></a><span class="bu">cd</span> learn-claude-code</span>
-<span id="cb48-2"><a aria-hidden="true" href="#cb48-2" tabindex="-1"></a><span class="ex">python</span> s08_context_compact/code.py</span></code></pre></div>
-<p>试试这些 prompt：</p>
-<ol type="1">
-<li><code>Read the file README.md, then read code.py, then read s01_agent_loop/README.md</code>（连续读多个文件，观察
-L2 压缩旧结果）</li>
-<li><code>Read every file in s08_context_compact/</code>（一次性读大量内容，观察
-L3 落盘）</li>
-<li>反复对话 20+ 轮，观察是否出现 <code>[auto compact]</code> 或
-<code>[reactive compact]</code></li>
-</ol>
-<p>观察重点：每次工具执行后，旧 tool_result 是否被压缩？连续对话后 token
-超阈值时，是否自动触发了摘要？</p>
-<hr/>
+
 <h2 id="接下来-7">接下来</h2>
 <p>上下文压缩让 Agent
 能跑很久不会崩。但每次压缩后，用户之前告诉它的偏好、约束也跟着丢了。能不能让
@@ -2713,23 +2602,7 @@ extract_memories, consolidate_memories</td>
 </tbody>
 </table>
 <hr/>
-<h2 id="试一下-8">试一下</h2>
-<div class="sourceCode" id="cb56"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb56-1"><a aria-hidden="true" href="#cb56-1" tabindex="-1"></a><span class="bu">cd</span> learn-claude-code</span>
-<span id="cb56-2"><a aria-hidden="true" href="#cb56-2" tabindex="-1"></a><span class="ex">python</span> s09_memory/code.py</span></code></pre></div>
-<p>试试这些 prompt（分多轮输入，观察记忆的累积和加载）：</p>
-<ol type="1">
-<li><code>I prefer using tabs for indentation, not spaces. Remember that.</code></li>
-<li><code>Create a Python file called test.py</code>（观察 Agent
-是否用了 tab）</li>
-<li><code>What did I tell you about my preferences?</code>（观察 Agent
-是否记得）</li>
-<li><code>I also prefer single quotes over double quotes for strings.</code></li>
-</ol>
-<p>观察重点：每轮结束后是否出现
-<code>[Memory: extracted N new memories]</code>？<code>.memory/</code>
-目录下是否生成了 <code>.md</code> 文件？<code>MEMORY.md</code>
-索引是否更新？新一轮对话时 Agent 是否自动加载了之前的记忆？</p>
-<hr/>
+
 <h2 id="接下来-8">接下来</h2>
 <p>记忆、压缩、工具都已就绪。但 system prompt
 还是硬编码的一大段字符串。加了新工具要手动加描述，换了项目要重写整个
@@ -3136,26 +3009,7 @@ cache，不因动态内容变化而失效。</p>
 </tbody>
 </table>
 <hr/>
-<h2 id="试一下-9">试一下</h2>
-<div class="sourceCode" id="cb64"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb64-1"><a aria-hidden="true" href="#cb64-1" tabindex="-1"></a><span class="bu">cd</span> learn-claude-code</span>
-<span id="cb64-2"><a aria-hidden="true" href="#cb64-2" tabindex="-1"></a><span class="ex">python</span> s10_system_prompt/code.py</span></code></pre></div>
-<p>观察重点：</p>
-<ol type="1">
-<li>输出中能看到哪些 section
-被加载了（<code>[assembled] sections: ...</code> 标签）</li>
-<li>连续对话时，缓存命中显示 <code>[cache hit]</code></li>
-<li>创建 <code>.memory/MEMORY.md</code> 文件后，下一轮 memory section
-自动加载</li>
-</ol>
-<p>试试这些 prompt：</p>
-<ol type="1">
-<li><code>Read the file README.md</code>（观察始终加载的三个
-section）</li>
-<li><code>Create a file called .memory/MEMORY.md with content "- [test](test.md) — test memory"</code>（写入记忆索引）</li>
-<li><code>Read the file code.py</code>（观察 memory section
-是否出现）</li>
-</ol>
-<hr/>
+
 <h2 id="接下来-9">接下来</h2>
 <p>System prompt 可以运行时组装了，但 Agent
 碰到错误还是会崩。网络抖动、API 限流、输出被截断、上下文超限，这些不是
@@ -3453,17 +3307,7 @@ RecoveryState</td>
 </tbody>
 </table>
 <hr/>
-<h2 id="试一下-10">试一下</h2>
-<div class="sourceCode" id="cb71"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb71-1"><a aria-hidden="true" href="#cb71-1" tabindex="-1"></a><span class="bu">cd</span> learn-claude-code</span>
-<span id="cb71-2"><a aria-hidden="true" href="#cb71-2" tabindex="-1"></a><span class="ex">python</span> s11_error_recovery/code.py</span></code></pre></div>
-<p>试试这些 prompt：</p>
-<ol type="1">
-<li>让 Agent 生成一段很长的代码，观察截断后是否自动续写（看
-<code>[max_tokens] escalating</code> 日志）</li>
-<li>连续读取大量文件撑大上下文，观察 reactive compact</li>
-<li>如果遇到 429/529，观察指数退避的日志输出</li>
-</ol>
-<hr/>
+
 <h2 id="接下来-10">接下来</h2>
 <p>Agent
 现在能在错误中自动恢复了。但它处理的任务仍然是"一次性"的——你给它一个任务，它做完，结束。</p>
@@ -3889,19 +3733,7 @@ owner），并将 status 重置为 <code>pending</code>，方便其他 agent
 </tbody>
 </table>
 <hr/>
-<h2 id="试一下-11">试一下</h2>
-<div class="sourceCode" id="cb83"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb83-1"><a aria-hidden="true" href="#cb83-1" tabindex="-1"></a><span class="bu">cd</span> learn-claude-code</span>
-<span id="cb83-2"><a aria-hidden="true" href="#cb83-2" tabindex="-1"></a><span class="ex">python</span> s12_task_system/code.py</span></code></pre></div>
-<p>试试这些 prompt：</p>
-<ol type="1">
-<li><code>Create tasks: setup database schema, create API endpoints (depends on schema), write tests (depends on endpoints), write docs (depends on schema)</code></li>
-<li><code>List all tasks and their statuses</code></li>
-<li><code>Claim the first unblocked task and complete it</code></li>
-<li><code>List tasks again — which ones are now unblocked?</code></li>
-</ol>
-<p>观察重点：<code>.tasks/</code> 目录下是否生成了 JSON
-文件？完成任务后，被阻塞的任务是否解锁？</p>
-<hr/>
+
 <h2 id="接下来-11">接下来</h2>
 <p>任务图有了。但有些任务要跑很久——比如全量测试、部署到服务器。Agent 调
 LLM 按量计费，不能干等一个慢操作。</p>
@@ -4259,19 +4091,7 @@ Turn 2:
 </tbody>
 </table>
 <hr/>
-<h2 id="试一下-12">试一下</h2>
-<div class="sourceCode" id="cb89"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb89-1"><a aria-hidden="true" href="#cb89-1" tabindex="-1"></a><span class="bu">cd</span> learn-claude-code</span>
-<span id="cb89-2"><a aria-hidden="true" href="#cb89-2" tabindex="-1"></a><span class="ex">python</span> s13_background_tasks/code.py</span></code></pre></div>
-<p>试试这些 prompt：</p>
-<ol type="1">
-<li><code>Run pip list in the background and find all Python files in this directory</code></li>
-<li><code>Run npm install (use run_in_background) and while waiting, read package.json</code></li>
-<li><code>Create a task to setup the project, then run pip list in the background</code></li>
-</ol>
-<p>观察重点：慢操作有没有被送到后台？<code>bg_id</code>
-是否返回？后台通知有没有以 <code>&lt;task_notification&gt;</code>
-格式注入？</p>
-<hr/>
+
 <h2 id="接下来-12">接下来</h2>
 <p>后台任务解决了"慢操作不阻塞"。但如果想定时做某件事呢？比如"每天早上 9
 点跑测试"、"每 5 分钟检查一次服务器状态"。</p>
@@ -4601,21 +4421,7 @@ cron_scheduler_loop, queue_processor_loop</td>
 </tbody>
 </table>
 <hr/>
-<h2 id="试一下-13">试一下</h2>
-<div class="sourceCode" id="cb99"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb99-1"><a aria-hidden="true" href="#cb99-1" tabindex="-1"></a><span class="bu">cd</span> learn-claude-code</span>
-<span id="cb99-2"><a aria-hidden="true" href="#cb99-2" tabindex="-1"></a><span class="ex">python</span> s14_cron_scheduler/code.py</span></code></pre></div>
-<p>试试这些 prompt：</p>
-<ol type="1">
-<li><code>Schedule a task to print the current date every 2 minutes</code></li>
-<li><code>List all cron jobs</code></li>
-<li><code>Create a one-shot reminder in 1 minute to check the build status</code></li>
-<li><code>Cancel the recurring job and verify with list_crons</code></li>
-</ol>
-<p>观察重点：调度线程是否在独立运行？cron
-任务是否在正确的时间点触发？不输入新 prompt 时，是否也出现
-<code>[queue processor]</code> 并自动执行？durable job 是否写入了
-<code>.scheduled_tasks.json</code>？</p>
-<hr/>
+
 <h2 id="接下来-13">接下来</h2>
 <p>一个 Agent
 能做很多事了，能计划、能压缩、能后台、能定时。但有些任务太大了，不是一个
@@ -4882,18 +4688,7 @@ turn，不需要等用户输入。</p>
 </tbody>
 </table>
 <hr/>
-<h2 id="试一下-14">试一下</h2>
-<div class="sourceCode" id="cb105"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb105-1"><a aria-hidden="true" href="#cb105-1" tabindex="-1"></a><span class="bu">cd</span> learn-claude-code</span>
-<span id="cb105-2"><a aria-hidden="true" href="#cb105-2" tabindex="-1"></a><span class="ex">python</span> s15_agent_teams/code.py</span></code></pre></div>
-<p>试试这些 prompt：</p>
-<ol type="1">
-<li><code>Spawn alice as a backend developer. Ask her to create a file called schema.sql with a users table.</code></li>
-<li><code>Check your inbox for alice's result.</code></li>
-<li><code>Spawn bob as a tester. Ask him to check if schema.sql exists and list its contents.</code></li>
-</ol>
-<p>观察重点：Lead 如何启动队友？<code>.mailboxes/</code> 目录下的 JSONL
-文件长什么样？队友完成后 Lead 的 inbox 有没有注入到 history？</p>
-<hr/>
+
 <h2 id="接下来-14">接下来</h2>
 <p>队友能干活、能通信。但如果 Lead 想让 Alice
 关机，直接杀线程会留下写到一半的文件。需要一个体面的关机协议：Lead 发
@@ -5283,20 +5078,7 @@ review_plan）</td>
 </tbody>
 </table>
 <hr/>
-<h2 id="试一下-15">试一下</h2>
-<div class="sourceCode" id="cb114"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb114-1"><a aria-hidden="true" href="#cb114-1" tabindex="-1"></a><span class="bu">cd</span> learn-claude-code</span>
-<span id="cb114-2"><a aria-hidden="true" href="#cb114-2" tabindex="-1"></a><span class="ex">python</span> s16_team_protocols/code.py</span></code></pre></div>
-<p>试试这些 prompt：</p>
-<ol type="1">
-<li><code>Spawn alice as a backend dev. Ask her to create a file. Then request her shutdown.</code></li>
-<li><code>Spawn bob with a refactoring task. Have him submit a plan first. Then review and approve it.</code></li>
-</ol>
-<p>观察重点：关机握手是否完整（请求 → 确认 →
-关机）？<code>pending_requests</code>
-的状态是否正确转换？<code>request_id</code>
-是否在请求和响应之间保持一致？队友 idle 后是否能收到
-shutdown_request？</p>
-<hr/>
+
 <h2 id="接下来-15">接下来</h2>
 <p>s15-s16 中，Lead 必须给每个队友分配任务。"Alice 做这个，Bob
 做那个"。任务看板上有 10 个未认领的任务，Lead 得手动 assign。</p>
@@ -5597,16 +5379,7 @@ inbox 消费</h3>
 </tbody>
 </table>
 <hr/>
-<h2 id="试一下-16">试一下</h2>
-<div class="sourceCode" id="cb121"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb121-1"><a aria-hidden="true" href="#cb121-1" tabindex="-1"></a><span class="bu">cd</span> learn-claude-code</span>
-<span id="cb121-2"><a aria-hidden="true" href="#cb121-2" tabindex="-1"></a><span class="ex">python</span> s17_autonomous_agents/code.py</span></code></pre></div>
-<p>试试这个 prompt：</p>
-<p><code>Create 3 tasks on the board, then spawn alice and bob. Watch them auto-claim and work.</code></p>
-<p>观察重点：队友是否自动认领了未分配的任务？有 blockedBy
-依赖的任务是否在前置完成后被正确认领？空闲超时后是否自动关机？IDLE
-阶段收到 shutdown_request 是否立即响应？<code>.tasks/</code>
-目录下的任务状态如何变化？</p>
-<hr/>
+
 <h2 id="接下来-16">接下来</h2>
 <p>队友自组织了。但 Alice 和 Bob 都在同一个目录下工作——Alice 改
 <code>config.py</code>，Bob 也改 <code>config.py</code>，互相覆盖。</p>
@@ -5892,17 +5665,7 @@ keep_worktree, validate_worktree_name</td>
 </tbody>
 </table>
 <hr/>
-<h2 id="试一下-17">试一下</h2>
-<div class="sourceCode" id="cb127"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb127-1"><a aria-hidden="true" href="#cb127-1" tabindex="-1"></a><span class="bu">cd</span> learn-claude-code</span>
-<span id="cb127-2"><a aria-hidden="true" href="#cb127-2" tabindex="-1"></a><span class="ex">python</span> s18_worktree_isolation/code.py</span></code></pre></div>
-<p>试试这个 prompt：</p>
-<p><code>Create two tasks, then create worktrees for each (bind with task_id). Spawn alice and bob. Watch them auto-claim and work in isolated directories.</code></p>
-<p>观察重点：两个 worktree 的 <code>git status</code>
-输出是否显示不同的分支？队友认领带 worktree 的任务后，bash 命令是否在
-worktree 目录下执行？<code>remove_worktree</code> 对有改动的 worktree
-是否拒绝？<code>.tasks/</code> 中的任务在绑定后状态是否仍为
-<code>pending</code>？</p>
-<hr/>
+
 <h2 id="接下来-17">接下来</h2>
 <p>Agent 团队能在隔离的工作空间中自组织了。但 Agent
 的能力受限于我们给它写的工具——bash、read、write、task...</p>
@@ -6162,19 +5925,7 @@ agent 继承父级的 MCP 配置。</p>
 </tbody>
 </table>
 <hr/>
-<h2 id="试一下-18">试一下</h2>
-<div class="sourceCode" id="cb133"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb133-1"><a aria-hidden="true" href="#cb133-1" tabindex="-1"></a><span class="bu">cd</span> learn-claude-code</span>
-<span id="cb133-2"><a aria-hidden="true" href="#cb133-2" tabindex="-1"></a><span class="ex">python</span> s19_mcp_plugin/code.py</span></code></pre></div>
-<p>试试这些 prompt：</p>
-<ol type="1">
-<li><code>Connect to the docs MCP server and search for something</code></li>
-<li><code>Connect to the deploy server and trigger a deployment</code></li>
-<li><code>Connect both servers — what tools are now available?</code></li>
-</ol>
-<p>观察重点：连接 MCP server 后，工具名是否带 <code>mcp__docs__</code>
-或 <code>mcp__deploy__</code> 前缀？两个 server 的工具是否同时可用？MCP
-工具的 description 是否带 (readOnly)/(destructive) 标注？</p>
-<hr/>
+
 <h2 id="接下来-18">接下来</h2>
 <p>现在 Agent 可以通过标准协议接入外部工具了。但前面 19
 章每章都只加一个机制，真实 Agent 不会这样拆开运行。</p>
@@ -6596,28 +6347,7 @@ BUILTIN_HANDLERS + mcp__server__tool handlers</code></pre>
 </tbody>
 </table>
 <hr/>
-<h2 id="试一下-19">试一下</h2>
-<div class="sourceCode" id="cb143"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb143-1"><a aria-hidden="true" href="#cb143-1" tabindex="-1"></a><span class="bu">cd</span> learn-claude-code</span>
-<span id="cb143-2"><a aria-hidden="true" href="#cb143-2" tabindex="-1"></a><span class="ex">python</span> s20_comprehensive/code.py</span></code></pre></div>
-<p>可以试：</p>
-<ol type="1">
-<li><code>Create a todo list for inspecting this repo, then list Python files</code></li>
-<li><code>Connect to the docs MCP server and search for agent loop</code></li>
-<li><code>Create two tasks, create worktrees for them, then spawn alice and bob. Ask them to submit plans before claiming tasks.</code></li>
-<li><code>remind me of the meeting in 3 minutes.</code></li>
-<li><code>Run npm install in the background and continue reading README.md</code></li>
-</ol>
-<p>观察重点：</p>
-<ul>
-<li>工具调用前是否经过 hooks/permission</li>
-<li><code>connect_mcp</code> 后下一轮是否出现 MCP 工具</li>
-<li>慢操作是否返回 background placeholder</li>
-<li>到点是不是自动提醒开会</li>
-<li>队友是否提交 plan，并在 approval 前暂停</li>
-<li>plan 批准后，队友是否能认领任务</li>
-<li>worktree 绑定后，队友是否切到对应目录</li>
-</ul>
-<hr/>
+
 <h2 id="结束亦是开始">结束亦是开始</h2>
 <p>从 s01 到 s20，代码表面越来越复杂，但核心始终没变：</p>
 <div class="sourceCode" id="cb144"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb144-1"><a aria-hidden="true" href="#cb144-1" tabindex="-1"></a><span class="cf">while</span> <span class="va">True</span>:</span>
