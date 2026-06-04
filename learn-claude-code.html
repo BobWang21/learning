@@ -71,7 +71,7 @@
         }
         .lesson-image {
             display: block;
-            max-width: 100%;
+            max-width: 86%;
             height: auto;
             margin: 22px auto;
             border: 1px solid #e2e8f0;
@@ -95,6 +95,11 @@
             font-size: 0.95rem;
             margin-top: 8px;
         }
+        @media (max-width: 768px) {
+            .lesson-image {
+                max-width: 100%;
+            }
+        }
     </style>
 </head>
 <body>
@@ -105,7 +110,7 @@
                 <li><a href="index.html">🏠 首页</a></li>
                 <li><a href="index.html#ai">🤖 AI</a></li>
                 <li><a href="claude-code.html">Claude Code 总结</a></li>
-                <li><a href="#overview">总结</a></li>
+                <li><a href="#overview">目录</a></li>
                     <li><a href="#s01-agent-loop">s01: Agent Loop — 一个循环就够了</a></li>
                     <li><a href="#s02-tool-use">s02: Tool Use — 多加一个工具，只加一行</a></li>
                     <li><a href="#s03-permission">s03: Permission — 执行前做权限判断</a></li>
@@ -136,7 +141,7 @@
             </header>
 
             <section class="section" id="overview">
-                <h2>总结</h2>
+                <h2>目录</h2>
                 <div class="intro-box">
                     <p><strong>s01 Agent Loop：</strong>用一个循环把模型的工具调用和真实执行结果连接起来。</p>
                     <p><strong>s02 Tool Use：</strong>把 bash 拆成读写搜改等专用工具，让模型更稳定地行动。</p>
