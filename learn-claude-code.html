@@ -105,7 +105,7 @@
                 <li><a href="index.html">🏠 首页</a></li>
                 <li><a href="index.html#ai">🤖 AI</a></li>
                 <li><a href="claude-code.html">Claude Code 总结</a></li>
-                <li><a href="#overview">总览</a></li>
+                <li><a href="#overview">总结</a></li>
                     <li><a href="#s01-agent-loop">s01: Agent Loop — 一个循环就够了</a></li>
                     <li><a href="#s02-tool-use">s02: Tool Use — 多加一个工具，只加一行</a></li>
                     <li><a href="#s03-permission">s03: Permission — 执行前做权限判断</a></li>
@@ -132,15 +132,32 @@
         <main class="content">
             <header class="header">
                 <h1>Learn Claude Code</h1>
-                <p class="subtitle">把 learn-claude-code 的 20 个 README 章节整理成一页阅读版，保留原始示意图、代码片段和章节结构。</p>
-                <p class="chapter-count">共 20 章：从 Agent Loop、工具调用、权限、Hooks、TodoWrite，到 Subagent、Skills、MCP Plugin 和综合架构。</p>
+                <p class="subtitle">参考代码：<a href="https://github.com/shareAI-lab/learn-claude-code" target="_blank" rel="noopener noreferrer">https://github.com/shareAI-lab/learn-claude-code</a></p>
             </header>
 
             <section class="section" id="overview">
-                <h2>阅读说明</h2>
+                <h2>总结</h2>
                 <div class="intro-box">
-                    <p>这页内容来自 <code>learn-claude-code</code> 仓库中 <code>s01</code> 到 <code>s20</code> 的中文 <code>README.md</code>。页面按课程编号串联，适合顺序学习 Claude Code / coding agent 的核心机制。</p>
-                    <p>所有本地 SVG 图片已复制到本站 <code>images/learn-claude-code/</code> 下，并改写为相对路径，部署到 GitHub Pages 后可以直接显示。</p>
+                    <p><strong>s01 Agent Loop：</strong>用一个循环把模型的工具调用和真实执行结果连接起来。</p>
+                    <p><strong>s02 Tool Use：</strong>把 bash 拆成读写搜改等专用工具，让模型更稳定地行动。</p>
+                    <p><strong>s03 Permission：</strong>在工具执行前设置权限闸门，避免 agent 越权操作。</p>
+                    <p><strong>s04 Hooks：</strong>把日志、权限、审计等横切逻辑挂到生命周期事件上。</p>
+                    <p><strong>s05 TodoWrite：</strong>用显式任务列表约束多步任务，减少执行跑偏。</p>
+                    <p><strong>s06 Subagent：</strong>把大任务拆给独立上下文的子 agent，主会话只接收结论。</p>
+                    <p><strong>s07 Skill Loading：</strong>专业知识按需加载，避免默认上下文膨胀。</p>
+                    <p><strong>s08 Context Compact：</strong>通过分层压缩和摘要腾出上下文空间。</p>
+                    <p><strong>s09 Memory：</strong>把压缩中不该丢的长期事实沉淀到记忆层。</p>
+                    <p><strong>s10 System Prompt：</strong>运行时组装系统提示词，让规则、工具和状态动态进入上下文。</p>
+                    <p><strong>s11 Error Recovery：</strong>把错误视作可恢复状态，通过重试、压缩和降级继续推进。</p>
+                    <p><strong>s12 Task System：</strong>把复杂目标拆成有依赖关系的小任务来调度。</p>
+                    <p><strong>s13 Background Tasks：</strong>把慢操作放到后台执行，前台保持响应。</p>
+                    <p><strong>s14 Cron Scheduler：</strong>让 agent 按时间表自动生成和执行工作。</p>
+                    <p><strong>s15 Agent Teams：</strong>用多个角色化 agent 协作处理复杂任务。</p>
+                    <p><strong>s16 Team Protocols：</strong>通过协议约束团队 agent 的交接、审查和决策方式。</p>
+                    <p><strong>s17 Autonomous Agents：</strong>让 agent 能从任务看板中自主认领、执行和更新状态。</p>
+                    <p><strong>s18 Worktree Isolation：</strong>用独立工作区隔离并行任务，避免互相污染。</p>
+                    <p><strong>s19 MCP Tools：</strong>通过 MCP 标准协议接入外部工具和系统。</p>
+                    <p><strong>s20 Comprehensive Agent：</strong>把前面机制合并成一个完整的生产级 agent 循环。</p>
                 </div>
             </section>
 
