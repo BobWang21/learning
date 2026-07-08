@@ -14,9 +14,8 @@
 大语言模型与智能体的系统化学习路径，包括基础理论和前沿应用。
 
 #### 🏗️ 基座（Foundation）
-- **1. Model** - 大语言模型的基础架构与设计原理
+- **1 Transformer** - Transformer 架构、Attention、位置编码与常见变体
   - [GPT 模型原理](https://bobwang21.github.io/learning/ai-model-gpt-principles.html)
-  - [注意力机制](https://bobwang21.github.io/learning/ai-model-attention-mechanism.html)
 
 - **2. Pre-training** - 预训练阶段的关键技术与方法
   - [token-BPE 算法](https://bobwang21.github.io/learning/ai-pretraining-token-bpe.html)
@@ -86,9 +85,8 @@ learning/
 ├── README.md                               # 本文件
 │
 ├── 🤖 AI 研究
-│   ├── ai-model.html                       # 1. Model
-│   │   ├── ai-model-gpt-principles.html    # GPT 模型原理
-│   │   └── ai-model-attention-mechanism.html # 注意力机制
+│   ├── ai-transformer/                     # 1 Transformer
+│   │   └── ai-model-gpt-principles.html    # GPT 模型原理
 │   │
 │   ├── ai-pretraining.html                 # 2. Pre-training
 │   │   └── ai-pretraining-token-bpe.html   # token-BPE 算法
@@ -122,7 +120,7 @@ learning/
 
 ### AI 基座（Foundation）
 
-#### 1. Model - 大语言模型基础
+#### 1 Transformer - 大语言模型基础
 - 模型架构与设计原理
 - Transformer 的演进
 - 注意力机制的深度理解
