@@ -15,7 +15,6 @@
 
 #### 🏗️ 基座（Foundation）
 - **1 Transformer** - Transformer 架构、Attention、位置编码与常见变体
-  - [GPT 模型原理](https://bobwang21.github.io/learning/ai-model-gpt-principles.html)
 
 - **2. Pre-training** - 预训练阶段的关键技术与方法
   - [token-BPE 算法](https://bobwang21.github.io/learning/ai-pretraining-token-bpe.html)
@@ -86,7 +85,6 @@ learning/
 │
 ├── 🤖 AI 研究
 │   ├── ai-transformer/                     # 1 Transformer
-│   │   └── ai-model-gpt-principles.html    # GPT 模型原理
 │   │
 │   ├── ai-pretraining.html                 # 2. Pre-training
 │   │   └── ai-pretraining-token-bpe.html   # token-BPE 算法

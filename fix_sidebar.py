@@ -15,7 +15,6 @@ new_sidebar = '''        <div class="sidebar">
                     <ul>
                         <li><a href="ai-model.html">1. Model</a>
                             <ul>
-                                <li><a href="ai-model-gpt-principles.html">GPT 模型原理</a></li>
                                 <li><a href="ai-model-attention-mechanism.html">注意力机制</a></li>
                             </ul>
                         </li>
