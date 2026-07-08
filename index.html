@@ -354,7 +354,6 @@
                 </li>
                 <li><a href="decision.html">🔄 端到端</a></li>
                 <li><a href="models.html">⏱️ 预测</a></li>
-                <li><a href="index.html#zhixing">🧭 知行</a></li>
             </ul>
         </div>
 
@@ -372,9 +371,6 @@
                 </button>
                 <button class="tab-button" data-tab="prediction">
                     <span class="tab-icon">⏱️</span>预测
-                </button>
-                <button class="tab-button" data-tab="zhixing">
-                    <span class="tab-icon">🧭</span>知行
                 </button>
             </div>
 
@@ -561,21 +557,6 @@
                     </div>
                 </div>
 
-                <!-- 知行 Tab -->
-                <div class="tab-pane" id="zhixing">
-                    <h2 style="color: #1e40af; margin-bottom: 30px;">🧭 知行</h2>
-                    <p style="color: #64748b; margin-bottom: 20px;">本文包括与人生关键能力相关的八大思维模型: 学习、思考、创作、设计、共情、演讲、整合、领导</p>
-
-                    <h3 style="color: #7c3aed; margin-bottom: 20px; margin-top: 10px; font-size: 1.3rem;">🧠 模型</h3>
-                    <div class="article-grid">
-                        <a href="zhixing-model-thinking.html" class="article-card-link">
-                            <div class="article-card">
-                                <h3>2.1 模型思维</h3>
-                                <p>本文包括与人生关键能力相关的八大思维模型: 学习、思考、创作、设计、共情、演讲、整合、领导</p>
-                            </div>
-                        </a>
-                    </div>
-                </div>
             </div>
         </div>
         </main>
@@ -587,14 +568,20 @@
         const tabPanes = document.querySelectorAll('.tab-pane');
 
         function switchTab(tabName) {
+            let activeButton = document.querySelector(`[data-tab="${tabName}"]`);
+            let activePane = document.getElementById(tabName);
+
+            if (!activeButton || !activePane) {
+                tabName = 'ai';
+                activeButton = document.querySelector('[data-tab="ai"]');
+                activePane = document.getElementById('ai');
+            }
+
             // 移除所有 active 类
             tabButtons.forEach(btn => btn.classList.remove('active'));
             tabPanes.forEach(pane => pane.classList.remove('active'));
 
             // 添加 active 类到当前按钮和对应的 pane
-            const activeButton = document.querySelector(`[data-tab="${tabName}"]`);
-            const activePane = document.getElementById(tabName);
-
             if (activeButton && activePane) {
                 activeButton.classList.add('active');
                 activePane.classList.add('active');
