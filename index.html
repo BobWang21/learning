@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>学习领域</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="styles.css?v=20260710-red">
     <style>
         * {
             margin: 0;
@@ -14,7 +14,7 @@
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Microsoft YaHei', sans-serif;
-            background: linear-gradient(135deg, #f0f4f8 0%, #d9e2ec 100%);
+            background: linear-gradient(135deg, #fff7f7 0%, #ffe4e6 100%);
             height: 100vh;
             padding: 0;
             overflow: hidden;
@@ -34,7 +34,7 @@
 
         .header h1 {
             font-size: 3rem;
-            color: #1e40af;
+            color: #8B1E3F;
             margin-bottom: 10px;
             font-weight: 700;
         }
@@ -57,8 +57,8 @@
 
         .tabs-header {
             display: flex;
-            border-bottom: 2px solid #e2e8f0;
-            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            border-bottom: 2px solid #f2d6d6;
+            background: linear-gradient(135deg, #fffafa 0%, #fff1f2 100%);
         }
 
         .tab-button {
@@ -76,13 +76,13 @@
         }
 
         .tab-button:hover {
-            color: #1e40af;
-            background-color: rgba(30, 64, 175, 0.05);
+            color: #8B1E3F;
+            background-color: rgba(139, 30, 63, 0.06);
         }
 
         .tab-button.active {
-            color: #1e40af;
-            background-color: rgba(30, 64, 175, 0.1);
+            color: #8B1E3F;
+            background-color: rgba(139, 30, 63, 0.10);
         }
 
         .tab-button.active::after {
@@ -92,7 +92,7 @@
             left: 0;
             right: 0;
             height: 3px;
-            background: linear-gradient(90deg, #1e40af, #0c4a6e);
+            background: linear-gradient(90deg, #8B1E3F, #7F1D1D);
         }
 
         .tabs-content {
@@ -159,7 +159,7 @@
 
         .article-card {
             background: white;
-            border: 1px solid #e2e8f0;
+            border: 1px solid #f2d6d6;
             border-radius: 8px;
             padding: 20px;
             transition: all 0.3s ease;
@@ -169,11 +169,11 @@
         .article-card:hover {
             transform: translateY(-5px);
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-            border-color: #1e40af;
+            border-color: #8B1E3F;
         }
 
         .article-card h3 {
-            color: #1e40af;
+            color: #8B1E3F;
             margin-bottom: 10px;
             font-size: 1.2rem;
         }
@@ -187,17 +187,17 @@
 
         .article-link {
             display: inline-block;
-            color: #1e40af;
+            color: #8B1E3F;
             text-decoration: none;
             font-weight: 600;
             padding: 8px 16px;
             border-radius: 4px;
-            background: rgba(30, 64, 175, 0.1);
+            background: rgba(139, 30, 63, 0.10);
             transition: all 0.3s ease;
         }
 
         .article-link:hover {
-            background: rgba(30, 64, 175, 0.2);
+            background: rgba(139, 30, 63, 0.18);
             transform: translateX(5px);
         }
 
@@ -211,7 +211,7 @@
         .article-card-link:hover .article-card {
             transform: translateY(-5px);
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-            border-color: #1e40af;
+            border-color: #8B1E3F;
         }
 
         .article-card-link h3 {
@@ -378,13 +378,13 @@
             <div class="tabs-content">
                 <!-- AI 研究 Tab -->
                 <div class="tab-pane active" id="ai">
-                    <h2 style="color: #1e40af; margin-bottom: 30px;">🤖 AI</h2>
+                    <h2 style="color: #8B1E3F; margin-bottom: 30px;">🤖 AI</h2>
                     <p style="color: #64748b; margin-bottom: 20px;">大语言模型与智能体的前沿研究</p>
 
                     <!-- 基座 + Training 并列（各自独立标题，同一行） -->
                     <div class="base-row">
                         <div class="base-column">
-                            <h3 style="color: #7c3aed; margin-bottom: 20px; font-size: 1.3rem;">🏗️ 基座</h3>
+                            <h3 style="color: #C2410C; margin-bottom: 20px; font-size: 1.3rem;">🏗️ 基座</h3>
                             <div class="foundation-grid single-card">
                                 <a href="ai-transformer/" class="article-card-link">
                                     <div class="article-card">
@@ -395,7 +395,7 @@
                             </div>
                         </div>
                         <div class="base-column">
-                            <h3 style="color: #7c3aed; margin-bottom: 20px; font-size: 1.3rem;">🔄 Training</h3>
+                            <h3 style="color: #C2410C; margin-bottom: 20px; font-size: 1.3rem;">🔄 Training</h3>
                             <div class="foundation-grid single-card">
                                 <a href="ai-posttraining.html" class="article-card-link">
                                     <div class="article-card">
@@ -408,7 +408,7 @@
                     </div>
 
                     <!-- Agent 部分 -->
-                    <h3 style="color: #7c3aed; margin-bottom: 25px; margin-top: 40px; font-size: 1.3rem;">🤖 Agent</h3>
+                    <h3 style="color: #C2410C; margin-bottom: 25px; margin-top: 40px; font-size: 1.3rem;">🤖 Agent</h3>
                     <div class="agent-grid">
                         <a href="ai-agent-function-calling.html" class="article-card-link">
                             <div class="article-card">
@@ -449,7 +449,7 @@
                     </div>
 
                     <!-- Application 子栏目 -->
-                    <h3 style="color: #7c3aed; margin-bottom: 25px; margin-top: 40px; font-size: 1.3rem;">📱 Application</h3>
+                    <h3 style="color: #C2410C; margin-bottom: 25px; margin-top: 40px; font-size: 1.3rem;">📱 Application</h3>
                     
                     <div class="agent-grid">
                         <a href="a.html" class="article-card-link">
@@ -481,7 +481,7 @@
 
                 <!-- 预测与决策 Tab -->
                 <div class="tab-pane" id="e2e">
-                    <h2 style="color: #1e40af; margin-bottom: 30px;">🔄 端到端</h2>
+                    <h2 style="color: #8B1E3F; margin-bottom: 30px;">🔄 端到端</h2>
                     <p style="color: #64748b; margin-bottom: 20px;">探索如何将预测模型与决策优化紧密结合</p>
                     <div class="article-grid">
                         <a href="decision.html" class="article-card-link">
@@ -513,11 +513,11 @@
 
                 <!-- 预测 Tab -->
                 <div class="tab-pane" id="prediction">
-                    <h2 style="color: #1e40af; margin-bottom: 30px;">⏱️ 预测</h2>
+                    <h2 style="color: #8B1E3F; margin-bottom: 30px;">⏱️ 预测</h2>
                     <p style="color: #64748b; margin-bottom: 20px;">深度学习和大模型在时间序列预测与回归预测中的应用研究</p>
 
                     <!-- 时序预测 -->
-                    <h3 style="color: #7c3aed; margin-bottom: 20px; margin-top: 10px; font-size: 1.3rem;">📈 时序预测</h3>
+                    <h3 style="color: #C2410C; margin-bottom: 20px; margin-top: 10px; font-size: 1.3rem;">📈 时序预测</h3>
                     <div class="article-grid">
                         <a href="models.html" class="article-card-link">
                             <div class="article-card">
@@ -540,7 +540,7 @@
                     </div>
 
                     <!-- 回归预测 -->
-                    <h3 style="color: #7c3aed; margin-bottom: 20px; margin-top: 40px; font-size: 1.3rem;">📉 回归预测</h3>
+                    <h3 style="color: #C2410C; margin-bottom: 20px; margin-top: 40px; font-size: 1.3rem;">📉 回归预测</h3>
                     <div class="article-grid">
                         <a href="regression-prediction-survey.html" class="article-card-link">
                             <div class="article-card">
@@ -658,7 +658,7 @@
         /* 子标签页样式 */
         .subtabs-header {
             display: flex;
-            border-bottom: 2px solid #e2e8f0;
+            border-bottom: 2px solid #f2d6d6;
             margin-bottom: 30px;
         }
         
@@ -676,13 +676,13 @@
         }
         
         .subtab-button:hover {
-            color: #1e40af;
-            background-color: rgba(30, 64, 175, 0.05);
+            color: #8B1E3F;
+            background-color: rgba(139, 30, 63, 0.06);
         }
         
         .subtab-button.active {
-            color: #1e40af;
-            background-color: rgba(30, 64, 175, 0.1);
+            color: #8B1E3F;
+            background-color: rgba(139, 30, 63, 0.10);
         }
         
         .subtab-button.active::after {
@@ -692,7 +692,7 @@
             left: 0;
             right: 0;
             height: 3px;
-            background: linear-gradient(90deg, #1e40af, #0c4a6e);
+            background: linear-gradient(90deg, #8B1E3F, #7F1D1D);
         }
         
         .subtab-pane {

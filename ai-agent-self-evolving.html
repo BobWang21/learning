@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>A Survey of Self-Evolving Agents - Agent</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="styles.css?v=20260710-red">
     <style>
         .ai-section {
             background: white;
@@ -15,28 +15,28 @@
         }
 
         .ai-section h2, .ai-section h3, .ai-section h4 {
-            color: #1e40af;
+            color: #8B1E3F;
             margin-top: 25px;
             margin-bottom: 15px;
         }
 
         .ai-section h2 {
-            border-bottom: 2px solid #e2e8f0;
+            border-bottom: 2px solid #f2d6d6;
             padding-bottom: 15px;
             margin-top: 0;
         }
 
         .highlight-box {
-            background: linear-gradient(135deg, rgba(30, 64, 175, 0.05), rgba(124, 58, 237, 0.05));
-            border-left: 4px solid #1e40af;
+            background: linear-gradient(135deg, rgba(139, 30, 63, 0.06), rgba(194, 65, 12, 0.06));
+            border-left: 4px solid #8B1E3F;
             padding: 15px;
             margin: 15px 0;
             border-radius: 4px;
         }
 
         .code-block {
-            background: #f1f5f9;
-            border-left: 4px solid #1e40af;
+            background: #fff1f2;
+            border-left: 4px solid #8B1E3F;
             padding: 15px;
             margin: 15px 0;
             border-radius: 4px;
@@ -56,25 +56,25 @@
         }
 
         table thead {
-            background: linear-gradient(135deg, #1e40af, #7c3aed);
+            background: linear-gradient(135deg, #8B1E3F, #C2410C);
             color: white;
         }
 
         table th, table td {
             padding: 12px;
             text-align: left;
-            border-bottom: 1px solid #e2e8f0;
+            border-bottom: 1px solid #f2d6d6;
         }
 
         table tbody tr:hover {
-            background-color: rgba(30, 64, 175, 0.05);
+            background-color: rgba(139, 30, 63, 0.06);
         }
 
         .back-link {
             display: inline-block;
             margin-bottom: 20px;
             padding: 10px 20px;
-            background: #1e40af;
+            background: #8B1E3F;
             color: white;
             text-decoration: none;
             border-radius: 6px;
@@ -83,7 +83,7 @@
         }
 
         .back-link:hover {
-            background: #0c4a6e;
+            background: #7F1D1D;
             transform: translateY(-2px);
         }
 
@@ -94,12 +94,12 @@
         }
 
         .breadcrumb a {
-            color: #1e40af;
+            color: #8B1E3F;
             text-decoration: none;
         }
 
         code {
-            background: #f1f5f9;
+            background: #fff1f2;
             padding: 2px 6px;
             border-radius: 3px;
             font-family: 'Courier New', monospace;
@@ -155,17 +155,17 @@
             </div>
 
             <div class="page-toc">
-    <h4 style="margin-bottom: 15px; color: #1e40af;">📑 页面目录</h4>
+    <h4 style="margin-bottom: 15px; color: #8B1E3F;">📑 页面目录</h4>
     <ul style="list-style: none; padding: 0; margin: 0;">
-        <li style="margin-bottom: 8px;"><a href="#a-survey-of-self-evolving-agents" style="color: #1e40af; text-decoration: none; font-weight: 600;">A Survey of Self-Evolving Agents</a></li>
-        <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#一概念定义" style="color: #7c3aed; text-decoration: none; font-size: 0.95rem;">一、概念定义</a></li>
-        <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#二进化的三个维度" style="color: #7c3aed; text-decoration: none; font-size: 0.95rem;">二、进化的三个维度</a></li>
-        <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#三自我进化的机制" style="color: #7c3aed; text-decoration: none; font-size: 0.95rem;">三、自我进化的机制</a></li>
-        <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#四应用场景" style="color: #7c3aed; text-decoration: none; font-size: 0.95rem;">四、应用场景</a></li>
-        <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#五评估框架" style="color: #7c3aed; text-decoration: none; font-size: 0.95rem;">五、评估框架</a></li>
-        <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#六挑战与风险" style="color: #7c3aed; text-decoration: none; font-size: 0.95rem;">六、挑战与风险</a></li>
-        <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#七最佳实践" style="color: #7c3aed; text-decoration: none; font-size: 0.95rem;">七、最佳实践</a></li>
-        <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#八未来展望" style="color: #7c3aed; text-decoration: none; font-size: 0.95rem;">八、未来展望</a></li>
+        <li style="margin-bottom: 8px;"><a href="#a-survey-of-self-evolving-agents" style="color: #8B1E3F; text-decoration: none; font-weight: 600;">A Survey of Self-Evolving Agents</a></li>
+        <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#一概念定义" style="color: #C2410C; text-decoration: none; font-size: 0.95rem;">一、概念定义</a></li>
+        <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#二进化的三个维度" style="color: #C2410C; text-decoration: none; font-size: 0.95rem;">二、进化的三个维度</a></li>
+        <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#三自我进化的机制" style="color: #C2410C; text-decoration: none; font-size: 0.95rem;">三、自我进化的机制</a></li>
+        <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#四应用场景" style="color: #C2410C; text-decoration: none; font-size: 0.95rem;">四、应用场景</a></li>
+        <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#五评估框架" style="color: #C2410C; text-decoration: none; font-size: 0.95rem;">五、评估框架</a></li>
+        <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#六挑战与风险" style="color: #C2410C; text-decoration: none; font-size: 0.95rem;">六、挑战与风险</a></li>
+        <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#七最佳实践" style="color: #C2410C; text-decoration: none; font-size: 0.95rem;">七、最佳实践</a></li>
+        <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#八未来展望" style="color: #C2410C; text-decoration: none; font-size: 0.95rem;">八、未来展望</a></li>
     </ul>
 </div>
 
@@ -460,7 +460,7 @@
     </div>
     <!-- 在线编辑器 - Quill.js + GitHub API -->
     <link rel="stylesheet" href="https://cdn.quilljs.com/1.3.7/quill.snow.css">
-    <link rel="stylesheet" href="editor.css">
+    <link rel="stylesheet" href="editor.css?v=20260710-red">
     <script src="https://cdn.quilljs.com/1.3.7/quill.min.js"></script>
     <script src="editor.js"></script>
 </body>
