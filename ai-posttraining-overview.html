@@ -6,79 +6,118 @@
     <title>post training</title>
     <link rel="stylesheet" href="styles.css">
     <style>
+        :root {
+            --ink: #172033;
+            --muted: #64748b;
+            --blue: #2563eb;
+            --violet: #7c3aed;
+            --teal: #0f766e;
+            --amber: #b45309;
+            --rose: #dc2626;
+            --line: #e2e8f0;
+            --soft-blue: #eff6ff;
+            --soft-violet: #f5f3ff;
+            --soft-teal: #ecfdf5;
+            --soft-amber: #fffbeb;
+        }
+
         .ai-section {
             background: white;
             border-radius: 8px;
-            padding: 30px;
+            padding: 34px;
             margin-bottom: 30px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            box-shadow: 0 2px 8px rgba(15, 23, 42, 0.06);
+            color: var(--ink);
+        }
+
+        .ai-section > * + h2 {
+            margin-top: 48px;
+        }
+
+        .ai-section > * + h3,
+        .ai-section > * + h4 {
+            margin-top: 34px;
         }
 
         .ai-section h2, .ai-section h3, .ai-section h4, .ai-section h5 {
-            color: #1e40af;
-            margin-top: 25px;
-            margin-bottom: 15px;
+            line-height: 1.35;
+            margin-bottom: 16px;
+            letter-spacing: 0;
         }
 
         .ai-section h2 {
-            border-bottom: 2px solid #e2e8f0;
-            padding-bottom: 15px;
+            color: var(--teal);
+            border-bottom: 2px solid #ccfbf1;
+            padding-bottom: 14px;
+        }
+
+        .ai-section h2:first-child {
             margin-top: 0;
         }
 
         .ai-section h3 {
-            color: #7c3aed;
+            color: var(--violet);
+            padding-left: 12px;
+            border-left: 4px solid #c4b5fd;
         }
 
         .ai-section h4 {
-            color: #1e40af;
-            font-size: 1.1rem;
+            color: var(--amber);
+            font-size: 1.08rem;
+            background: var(--soft-amber);
+            padding: 8px 10px;
+            border-radius: 6px;
         }
 
-        .ai-section h5 {
-            color: #1e40af;
-            font-size: 1rem;
-            font-weight: 600;
+        .ai-section p {
+            margin: 12px 0;
+            line-height: 1.82;
         }
 
         .highlight-box {
-            background: linear-gradient(135deg, rgba(30, 64, 175, 0.05), rgba(124, 58, 237, 0.05));
-            border-left: 4px solid #1e40af;
-            padding: 15px;
-            margin: 15px 0;
-            border-radius: 4px;
+            background: linear-gradient(135deg, var(--soft-teal), var(--soft-blue));
+            border-left: 4px solid var(--teal);
+            padding: 16px;
+            margin: 20px 0;
+            border-radius: 6px;
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
-            margin: 20px 0;
+            margin: 24px 0;
             background: white;
             border-radius: 8px;
             overflow: hidden;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 1px 4px rgba(15, 23, 42, 0.12);
         }
 
         table thead {
-            background: linear-gradient(135deg, #1e40af, #7c3aed);
+            background: linear-gradient(135deg, var(--teal), var(--violet));
             color: white;
         }
 
         table th, table td {
             padding: 12px;
             text-align: center;
-            border-bottom: 1px solid #e2e8f0;
+            border-bottom: 1px solid var(--line);
+            vertical-align: middle;
+        }
+
+        table tbody tr:nth-child(even) {
+            background-color: #f8fafc;
         }
 
         table tbody tr:hover {
-            background-color: rgba(30, 64, 175, 0.05);
+            background-color: var(--soft-blue);
         }
 
         .back-link {
             display: inline-block;
+            margin-top: 12px;
             margin-bottom: 20px;
             padding: 10px 20px;
-            background: #1e40af;
+            background: var(--teal);
             color: white;
             text-decoration: none;
             border-radius: 6px;
@@ -87,18 +126,18 @@
         }
 
         .back-link:hover {
-            background: #0c4a6e;
+            background: #115e59;
             transform: translateY(-2px);
         }
 
         .breadcrumb {
-            color: #64748b;
+            color: var(--muted);
             font-size: 0.95rem;
             margin-bottom: 20px;
         }
 
         .breadcrumb a {
-            color: #1e40af;
+            color: var(--teal);
             text-decoration: none;
         }
 
@@ -114,51 +153,55 @@
             font-size: 0.9rem;
         }
 
-        .code-block {
-            background: #f1f5f9;
-            border-left: 4px solid #1e40af;
-            padding: 15px;
-            margin: 15px 0;
-            border-radius: 4px;
-            overflow-x: auto;
-            font-size: 0.9rem;
-            font-family: 'Courier New', monospace;
-        }
-
         .content-image {
             max-width: 100%;
             height: auto;
-            margin: 20px 0;
+            margin: 22px 0;
             border-radius: 8px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 2px 8px rgba(15, 23, 42, 0.12);
         }
 
         ul, ol {
-            margin: 15px 0;
+            margin: 16px 0;
             padding-left: 30px;
         }
 
         li {
             margin-bottom: 8px;
-            line-height: 1.6;
+            line-height: 1.7;
         }
 
         strong {
-            color: #1e40af;
-            font-weight: 600;
+            color: inherit;
+            font-weight: 700;
+        }
+
+        .note-red {
+            color: var(--rose);
+        }
+
+        .note-muted {
+            color: var(--muted);
         }
 
         .formula {
-            background: #f1f5f9;
-            padding: 10px;
-            margin: 10px 0;
-            border-radius: 4px;
-            font-family: 'Courier New', monospace;
+            background: var(--soft-violet);
+            border-left: 4px solid var(--violet);
+            padding: 14px;
+            margin: 18px 0;
+            border-radius: 6px;
             overflow-x: auto;
+            text-align: center;
+        }
+
+        hr {
+            border: 0;
+            border-top: 1px solid var(--line);
+            margin: 28px 0;
         }
         
         figure {
-            margin: 20px 0;
+            margin: 22px 0;
             text-align: center;
         }
         
@@ -170,7 +213,7 @@
         figcaption {
             margin-top: 8px;
             font-size: 0.9rem;
-            color: #64748b;
+            color: var(--muted);
             font-style: italic;
         }
     </style>
@@ -255,7 +298,6 @@
 
             <section class="ai-section">
             <h2 id="1-概述">1. 概述</h2>
-
             <table>
                 <thead>
                 <tr>
@@ -292,110 +334,63 @@
                 </tr>
                 </tbody>
             </table>
-
             <h4 id="a-ppo-强化学习的-黄金标准">a PPO（强化学习的“黄金标准”）</h4>
-
             <p><strong>一句话画像</strong>：通过“价值模型（Critic）+ GAE优势估计”精确评价每个词的好坏，并用“裁剪（Clipping）”死死按住策略不要一步跑偏。</p>
-
             <p><strong>核心优势</strong>：<strong>通用性最强，训练最稳，Credit（信用分配）最准。</strong></p>
-
             <p><strong>核心痛点</strong>：资源消耗巨兽（需加载4个模型），调参极其复杂，大模型训练成本高。</p>
-
             <h4 id="b-dpo-简化rl的-数学魔术">b DPO（简化RL的“数学魔术”）</h4>
-
             <p><strong>一句话画像</strong>：用数学恒等变换，直接把强化学习的复杂目标变成了“文字分类任务”，彻底绕开了强化学习。</p>
-
             <p><strong>核心优势</strong>：极简、极稳、极其省资源（只需2个模型，代码20行）。</p>
-
             <p><strong>核心痛点</strong>：纯离线学习，无法<strong>在线探索</strong>；极度依赖偏好数据质量，<strong>泛化能力弱</strong>。</p>
-
             <h4 id="c-grpo-deepseek的-高效版ppo">c GRPO（DeepSeek的“高效版PPO”）</h4>
-
             <p>一<strong>句话画像</strong>：针对生成场景，砍掉价值模型（Critic），利用同一道题的“小组（Group）内相对胜负”来估算优势。</p>
-
             <p><strong>核心优势</strong>：比PPO省显存约30%~40%，特别适合有标准答案的数学/代码任务。</p>
-
             <p><strong>核心痛点</strong>：虽然高效，但存在“四大坑”——熵崩溃（探索不足）、梯度消失（全对样本废了）、长度偏见（越长越占便宜）、难度偏见（中等题被忽略）。</p>
-
             <h4 id="d-dapo-长cot推理的-grpo完全体">d DAPO（长CoT推理的“GRPO完全体”）</h4>
-
             <p><strong>一句话画像</strong>：专治GRPO的“四大坑”。通过调高上裁剪（Clip-Higher）、过滤样本（Dynamic Sampling）、改平均方式（Token-level Loss）和移除KL约束，专为长思维链推理优化。</p>
-
             <p><strong>核心优势</strong>：当前长推理场景的SOTA（AIME 2024达到50分），能让模型自发涌现出“反思、回溯”等高级行为，训练步数减半。</p>
-
             <p><strong>核心痛点</strong>：目前主要适用于数学/代码等确定性规则奖励领域，通用RLHF效果有待验证；计算成本略高于GRPO。</p>
-
             <hr>
-
             <h2 id="2-核心方法">2. 核心方法</h2>
-
             <h3 id="2-1-sft">2.1 SFT</h3>
-
             <p>监督微调是 Post-training 最基础也最直观的方法。核心思路是：收集高质量的<code>(prompt, response)</code>数据对，然后用标准的交叉熵损失函数对预训练模型进行微调。SFT 的数据通常包括：</p>
-
             <ul>
                 <li>指令跟随数据（如 Alpaca、ShareGPT 格式的对话）</li>
                 <li>特定领域的专业数据</li>
                 <li>多轮对话数据</li>
             </ul>
-
             <p>SFT 的常见实现方式包括：</p>
-
             <ul>
                 <li>全参数微调（Full Fine-tuning）</li>
                 <li><strong>参数高效微调（PEFT）</strong>，以<strong>LoRA</strong>和<strong>QLoRA</strong>最为流行。 LoRA 通过在模型权重矩阵旁边添加低秩分解矩阵来实现高效训练，通常只需要训练原始参数量的 0.1%~1%。</li>
             </ul>
-
-            <p><strong>知识蒸馏（Knowledge Distillation）</strong></p>
-
-            <p><strong>合成数据（Synthetic Data）</strong>在 SFT 中扮演着越来越重要的角色——用更强的模型（如 GPT-4）生成训练数据来教较小的模型</p>
-
+            <p><span class="note-red"><strong>知识蒸馏（Knowledge Distillation）</strong></span></p>
+            <p><span class="note-red"><strong>合成数据（Synthetic Data）</strong></span><span class="note-red">在 SFT 中扮演着越来越重要的角色——用更强的模型（如 GPT-4）生成训练数据来教较小的模型</span></p>
             <hr>
-
             <h3 id="2-2-rlhf-基于人类反馈的强化学习">2.2 RLHF — 基于人类反馈的强化学习</h3>
-
             <p>RLHF 是 InstructGPT 和 ChatGPT 背后的核心技术，由 OpenAI 在 2022 年系统阐述。其完整流程分为三步：</p>
-
             <p><strong>Step 1：监督微调（SFT）</strong></p>
-
             <p>首先收集人类撰写的高质量回答，对预训练模型进行监督微调，得到一个初始的 SFT 模型。这一步是后续 RL 训练的前提条件。</p>
-
             <p><strong>Step 2：训练 Reward Model</strong></p>
-
             <p>对于每个 prompt，让 SFT 模型生成多个（通常 4 个）不同的回答，然后由人类标注者对这些回答进行排序。利用这些排序数据，训练一个 Reward Model（奖励模型），使其能够对任意回答给出一个标量分数，反映该回答的质量。使用 Bradley-Terry（BT）模型，这是把“相对排序”变成“绝对分数差”的灵魂公式。</p>
-
             <div class="formula math-display">\[
 P(y_w ≻ y_l | x) = σ( r_θ(x, y_w) - r_θ(x, y_l) )
 \]</div>
-
             <p><strong>Step 3：PPO 优化</strong></p>
-
             <p>使用训练好的 Reward Model 作为奖励信号，通过 PPO 算法对 SFT 模型进行进一步优化。在这个过程中，模型不断生成回答、获得奖励、更新策略，逐步学会生成更符合人类偏好的内容。</p>
-
             <h3 id="2-3-ppo-rl-的主力算法">2.3 PPO — RL 的主力算法</h3>
-
             <h4 id="核心思想"><strong>核心思想</strong></h4>
-
             <p>在 LLM 训练中，模型本身就是策略（Policy）：prompt 可以看作状态，模型生成的 token 序列可以看作动作。</p>
-
-            <p><strong>PPO 的目标是让策略朝着更高奖励的方向更新，同时通过 clipping 机制和 KL 惩罚限制新旧策略差异，避免一次更新幅度过大导致训练不稳定。</strong></p>
-
+            <p><span class="note-red"><strong>PPO 的目标是让策略朝着更高奖励的方向更新，同时通过 clipping 机制和 KL 惩罚限制新旧策略差异，避免一次更新幅度过大导致训练不稳定。</strong></span></p>
             <p>在 LLM 训练中，模型本身就是策略（Policy）：prompt 可以看作状态，模型生成的 token 序列可以看作动作。</p>
-
             <h4 id="loss"><strong>Loss</strong></h4>
-
             <p><strong>PPO 损失函数：Lₚₚₒ = -L裁剪策略 loss + c₁ · L价值预测 loss</strong></p>
-
             <p><strong>裁剪策略损失（Clipped Policy Loss）</strong>—— 用于更新<strong>策略模型（Actor）</strong></p>
-
             <p><strong>价值预测损失（Value Loss）</strong>—— 用于更新<strong>价值模型（Critic）</strong></p>
-
             <figure>
                 <img src="images/youdao-posttraining/WEBRESOURCE6fc845394fc8f5a75ea3b62f1d063436.png" alt="post training 图示" class="content-image" width="794" height="624">
             </figure>
-
             <p>PPO 在 LLM 训练中需要同时维护<strong>四个模型</strong>：</p>
-
             <table>
                 <thead>
                 <tr>
@@ -432,29 +427,17 @@ P(y_w ≻ y_l | x) = σ( r_θ(x, y_w) - r_θ(x, y_l) )
                 </tr>
                 </tbody>
             </table>
-
             <h4 id="主要问题"><strong>主要问题</strong></h4>
-
             <p>需要同时加载四个模型，显存开销巨大；训练过程中需要在生成（rollout）和更新之间反复切换，工程复杂度高；超参数敏感，调参困难。</p>
-
             <hr>
-
             <h3 id="2-4-dpo-不需要-rl-的偏好优化">2.4 DPO — 不需要 RL 的偏好优化</h3>
-
             <h4 id="核心思想-2"><strong>核心思想</strong></h4>
-
-            <p><strong>RLHF 需要先训练奖励模型再用 PPO 优化，流程复杂且不稳定</strong>。DPO 则通过重新参数化奖励函数，将同一目标等价转化为可直接梯度下降的分类损失，实现了更简单、更稳定、更高效的对齐训练。</p>
-
-            <p><strong>DPO 的核心洞察：RLHF 的最优解可以被重新参数化为一个简单的分类损失函数。</strong></p>
-
-            <p>在 RLHF 中，奖励模型 rϕ(x, y) 和最优策略 π∗(y∣x) 之间存在一个数学恒等式：</p>
-
-            <div class="highlight-box"><p>当把这个恒等式代入 BT 损失时，讨厌的Z(x)（配分函数）恰好被约掉了，于是 BT 损失中原本的 rϕ​(x, yw​) − rϕ​(x, yl​) 被替换成了策略模型的对数概率差。</p></div>
-
-            <p><strong>给定一对 (preferred response, rejected response)， DPO 直接最大化 preferred response 的对数概率相对于 rejected response 的优势，同时通过 reference model 进行正则化。</strong></p>
-
+            <p><span class="note-red"><strong>RLHF 需要先训练奖励模型再用 PPO 优化，流程复杂且不稳定</strong></span>。DPO 则通过重新参数化奖励函数，将同一目标等价转化为可直接梯度下降的分类损失，实现了更简单、更稳定、更高效的对齐训练。</p>
+            <p><span class="note-red"><strong>DPO 的核心洞察：RLHF 的最优解可以被重新参数化为一个简单的分类损失函数。</strong></span></p>
+            <p><span class="note-muted">在 RLHF 中，奖励模型 rϕ(x, y) 和最优策略 π∗(y∣x) 之间存在一个数学恒等式：</span></p>
+            <div class="highlight-box"><p><span class="note-muted">当把这个恒等式代入 BT 损失时，讨厌的Z(x)（配分函数）恰好被约掉了，于是 BT 损失中原本的 rϕ​(x, yw​) − rϕ​(x, yl​) 被替换成了策略模型的对数概率差。</span></p></div>
+            <p><span class="note-red"><strong>给定一对 (preferred response, rejected response)， DPO 直接最大化 preferred response 的对数概率相对于 rejected response 的优势，同时通过 reference model 进行正则化。</strong></span></p>
             <h4 id="loss-2"><strong>Loss</strong></h4>
-
             <div class="formula math-display">\[
 \mathcal{L}_{\mathrm{DPO}}(\pi_{\theta};\pi_{\mathrm{ref}}) = 
 -\mathbb{E}_{(x,y_w,y_l)\sim\mathcal{D}}
@@ -465,7 +448,6 @@ P(y_w ≻ y_l | x) = σ( r_θ(x, y_w) - r_θ(x, y_l) )
 \right)
 \right]
 \]</div>
-
             <table>
                 <thead>
                 <tr>
@@ -502,41 +484,26 @@ P(y_w ≻ y_l | x) = σ( r_θ(x, y_w) - r_θ(x, y_l) )
                 </tr>
                 </tbody>
             </table>
-
             <h4 id="主要问题-2"><strong>主要问题</strong></h4>
-
             <h4 id="a-探索能力差">a 探索能力差</h4>
-
             <p>DPO 系列方法属于 offline 方法——它们使用预先收集的静态数据进行训练，不需要在训练过程中让模型生成新的回答。这使得它们比 PPO/GRPO 等 online RL 方法更简单、更稳定，但也意味着它们无法从模型自身的探索中学习，在推理能力方面不如 online RL 方法有效。</p>
-
             <h4 id="b-分布外-ood-问题">b 分布外（OOD）问题</h4>
-
             <p>隐式奖励模型只在偏好数据分布上有效，一旦离线数据覆盖不足，泛化能力受限。</p>
-
             <h3 id="2-5-grpo-group-relative-policy-optimization-去掉-critic-的轻量级-rl">2.5 GRPO（Group Relative Policy Optimization）— 去掉 Critic 的轻量级 RL</h3>
-
             <h4 id="核心思想-3"><strong>核心思想</strong></h4>
-
-            <p><strong>GRPO 核心思想：摒弃 value net，使用组内平均计算优势。</strong></p>
-
+            <p><span class="note-red"><strong>GRPO 核心思想：摒弃 value net，使用组内平均计算优势。</strong></span></p>
             <p>GRPO 由 DeepSeek 团队在 2024 年提出，是当前开源推理模型训练中最流行的 RL 算法。<strong>为 LLM 后训练提供一个更高效、更轻量级的强化学习替代方案，尤其聚焦于提升复杂推理能力</strong>。GRPO 的初衷可以概括为：</p>
-
             <ul>
                 <li><strong>效率优先</strong>：正如前文所述，通过去除价值网络， GRPO 旨在解决 PPO 在大模型上训练时“资源消耗过大”的核心痛点。</li>
                 <li><strong>简化流程</strong>：GRPO 不仅去掉了价值网络，也简化了 PPO 中复杂的 GAE（广义优势估计）计算过程，减少了需要调整的超参数，使整个训练流程更加简洁稳定。</li>
                 <li><strong>目标明确</strong>：它最初由 DeepSeek 提出，并在 DeepSeek-Math 和 DeepSeek-R1 等模型上被成功应用，目标就是为了有效提升 LLM 在数学、逻辑等复杂任务中的推理能力</li>
             </ul>
-
             <figure>
                 <img src="images/youdao-posttraining/WEBRESOURCEaf52052c5d05ba156ea5d1f7449cc855.png" alt="post training 图示" class="content-image" width="818" height="413">
             </figure>
-
             <h4 id="loss-3">Loss</h4>
-
-            <p><strong>双层平均</strong><strong>：由于奖励模型提供的是回复级别（response-level）的评分，而非逐 token 的稠密奖励，GRPO 的损失函数在结构上采用双层平均设计：首先对每个回复内的所有 token 损失进行平均，以消除回复长度差异带来的偏置；再在组内（group）对所有回复的损失进行平均，以保持与组内相对优势（group-relative advantage）的语义一致性。（组内平均是因为 advantage 的绝对值在不同组之间不可比）</strong></p>
-
-            <p><strong>KL 在 Loss 层，不在 Reward 层</strong><strong>：保持 Advantage 纯粹反映质量信号，让策略更新方向更准确；同时使 β 调参更独立、更稳定，降低超参数敏感性。</strong></p>
-
+            <p><span class="note-red"><strong>双层平均</strong></span><strong>：由于奖励模型提供的是回复级别（response-level）的评分，而非逐 token 的稠密奖励，GRPO 的损失函数在结构上采用双层平均设计：首先对每个回复内的所有 token 损失进行平均，以消除回复长度差异带来的偏置；再在组内（group）对所有回复的损失进行平均，以保持与组内相对优势（group-relative advantage）的语义一致性。（组内平均是因为 advantage 的绝对值在不同组之间不可比）</strong></p>
+            <p><span class="note-red"><strong>KL 在 Loss 层，不在 Reward 层</strong></span><strong>：保持 Advantage 纯粹反映质量信号，让策略更新方向更准确；同时使 β 调参更独立、更稳定，降低超参数敏感性。</strong></p>
             <div class="formula math-display">\[
 \mathcal{J}_{GRPO}(\theta) = \mathbb{E}_{q \sim P(Q), \{o_i\}_{i=1}^G \sim \pi_{\theta_{old}}(O|q)}
 \left[
@@ -553,11 +520,8 @@ P(y_w ≻ y_l | x) = σ( r_θ(x, y_w) - r_θ(x, y_l) )
 \right)
 \right]
 \]</div>
-
             <p><strong>GRPO 的工作流程如下：</strong></p>
-
             <p>对于每个 prompt，采样 G 个（通常 8~64 个）回答，分别获得奖励分数 r₁, r₂, ..., r_G。然后对这组奖励进行归一化：</p>
-
             <div class="formula math-display">\[
 % \hat{A}_{i,t}: token t 在回复 o_i 上的 advantage
 % r_i: 回复 o_i 的奖励分数
@@ -566,9 +530,7 @@ P(y_w ≻ y_l | x) = σ( r_θ(x, y_w) - r_θ(x, y_l) )
 % std(\mathbf{r}): 组内奖励标准差
 \hat{A}_{i,t} = \frac{r_i - \operatorname{mean}(\mathbf{r})}{\operatorname{std}(\mathbf{r})}
 \]</div>
-
             <p>这样，组内表现好于平均水平的回答获得正的 advantage（被鼓励），差于平均水平的获得负的 advantage（被抑制）。这种方式不需要单独训练一个 Value Model，大幅降低了资源需求。</p>
-
             <table>
                 <thead>
                 <tr>
@@ -610,153 +572,101 @@ P(y_w ≻ y_l | x) = σ( r_θ(x, y_w) - r_θ(x, y_l) )
                 </tr>
                 </tbody>
             </table>
-
             <p><strong>优势</strong></p>
-
             <h4 id="a-大幅降低计算成本">a. 大幅降低计算成本</h4>
-
             <p>GRPO 最大的优势是<strong>消除了对价值网络（Critic）的依赖</strong>。GRPO 只需 Actor、Reference、Reward 三个模型，显存节省约 40%</p>
-
             <h4 id="b-相对奖励提升训练稳定性">b. 相对奖励提升训练稳定性</h4>
-
             <p><strong>GRPO 的优势计算采用组内归一化机制使模型更关注组内相对优劣而非绝对奖励值，减少因奖励值波动带来的干扰</strong>。同时， GRPO 将 KL 惩罚<strong>直接作为损失函数项</strong>（PPO 中放在奖励函数里），进一步稳定训练过程。</p>
-
             <h4 id="c-涌现强大的推理能力">c. 涌现强大的推理能力</h4>
-
             <p><strong>GRPO 强制模型对同一问题生成多个回答并进行组内比较，实质上是强制探索多样化的解题路径。在探索和对比取舍的过程中，模型学会评估不同策略的优劣——这正是数学、代码等领域涌现复杂推理能力的根本原因。DeepSeek-R1 的成功充分证明了 GRPO 范式的有效性。</strong></p>
-
             <hr>
-
             <h4 id="主要问题-3">主要问题</h4>
-
             <h4 id="a-熵崩溃-entropy-collapse"><strong>a. 熵崩溃（Entropy Collapse）</strong></h4>
-
             <p><strong>问题描述</strong>：</p>
-
             <ul>
                 <li>训练过程中，策略模型的<strong>熵迅速下降</strong>，导致生成的概率分布过于尖锐（确定性过高）</li>
                 <li>同一组（group）内采样的回复<strong>趋于相同</strong>，缺乏多样性</li>
             </ul>
-
             <p><strong>根本原因：</strong></p>
-
             <ul>
                 <li>GRPO 的上裁剪（upper clip）阈值限制了低概率“探索性” token 的提升空间。当 ε = 0.2 且 Â_t &gt; 0 时，概率为 0.01 的 token 最多只能提升到 0.012，增长空间极其有限。而高概率 token（如 0.9）则轻松提升到接近 1.0。</li>
             </ul>
-
             <p><strong>后果</strong>：</p>
-
             <ul>
                 <li>探索能力受限，模型过早收敛到确定性策略</li>
                 <li>无法通过采样发现新的推理路径</li>
             </ul>
-
             <h4 id="b-kl-散度约束不再适用"><strong>b. KL 散度约束不再适用</strong></h4>
-
             <p><strong>问题描述</strong>：</p>
-
             <ul>
                 <li>GRPO 保留了 PPO 中的 KL 散度惩罚项，用于约束策略不偏离参考模型。</li>
                 <li>但在长 CoT 推理场景中，模型需要<strong>大幅偏离初始分布</strong>才能发展出复杂的推理能力</li>
             </ul>
-
             <p><strong>后果</strong>：</p>
-
             <ul>
                 <li>KL 惩罚限制了模型的<strong>探索空间</strong>，阻碍推理能力的涌现</li>
                 <li>DAPO 直接移除了 KL 项</li>
             </ul>
-
             <h4 id="c-难度偏见"><strong>c. 难度偏见</strong></h4>
-
             <p><strong>问题描述</strong>：GRPO 根据“同一批题的标准差”调整权重：</p>
-
             <ul>
                 <li><strong>太简单的题</strong>：大部分人做对，标准差小 → 被过度关注</li>
                 <li><strong>太难的题</strong>：大部分做错，标准差也小 → 也被过度关注</li>
                 <li><strong>中等难度的题：有人对有人错，标准差大 → 反而被忽略</strong></li>
             </ul>
-
             <h4 id="d-梯度消失"><strong>d. 梯度消失</strong></h4>
-
             <p><strong>问题描述</strong>：</p>
-
             <ul>
                 <li>当某个 prompt 的<strong>所有采样回复都正确</strong>（accuracy = 1）时，该组内所有样本的奖励相同</li>
                 <li>GRPO 的组内归一化优势值为：Â_i = (R_i - mean)/(std + ϵ) = 0</li>
                 <li>优势值为零 → 策略梯度为零 → 这些样本对模型训练无贡献。</li>
             </ul>
-
             <p><strong>后果</strong>：</p>
-
             <ul>
                 <li>随着训练推进，越来越多的 prompt 被模型正确解决</li>
                 <li>有效 batch size 持续<strong>萎缩</strong>，梯度信号减弱</li>
                 <li>训练效率大幅下降，梯度方差增大</li>
             </ul>
-
             <h4 id="e-长度偏见-样本级损失对长序列不友好"><strong>e. 长度偏见：样本级损失对长序列不友好</strong></h4>
-
             <p><strong>问题描述</strong>：</p>
-
             <ul>
                 <li>GRPO 先对<strong>每个样本内部的 token 损失求平均</strong>，再对样本间求平均</li>
                 <li>每个样本在最终损失中获得<strong>相同的权重</strong>，无论其长度</li>
             </ul>
-
             <p><strong>后果</strong>：</p>
-
             <ul>
                 <li>高质量长回复奖励<strong>被&quot;稀释&quot;</strong>：高质量长回复中的推理模式对梯度贡献被削弱</li>
                 <li><strong>无法惩罚长序列中的低质量模式</strong>：<strong>因为损失按 token 平均，长错误答案每个 token 挨骂更轻，所以模型学会用“写长”来“稀释惩罚”，导致“又长又错”。</strong></li>
             </ul>
-
             <h4 id="f-截断样本的奖励噪声-reward-noise-from-truncation"><strong>f. 截断样本的奖励噪声（Reward Noise from Truncation）</strong></h4>
-
             <p><strong>问题描述</strong>：</p>
-
             <ul>
                 <li>GRPO 默认对<strong>超出最大长度</strong>的样本给予<strong>惩罚性奖励</strong>（如 -1）</li>
                 <li>但一条<strong>推理过程正确</strong>的样本可能仅仅因为<strong>长度超标</strong>而受到惩罚</li>
             </ul>
-
             <p><strong>后果</strong>：</p>
-
             <ul>
                 <li>奖励信号被污染 → 模型混淆&quot;推理是否正确&quot;和&quot;长度是否合适&quot;</li>
                 <li>训练不稳定，性能下降</li>
             </ul>
-
             <h3 id="为什么强化学习有效">为什么强化学习有效</h3>
-
             <p>论文评估了 Instruct 模型和 RL 模型在两项基准测试上的 Pass@K 和 Maj@K 准确率。RL 提升了 Maj@K 的性能，但没有提升 Pass@K。这些发现表明，RL 是通过使模型的输出分布更加鲁棒来增强模型的整体性能的，换言之，这种提升似乎主要归因于提高了 TopK 中正确答案的命中率，而非增强了模型的基础能力。</p>
-
             <p><strong>Pass@K：衡量能力的上限</strong></p>
-
             <ul>
                 <li><strong>定义</strong>：生成 K 个回答，只要至少有一个正确，问题即通过。</li>
                 <li><strong>本质</strong>：测“能不能想到”，反映模型掌握该知识的<strong>潜在能力边界</strong>。</li>
             </ul>
-
             <p><strong>Maj@K：衡量输出的鲁棒性</strong></p>
-
             <ul>
                 <li><strong>定义</strong>：生成 K 个回答，对最终答案多数投票，得票最多的答案正确才算通过。</li>
                 <li><strong>本质</strong>：测“能不能稳定答对”，反映模型输出分布的<strong>可靠程度</strong>。</li>
             </ul>
-
             <hr>
-
             <h3 id="2-6-dapo-decoupled-clip-and-dynamic-sampling-policy-optimization">2.6 DAPO（Decoupled Clip and Dynamic Sampling Policy Optimization）</h3>
-
             <h4 id="核心思想-4">核心思想</h4>
-
-            <p>在 GRPO 的基础上，通过“解耦上下裁剪阈值”、“动态过滤无效样本”和“Token 级损失重加权”，彻底解决<strong>熵崩溃、梯度消失、长度偏见</strong>和<strong>难度偏见</strong>，让 RL 在长思维链（Long-CoT）场景下稳定、高效地激发推理能力。</p>
-
+            <p><span class="note-red">在 GRPO 的基础上，通过“解耦上下裁剪阈值”、“动态过滤无效样本”和“Token 级损失重加权”，彻底解决</span><span class="note-red"><strong>熵崩溃、梯度消失、长度偏见</strong></span><span class="note-red">和</span><span class="note-red"><strong>难度偏见</strong></span><span class="note-red">，让 RL 在长思维链（Long-CoT）场景下稳定、高效地激发推理能力。</span></p>
             <h4 id="loss-4"><strong>Loss</strong></h4>
-
-            <p><strong>token 级 loss + 去掉KL惩罚</strong></p>
-
+            <p><span class="note-red"><strong>token 级 loss + 去掉KL惩罚</strong></span></p>
             <div class="formula math-display">\[
 \begin{align*}
 \mathcal{J}_{\text{DAPO}}(\theta) = &amp; 
@@ -775,34 +685,21 @@ r_{i,t}(\theta)\hat{A}_{i,t},
 \hat{A}_{i,t} = \frac{R_i - \text{mean}(\{R_i\}_{i=1}^G)}{\text{std}(\{R_i\}_{i=1}^G)}
 \end{align*}
 \]</div>
-
             <p>DAPO 具体包含以下四大核心技术：</p>
-
             <h4 id="a-解耦裁剪-decoupled-clip"><strong>a. 解耦裁剪（Decoupled Clip）</strong></h4>
-
             <p>这是 DAPO 对 GRPO 裁剪机制的重大改进。GRPO 使用单一的对称裁剪区间<code>[1-ε, 1+ε]</code>，这相当于对好坏策略更新都使用相同的步长限制，过度限制了对好样本的探索。<strong>DAPO 则采用下界低、上界高的非对称裁剪</strong>。这意味着，当模型生成好的样本时， DAPO 允许它进行更大胆的更新（鼓励探索）；而当生成<strong>坏</strong>的样本时，依然会严格控制更新幅度，防止模型崩溃。这种非对称设计有效缓解了大模型强化学习中常见的“熵崩溃”现象。</p>
-
             <h4 id="b-动态采样-dynamic-sampling"><strong>b. 动态采样（Dynamic Sampling）</strong></h4>
-
             <p>简单或难的问题标准差小，优化时会过多关注。GRPO 的训练数据通常来自离线数据集。DAPO 引入了动态采样机制，在训练过程中持续淘汰“已掌握”的简单问题，并动态补充更具挑战性的新问题。<strong>这确保了模型不会浪费计算资源在“舒适区”内重复学习</strong>，而是持续面对高价值的难题，从而进行<strong>“刻意练习”</strong>。</p>
-
-            <p>不过，关于 DAPO，尤其是其“动态采样”组件的效果，学界存在不同观点。Lian（2025）的研究发现，在某些特定任务上，禁用“动态采样”后的 DAPO 性能反而更好。</p>
-
+            <p><span class="note-muted">不过，关于 DAPO，尤其是其“动态采样”组件的效果，学界存在不同观点。Lian（2025）的研究发现，在某些特定任务上，禁用“动态采样”后的 DAPO 性能反而更好</span><span class="note-muted">。</span></p>
             <h4 id="c-token-级策略梯度损失-token-level-policy-gradient-loss"><strong>c. Token 级策略梯度损失（Token-Level Policy Gradient Loss）</strong></h4>
-
             <p>在损失函数的选择上， DAPO 与 GRPO 存在关键差异：</p>
-
             <ul>
                 <li><strong>GRPO：默认使用样本级损失（Sample-Level Loss）。一个只生成了 100 个 Token 的短回答和另一个生成了 1000 个 Token 的长回答，在损失函数中的权重是一样的。这会导致长回答中的每个 Token 被严重“稀释”，模型很难学会生成长且复杂的推理链。</strong></li>
                 <li><strong>DAPO：改用 Token 级策略梯度损失（Token-Level Loss）。在这种方法下，长回答因其包含更多 Token，对损失的贡献更大，相当于每个 Token 都得到了平等的关注。这确保了模型能够更好地学习那些需要长序列推理的复杂问题，实现了长序列的精准优化。</strong></li>
             </ul>
-
             <h4 id="d-软过长惩罚-soft-overlong-punishment"><strong>d. 软过长惩罚（Soft Overlong Punishment）</strong></h4>
-
             <p>DAPO 采用了一种渐进的“软惩罚”机制代替 GRPO 的“硬截断”。当模型生成的回答略微超出长度限制时， DAPO 不会直接丢弃，而是根据超出程度，给予一个轻微的<strong>奖励惩罚分</strong>（Reward Shaping）。</p>
-
             <h3 id="dapo-vs-grpo">DAPO vs. GRPO</h3>
-
             <table>
                 <thead>
                 <tr>
@@ -845,13 +742,9 @@ r_{i,t}(\theta)\hat{A}_{i,t},
                 </tr>
                 </tbody>
             </table>
-
             <hr>
-
             <h3 id="2-7-rlvr-可验证奖励-推理模型的关键">2.7 RLVR — 可验证奖励：推理模型的关键</h3>
-
             <p><strong>RLVR（Reinforcement Learning with Verifiable Rewards）</strong>是 2025 年最重要的技术趋势之一。与 RLHF 使用学习得到的 Reward Model 不同， RLVR 使用<strong>基于规则的确定性验证器</strong>来提供奖励信号。RLVR 的适用场景是那些答案可以被客观验证的领域：</p>
-
             <table>
                 <thead>
                 <tr>
@@ -883,125 +776,80 @@ r_{i,t}(\theta)\hat{A}_{i,t},
                 </tr>
                 </tbody>
             </table>
-
             <p>RLVR 的奖励设计通常包含两部分：<strong>准确性奖励</strong>（答案是否正确）和<strong>格式奖励</strong>（输出是否符合要求的格式，如<code>&lt;think&gt;...&lt;/think&gt;&lt;answer&gt;...&lt;/answer&gt;</code>）。DeepSeek-R1 就是使用 GRPO + RLVR 训练的典型代表。</p>
-
             <div class="highlight-box"><p><strong>关键认知</strong>：RLVR 之所以重要，是因为它解决了 RLHF 中 Reward Model 的两大痛点——<strong>reward hacking</strong>（模型学会欺骗 Reward Model 而非真正变好）和<strong>标注成本高</strong>。在可验证领域，规则就是最好的奖励函数。</p></div>
-
             <hr>
-
             <h3 id="2-8-deepseek-r1-纯-rl-训练推理模型的里程碑">2.8 DeepSeek-R1：纯 RL 训练推理模型的里程碑</h3>
-
             <p>DeepSeek-R1 是 2025 年初最具影响力的工作之一，它首次证明了<strong>纯 RL 训练（不需要 SFT）就能让模型涌现出强大的推理能力</strong>。</p>
-
             <p>DeepSeek-R1 的训练分为两条路线：</p>
-
             <ul>
                 <li><strong>R1-Zero（纯 RL 路线）</strong>：直接在预训练的 DeepSeek-V3 基座模型上，使用 GRPO + RLVR 进行训练，完全跳过 SFT 阶段。令人惊讶的是，模型在训练过程中自发涌现出了复杂的推理行为——包括<strong>自我反思</strong>（“Wait, let me reconsider...”）、问题分解、多路径探索等。这些行为并非被显式编程，而是 RL 训练过程中自然产生的，被称为<strong>“Aha moment”</strong>。</li>
                 <li><strong>R1（完整路线）</strong>：在 R1-Zero 的基础上，加入了 SFT 数据进行冷启动（cold start），然后再进行 RL 训练。这种方式产出的模型在格式规范性和可读性上优于 R1-Zero，同时保持了强大的推理能力。</li>
             </ul>
-
             <div class="highlight-box"><p><strong>重要发现：随着 RL 训练的推进，模型生成的回答长度会自然增长——模型学会了“多想一会儿”来解决更难的问题。这本质上是 inference-time scaling 在训练端的体现。</strong></p></div>
-
             <hr>
-
             <h2 id="3-全局视角-技术如何协同工作">3. 全局视角：技术如何协同工作</h2>
-
             <p>理解了各个组件之后，让我们看看它们如何在一个完整的 Post-training pipeline 中协同工作。以当前主流的推理模型训练流程为例：</p>
-
             <ul>
                 <li><strong>SFT 是基础但不够</strong></li>
             </ul>
-
             <p>SFT 教会模型输出的格式和风格，但无法让模型学会超越训练数据的推理能力。对于对齐和推理，我们需要更强大的训练信号。</p>
-
             <ul>
                 <li><strong>RL 是提升推理能力的关键</strong></li>
             </ul>
-
             <p>从 PPO 到 GRPO， RL 算法在不断简化和高效化。GRPO 去掉了 Critic 模型， DAPO 进一步解决了熵坍塌等工程问题。DeepSeek-R1 证明了纯 RL 就能涌现推理能力。</p>
-
             <ul>
                 <li><strong>奖励信号的设计至关重要</strong></li>
             </ul>
-
             <p>从 RLHF（人类反馈）到 RLAIF（AI 反馈）再到 RLVR（可验证奖励），奖励信号的获取方式在不断演进。RLVR 在可验证领域（数学、代码）表现出色，但如何将其扩展到开放域任务仍是开放问题。</p>
-
             <ul>
                 <li><strong>Online RL vs. Offline Preference Optimization 各有所长</strong></li>
             </ul>
-
             <p>DPO 等 offline 方法简单稳定，适合偏好对齐；PPO/GRPO 等 online 方法能从探索中学习，更适合提升推理能力。实践中通常两者结合使用。</p>
-
             <ul>
                 <li><strong>Agentic RL 是下一个前沿</strong></li>
             </ul>
-
             <p>从单轮问答到多轮工具使用， Post-training 正在向训练完整的“智能体”方向发展。</p>
-
             <hr>
-
             <h2 id="4-前沿方向-2025-2026-年的新趋势">4. 前沿方向：2025-2026 年的新趋势</h2>
-
             <h3 id="4-1-agentic-rl-从-回答问题-到-完成任务">4.1 Agentic RL：从“回答问题”到“完成任务”</h3>
-
             <p>传统的 RLHF/RLVR 训练的是单轮问答能力，而 Agentic RL 则训练模型在多步骤任务中交替进行推理和工具调用。例如：</p>
-
             <ul>
                 <li><strong>Search-R1</strong>：训练模型学会“什么时候该搜索、搜索什么、如何利用搜索结果”</li>
                 <li><strong>ReTool</strong>：训练模型学会在推理过程中调用计算器、代码解释器等工具</li>
             </ul>
-
             <p>Agentic RL 面临的核心挑战包括：多轮交互中的 credit assignment（哪一步决策导致了最终的成功或失败）、稀疏奖励（只有任务完成时才有反馈），以及推理与工具使用之间的资源竞争。</p>
-
             <h3 id="4-2-reward-model-的演进">4.2 Reward Model 的演进</h3>
-
             <p>Reward Model 正在从简单的标量打分模型演进为更复杂的形式：</p>
-
             <ul>
                 <li><strong>Process Reward Model（PRM）</strong>：对推理的每一步进行评分，而非只看最终答案</li>
                 <li><strong>Generative Reward Model</strong>：用 LLM 本身作为 judge 来评估回答质量</li>
                 <li><strong>Multi-objective Reward</strong>：同时优化多个维度（准确性、安全性、简洁性等）</li>
             </ul>
-
             <h3 id="4-3-synthetic-data-的角色">4.3 Synthetic Data 的角色</h3>
-
             <p>合成数据在 Post-training 中的重要性持续上升。当前的最佳实践是：用强模型生成大量候选回答，通过 verifier 筛选出正确的，再用这些数据进行 SFT 或作为 RL 的 warm-up。这种<strong>“生成-验证-训练”</strong>的循环正在成为标准范式。</p>
-
             <hr>
-
             <h2 id="5-总结与关键要点">5. 总结与关键要点</h2>
-
             <p>LLM Post-training 是一个快速演进的领域，但其核心逻辑可以归纳为以下几点：</p>
-
             <ul>
                 <li><strong>SFT 是基础但不够</strong></li>
             </ul>
-
             <p>SFT 教会模型输出的格式和风格，但无法让模型学会超越训练数据的推理能力。对于对齐和推理，我们需要更强大的训练信号。</p>
-
             <ul>
                 <li><strong>RL 是提升推理能力的关键</strong></li>
             </ul>
-
             <p>从 PPO 到 GRPO， RL 算法在不断简化和高效化。GRPO 去掉了 Critic 模型， DAPO 进一步解决了熵坍塌等工程问题。DeepSeek-R1 证明了纯 RL 就能涌现推理能力。</p>
-
             <ul>
                 <li><strong>奖励信号的设计至关重要</strong></li>
             </ul>
-
             <p>从 RLHF（人类反馈）到 RLAIF（AI 反馈）再到 RLVR（可验证奖励），奖励信号的获取方式在不断演进。RLVR 在可验证领域（数学、代码）表现出色，但如何将其扩展到开放域任务仍是开放问题。</p>
-
             <ul>
                 <li><strong>Online RL vs. Offline Preference Optimization 各有所长</strong></li>
             </ul>
-
             <p>DPO 等 offline 方法简单稳定，适合偏好对齐；PPO/GRPO 等 online 方法能从探索中学习，更适合提升推理能力。实践中通常两者结合使用。</p>
-
             <ul>
                 <li><strong>Agentic RL 是下一个前沿</strong></li>
             </ul>
-
             <p>从单轮问答到多轮工具使用， Post-training 正在向训练完整的“智能体”方向发展。</p>
 
                 <a href="ai-posttraining.html" class="back-link">← 返回 Training</a>
