@@ -194,6 +194,21 @@ body {
     color: var(--primary-color);
 }
 
+.breadcrumb {
+    color: var(--text-light);
+    font-size: 0.95rem;
+    margin-top: 0.75rem;
+}
+
+.breadcrumb a {
+    color: var(--primary-color);
+    text-decoration: none;
+}
+
+.breadcrumb a:hover {
+    text-decoration: underline;
+}
+
 .subtitle {
     font-size: 1.2rem;
     color: var(--text-light);
