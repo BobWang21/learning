@@ -286,6 +286,10 @@
             line-height: 1.6;
         }
 
+        .training-grid {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
         /* Agent 部分的卡片 */
         .agent-grid {
             display: grid;
@@ -319,6 +323,10 @@
 
             .foundation-grid {
                 grid-template-columns: repeat(2, 1fr);
+            }
+
+            .training-grid {
+                grid-template-columns: 1fr;
             }
 
             .agent-grid {
@@ -370,11 +378,17 @@
                         </div>
                         <div class="base-column">
                             <h3 style="color: #C2410C; margin-bottom: 20px; font-size: 1.3rem;">🔄 Training</h3>
-                            <div class="foundation-grid single-card">
-                                <a href="ai-posttraining.html" class="article-card-link">
+                            <div class="foundation-grid training-grid">
+                                <a href="ai-posttraining-overview.html" class="article-card-link">
                                     <div class="article-card">
-                                        <h3>Pre-training + Mid-training + Post-training</h3>
-                                        <p>全面解析大语言模型训练全流程：从预训练到后训练，涵盖 SFT、RLHF、GRPO 等核心技术方法。</p>
+                                        <h3>post training</h3>
+                                        <p>系统梳理 SFT、PPO、DPO、GRPO、DAPO 等 Post-training 方法，比较各自的核心策略、优势、局限与适用场景。</p>
+                                    </div>
+                                </a>
+                                <a href="ai-posttraining-peft.html" class="article-card-link">
+                                    <div class="article-card">
+                                        <h3>PEFT 详解</h3>
+                                        <p>介绍 LoRA、QLoRA、Prefix Tuning、Prompt Tuning 等参数高效微调方法，说明如何以更低显存和存储成本适配大模型。</p>
                                     </div>
                                 </a>
                             </div>
