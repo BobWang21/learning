@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>R-DFL 读书笔记 — 递归决策聚焦学习</title>
-    <link rel="stylesheet" href="styles.css?v=20260713-page-toc">
+    <link rel="stylesheet" href="styles.css?v=20260713-page-only-toc">
     <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>
@@ -199,18 +199,33 @@
 </head>
 <body>
     <div class="container">
-        <div class="sidebar">
-    <div class="logo">📚 目录</div>
-    <ul class="toc">
-        <li><a href="index.html">🏠 首页</a></li>
-        <li><a href="index.html#e2e">🔄 端到端</a>
-            <ul>
-                <li><a href="decision.html">预测与决策结合的范式</a></li>
-                <li><a href="r-dfl.html">R-DFL 递归决策聚焦学习</a></li>
-            </ul>
-        </li>
-    </ul>
-</div>
+                <div class="sidebar">
+            <div class="page-toc">
+                <h3>📑 页面目录</h3>
+                <ul>
+                    <li><a href="#section1">1 动机或问题背景</a></li>
+                    <li><a href="#传统方法的局限">1.1 传统方法的局限</a></li>
+                    <li><a href="#决策聚焦学习的出现">1.2 决策聚焦学习的出现</a></li>
+                    <li><a href="#现有-dfl-的根本缺陷">1.3 现有 DFL 的根本缺陷</a></li>
+                    <li><a href="#研究问题">1.4 研究问题</a></li>
+                    <li><a href="#section2">2 解决方法</a></li>
+                    <li><a href="#r-dfl-框架概述">2.1 R-DFL 框架概述</a></li>
+                    <li><a href="#梯度计算挑战">2.2 梯度计算挑战</a></li>
+                    <li><a href="#方法一显式展开explicit-unrolling">2.3 方法一：显式展开（Explicit Unrolling）</a></li>
+                    <li><a href="#方法二隐式微分implicit-differentiation">2.4 方法二：隐式微分（Implicit Differentiation）</a></li>
+                    <li><a href="#两种方法对比总结">2.5 两种方法对比总结</a></li>
+                    <li><a href="#理论等价性论文定理3">2.6 理论等价性（论文定理3）</a></li>
+                    <li><a href="#section3">3 效果</a></li>
+                    <li><a href="#实验设置">3.1 实验设置</a></li>
+                    <li><a href="#主要结果论文表1">3.2 主要结果（论文表1）</a></li>
+                    <li><a href="#精度对比论文图3qq图">3.3 精度对比（论文图3：QQ图）</a></li>
+                    <li><a href="#敏感性分析论文图4不同展开层数的影响">3.4 敏感性分析（论文图4：不同展开层数的影响）</a></li>
+                    <li><a href="#鲁棒性检验论文表2">3.5 鲁棒性检验（论文表2）</a></li>
+                    <li><a href="#后续规划">4 后续规划</a></li>
+                    <li><a href="#论文提出的未来方向">4.1 论文提出的未来方向</a></li>
+                </ul>
+            </div>
+        </div>
         <main class="content">
             <section class="ai-section">
 <div class="breadcrumb">
