@@ -33,65 +33,150 @@ body {
     position: fixed;
     left: 0;
     top: 0;
-    width: 280px;
+    width: 292px;
     height: 100vh;
-    background: linear-gradient(135deg, #8B1E3F 0%, #6F1733 50%, #7F1D1D 100%);
-    color: white;
+    background: rgba(255, 255, 255, 0.96);
+    color: var(--text-color);
     overflow-y: auto;
-    padding: 2rem 1.5rem;
-    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+    padding: 26px 22px 30px;
+    border-right: 1px solid var(--border-color);
+    box-shadow: 8px 0 24px rgba(139, 30, 63, 0.06);
     z-index: 100;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(139, 30, 63, 0.35) transparent;
 }
 
 .logo {
-    font-size: 1.5rem;
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    background: rgba(255, 255, 255, 0.96);
+    color: var(--primary-color);
+    font-size: 1.08rem;
     font-weight: 700;
-    margin-bottom: 2rem;
-    padding-bottom: 1rem;
-    border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+    letter-spacing: 0;
+    margin: -26px -22px 18px;
+    padding: 24px 22px 16px;
+    border-bottom: 1px solid var(--border-color);
 }
 
 .sidebar .toc {
     list-style: none;
+    position: relative;
+    margin: 0;
+    padding: 2px 0 2px 14px;
+    border-left: 1px solid rgba(139, 30, 63, 0.18);
 }
 
 .sidebar .toc li {
-    margin-bottom: 0.5rem;
+    position: relative;
+    margin: 0;
 }
 
 .sidebar .toc a {
-    color: rgba(255, 255, 255, 0.9);
+    position: relative;
+    color: var(--text-light);
     text-decoration: none;
-    display: block;
-    padding: 0.5rem 0.75rem;
-    border-radius: 4px;
-    transition: all 0.3s ease;
-    font-size: 0.95rem;
+    display: flex;
+    align-items: center;
+    min-height: 30px;
+    padding: 5px 10px 5px 14px;
+    border-radius: 6px;
+    transition: background-color 0.18s ease, color 0.18s ease, transform 0.18s ease;
+    font-size: 0.93rem;
+    line-height: 1.45;
+    word-break: break-word;
+}
+
+.sidebar .toc a::before {
+    content: "";
+    position: absolute;
+    left: -18px;
+    top: 50%;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #fff;
+    border: 1px solid rgba(139, 30, 63, 0.3);
+    transform: translateY(-50%);
+    transition: background-color 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
 }
 
 .sidebar .toc a:hover {
-    background-color: rgba(255, 255, 255, 0.2);
-    color: white;
+    background-color: rgba(139, 30, 63, 0.08);
+    color: var(--primary-color);
+    transform: translateX(2px);
+}
+
+.sidebar .toc a:hover::before {
+    background: var(--primary-color);
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(139, 30, 63, 0.12);
+}
+
+.sidebar .toc > li > a {
+    color: var(--text-color);
+    font-size: 0.98rem;
+    font-weight: 700;
+    margin: 4px 0;
+}
+
+.sidebar .toc > li > a::before {
+    left: -19px;
+    width: 9px;
+    height: 9px;
+    border-color: rgba(139, 30, 63, 0.55);
 }
 
 .sidebar .toc ul {
     list-style: none;
-    margin-left: 1rem;
-    margin-top: 0.25rem;
+    position: relative;
+    margin: 2px 0 8px 12px;
+    padding-left: 12px;
+    border-left: 1px solid rgba(139, 30, 63, 0.13);
 }
 
 .sidebar .toc ul li {
-    margin-bottom: 0.25rem;
+    margin: 0;
 }
 
 .sidebar .toc ul a {
-    font-size: 0.9rem;
-    padding: 0.25rem 0.5rem;
+    font-size: 0.88rem;
+    font-weight: 500;
+    padding: 4px 8px 4px 12px;
+    min-height: 27px;
+}
+
+.sidebar .toc ul a::before {
+    left: -16px;
+    width: 6px;
+    height: 6px;
+}
+
+.sidebar .toc ul ul {
+    margin-left: 10px;
+    padding-left: 10px;
+    border-left-color: rgba(139, 30, 63, 0.1);
+}
+
+.sidebar .toc ul ul a {
+    color: #7b6b72;
+    font-size: 0.84rem;
+    font-weight: 400;
+    min-height: 25px;
+}
+
+.sidebar .toc a[aria-current="page"],
+.sidebar .toc a.active,
+.sidebar .toc a[href]:target {
+    background-color: rgba(139, 30, 63, 0.1);
+    color: var(--primary-color);
+    font-weight: 700;
 }
 
 /* 主内容区 */
 .content {
-    margin-left: 280px;
+    margin-left: 292px;
     padding: 2rem;
     flex: 1;
     max-width: 1200px;
@@ -350,6 +435,9 @@ li {
         height: auto;
         padding: 1rem;
         margin-bottom: 1rem;
+        border-right: none;
+        border-bottom: 1px solid var(--border-color);
+        box-shadow: 0 6px 18px rgba(139, 30, 63, 0.08);
     }
 
     .content {
@@ -369,10 +457,16 @@ li {
         display: flex;
         flex-wrap: wrap;
         gap: 0.5rem;
+        border-left: none;
+        padding-left: 0;
     }
 
     .sidebar .toc li {
         margin-bottom: 0;
+    }
+
+    .sidebar .toc a::before {
+        display: none;
     }
 
     .sidebar .toc ul {
