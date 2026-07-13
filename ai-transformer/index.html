@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>1 Transformer - AI</title>
-    <link rel="stylesheet" href="../styles.css?v=20260713-toc">
+    <link rel="stylesheet" href="../styles.css?v=20260713-page-toc">
     <style>
         .ai-section {
             background: white;
@@ -142,6 +142,28 @@
     <div class="container">
         <div class="sidebar">
             <div class="logo">📚 目录</div>
+
+            <div class="page-toc">
+                            <h4 style="margin-bottom: 15px; color: #8B1E3F;">📑 页面目录</h4>
+                            <ul style="list-style: none; padding: 0; margin: 0;">
+                                <li style="margin-bottom: 6px;"><a href="#一、背景" style="color: #8B1E3F; text-decoration: none; font-weight: 600;">一、背景</a></li>
+                                <li style="margin-bottom: 6px;"><a href="#二、网络结构" style="color: #8B1E3F; text-decoration: none; font-weight: 600;">二、网络结构</a></li>
+                                <li style="margin-bottom: 6px;"><a href="#三、attention" style="color: #8B1E3F; text-decoration: none; font-weight: 600;">三、attention</a></li>
+                                <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#1-定义" style="color: #C2410C; text-decoration: none; font-size: 0.95rem;">1 定义</a></li>
+                                <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#2缩放点积" style="color: #C2410C; text-decoration: none; font-size: 0.95rem;">2缩放点积</a></li>
+                                <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#31-self-attention" style="color: #C2410C; text-decoration: none; font-size: 0.95rem;">3.1 Self Attention</a></li>
+                                <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#32-mutli-head-attention" style="color: #C2410C; text-decoration: none; font-size: 0.95rem;">3.2 Mutli-Head Attention</a></li>
+                                <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#4-缺点" style="color: #C2410C; text-decoration: none; font-size: 0.95rem;">4 缺点</a></li>
+                                <li style="margin-bottom: 6px;"><a href="#四、位置编码" style="color: #8B1E3F; text-decoration: none; font-weight: 600;">四、位置编码</a></li>
+                                <li style="margin-bottom: 6px;"><a href="#五、变体" style="color: #8B1E3F; text-decoration: none; font-weight: 600;">五、变体</a></li>
+                                <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#1-归一化方法" style="color: #C2410C; text-decoration: none; font-size: 0.95rem;">1 归一化方法</a></li>
+                                <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#2-归一化位置" style="color: #C2410C; text-decoration: none; font-size: 0.95rem;">2 归一化位置</a></li>
+                                <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#3-注意力机制" style="color: #C2410C; text-decoration: none; font-size: 0.95rem;">3 注意力机制</a></li>
+                                <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#4-moe" style="color: #C2410C; text-decoration: none; font-size: 0.95rem;">4 MOE</a></li>
+                                <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#5-长上下文模型" style="color: #C2410C; text-decoration: none; font-size: 0.95rem;">5 长上下文模型</a></li>
+                                <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#6-kv-cache" style="color: #C2410C; text-decoration: none; font-size: 0.95rem;">6 kv cache</a></li>
+                            </ul>
+                        </div>
             <ul class="toc">
                 <li><a href="../index.html">🏠 首页</a></li>
                 <li><a href="../index.html#ai">🤖 AI</a>
@@ -173,6 +195,9 @@
                 <li><a href="../decision.html">🔄 端到端</a></li>
                 <li><a href="../models.html">⏱️ 预测</a></li>
             </ul>
+        
+
+            
         </div>
 
         <main class="content">
@@ -185,27 +210,7 @@
                 <a href="../index.html">首页</a> &gt; <a href="../index.html#ai">AI</a> &gt; 1 Transformer
             </div>
 
-            <div class="page-toc">
-    <h4 style="margin-bottom: 15px; color: #8B1E3F;">📑 页面目录</h4>
-    <ul style="list-style: none; padding: 0; margin: 0;">
-        <li style="margin-bottom: 6px;"><a href="#一、背景" style="color: #8B1E3F; text-decoration: none; font-weight: 600;">一、背景</a></li>
-        <li style="margin-bottom: 6px;"><a href="#二、网络结构" style="color: #8B1E3F; text-decoration: none; font-weight: 600;">二、网络结构</a></li>
-        <li style="margin-bottom: 6px;"><a href="#三、attention" style="color: #8B1E3F; text-decoration: none; font-weight: 600;">三、attention</a></li>
-        <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#1-定义" style="color: #C2410C; text-decoration: none; font-size: 0.95rem;">1 定义</a></li>
-        <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#2缩放点积" style="color: #C2410C; text-decoration: none; font-size: 0.95rem;">2缩放点积</a></li>
-        <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#31-self-attention" style="color: #C2410C; text-decoration: none; font-size: 0.95rem;">3.1 Self Attention</a></li>
-        <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#32-mutli-head-attention" style="color: #C2410C; text-decoration: none; font-size: 0.95rem;">3.2 Mutli-Head Attention</a></li>
-        <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#4-缺点" style="color: #C2410C; text-decoration: none; font-size: 0.95rem;">4 缺点</a></li>
-        <li style="margin-bottom: 6px;"><a href="#四、位置编码" style="color: #8B1E3F; text-decoration: none; font-weight: 600;">四、位置编码</a></li>
-        <li style="margin-bottom: 6px;"><a href="#五、变体" style="color: #8B1E3F; text-decoration: none; font-weight: 600;">五、变体</a></li>
-        <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#1-归一化方法" style="color: #C2410C; text-decoration: none; font-size: 0.95rem;">1 归一化方法</a></li>
-        <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#2-归一化位置" style="color: #C2410C; text-decoration: none; font-size: 0.95rem;">2 归一化位置</a></li>
-        <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#3-注意力机制" style="color: #C2410C; text-decoration: none; font-size: 0.95rem;">3 注意力机制</a></li>
-        <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#4-moe" style="color: #C2410C; text-decoration: none; font-size: 0.95rem;">4 MOE</a></li>
-        <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#5-长上下文模型" style="color: #C2410C; text-decoration: none; font-size: 0.95rem;">5 长上下文模型</a></li>
-        <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#6-kv-cache" style="color: #C2410C; text-decoration: none; font-size: 0.95rem;">6 kv cache</a></li>
-    </ul>
-</div>
+            
 
             <section class="ai-section">
                 <h2 id="一、背景">一、背景</h2>

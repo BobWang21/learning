@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tree of Thoughts - Agent</title>
-    <link rel="stylesheet" href="styles.css?v=20260713-toc">
+    <link rel="stylesheet" href="styles.css?v=20260713-page-toc">
     <style>
         .ai-section {
             background: white;
@@ -111,6 +111,23 @@
     <div class="container">
                 <div class="sidebar">
             <div class="logo">📚 目录</div>
+
+            <div class="page-toc">
+                            <h4 style="margin-bottom: 15px; color: #8B1E3F;">📑 页面目录</h4>
+                            <ul style="list-style: none; padding: 0; margin: 0;">
+                                <li style="margin-bottom: 8px;"><a href="#tree-of-thoughts" style="color: #8B1E3F; text-decoration: none; font-weight: 600;">Tree of Thoughts</a></li>
+                                <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#一概念介绍" style="color: #C2410C; text-decoration: none; font-size: 0.95rem;">一、概念介绍</a></li>
+                                <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#二tot-vs-cot" style="color: #C2410C; text-decoration: none; font-size: 0.95rem;">二、ToT vs CoT</a></li>
+                                <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#三tot-的核心组件" style="color: #C2410C; text-decoration: none; font-size: 0.95rem;">三、ToT 的核心组件</a></li>
+                                <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#四tot-的工作流程" style="color: #C2410C; text-decoration: none; font-size: 0.95rem;">四、ToT 的工作流程</a></li>
+                                <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#五tot-的应用" style="color: #C2410C; text-decoration: none; font-size: 0.95rem;">五、ToT 的应用</a></li>
+                                <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#六实验结果" style="color: #C2410C; text-decoration: none; font-size: 0.95rem;">六、实验结果</a></li>
+                                <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#七挑战与限制" style="color: #C2410C; text-decoration: none; font-size: 0.95rem;">七、挑战与限制</a></li>
+                                <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#八优化方向" style="color: #C2410C; text-decoration: none; font-size: 0.95rem;">八、优化方向</a></li>
+                                <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#九最佳实践" style="color: #C2410C; text-decoration: none; font-size: 0.95rem;">九、最佳实践</a></li>
+                                <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#十未来方向" style="color: #C2410C; text-decoration: none; font-size: 0.95rem;">十、未来方向</a></li>
+                            </ul>
+                        </div>
             <ul class="toc">
                 <li><a href="index.html">🏠 首页</a></li>
                 <li><a href="index.html#ai">🤖 AI</a>
@@ -142,6 +159,9 @@
                 <li><a href="decision.html">🔄 端到端</a></li>
                 <li><a href="models.html">⏱️ 预测</a></li>
             </ul>
+        
+
+            
         </div>
 
         <main class="content">
@@ -154,22 +174,7 @@
                 <a href="index.html">首页</a> > <a href="index.html#ai">AI</a> > <a href="ai-agent.html">4. Agent</a> > Tree of Thoughts
             </div>
 
-            <div class="page-toc">
-    <h4 style="margin-bottom: 15px; color: #8B1E3F;">📑 页面目录</h4>
-    <ul style="list-style: none; padding: 0; margin: 0;">
-        <li style="margin-bottom: 8px;"><a href="#tree-of-thoughts" style="color: #8B1E3F; text-decoration: none; font-weight: 600;">Tree of Thoughts</a></li>
-        <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#一概念介绍" style="color: #C2410C; text-decoration: none; font-size: 0.95rem;">一、概念介绍</a></li>
-        <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#二tot-vs-cot" style="color: #C2410C; text-decoration: none; font-size: 0.95rem;">二、ToT vs CoT</a></li>
-        <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#三tot-的核心组件" style="color: #C2410C; text-decoration: none; font-size: 0.95rem;">三、ToT 的核心组件</a></li>
-        <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#四tot-的工作流程" style="color: #C2410C; text-decoration: none; font-size: 0.95rem;">四、ToT 的工作流程</a></li>
-        <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#五tot-的应用" style="color: #C2410C; text-decoration: none; font-size: 0.95rem;">五、ToT 的应用</a></li>
-        <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#六实验结果" style="color: #C2410C; text-decoration: none; font-size: 0.95rem;">六、实验结果</a></li>
-        <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#七挑战与限制" style="color: #C2410C; text-decoration: none; font-size: 0.95rem;">七、挑战与限制</a></li>
-        <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#八优化方向" style="color: #C2410C; text-decoration: none; font-size: 0.95rem;">八、优化方向</a></li>
-        <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#九最佳实践" style="color: #C2410C; text-decoration: none; font-size: 0.95rem;">九、最佳实践</a></li>
-        <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#十未来方向" style="color: #C2410C; text-decoration: none; font-size: 0.95rem;">十、未来方向</a></li>
-    </ul>
-</div>
+            
 
 
             <section class="ai-section">

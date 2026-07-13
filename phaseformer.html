@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PhaseFormer 论文读书笔记</title>
-    <link rel="stylesheet" href="styles.css?v=20260713-toc">
+    <link rel="stylesheet" href="styles.css?v=20260713-page-toc">
     <script>
         MathJax = {
             tex: {
@@ -34,12 +34,30 @@
     <div class="container">
         <div class="sidebar">
             <div class="logo">📚 目录</div>
+
+            <div class="page-toc">
+                                        <h4>📑 页面目录</h4>
+                                        <ul style="list-style: none; padding: 0;">
+                                            <li><a href="#basic-info">基本信息</a></li>
+                                            <li><a href="#background">1. 研究背景与动机</a></li>
+                                            <li><a href="#motivations">2. 核心洞察（Motivations）</a></li>
+                                            <li><a href="#model-design">3. 模型设计：PhaseFormer</a></li>
+                                            <li><a href="#experiments">4. 实验</a></li>
+                                            <li><a href="#theory">5. 理论分析</a></li>
+                                            <li><a href="#advantages">6. 优势总结</a></li>
+                                            <li><a href="#limitations">7. 局限与未来工作</a></li>
+                                            <li><a href="#thoughts">8. 个人思考</a></li>
+                                        </ul>
+                                    </div>
             <ul class="toc">
                 <li><a href="index.html">🏠 首页</a></li>
                 <li><a href="index.html#ai">🤖 AI</a></li>
                 <li><a href="decision.html">🔄 端到端</a></li>
                 <li><a href="models.html">⏱️ 预测</a></li>
             </ul>
+        
+
+            
         </div>
 
         <main class="content">
@@ -48,20 +66,7 @@
                 <p class="subtitle">PhaseFormer: From Patches to Phases for Efficient and Effective Time Series Forecasting</p>
             </header>
 
-            <div class="page-toc">
-                <h4>📑 页面目录</h4>
-                <ul style="list-style: none; padding: 0;">
-                    <li><a href="#basic-info">基本信息</a></li>
-                    <li><a href="#background">1. 研究背景与动机</a></li>
-                    <li><a href="#motivations">2. 核心洞察（Motivations）</a></li>
-                    <li><a href="#model-design">3. 模型设计：PhaseFormer</a></li>
-                    <li><a href="#experiments">4. 实验</a></li>
-                    <li><a href="#theory">5. 理论分析</a></li>
-                    <li><a href="#advantages">6. 优势总结</a></li>
-                    <li><a href="#limitations">7. 局限与未来工作</a></li>
-                    <li><a href="#thoughts">8. 个人思考</a></li>
-                </ul>
-            </div>
+            
 
             <!-- 基本信息 -->
             <section id="basic-info" class="section">

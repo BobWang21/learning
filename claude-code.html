@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Claude Code 文档总结</title>
-    <link rel="stylesheet" href="styles.css?v=20260713-toc">
+    <link rel="stylesheet" href="styles.css?v=20260713-page-toc">
     <style>
         .design-principles-table {
             width: 100%;
@@ -116,12 +116,40 @@
     <div class="container">
         <div class="sidebar">
             <div class="logo">📚 目录</div>
+
+            <div class="page-toc">
+                                        <h3>📑 目录</h3>
+                                        <ul>
+                                            <li><a href="#overview">一句话总览</a></li>
+                                            <li><a href="#design-principles">Claude Code 的设计原则</a></li>
+                                            <li><a href="#how-it-works">Claude Code 如何工作</a></li>
+                                            <li><a href="#built-in">内置能力</a></li>
+                                            <li><a href="#access">Claude Code 能访问什么</a></li>
+                                            <li><a href="#environments">执行环境和界面</a></li>
+                                            <li><a href="#sessions">会话、分支和上下文</a></li>
+                                            <li><a href="#security">权限和安全</a></li>
+                                            <li><a href="#extending">扩展 Claude Code</a></li>
+                                            <li><a href="#comparison">类似功能的区别</a></li>
+                                            <li><a href="#context-window">上下文窗口如何填满</a></li>
+                                            <li><a href="#compaction">Compaction 之后什么会保留</a></li>
+                                            <li><a href="#prompt-caching">Prompt caching 的核心机制</a></li>
+                                            <li><a href="#cache-invalidation">会让缓存失效的动作</a></li>
+                                            <li><a href="#cache-safe">不会破坏缓存的动作</a></li>
+                                            <li><a href="#cache-lifecycle">缓存生命周期和范围</a></li>
+                                            <li><a href="#cache-metrics">如何观察缓存效果</a></li>
+                                            <li><a href="#best-practices">实践建议</a></li>
+                                            <li><a href="#core-understanding">核心理解</a></li>
+                                        </ul>
+                                    </div>
             <ul class="toc">
                 <li><a href="index.html">🏠 首页</a></li>
                 <li><a href="index.html#ai">🤖 AI</a></li>
                 <li><a href="decision.html">🔄 端到端</a></li>
                 <li><a href="models.html">⏱️ 预测</a></li>
             </ul>
+        
+
+            
         </div>
 
         <main class="content">
@@ -130,30 +158,7 @@
                 <p class="subtitle">Claude Code 代理编程助手的核心架构、设计原则、工作原理与扩展机制详解</p>
             </header>
 
-            <div class="page-toc">
-                <h3>📑 目录</h3>
-                <ul>
-                    <li><a href="#overview">一句话总览</a></li>
-                    <li><a href="#design-principles">Claude Code 的设计原则</a></li>
-                    <li><a href="#how-it-works">Claude Code 如何工作</a></li>
-                    <li><a href="#built-in">内置能力</a></li>
-                    <li><a href="#access">Claude Code 能访问什么</a></li>
-                    <li><a href="#environments">执行环境和界面</a></li>
-                    <li><a href="#sessions">会话、分支和上下文</a></li>
-                    <li><a href="#security">权限和安全</a></li>
-                    <li><a href="#extending">扩展 Claude Code</a></li>
-                    <li><a href="#comparison">类似功能的区别</a></li>
-                    <li><a href="#context-window">上下文窗口如何填满</a></li>
-                    <li><a href="#compaction">Compaction 之后什么会保留</a></li>
-                    <li><a href="#prompt-caching">Prompt caching 的核心机制</a></li>
-                    <li><a href="#cache-invalidation">会让缓存失效的动作</a></li>
-                    <li><a href="#cache-safe">不会破坏缓存的动作</a></li>
-                    <li><a href="#cache-lifecycle">缓存生命周期和范围</a></li>
-                    <li><a href="#cache-metrics">如何观察缓存效果</a></li>
-                    <li><a href="#best-practices">实践建议</a></li>
-                    <li><a href="#core-understanding">核心理解</a></li>
-                </ul>
-            </div>
+            
 
             <section class="section" id="overview">
                 <h2>一句话总览</h2>

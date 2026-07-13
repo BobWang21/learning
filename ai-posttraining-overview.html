@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>post training</title>
-    <link rel="stylesheet" href="styles.css?v=20260713-toc">
+    <link rel="stylesheet" href="styles.css?v=20260713-page-toc">
     <style>
         :root {
             --ink: #172033;
@@ -229,6 +229,30 @@
     <div class="container">
         <div class="sidebar">
             <div class="logo">📚 目录</div>
+
+            <div class="page-toc">
+                                        <h2>目录</h2>
+                                        <ul>
+                                            <li><a href="#1-概述">1. 概述</a></li>
+                                            <li><a href="#2-核心方法">2. 核心方法</a></li>
+                                            <li class="toc-sub"><a href="#2-1-sft">2.1 SFT</a></li>
+                                            <li class="toc-sub"><a href="#2-2-rlhf-基于人类反馈的强化学习">2.2 RLHF — 基于人类反馈的强化学习</a></li>
+                                            <li class="toc-sub"><a href="#2-3-ppo-rl-的主力算法">2.3 PPO — RL 的主力算法</a></li>
+                                            <li class="toc-sub"><a href="#2-4-dpo-不需要-rl-的偏好优化">2.4 DPO — 不需要 RL 的偏好优化</a></li>
+                                            <li class="toc-sub"><a href="#2-5-grpo-group-relative-policy-optimization-去掉-critic-的轻量级-rl">2.5 GRPO（Group Relative Policy Optimization）— 去掉 Critic 的轻量级 RL</a></li>
+                                            <li class="toc-sub"><a href="#为什么强化学习有效">为什么强化学习有效</a></li>
+                                            <li class="toc-sub"><a href="#2-6-dapo-decoupled-clip-and-dynamic-sampling-policy-optimization">2.6 DAPO（Decoupled Clip and Dynamic Sampling Policy Optimization）</a></li>
+                                            <li class="toc-sub"><a href="#dapo-vs-grpo">DAPO vs. GRPO</a></li>
+                                            <li class="toc-sub"><a href="#2-7-rlvr-可验证奖励-推理模型的关键">2.7 RLVR — 可验证奖励：推理模型的关键</a></li>
+                                            <li class="toc-sub"><a href="#2-8-deepseek-r1-纯-rl-训练推理模型的里程碑">2.8 DeepSeek-R1：纯 RL 训练推理模型的里程碑</a></li>
+                                            <li><a href="#3-全局视角-技术如何协同工作">3. 全局视角：技术如何协同工作</a></li>
+                                            <li><a href="#4-前沿方向-2025-2026-年的新趋势">4. 前沿方向：2025-2026 年的新趋势</a></li>
+                                            <li class="toc-sub"><a href="#4-1-agentic-rl-从-回答问题-到-完成任务">4.1 Agentic RL：从“回答问题”到“完成任务”</a></li>
+                                            <li class="toc-sub"><a href="#4-2-reward-model-的演进">4.2 Reward Model 的演进</a></li>
+                                            <li class="toc-sub"><a href="#4-3-synthetic-data-的角色">4.3 Synthetic Data 的角色</a></li>
+                                            <li><a href="#5-总结与关键要点">5. 总结与关键要点</a></li>
+                                        </ul>
+                                    </div>
             <ul class="toc">
                 <li><a href="index.html">🏠 首页</a></li>
                 <li><a href="index.html#ai">🤖 AI</a>
@@ -260,6 +284,9 @@
                 <li><a href="decision.html">🔄 端到端</a></li>
                 <li><a href="models.html">⏱️ 预测</a></li>
             </ul>
+        
+
+            
         </div>
 
         <main class="content">
@@ -272,29 +299,7 @@
                 <a href="index.html">首页</a> > <a href="index.html#ai">AI</a> > <a href="ai-posttraining.html">Training</a> > post training
             </div>
 
-            <div class="page-toc">
-                <h2>目录</h2>
-                <ul>
-                    <li><a href="#1-概述">1. 概述</a></li>
-                    <li><a href="#2-核心方法">2. 核心方法</a></li>
-                    <li class="toc-sub"><a href="#2-1-sft">2.1 SFT</a></li>
-                    <li class="toc-sub"><a href="#2-2-rlhf-基于人类反馈的强化学习">2.2 RLHF — 基于人类反馈的强化学习</a></li>
-                    <li class="toc-sub"><a href="#2-3-ppo-rl-的主力算法">2.3 PPO — RL 的主力算法</a></li>
-                    <li class="toc-sub"><a href="#2-4-dpo-不需要-rl-的偏好优化">2.4 DPO — 不需要 RL 的偏好优化</a></li>
-                    <li class="toc-sub"><a href="#2-5-grpo-group-relative-policy-optimization-去掉-critic-的轻量级-rl">2.5 GRPO（Group Relative Policy Optimization）— 去掉 Critic 的轻量级 RL</a></li>
-                    <li class="toc-sub"><a href="#为什么强化学习有效">为什么强化学习有效</a></li>
-                    <li class="toc-sub"><a href="#2-6-dapo-decoupled-clip-and-dynamic-sampling-policy-optimization">2.6 DAPO（Decoupled Clip and Dynamic Sampling Policy Optimization）</a></li>
-                    <li class="toc-sub"><a href="#dapo-vs-grpo">DAPO vs. GRPO</a></li>
-                    <li class="toc-sub"><a href="#2-7-rlvr-可验证奖励-推理模型的关键">2.7 RLVR — 可验证奖励：推理模型的关键</a></li>
-                    <li class="toc-sub"><a href="#2-8-deepseek-r1-纯-rl-训练推理模型的里程碑">2.8 DeepSeek-R1：纯 RL 训练推理模型的里程碑</a></li>
-                    <li><a href="#3-全局视角-技术如何协同工作">3. 全局视角：技术如何协同工作</a></li>
-                    <li><a href="#4-前沿方向-2025-2026-年的新趋势">4. 前沿方向：2025-2026 年的新趋势</a></li>
-                    <li class="toc-sub"><a href="#4-1-agentic-rl-从-回答问题-到-完成任务">4.1 Agentic RL：从“回答问题”到“完成任务”</a></li>
-                    <li class="toc-sub"><a href="#4-2-reward-model-的演进">4.2 Reward Model 的演进</a></li>
-                    <li class="toc-sub"><a href="#4-3-synthetic-data-的角色">4.3 Synthetic Data 的角色</a></li>
-                    <li><a href="#5-总结与关键要点">5. 总结与关键要点</a></li>
-                </ul>
-            </div>
+            
 
             <section class="ai-section">
             <h2 id="1-概述">1. 概述</h2>

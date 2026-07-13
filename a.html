@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LLM 在运筹学中的应用：方法、应用与挑战 - AI</title>
-    <link rel="stylesheet" href="styles.css?v=20260713-toc">
+    <link rel="stylesheet" href="styles.css?v=20260713-page-toc">
     <style>
         .ai-section {
             background: white;
@@ -188,6 +188,23 @@
         <!-- 侧边栏 -->
         <div class="sidebar">
             <div class="logo">📚 目录</div>
+
+            <div class="page-toc">
+                                        <h4 style="margin-bottom: 15px; color: #8B1E3F;">📑 页面目录</h4>
+                                        <ul style="list-style: none; padding: 0; margin: 0;">
+                                            <li style="margin-bottom: 8px;"><a href="#llm-在运筹学中的应用-方法-应用与挑战" style="color: #8B1E3F; text-decoration: none; font-weight: 600;">LLM 在运筹学中的应用：方法、应用与挑战</a></li>
+                                            <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#一-llm-or-的三大核心范式深度解析" style="color: #C2410C; text-decoration: none; font-size: 0.95rem;">一、LLM + OR 的三大核心范式深度解析</a></li>
+                                            <li style="margin-left: 40px; margin-bottom: 4px;"><a href="#1-自动建模范式-automatic-modeling" style="color: #64748b; text-decoration: none; font-size: 0.9rem;">1. 自动建模范式（Automatic Modeling）</a></li>
+                                            <li style="margin-left: 40px; margin-bottom: 4px;"><a href="#2-辅助优化求解范式-llm-assisted-optimization" style="color: #64748b; text-decoration: none; font-size: 0.9rem;">2. 辅助优化求解范式（LLM-Assisted Optimization）</a></li>
+                                            <li style="margin-left: 40px; margin-bottom: 4px;"><a href="#3-llm-主导的直接求解范式-llm-dominated-optimization-solving" style="color: #64748b; text-decoration: none; font-size: 0.9rem;">3. LLM 主导的直接求解范式（LLM-Dominated Optimization Solving）</a></li>
+                                            <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#二-学术界与业界当前的聚焦点" style="color: #C2410C; text-decoration: none; font-size: 0.95rem;">二、学术界与业界当前的聚焦点</a></li>
+                                            <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#三-当前的基准测试总结" style="color: #C2410C; text-decoration: none; font-size: 0.95rem;">三、当前的基准测试总结</a></li>
+                                            <li style="margin-left: 40px; margin-bottom: 4px;"><a href="#1-针对-自动建模-能力的-benchmark" style="color: #64748b; text-decoration: none; font-size: 0.9rem;">1. 针对"自动建模"能力的 Benchmark</a></li>
+                                            <li style="margin-left: 40px; margin-bottom: 4px;"><a href="#2-针对-求解与推理-能力的-benchmark" style="color: #64748b; text-decoration: none; font-size: 0.9rem;">2. 针对"求解与推理"能力的 Benchmark</a></li>
+                                            <li style="margin-left: 40px; margin-bottom: 4px;"><a href="#3-针对-可解释性-的-benchmark" style="color: #64748b; text-decoration: none; font-size: 0.9rem;">3. 针对"可解释性"的 Benchmark</a></li>
+                                            <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#更详细论文及应用见附录" style="color: #C2410C; text-decoration: none; font-size: 0.95rem;">更详细论文及应用见附录</a></li>
+                                        </ul>
+                                    </div>
             <ul class="toc">
                 <li><a href="index.html">🏠 首页</a></li>
                 <li><a href="index.html#ai">🤖 AI</a>
@@ -201,6 +218,9 @@
                 <li><a href="models.html">⏱️ 预测</a></li>
                 <li><a href="index.html#application">📱 应用</a></li>
             </ul>
+        
+
+            
         </div>
 
         <!-- 主内容 -->
@@ -214,22 +234,7 @@
                 <a href="index.html">首页</a> > <a href="index.html#ai">AI</a> > <a href="index.html#application">Application</a> > LLM 在运筹学中的应用：方法、应用与挑战
             </div>
 
-            <div class="page-toc">
-                <h4 style="margin-bottom: 15px; color: #8B1E3F;">📑 页面目录</h4>
-                <ul style="list-style: none; padding: 0; margin: 0;">
-                    <li style="margin-bottom: 8px;"><a href="#llm-在运筹学中的应用-方法-应用与挑战" style="color: #8B1E3F; text-decoration: none; font-weight: 600;">LLM 在运筹学中的应用：方法、应用与挑战</a></li>
-                    <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#一-llm-or-的三大核心范式深度解析" style="color: #C2410C; text-decoration: none; font-size: 0.95rem;">一、LLM + OR 的三大核心范式深度解析</a></li>
-                    <li style="margin-left: 40px; margin-bottom: 4px;"><a href="#1-自动建模范式-automatic-modeling" style="color: #64748b; text-decoration: none; font-size: 0.9rem;">1. 自动建模范式（Automatic Modeling）</a></li>
-                    <li style="margin-left: 40px; margin-bottom: 4px;"><a href="#2-辅助优化求解范式-llm-assisted-optimization" style="color: #64748b; text-decoration: none; font-size: 0.9rem;">2. 辅助优化求解范式（LLM-Assisted Optimization）</a></li>
-                    <li style="margin-left: 40px; margin-bottom: 4px;"><a href="#3-llm-主导的直接求解范式-llm-dominated-optimization-solving" style="color: #64748b; text-decoration: none; font-size: 0.9rem;">3. LLM 主导的直接求解范式（LLM-Dominated Optimization Solving）</a></li>
-                    <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#二-学术界与业界当前的聚焦点" style="color: #C2410C; text-decoration: none; font-size: 0.95rem;">二、学术界与业界当前的聚焦点</a></li>
-                    <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#三-当前的基准测试总结" style="color: #C2410C; text-decoration: none; font-size: 0.95rem;">三、当前的基准测试总结</a></li>
-                    <li style="margin-left: 40px; margin-bottom: 4px;"><a href="#1-针对-自动建模-能力的-benchmark" style="color: #64748b; text-decoration: none; font-size: 0.9rem;">1. 针对"自动建模"能力的 Benchmark</a></li>
-                    <li style="margin-left: 40px; margin-bottom: 4px;"><a href="#2-针对-求解与推理-能力的-benchmark" style="color: #64748b; text-decoration: none; font-size: 0.9rem;">2. 针对"求解与推理"能力的 Benchmark</a></li>
-                    <li style="margin-left: 40px; margin-bottom: 4px;"><a href="#3-针对-可解释性-的-benchmark" style="color: #64748b; text-decoration: none; font-size: 0.9rem;">3. 针对"可解释性"的 Benchmark</a></li>
-                    <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#更详细论文及应用见附录" style="color: #C2410C; text-decoration: none; font-size: 0.95rem;">更详细论文及应用见附录</a></li>
-                </ul>
-            </div>
+            
 
             <section class="ai-section">
                 <p>大语言模型（LLM）在运筹学（OR）中的应用可以系统地划分为三大核心范式：<strong>自动建模</strong>（Automatic

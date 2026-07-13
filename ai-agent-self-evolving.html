@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>A Survey of Self-Evolving Agents - Agent</title>
-    <link rel="stylesheet" href="styles.css?v=20260713-toc">
+    <link rel="stylesheet" href="styles.css?v=20260713-page-toc">
     <style>
         .ai-section {
             background: white;
@@ -111,6 +111,21 @@
     <div class="container">
                 <div class="sidebar">
             <div class="logo">📚 目录</div>
+
+            <div class="page-toc">
+                            <h4 style="margin-bottom: 15px; color: #8B1E3F;">📑 页面目录</h4>
+                            <ul style="list-style: none; padding: 0; margin: 0;">
+                                <li style="margin-bottom: 8px;"><a href="#a-survey-of-self-evolving-agents" style="color: #8B1E3F; text-decoration: none; font-weight: 600;">A Survey of Self-Evolving Agents</a></li>
+                                <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#一概念定义" style="color: #C2410C; text-decoration: none; font-size: 0.95rem;">一、概念定义</a></li>
+                                <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#二进化的三个维度" style="color: #C2410C; text-decoration: none; font-size: 0.95rem;">二、进化的三个维度</a></li>
+                                <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#三自我进化的机制" style="color: #C2410C; text-decoration: none; font-size: 0.95rem;">三、自我进化的机制</a></li>
+                                <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#四应用场景" style="color: #C2410C; text-decoration: none; font-size: 0.95rem;">四、应用场景</a></li>
+                                <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#五评估框架" style="color: #C2410C; text-decoration: none; font-size: 0.95rem;">五、评估框架</a></li>
+                                <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#六挑战与风险" style="color: #C2410C; text-decoration: none; font-size: 0.95rem;">六、挑战与风险</a></li>
+                                <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#七最佳实践" style="color: #C2410C; text-decoration: none; font-size: 0.95rem;">七、最佳实践</a></li>
+                                <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#八未来展望" style="color: #C2410C; text-decoration: none; font-size: 0.95rem;">八、未来展望</a></li>
+                            </ul>
+                        </div>
             <ul class="toc">
                 <li><a href="index.html">🏠 首页</a></li>
                 <li><a href="index.html#ai">🤖 AI</a>
@@ -142,6 +157,9 @@
                 <li><a href="decision.html">🔄 端到端</a></li>
                 <li><a href="models.html">⏱️ 预测</a></li>
             </ul>
+        
+
+            
         </div>
 
         <main class="content">
@@ -154,20 +172,7 @@
                 <a href="index.html">首页</a> > <a href="index.html#ai">AI</a> > <a href="ai-agent.html">4. Agent</a> > Self-Evolving Agents
             </div>
 
-            <div class="page-toc">
-    <h4 style="margin-bottom: 15px; color: #8B1E3F;">📑 页面目录</h4>
-    <ul style="list-style: none; padding: 0; margin: 0;">
-        <li style="margin-bottom: 8px;"><a href="#a-survey-of-self-evolving-agents" style="color: #8B1E3F; text-decoration: none; font-weight: 600;">A Survey of Self-Evolving Agents</a></li>
-        <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#一概念定义" style="color: #C2410C; text-decoration: none; font-size: 0.95rem;">一、概念定义</a></li>
-        <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#二进化的三个维度" style="color: #C2410C; text-decoration: none; font-size: 0.95rem;">二、进化的三个维度</a></li>
-        <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#三自我进化的机制" style="color: #C2410C; text-decoration: none; font-size: 0.95rem;">三、自我进化的机制</a></li>
-        <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#四应用场景" style="color: #C2410C; text-decoration: none; font-size: 0.95rem;">四、应用场景</a></li>
-        <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#五评估框架" style="color: #C2410C; text-decoration: none; font-size: 0.95rem;">五、评估框架</a></li>
-        <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#六挑战与风险" style="color: #C2410C; text-decoration: none; font-size: 0.95rem;">六、挑战与风险</a></li>
-        <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#七最佳实践" style="color: #C2410C; text-decoration: none; font-size: 0.95rem;">七、最佳实践</a></li>
-        <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#八未来展望" style="color: #C2410C; text-decoration: none; font-size: 0.95rem;">八、未来展望</a></li>
-    </ul>
-</div>
+            
 
 
             <section class="ai-section">

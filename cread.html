@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CREAD: 视频推荐系统中的观看时长预测</title>
-    <link rel="stylesheet" href="styles.css?v=20260713-toc">
+    <link rel="stylesheet" href="styles.css?v=20260713-page-toc">
     <!-- MathJax for LaTeX -->
     <script>
         MathJax = {
@@ -147,6 +147,20 @@
     <div class="container">
         <div class="sidebar">
             <div class="logo">📚 目录</div>
+
+            <div class="page-toc">
+                            <h4 style="margin-bottom: 15px; color: #8B1E3F;">📑 页面目录</h4>
+                            <ul style="list-style: none; padding: 0; margin: 0;">
+                                <li style="margin-bottom: 8px;"><a href="#一研究背景与问题定义" style="color: #8B1E3F; text-decoration: none; font-weight: 600;">一、研究背景与问题定义</a></li>
+                                <li style="margin-bottom: 8px;"><a href="#二传统方法的问题" style="color: #8B1E3F; text-decoration: none; font-weight: 600;">二、传统方法的问题</a></li>
+                                <li style="margin-bottom: 8px;"><a href="#三cread-模型框架" style="color: #8B1E3F; text-decoration: none; font-weight: 600;">三、CREAD 模型框架</a></li>
+                                <li style="margin-bottom: 8px;"><a href="#四损失函数设计" style="color: #8B1E3F; text-decoration: none; font-weight: 600;">四、损失函数设计</a></li>
+                                <li style="margin-bottom: 8px;"><a href="#五离散化误差分析与-ead-方法" style="color: #8B1E3F; text-decoration: none; font-weight: 600;">五、离散化误差分析与 EAD 方法</a></li>
+                                <li style="margin-bottom: 8px;"><a href="#六实验与结果" style="color: #8B1E3F; text-decoration: none; font-weight: 600;">六、实验与结果</a></li>
+                                <li style="margin-bottom: 8px;"><a href="#七在线-ab-测试" style="color: #8B1E3F; text-decoration: none; font-weight: 600;">七、在线 A/B 测试</a></li>
+                                <li style="margin-bottom: 8px;"><a href="#八总结与贡献" style="color: #8B1E3F; text-decoration: none; font-weight: 600;">八、总结与贡献</a></li>
+                            </ul>
+                        </div>
             <ul class="toc">
                 <li><a href="index.html">🏠 首页</a></li>
                 <li><a href="index.html#ai">🤖 AI</a>
@@ -178,6 +192,9 @@
                 <li><a href="decision.html">🔄 端到端</a></li>
                 <li><a href="models.html">⏱️ 预测</a></li>
             </ul>
+        
+
+            
         </div>
 
         <main class="content">
@@ -190,19 +207,7 @@
                 <a href="index.html">首页</a> > <a href="index.html#prediction">预测</a> > CREAD 论文详解
             </div>
 
-            <div class="page-toc">
-    <h4 style="margin-bottom: 15px; color: #8B1E3F;">📑 页面目录</h4>
-    <ul style="list-style: none; padding: 0; margin: 0;">
-        <li style="margin-bottom: 8px;"><a href="#一研究背景与问题定义" style="color: #8B1E3F; text-decoration: none; font-weight: 600;">一、研究背景与问题定义</a></li>
-        <li style="margin-bottom: 8px;"><a href="#二传统方法的问题" style="color: #8B1E3F; text-decoration: none; font-weight: 600;">二、传统方法的问题</a></li>
-        <li style="margin-bottom: 8px;"><a href="#三cread-模型框架" style="color: #8B1E3F; text-decoration: none; font-weight: 600;">三、CREAD 模型框架</a></li>
-        <li style="margin-bottom: 8px;"><a href="#四损失函数设计" style="color: #8B1E3F; text-decoration: none; font-weight: 600;">四、损失函数设计</a></li>
-        <li style="margin-bottom: 8px;"><a href="#五离散化误差分析与-ead-方法" style="color: #8B1E3F; text-decoration: none; font-weight: 600;">五、离散化误差分析与 EAD 方法</a></li>
-        <li style="margin-bottom: 8px;"><a href="#六实验与结果" style="color: #8B1E3F; text-decoration: none; font-weight: 600;">六、实验与结果</a></li>
-        <li style="margin-bottom: 8px;"><a href="#七在线-ab-测试" style="color: #8B1E3F; text-decoration: none; font-weight: 600;">七、在线 A/B 测试</a></li>
-        <li style="margin-bottom: 8px;"><a href="#八总结与贡献" style="color: #8B1E3F; text-decoration: none; font-weight: 600;">八、总结与贡献</a></li>
-    </ul>
-</div>
+            
 
             <section class="ai-section">
                 <h2 id="一研究背景与问题定义">一、研究背景与问题定义</h2>

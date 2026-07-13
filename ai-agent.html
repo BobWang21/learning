@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>4. Agent - AI</title>
-    <link rel="stylesheet" href="styles.css?v=20260713-toc">
+    <link rel="stylesheet" href="styles.css?v=20260713-page-toc">
     <style>
         .ai-section {
             background: white;
@@ -204,6 +204,25 @@
     <div class="container">
                 <div class="sidebar">
             <div class="logo">📚 目录</div>
+
+            <div class="page-toc">
+                            <h4 style="margin-bottom: 15px; color: #8B1E3F;">📑 页面目录</h4>
+                            <ul style="list-style: none; padding: 0; margin: 0;">
+                                <li style="margin-bottom: 8px;"><a href="#4-agent-ai-智能体" style="color: #8B1E3F; text-decoration: none; font-weight: 600;">4. Agent - AI 智能体</a></li>
+                                <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#1-llm-agent-survey" style="color: #C2410C; text-decoration: none; font-size: 0.95rem;">1. LLM Agent Survey</a></li>
+                                <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#2-agentic-reasoning" style="color: #C2410C; text-decoration: none; font-size: 0.95rem;">2. Agentic Reasoning</a></li>
+                                <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#3-memory-in-ai-agents" style="color: #C2410C; text-decoration: none; font-size: 0.95rem;">3. Memory in AI Agents</a></li>
+                                <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#4-self-evolving-agents" style="color: #C2410C; text-decoration: none; font-size: 0.95rem;">4. Self-Evolving Agents</a></li>
+                                <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#5-multi-agent-systems" style="color: #C2410C; text-decoration: none; font-size: 0.95rem;">5. Multi-Agent Systems</a></li>
+                                <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#6-agentic-rl" style="color: #C2410C; text-decoration: none; font-size: 0.95rem;">6. Agentic RL</a></li>
+                                <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#7-knowledge-graph" style="color: #C2410C; text-decoration: none; font-size: 0.95rem;">7. Knowledge Graph</a></li>
+                                <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#8-rag" style="color: #C2410C; text-decoration: none; font-size: 0.95rem;">8. RAG</a></li>
+                                <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#9-tree-of-thoughts" style="color: #C2410C; text-decoration: none; font-size: 0.95rem;">9. Tree of Thoughts</a></li>
+                                <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#10-tools" style="color: #C2410C; text-decoration: none; font-size: 0.95rem;">10. Tools</a></li>
+                                <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#一定义" style="color: #C2410C; text-decoration: none; font-size: 0.95rem;">一、定义</a></li>
+                                <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#二技术" style="color: #C2410C; text-decoration: none; font-size: 0.95rem;">二、技术</a></li>
+                            </ul>
+                        </div>
             <ul class="toc">
                 <li><a href="index.html">🏠 首页</a></li>
                 <li><a href="index.html#ai">🤖 AI</a>
@@ -235,6 +254,9 @@
                 <li><a href="decision.html">🔄 端到端</a></li>
                 <li><a href="models.html">⏱️ 预测</a></li>
             </ul>
+        
+
+            
         </div>
 
         <main class="content">
@@ -247,24 +269,7 @@
                 <a href="index.html">首页</a> > <a href="index.html#ai">AI</a> > 4. Agent
             </div>
 
-            <div class="page-toc">
-    <h4 style="margin-bottom: 15px; color: #8B1E3F;">📑 页面目录</h4>
-    <ul style="list-style: none; padding: 0; margin: 0;">
-        <li style="margin-bottom: 8px;"><a href="#4-agent-ai-智能体" style="color: #8B1E3F; text-decoration: none; font-weight: 600;">4. Agent - AI 智能体</a></li>
-        <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#1-llm-agent-survey" style="color: #C2410C; text-decoration: none; font-size: 0.95rem;">1. LLM Agent Survey</a></li>
-        <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#2-agentic-reasoning" style="color: #C2410C; text-decoration: none; font-size: 0.95rem;">2. Agentic Reasoning</a></li>
-        <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#3-memory-in-ai-agents" style="color: #C2410C; text-decoration: none; font-size: 0.95rem;">3. Memory in AI Agents</a></li>
-        <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#4-self-evolving-agents" style="color: #C2410C; text-decoration: none; font-size: 0.95rem;">4. Self-Evolving Agents</a></li>
-        <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#5-multi-agent-systems" style="color: #C2410C; text-decoration: none; font-size: 0.95rem;">5. Multi-Agent Systems</a></li>
-        <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#6-agentic-rl" style="color: #C2410C; text-decoration: none; font-size: 0.95rem;">6. Agentic RL</a></li>
-        <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#7-knowledge-graph" style="color: #C2410C; text-decoration: none; font-size: 0.95rem;">7. Knowledge Graph</a></li>
-        <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#8-rag" style="color: #C2410C; text-decoration: none; font-size: 0.95rem;">8. RAG</a></li>
-        <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#9-tree-of-thoughts" style="color: #C2410C; text-decoration: none; font-size: 0.95rem;">9. Tree of Thoughts</a></li>
-        <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#10-tools" style="color: #C2410C; text-decoration: none; font-size: 0.95rem;">10. Tools</a></li>
-        <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#一定义" style="color: #C2410C; text-decoration: none; font-size: 0.95rem;">一、定义</a></li>
-        <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#二技术" style="color: #C2410C; text-decoration: none; font-size: 0.95rem;">二、技术</a></li>
-    </ul>
-</div>
+            
 
 
             <section class="ai-section">
