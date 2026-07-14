@@ -4,11 +4,19 @@
 
 /* 编辑工具栏 */
 #editor-toolbar {
+  display: none !important;
   position: fixed;
   top: 0;
   right: 0;
   z-index: 1000;
   width: 100%;
+}
+
+/* Hide legacy edit/token controls if an older script injected them. */
+.editor-buttons,
+#edit-btn,
+#token-btn {
+  display: none !important;
 }
 
 /* 状态条 */

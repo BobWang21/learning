@@ -21,6 +21,9 @@ const GITHUB_PAGES_BASE = 'https://bobwang21.github.io/learning';
  * 初始化编辑器 UI - 在页面加载时调用
  */
 function initEditorUI() {
+  // Online editing controls are disabled for the public site.
+  return;
+
   // 检查页面是否有 .ai-section（首页没有）
   const aiSection = document.querySelector('.ai-section');
   if (!aiSection) {
