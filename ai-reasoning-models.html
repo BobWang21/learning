@@ -97,9 +97,9 @@
 <li><a href="#1-what-reasoning">1. What — 什么是 Reasoning 模型？</a></li>
 <li><a href="#2-why-reasoning">2. Why — 为什么需要 Reasoning 模型？</a></li>
 <li><a href="#3-how">3. How — 推理模型是如何炼成并运行的？</a><ul>
-<li><a href="#rejection-sampling">维度一：训练阶段（地基）—— 拒绝采样（Rejection Sampling）</a></li>
-<li><a href="#ppo-grpo-dapo">维度二：后训练阶段（塑形）—— 强化学习（PPO / GRPO / DAPO）</a></li>
-<li><a href="#test-time-scaling">维度三：推理阶段（爆发）—— Test-Time Scaling（测试时扩展）</a><ul>
+<li><a href="#rejection-sampling">3.1 训练阶段（地基）—— 拒绝采样（Rejection Sampling）</a></li>
+<li><a href="#ppo-grpo-dapo">3.2 后训练阶段（塑形）—— 强化学习（PPO / GRPO / DAPO）</a></li>
+<li><a href="#test-time-scaling">3.3 推理阶段（爆发）—— Test-Time Scaling（测试时扩展）</a><ul>
 <li><a href="#_1">推理方法对比表</a></li>
 <li><a href="#_2">🧱 关于“判断难易”的底层逻辑</a></li>
 </ul>
@@ -139,7 +139,7 @@
 
 <h2 id="3-how">3. How — 推理模型是如何炼成并运行的？</h2>
 <p>推理模型的强大并非偶然，它依赖从<strong>训练</strong>到<strong>推理</strong>的全链路升级。我们将它拆解为三个核心维度：</p>
-<h3 id="rejection-sampling">维度一：训练阶段（地基）—— 拒绝采样（Rejection Sampling）</h3>
+<h3 id="rejection-sampling">3.1 训练阶段（地基）—— 拒绝采样（Rejection Sampling）</h3>
 <blockquote>
 
 <p><strong>本质</strong>：拒绝采样不是实时算法，而是<strong>离线数据提纯工艺</strong>，它把模型“偶然闪现的潜力”固化为基础能力。</p>
@@ -151,7 +151,7 @@
 </ol>
 
 </blockquote>
-<h3 id="ppo-grpo-dapo">维度二：后训练阶段（塑形）—— 强化学习（PPO / GRPO / DAPO）</h3>
+<h3 id="ppo-grpo-dapo">3.2 后训练阶段（塑形）—— 强化学习（PPO / GRPO / DAPO）</h3>
 <table>
 <thead>
 <tr>
@@ -182,7 +182,7 @@
 </tr>
 </tbody>
 </table>
-<h3 id="test-time-scaling">维度三：推理阶段（爆发）—— Test-Time Scaling（测试时扩展）</h3>
+<h3 id="test-time-scaling">3.3 推理阶段（爆发）—— Test-Time Scaling（测试时扩展）</h3>
 <p>Long CoT 是推理模型在推理阶段（Test-Time）的“顶层框架”或“核心策略”，它规定了模型在这个推理过程中要<strong>“花更多时间、走更多步、允许自己回头检查”</strong>。其他所有推理方法（如 Self-Consistency、Tree Search、Reflection），都是在 Long CoT 这个框架内选择的具体“行驶路线”。</p>
 <h4 id="_1">推理方法对比表</h4>
 <table>
