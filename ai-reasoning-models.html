@@ -1,22 +1,23 @@
 <!DOCTYPE html>
+
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>3 Reasoning 模型 - 推理及应用</title>
-    <link rel="stylesheet" href="styles.css?v=20260713-page-only-toc">
-    <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>3 Reasoning 模型 - 推理及应用</title>
+<link href="styles.css?v=20260713-page-only-toc" rel="stylesheet"/>
+<style>
         :root { --rose:#8B1E3F; --terra:#C2410C; --amber:#B45309; --ink:#1f2937; --muted:#64748b; --line:#f2d6d6; --soft-amber:#fff7ed; --paper:#ffffff; }
-        .note-page { background:var(--paper); border-radius:8px; padding:34px; margin-bottom:30px; box-shadow:0 2px 8px rgba(0,0,0,.05); }
+        .note-page { background:var(--paper); border-radius:8px; padding:42px; margin-bottom:30px; box-shadow:0 2px 8px rgba(0,0,0,.05); }
         .note-page h1,.note-page h2,.note-page h3,.note-page h4 { color:var(--rose); line-height:1.35; }
         .note-page h1 { font-size:2rem; margin:0 0 28px; padding-bottom:16px; border-bottom:2px solid var(--line); }
-        .note-page h2 { font-size:1.55rem; margin:34px 0 16px; padding-bottom:10px; border-bottom:1px solid var(--line); }
-        .note-page h3 { font-size:1.28rem; margin:28px 0 14px; color:var(--terra); }
+        .note-page h2 { font-size:1.55rem; margin:46px 0 20px; padding-bottom:12px; border-bottom:1px solid var(--line); }
+        .note-page h3 { font-size:1.28rem; margin:36px 0 16px; color:var(--terra); }
         .note-page h4 { font-size:1.08rem; margin:22px 0 10px; color:var(--amber); }
         .note-page p,.note-page li,.note-page td,.note-page th,.note-page blockquote { line-height:1.78; }
-        .note-page p { margin:10px 0 14px; }
+        .note-page p { margin:12px 0 18px; }
         .note-page ul,.note-page ol { padding-left:1.6rem; margin:10px 0 16px; }
-        .note-page li { margin:5px 0; }
+        .note-page li { margin:8px 0; }
         .note-page blockquote { margin:16px 0; padding:12px 16px; background:var(--soft-amber); border-left:4px solid var(--terra); color:var(--ink); border-radius:4px; }
         .note-page table { width:100%; border-collapse:collapse; margin:18px 0 24px; background:white; border-radius:8px; overflow:hidden; box-shadow:0 1px 3px rgba(0,0,0,.10); }
         .note-page thead { background:linear-gradient(135deg,var(--rose),var(--terra)); color:white; }
@@ -30,17 +31,67 @@
         .breadcrumb a:hover { color:var(--terra); }
         .back-link { display:inline-block; margin-top:20px; padding:10px 20px; background:var(--rose); color:white; text-decoration:none; border-radius:6px; transition:all .3s ease; font-weight:600; }
         .back-link:hover { background:#7F1D1D; transform:translateY(-2px); }
+
+        .note-page .point-list,
+        .note-page .step-list {
+            display:grid;
+            gap:14px;
+            padding-left:0;
+            list-style:none;
+            margin:18px 0 26px;
+        }
+        .note-page .point-list li,
+        .note-page .step-list li {
+            background:#fffafa;
+            border:1px solid var(--line);
+            border-left:4px solid var(--terra);
+            border-radius:8px;
+            padding:14px 16px;
+            margin:0;
+        }
+        .note-page .step-list {
+            counter-reset: step;
+        }
+        .note-page .step-list li {
+            counter-increment: step;
+            position:relative;
+            padding-left:52px;
+        }
+        .note-page .step-list li::before {
+            content:counter(step);
+            position:absolute;
+            left:16px;
+            top:16px;
+            width:24px;
+            height:24px;
+            border-radius:50%;
+            background:var(--rose);
+            color:#fff;
+            display:inline-flex;
+            align-items:center;
+            justify-content:center;
+            font-weight:700;
+            font-size:.85rem;
+        }
+        .note-page blockquote .point-list,
+        .note-page blockquote .step-list {
+            margin-bottom:6px;
+        }
+        .note-page .section-intro {
+            color:var(--ink);
+            margin-bottom:16px;
+        }
         .page-toc ul ul { margin-left:18px; }
         @media (max-width:720px) { .note-page { padding:22px; } }
     </style>
-    <script>
+<script>
         window.MathJax = { tex: { inlineMath: [['$', '$'], ['\\(', '\\)']], displayMath: [['$$', '$$'], ['\\[', '\\]']] }, svg: { fontCache:'global' } };
     </script>
-    <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+<script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
 </head>
 <body>
-    <div class="container">
-        <div class="sidebar"><div class="page-toc"><h2>目录</h2><div class="toc">
+<div class="container">
+<div class="sidebar"><div class="page-toc"><h2>目录</h2><div class="toc">
 <ul>
 <li><a href="#reasoning">Reasoning 模型</a><ul>
 <li><a href="#1-what-reasoning">1. What — 什么是 Reasoning 模型？</a></li>
@@ -61,32 +112,44 @@
 </ul>
 </div>
 </div></div>
-        <main class="content">
-            <header class="header"><h1>3 Reasoning 模型</h1><div class="breadcrumb"><a href="index.html">首页</a> &gt; <a href="index.html#ai">AI</a> &gt; 推理及应用 &gt; Reasoning 模型</div></header>
-            <section class="note-page">
+<main class="content">
+<header class="header"><h1>3 Reasoning 模型</h1><div class="breadcrumb"><a href="index.html">首页</a> &gt; <a href="index.html#ai">AI</a> &gt; 推理及应用 &gt; Reasoning 模型</div></header>
+<section class="note-page">
 <h1 id="reasoning">Reasoning 模型</h1>
 <h2 id="1-what-reasoning">1. What — 什么是 Reasoning 模型？</h2>
 <blockquote>
-<p><strong>核心定义</strong>：推理模型是指在<strong>输出最终答案之前，能够自主生成密集的、可自我纠错的长思维链（Long Chain of Thought, CoT）</strong> 的大语言模型。
-它颠覆了传统 AI“即问即答”的模式。借用诺贝尔奖得主丹尼尔·卡尼曼的理论：
-- <strong>传统模型（System 1 / 快模型）</strong>：直觉性“脱口而出”。依靠概率匹配，瞬间吐出答案。适合日常对话，但面对复杂逻辑容易“翻车”。
-- <strong>推理模型（System 2 / 慢模型）</strong>：理性“深思熟虑”。在内部“草稿纸”上先进行多步骤推演、尝试不同路径、发现错误主动回溯，最后才把成熟的结论呈现给用户。
-<strong>典型代表</strong>：OpenAI o1/o3、DeepSeek-R1。</p>
+
+<p><strong>核心定义</strong>：推理模型是指在<strong>输出最终答案之前，能够自主生成密集的、可自我纠错的长思维链（Long Chain of Thought, CoT）</strong> 的大语言模型。</p>
+<p>它颠覆了传统 AI“即问即答”的模式。借用诺贝尔奖得主丹尼尔·卡尼曼的理论：</p>
+<ul class="point-list">
+<li><strong>传统模型（System 1 / 快模型）</strong>：直觉性“脱口而出”。依靠概率匹配，瞬间吐出答案。适合日常对话，但面对复杂逻辑容易“翻车”。</li>
+<li><strong>推理模型（System 2 / 慢模型）</strong>：理性“深思熟虑”。在内部“草稿纸”上先进行多步骤推演、尝试不同路径、发现错误主动回溯，最后才把成熟的结论呈现给用户。</li>
+</ul>
+<p><strong>典型代表</strong>：OpenAI o1/o3、DeepSeek-R1。</p>
+
 </blockquote>
 <h2 id="2-why-reasoning">2. Why — 为什么需要 Reasoning 模型？</h2>
-<p>业界从“大力出奇迹”的预训练转向死磕推理，是为了攻克三大核心瓶颈：
-- <strong>瓶颈一：预训练 Scaling Law 撞墙</strong>：高质量人类文本数据几近枯竭，单纯堆参数已无法带来质的提升。推理模型开辟了<strong>推理阶段的 Scaling Law</strong>——只要给模型更多的“思考时间”（推理算力），它的表现就能持续线性增长。
-- <strong>瓶颈二：逻辑“短视”与幻觉</strong>：传统模型无法回溯，写错第 3 步会硬着头皮编下去（导致幻觉）。推理模型拥有自我纠错（Self-Correction）机制，能在内部默默推演，发现死路立刻回头。
-- <strong>瓶颈三：产业级“绝对正确”的刚需</strong>：在医疗、金融、高端代码开发等领域，5% 的逻辑错误都是灾难性的。推理模型极大拉高了复杂长链条任务的正确率下限。</p>
+
+<p class="section-intro">业界从“大力出奇迹”的预训练转向死磕推理，是为了攻克三大核心瓶颈：</p>
+<ul class="point-list">
+<li><strong>瓶颈一：预训练 Scaling Law 撞墙</strong>：高质量人类文本数据几近枯竭，单纯堆参数已无法带来质的提升。推理模型开辟了<strong>推理阶段的 Scaling Law</strong>——只要给模型更多的“思考时间”（推理算力），它的表现就能持续线性增长。</li>
+<li><strong>瓶颈二：逻辑“短视”与幻觉</strong>：传统模型无法回溯，写错第 3 步会硬着头皮编下去（导致幻觉）。推理模型拥有自我纠错（Self-Correction）机制，能在内部默默推演，发现死路立刻回头。</li>
+<li><strong>瓶颈三：产业级“绝对正确”的刚需</strong>：在医疗、金融、高端代码开发等领域，5% 的逻辑错误都是灾难性的。推理模型极大拉高了复杂长链条任务的正确率下限。</li>
+</ul>
+
 <h2 id="3-how">3. How — 推理模型是如何炼成并运行的？</h2>
 <p>推理模型的强大并非偶然，它依赖从<strong>训练</strong>到<strong>推理</strong>的全链路升级。我们将它拆解为三个核心维度：</p>
 <h3 id="rejection-sampling">维度一：训练阶段（地基）—— 拒绝采样（Rejection Sampling）</h3>
 <blockquote>
-<p><strong>本质</strong>：拒绝采样不是实时算法，而是<strong>离线数据提纯工艺</strong>，它把模型“偶然闪现的潜力”固化为基础能力。
-在初始微调（SFT）阶段，我们不直接喂数据，而是用“沙里淘金”的方式提纯数据：
-1. <strong>广撒网</strong>：让模型对同一道数学/代码难题，连续生成 100 次带“碎碎念”的解题草稿。
-2. <strong>无情拒绝</strong>：扔掉答案错误的（80 次），更关键的是<strong>扔掉虽然答案对了、但中间推理步骤是瞎蒙的（15 次）</strong>。只有那些在草稿中明确写出 <em>“不对，漏了边界条件，我回溯一下”</em>，并最终自洽解出答案的样本（5 次）才被保留。
-3. <strong>喂养自身</strong>：把这 5 份包含“自我纠错全过程”的完美草稿作为标准教科书，<strong>微调（SFT）模型</strong>。</p>
+
+<p><strong>本质</strong>：拒绝采样不是实时算法，而是<strong>离线数据提纯工艺</strong>，它把模型“偶然闪现的潜力”固化为基础能力。</p>
+<p>在初始微调（SFT）阶段，我们不直接喂数据，而是用“沙里淘金”的方式提纯数据：</p>
+<ol class="step-list">
+<li><strong>广撒网</strong>：让模型对同一道数学/代码难题，连续生成 100 次带“碎碎念”的解题草稿。</li>
+<li><strong>无情拒绝</strong>：扔掉答案错误的（80 次），更关键的是<strong>扔掉虽然答案对了、但中间推理步骤是瞎蒙的（15 次）</strong>。只有那些在草稿中明确写出 <em>“不对，漏了边界条件，我回溯一下”</em>，并最终自洽解出答案的样本（5 次）才被保留。</li>
+<li><strong>喂养自身</strong>：把这 5 份包含“自我纠错全过程”的完美草稿作为标准教科书，<strong>微调（SFT）模型</strong>。</li>
+</ol>
+
 </blockquote>
 <h3 id="ppo-grpo-dapo">维度二：后训练阶段（塑形）—— 强化学习（PPO / GRPO / DAPO）</h3>
 <table>
@@ -185,26 +248,30 @@
 </tbody>
 </table>
 <h4 id="_2">🧱 关于“判断难易”的底层逻辑</h4>
-<p>在实际运行中，模型内部没有“简单/困难”的主观标签，它是通过三个实时信号在 Token 级别动态决策算力分配：
-1. <strong>概率熵（迷茫度）</strong>：模型读完 Prompt 后，对首个 Token 的预测概率分布若极其平坦（高熵），说明存在多种理解方式，立刻触发长思维链；若极其尖锐（低熵），则<strong>直接跳过思考链，触发快捷输出（Short Response）</strong>。
-2. <strong>过程奖励分（PRM）</strong>：每走一步，内部的过程奖励模型就给自己打个分，连续得高分则加速推进，突然得负分则立即回溯、剪枝并切换路线。
-3. <strong>边际收益递减点</strong>：如果连续思考多步，正确率的预期提升曲线趋于平缓，模型会强制截断（Force Stop），避免无意义的算力空转。</p>
+
+<p class="section-intro">在实际运行中，模型内部没有“简单/困难”的主观标签，它是通过三个实时信号在 Token 级别动态决策算力分配：</p>
+<ol class="step-list">
+<li><strong>概率熵（迷茫度）</strong>：模型读完 Prompt 后，对首个 Token 的预测概率分布若极其平坦（高熵），说明存在多种理解方式，立刻触发长思维链；若极其尖锐（低熵），则<strong>直接跳过思考链，触发快捷输出（Short Response）</strong>。</li>
+<li><strong>过程奖励分（PRM）</strong>：每走一步，内部的过程奖励模型就给自己打个分，连续得高分则加速推进，突然得负分则立即回溯、剪枝并切换路线。</li>
+<li><strong>边际收益递减点</strong>：如果连续思考多步，正确率的预期提升曲线趋于平缓，模型会强制截断（Force Stop），避免无意义的算力空转。</li>
+</ol>
+
 <h2 id="_3">📌 一句话终极总结</h2>
 <ul>
 <li><strong>What</strong>：推理模型是引入“慢思考（System 2）”的架构，用长思维链和自纠错取代直觉式回答。</li>
 <li><strong>Why</strong>：为了打破预训练数据墙，攻克医疗、金融、编程中需要“绝对正确”的硬核复杂逻辑。</li>
-<li><strong>How</strong>：<strong>训练时</strong>用拒绝采样淘出高质量纠错数据；<strong>后训练</strong>用 GRPO/DAPO（而非 PPO）节省显存进行组内客观对比强化；<strong>推理时</strong>动态结合 Long CoT、树搜索、工具调用和反思机制，精打细算地消耗算力把“高熵迷茫”压成“低熵确定”。<blockquote>
+<li><strong>How</strong>：<strong>训练时</strong>用拒绝采样淘出高质量纠错数据；<strong>后训练</strong>用 GRPO/DAPO（而非 PPO）节省显存进行组内客观对比强化；<strong>推理时</strong>动态结合 Long CoT、树搜索、工具调用和反思机制，精打细算地消耗算力把“高熵迷茫”压成“低熵确定”。
+</li>
+</ul><blockquote>
 <p><strong>生产力避坑指南</strong>：<strong>不要把简单问题扔给推理模型</strong>（杀鸡用牛刀，白白浪费算力和响应时间），<strong>也不要把硬核推理扔给快模型</strong>（逻辑链条过长必翻车）。让快模型做“文科直觉”，让推理模型做“理科推理”，这才是最高效的生产力姿势。</p>
 </blockquote>
-</li>
-</ul>
-                <a href="index.html#ai" class="back-link">返回 AI</a>
-            </section>
-        </main>
-    </div>
-    <link rel="stylesheet" href="https://cdn.quilljs.com/1.3.7/quill.snow.css">
-    <link rel="stylesheet" href="editor.css?v=20260714-no-editor">
-    <script src="https://cdn.quilljs.com/1.3.7/quill.min.js"></script>
-    <script src="editor.js?v=20260714-no-editor"></script>
+<a class="back-link" href="index.html#ai">返回 AI</a>
+</section>
+</main>
+</div>
+<link href="https://cdn.quilljs.com/1.3.7/quill.snow.css" rel="stylesheet"/>
+<link href="editor.css?v=20260714-no-editor" rel="stylesheet"/>
+<script src="https://cdn.quilljs.com/1.3.7/quill.min.js"></script>
+<script src="editor.js?v=20260714-no-editor"></script>
 </body>
 </html>
