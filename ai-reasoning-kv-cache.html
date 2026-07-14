@@ -53,11 +53,11 @@
 <p>KV Cache 是自回归 Transformer 推理中常用的加速功能，主要用于 decoder-only 模型或 encoder-decoder 模型的 Decoder 生成阶段。</p>
 <p>由于 Decoder 有 Causal Mask，当前新 token 只需要关注历史 token 和自身，不会关注未来 token，从而使得前面已经计算的K和V可以缓存起来。</p>
 <p>在自回归生成过程中，历史 Token 的 Key 和 Value 一旦计算完成就不会改变，因此将它们缓存起来，只需为新 Token 计算 Q/K/V，并利用缓存的 K/V 完成注意力计算，从而避免重复计算，大幅提升推理效率。</p>
-<p><img alt="KV Cache 图示" src="https://note.youdao.com/yws/res/7/WEBRESOURCEe4a29d2cb84947a494b64396b87b24f7"></p>
+<p><img alt="KV Cache 图示" src="images/reasoning-kv-cache/kv-cache-overview.png"></p>
 <p><strong>没有缓存</strong></p>
-<p><img alt="KV Cache 图示" src="https://note.youdao.com/yws/res/b/WEBRESOURCEdfcfe39163954973b5cfb149d5c8508b"></p>
+<p><img alt="没有 KV Cache 的计算过程图示" src="images/reasoning-kv-cache/kv-cache-without-cache.png"></p>
 <p><strong>有缓存</strong></p>
-<p><img alt="KV Cache 图示" src="https://note.youdao.com/yws/res/1/WEBRESOURCE8f32028e2e374b12acdb224b837b0001"></p>
+<p><img alt="使用 KV Cache 的计算过程图示" src="images/reasoning-kv-cache/kv-cache-with-cache.png"></p>
 <p><strong>Decoder 推理分Prefill和Decoding两个阶段</strong></p>
 <ul>
 <li>Prefill：一次性并行处理输入 prompt，初始化 KV Cache，并根据最后一个token生成第一个输出 token</li>
