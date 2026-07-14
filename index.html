@@ -287,7 +287,7 @@
         }
 
         .training-grid {
-            grid-template-columns: repeat(2, minmax(0, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
         }
 
         /* Agent 部分的卡片 */
@@ -389,6 +389,12 @@
                                     <div class="article-card">
                                         <h3>PEFT 详解</h3>
                                         <p>介绍 LoRA、QLoRA、Prefix Tuning、Prompt Tuning 等参数高效微调方法，说明如何以更低显存和存储成本适配大模型。</p>
+                                    </div>
+                                </a>
+                                <a href="ai-posttraining-ppo.html" class="article-card-link">
+                                    <div class="article-card">
+                                        <h3>1.1 PPO</h3>
+                                        <p>梳理 PPO 在 RLHF / LLM 后训练中的作用：策略更新、clipping 机制、损失函数、四模型结构与主要工程挑战。</p>
                                     </div>
                                 </a>
                             </div>

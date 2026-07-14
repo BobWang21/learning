@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1.1 PPO - Post-training</title>
+    <link rel="stylesheet" href="styles.css?v=20260713-page-only-toc">
+    <style>
+        :root {
+            --rose: #8B1E3F;
+            --rose-dark: #7F1D1D;
+            --terra: #C2410C;
+            --amber: #B45309;
+            --ink: #1f2937;
+            --muted: #64748b;
+            --line: #f2d6d6;
+            --soft-rose: #fff1f2;
+            --soft-amber: #fff7ed;
+            --soft-green: #f0fdf4;
+        }
+
+        .ai-section {
+            background: white;
+            border-radius: 8px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .ai-section h2,
+        .ai-section h3,
+        .ai-section h4 {
+            color: var(--rose);
+            margin-top: 25px;
+            margin-bottom: 15px;
+        }
+
+        .ai-section h2 {
+            border-bottom: 2px solid var(--line);
+            padding-bottom: 15px;
+            margin-top: 0;
+        }
+
+        .ai-section h2:not(:first-child) {
+            margin-top: 34px;
+        }
+
+        .ai-section p,
+        .ai-section li,
+        .ai-section td,
+        .ai-section th {
+            line-height: 1.75;
+        }
+
+        .lead-box,
+        .highlight-box,
+        .problem-box {
+            padding: 16px 18px;
+            margin: 18px 0;
+            border-radius: 6px;
+        }
+
+        .lead-box {
+            background: linear-gradient(135deg, rgba(139, 30, 63, 0.06), rgba(194, 65, 12, 0.06));
+            border-left: 4px solid var(--rose);
+        }
+
+        .highlight-box {
+            background: var(--soft-amber);
+            border-left: 4px solid var(--terra);
+        }
+
+        .problem-box {
+            background: #fff7f7;
+            border-left: 4px solid var(--rose-dark);
+        }
+
+        .formula {
+            background: linear-gradient(135deg, #fffafa 0%, var(--soft-rose) 100%);
+            border: 1px solid var(--line);
+            border-left: 4px solid var(--rose);
+            padding: 16px;
+            margin: 18px 0;
+            border-radius: 6px;
+            overflow-x: auto;
+            text-align: center;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 22px 0;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.10);
+        }
+
+        table thead {
+            background: linear-gradient(135deg, var(--rose), var(--terra));
+            color: white;
+        }
+
+        table th,
+        table td {
+            padding: 12px;
+            text-align: center;
+            vertical-align: middle;
+            border-bottom: 1px solid var(--line);
+        }
+
+        table tbody tr:hover {
+            background-color: rgba(139, 30, 63, 0.06);
+        }
+
+        .breadcrumb {
+            color: var(--muted);
+            font-size: 0.95rem;
+            margin-bottom: 20px;
+        }
+
+        .breadcrumb a {
+            color: var(--rose);
+            text-decoration: none;
+        }
+
+        .breadcrumb a:hover {
+            color: var(--terra);
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background: var(--rose);
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .back-link:hover {
+            background: var(--rose-dark);
+            transform: translateY(-2px);
+        }
+
+        code {
+            background: var(--soft-rose);
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+        }
+
+        .toc-sub {
+            margin-left: 18px;
+            font-size: 0.95rem;
+        }
+    </style>
+    <script>
+        window.MathJax = {
+            tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="sidebar">
+            <div class="page-toc">
+                <h2>目录</h2>
+                <ul>
+                    <li><a href="#ppo-overview">1. PPO 是什么</a></li>
+                    <li><a href="#ppo-objective">2. PPO 的更新目标</a></li>
+                    <li><a href="#ppo-loss">3. PPO 损失函数</a></li>
+                    <li class="toc-sub"><a href="#ppo-variables">3.1 变量说明</a></li>
+                    <li><a href="#ppo-models">4. LLM 训练中的四个模型</a></li>
+                    <li><a href="#ppo-problems">5. 主要问题</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <main class="content">
+            <header class="header">
+                <h1>1.1 PPO：RL 的主力算法</h1>
+                <div class="breadcrumb">
+                    <a href="index.html">首页</a> &gt; <a href="index.html#ai">AI</a> &gt; Training &gt; 1.1 PPO
+                </div>
+            </header>
+
+            <section class="ai-section">
+                <h2 id="ppo-overview">1. PPO 是什么</h2>
+                <p>PPO（Proximal Policy Optimization）是 RLHF 中最经典的强化学习优化算法。</p>
+                <p>在 LLM 训练中，模型本身就是策略（Policy）：prompt 可以看作状态，模型生成的 token 序列可以看作动作。</p>
+
+                <div class="lead-box">
+                    <p><strong>一句话理解</strong>：PPO 让模型朝着更高奖励的方向更新，但每一步都不能走得太猛。</p>
+                </div>
+
+                <h2 id="ppo-objective">2. PPO 的更新目标</h2>
+                <p>PPO 的目标是让策略朝着更高奖励的方向更新，同时通过 clipping 机制限制新旧策略差异，避免一次更新幅度过大导致训练不稳定。</p>
+                <p>这个 clipping 机制是 PPO 稳定性的关键：当新策略相对旧策略变化过大时，目标函数会被截断，从而避免训练过程中策略突然偏离太远。</p>
+
+                <h2 id="ppo-loss">3. PPO 损失函数</h2>
+                <p>最常见实现（OpenAI / TRL 风格）会把 KL 惩罚并入每个 token 的 reward，因此总损失通常写成：</p>
+                <div class="formula">
+                    \[
+                    L_{\mathrm{PPO}} = L_{\mathrm{clip}} + c_1 L_{\mathrm{value}}
+                    \]
+                </div>
+
+                <div class="highlight-box">
+                    <p><strong>其中：</strong></p>
+                    <ul>
+                        <li><strong>KL 惩罚</strong>：已经并入每个 token 的 reward，不再单独写成一个 loss 项。</li>
+                        <li><strong>价值损失 \(L_{\mathrm{value}}\)</strong>：一般采用 MSE，用来训练 Value Model / Critic。</li>
+                    </ul>
+                </div>
+
+                <p>裁剪项的核心形式如下：</p>
+                <div class="formula">
+                    \[
+                    L_{\mathrm{clip}}(\theta)
+                    =
+                    \mathbb{E}_t
+                    \left[
+                    \min\left(
+                    r_t(\theta)\hat{A}_t,\,
+                    \operatorname{clip}(r_t(\theta), 1-\epsilon, 1+\epsilon)\hat{A}_t
+                    \right)
+                    \right]
+                    \]
+                </div>
+
+                <h3 id="ppo-variables">3.1 变量说明</h3>
+                <ul>
+                    <li><strong>\(r_t(\theta)\)</strong>：新策略与旧策略在第 \(t\) 个 token 上的概率比。</li>
+                    <li><strong>\(\hat{A}_t\)</strong>：优势函数，表示当前动作相对平均水平好多少。</li>
+                    <li><strong>\(\epsilon\)</strong>：clip 范围，通常取 0.1 到 0.2，用来限制策略更新幅度。</li>
+                </ul>
+
+                <h2 id="ppo-models">4. LLM 训练中的四个模型</h2>
+                <p>PPO 在 LLM 训练中需要同时维护四个模型：</p>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>模型</th>
+                            <th>角色</th>
+                            <th>是否更新</th>
+                            <th>说明</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Policy Model</strong></td>
+                            <td>被训练的 LLM</td>
+                            <td>是</td>
+                            <td>生成回答，是我们最终要得到的模型</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Reference Model</strong></td>
+                            <td>初始策略的冻结副本</td>
+                            <td>否</td>
+                            <td>用于计算 KL 散度，防止策略偏离太远</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Reward Model</strong></td>
+                            <td>评估回答质量</td>
+                            <td>否</td>
+                            <td>对生成的完整回答打分</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Value Model (Critic)</strong></td>
+                            <td>估计状态价值</td>
+                            <td>是</td>
+                            <td>用于计算 Advantage，即“这个回答比平均水平好多少”</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h2 id="ppo-problems">5. 主要问题</h2>
+                <div class="problem-box">
+                    <p>PPO 需要同时加载四个模型，显存开销巨大；训练过程中需要在生成（rollout）和更新之间反复切换，工程复杂度高；同时它对超参数比较敏感，调参难度也更高。</p>
+                </div>
+
+                <a href="index.html#ai" class="back-link">返回 AI</a>
+            </section>
+        </main>
+    </div>
+
+    <link rel="stylesheet" href="https://cdn.quilljs.com/1.3.7/quill.snow.css">
+    <link rel="stylesheet" href="editor.css?v=20260710-red">
+    <script src="https://cdn.quilljs.com/1.3.7/quill.min.js"></script>
+    <script src="editor.js"></script>
+</body>
+</html>
