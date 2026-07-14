@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2 KV Cache - 推理及应用</title>
+    <link rel="stylesheet" href="styles.css?v=20260713-page-only-toc">
+    <style>
+        :root {
+            --rose: #8B1E3F;
+            --terra: #C2410C;
+            --amber: #B45309;
+            --ink: #1f2937;
+            --muted: #64748b;
+            --line: #f2d6d6;
+            --soft-amber: #fff7ed;
+            --paper: #ffffff;
+        }
+
+        .note-page {
+            background: var(--paper);
+            border-radius: 8px;
+            padding: 34px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .note-page h1,
+        .note-page h2,
+        .note-page h3,
+        .note-page h4 {
+            color: var(--rose);
+            line-height: 1.35;
+        }
+
+        .note-page h1 {
+            font-size: 2rem;
+            margin: 0 0 28px;
+            padding-bottom: 16px;
+            border-bottom: 2px solid var(--line);
+        }
+
+        .note-page h2 {
+            font-size: 1.55rem;
+            margin: 34px 0 16px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--line);
+        }
+
+        .note-page h3 {
+            font-size: 1.28rem;
+            margin: 28px 0 14px;
+            color: var(--terra);
+        }
+
+        .note-page h4 {
+            font-size: 1.08rem;
+            margin: 22px 0 10px;
+            color: var(--amber);
+        }
+
+        .note-page p,
+        .note-page li,
+        .note-page td,
+        .note-page th,
+        .note-page blockquote {
+            line-height: 1.78;
+        }
+
+        .note-page p {
+            margin: 10px 0 14px;
+        }
+
+        .note-page ul,
+        .note-page ol {
+            padding-left: 1.6rem;
+            margin: 10px 0 16px;
+        }
+
+        .note-page li {
+            margin: 5px 0;
+        }
+
+        .note-page blockquote {
+            margin: 16px 0;
+            padding: 12px 16px;
+            background: var(--soft-amber);
+            border-left: 4px solid var(--terra);
+            color: var(--ink);
+            border-radius: 4px;
+        }
+
+        .note-page table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 18px 0 24px;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.10);
+        }
+
+        .note-page thead {
+            background: linear-gradient(135deg, var(--rose), var(--terra));
+            color: white;
+        }
+
+        .note-page th,
+        .note-page td {
+            padding: 12px;
+            text-align: center;
+            vertical-align: middle;
+            border-bottom: 1px solid var(--line);
+        }
+
+        .note-page tbody tr:hover {
+            background: rgba(139, 30, 63, 0.05);
+        }
+
+        .note-page img {
+            display: block;
+            max-width: 100%;
+            height: auto;
+            margin: 18px auto 24px;
+            border-radius: 8px;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.12);
+        }
+
+        .note-page code {
+            font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+        }
+
+        .note-page pre {
+            background: #111827;
+            color: #f9fafb;
+            border-radius: 6px;
+            padding: 16px;
+            overflow-x: auto;
+            margin: 16px 0 22px;
+            line-height: 1.55;
+        }
+
+        .breadcrumb {
+            color: var(--muted);
+            font-size: 0.95rem;
+            margin-bottom: 20px;
+        }
+
+        .breadcrumb a {
+            color: var(--rose);
+            text-decoration: none;
+        }
+
+        .breadcrumb a:hover {
+            color: var(--terra);
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background: var(--rose);
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .back-link:hover {
+            background: #7F1D1D;
+            transform: translateY(-2px);
+        }
+
+        .page-toc ul ul { margin-left: 18px; }
+
+        @media (max-width: 720px) {
+            .note-page { padding: 22px; }
+        }
+    </style>
+    <script>
+        window.MathJax = {
+            tex: { inlineMath: [['$', '$'], ['\\(', '\\)']], displayMath: [['$$', '$$'], ['\\[', '\\]']] },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="sidebar">
+            <div class="page-toc">
+                <h2>目录</h2>
+                <div class="toc">
+<ul>
+<li><a href="#kv-cache">KV Cache</a></li>
+</ul>
+</div>
+
+            </div>
+        </div>
+
+        <main class="content">
+            <header class="header">
+                <h1>2 KV Cache</h1>
+                <div class="breadcrumb">
+                    <a href="index.html">首页</a> &gt; <a href="index.html#ai">AI</a> &gt; 推理及应用 &gt; KV Cache
+                </div>
+            </header>
+
+            <section class="note-page">
+<h1 id="kv-cache">KV Cache</h1>
+<p>KV Cache 是自回归 Transformer 推理中常用的加速功能，主要用于 decoder-only 模型或 encoder-decoder 模型的 Decoder 生成阶段。</p>
+<p>由于 Decoder 有 Causal Mask，当前新 token 只需要关注历史 token 和自身，不会关注未来 token，从而使得前面已经计算的K和V可以缓存起来。</p>
+<p>在自回归生成过程中，历史 Token 的 Key 和 Value 一旦计算完成就不会改变，因此将它们缓存起来，只需为新 Token 计算 Q/K/V，并利用缓存的 K/V 完成注意力计算，从而避免重复计算，大幅提升推理效率。</p>
+<p><img alt="KV Cache 图示" src="https://note.youdao.com/yws/res/7/WEBRESOURCEe4a29d2cb84947a494b64396b87b24f7"></p>
+<p><strong>没有缓存</strong></p>
+<p><img alt="KV Cache 图示" src="https://note.youdao.com/yws/res/b/WEBRESOURCEdfcfe39163954973b5cfb149d5c8508b"></p>
+<p><strong>有缓存</strong></p>
+<p><img alt="KV Cache 图示" src="https://note.youdao.com/yws/res/1/WEBRESOURCE8f32028e2e374b12acdb224b837b0001"></p>
+<p><strong>Decoder 推理分Prefill和Decoding两个阶段</strong></p>
+<ul>
+<li>Prefill：一次性并行处理输入 prompt，初始化 KV Cache，并根据最后一个token生成第一个输出 token</li>
+<li>Decoding：逐个生成后续 token，每步只为新 token 计算 Q/K/V，并复用历史 KV Cache 做注意力计算</li>
+</ul>
+                <a href="index.html#ai" class="back-link">返回 AI</a>
+            </section>
+        </main>
+    </div>
+
+    <link rel="stylesheet" href="https://cdn.quilljs.com/1.3.7/quill.snow.css">
+    <link rel="stylesheet" href="editor.css?v=20260714-no-editor">
+    <script src="https://cdn.quilljs.com/1.3.7/quill.min.js"></script>
+    <script src="editor.js?v=20260714-no-editor"></script>
+</body>
+</html>

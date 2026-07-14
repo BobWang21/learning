@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1 解码策略 - 推理及应用</title>
+    <link rel="stylesheet" href="styles.css?v=20260713-page-only-toc">
+    <style>
+        :root {
+            --rose: #8B1E3F;
+            --terra: #C2410C;
+            --amber: #B45309;
+            --ink: #1f2937;
+            --muted: #64748b;
+            --line: #f2d6d6;
+            --soft-amber: #fff7ed;
+            --paper: #ffffff;
+        }
+
+        .note-page {
+            background: var(--paper);
+            border-radius: 8px;
+            padding: 34px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .note-page h1,
+        .note-page h2,
+        .note-page h3,
+        .note-page h4 {
+            color: var(--rose);
+            line-height: 1.35;
+        }
+
+        .note-page h1 {
+            font-size: 2rem;
+            margin: 0 0 28px;
+            padding-bottom: 16px;
+            border-bottom: 2px solid var(--line);
+        }
+
+        .note-page h2 {
+            font-size: 1.55rem;
+            margin: 34px 0 16px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--line);
+        }
+
+        .note-page h3 {
+            font-size: 1.28rem;
+            margin: 28px 0 14px;
+            color: var(--terra);
+        }
+
+        .note-page h4 {
+            font-size: 1.08rem;
+            margin: 22px 0 10px;
+            color: var(--amber);
+        }
+
+        .note-page p,
+        .note-page li,
+        .note-page td,
+        .note-page th,
+        .note-page blockquote {
+            line-height: 1.78;
+        }
+
+        .note-page p {
+            margin: 10px 0 14px;
+        }
+
+        .note-page ul,
+        .note-page ol {
+            padding-left: 1.6rem;
+            margin: 10px 0 16px;
+        }
+
+        .note-page li {
+            margin: 5px 0;
+        }
+
+        .note-page blockquote {
+            margin: 16px 0;
+            padding: 12px 16px;
+            background: var(--soft-amber);
+            border-left: 4px solid var(--terra);
+            color: var(--ink);
+            border-radius: 4px;
+        }
+
+        .note-page table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 18px 0 24px;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.10);
+        }
+
+        .note-page thead {
+            background: linear-gradient(135deg, var(--rose), var(--terra));
+            color: white;
+        }
+
+        .note-page th,
+        .note-page td {
+            padding: 12px;
+            text-align: center;
+            vertical-align: middle;
+            border-bottom: 1px solid var(--line);
+        }
+
+        .note-page tbody tr:hover {
+            background: rgba(139, 30, 63, 0.05);
+        }
+
+        .note-page img {
+            display: block;
+            max-width: 100%;
+            height: auto;
+            margin: 18px auto 24px;
+            border-radius: 8px;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.12);
+        }
+
+        .note-page code {
+            font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+        }
+
+        .note-page pre {
+            background: #111827;
+            color: #f9fafb;
+            border-radius: 6px;
+            padding: 16px;
+            overflow-x: auto;
+            margin: 16px 0 22px;
+            line-height: 1.55;
+        }
+
+        .breadcrumb {
+            color: var(--muted);
+            font-size: 0.95rem;
+            margin-bottom: 20px;
+        }
+
+        .breadcrumb a {
+            color: var(--rose);
+            text-decoration: none;
+        }
+
+        .breadcrumb a:hover {
+            color: var(--terra);
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background: var(--rose);
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .back-link:hover {
+            background: #7F1D1D;
+            transform: translateY(-2px);
+        }
+
+        .page-toc ul ul { margin-left: 18px; }
+
+        @media (max-width: 720px) {
+            .note-page { padding: 22px; }
+        }
+    </style>
+    <script>
+        window.MathJax = {
+            tex: { inlineMath: [['$', '$'], ['\\(', '\\)']], displayMath: [['$$', '$$'], ['\\[', '\\]']] },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="sidebar">
+            <div class="page-toc">
+                <h2>目录</h2>
+                <div class="toc">
+<ul>
+<li><a href="#decoding-strategies">解码策略 (Decoding Strategies)</a><ul>
+<li><a href="#1">1. 解码策略是什么</a></li>
+<li><a href="#2">2. 基本生成过程</a></li>
+<li><a href="#3">3. 常见策略</a><ul>
+<li><a href="#31">3.1 完整策略</a></li>
+<li><a href="#32">3.2 控制参数</a></li>
+<li><a href="#33-seed">3.3 随机种子（Seed）</a></li>
+</ul>
+</li>
+<li><a href="#4">4. 场景速查表</a></li>
+<li><a href="#5-api">5. 实际 API 参数映射</a></li>
+<li><a href="#6-reasoning">6. 解码策略与慢系统推理（Reasoning）的关系</a></li>
+<li><a href="#7">7. 一句话总结</a></li>
+</ul>
+</li>
+</ul>
+</div>
+
+            </div>
+        </div>
+
+        <main class="content">
+            <header class="header">
+                <h1>1 解码策略</h1>
+                <div class="breadcrumb">
+                    <a href="index.html">首页</a> &gt; <a href="index.html#ai">AI</a> &gt; 推理及应用 &gt; 解码策略
+                </div>
+            </header>
+
+            <section class="note-page">
+<h1 id="decoding-strategies">解码策略 (Decoding Strategies)</h1>
+<h2 id="1">1. 解码策略是什么</h2>
+<p>LLM 解码策略属于<strong>推理阶段（Inference / Test-Time Compute）</strong>知识，不更新模型参数。它解决的问题是：<strong>模型已经输出 logits 后，如何选择下一个 token。</strong> 它在普通生成中影响回答的稳定性和多样性；在 Reasoning 模型中还影响搜索路径、候选答案选择和 Test-Time Scaling 效果。</p>
+<h2 id="2">2. 基本生成过程</h2>
+<p>每一步生成，模型大致经历：<code>logits → (可选调整) → softmax → 概率分布 → 解码策略 → 下一个 token</code>。例如模型输出的概率分布为：A(0.50)、B(0.25)、C(0.15)、D(0.07)、E(0.03)。<strong>注意</strong>：Temperature、Top-k、Top-p、Repetition Penalty 属于<strong>采样/概率分布控制参数</strong>，通常和 Sampling 一起使用；Greedy、Beam Search、Best-of-N、Self-Consistency 属于<strong>完整生成策略</strong>。</p>
+<h2 id="3">3. 常见策略</h2>
+<h3 id="31">3.1 完整策略</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">解码策略</th>
+<th style="text-align: left;">核心思想</th>
+<th style="text-align: left;">优点</th>
+<th style="text-align: left;">缺点</th>
+<th style="text-align: left;">适合场景</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>Greedy</strong></td>
+<td style="text-align: left;">每步选概率最高的 token</td>
+<td style="text-align: left;">稳定、快、可复现</td>
+<td style="text-align: left;">缺少多样性，容易局部最优</td>
+<td style="text-align: left;">事实问答、代码、JSON、抽取</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Sampling</strong></td>
+<td style="text-align: left;">按概率随机采样 token</td>
+<td style="text-align: left;">多样，能探索不同表达</td>
+<td style="text-align: left;">不稳定，可能采到低质量 token</td>
+<td style="text-align: left;">聊天、创意写作、多路径推理</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Beam Search</strong></td>
+<td style="text-align: left;">同时保留多条高概率序列路径</td>
+<td style="text-align: left;">比 Greedy 更全面</td>
+<td style="text-align: left;">成本高，输出可能死板</td>
+<td style="text-align: left;">翻译、摘要、结构化生成</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Best-of-N</strong></td>
+<td style="text-align: left;">生成 N 个候选，用评分器选最好</td>
+<td style="text-align: left;">提高复杂题正确率</td>
+<td style="text-align: left;">成本约增加 N 倍，依赖评分器</td>
+<td style="text-align: left;">数学、代码、Reasoning</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Self-Consistency</strong></td>
+<td style="text-align: left;">生成多条 CoT，最终答案多数投票</td>
+<td style="text-align: left;">提高推理稳定性和准确率</td>
+<td style="text-align: left;">成本高，仅适合答案可聚合任务</td>
+<td style="text-align: left;">数学、逻辑、选择题</td>
+</tr>
+</tbody>
+</table>
+<h3 id="32">3.2 控制参数</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">参数</th>
+<th style="text-align: left;">核心思想</th>
+<th style="text-align: left;">注意事项</th>
+<th style="text-align: left;">常用范围</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>Temperature</strong></td>
+<td style="text-align: left;">调整概率分布的平滑度。接近 0 趋近 Greedy，越高越随机</td>
+<td style="text-align: left;">过高会胡编，过低会死板</td>
+<td style="text-align: left;">0.0 ~ 1.0，创意任务可到 1.2</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Top-k</strong></td>
+<td style="text-align: left;">只从概率最高的 k 个 token 中采样</td>
+<td style="text-align: left;">固定 k 不够自适应</td>
+<td style="text-align: left;">30 ~ 50（OpenAI 推荐）</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Top-p</strong></td>
+<td style="text-align: left;">从累计概率达到 p 的最小 token 集合中采样</td>
+<td style="text-align: left;">比 Top-k 自适应，p 过高仍可能引入噪声</td>
+<td style="text-align: left;">0.9 ~ 1.0</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Repetition Penalty</strong></td>
+<td style="text-align: left;">降低已出现 token 的概率</td>
+<td style="text-align: left;">过强会伤害正常表达</td>
+<td style="text-align: left;">1.0 ~ 1.2</td>
+</tr>
+</tbody>
+</table>
+<h3 id="33-seed">3.3 随机种子（Seed）</h3>
+<p>相同输入、相同解码参数，若 Seed 不同，Sampling 结果也会不同。工程上设置固定 Seed 可保证结果可复现；实验中固定 Seed 是排除随机干扰的标准做法。</p>
+<h2 id="4">4. 场景速查表</h2>
+<p><strong>Greedy / Temperature → 0 适合“有标准答案、格式严格、需要稳定复现”的任务；需要探索多种可能时，才提高随机性或多次采样。</strong>
+| 场景 | 推荐策略 |
+| --- | --- |
+| 数学 / 代码 / 事实问答 | Greedy 或 Temperature → 0 |
+| 创意写作 | Temperature 0.7-0.9 + Top-p 0.9-1.0 |
+| 普通聊天 | Temperature 0.5-0.8 + Top-p 0.9-1.0 |
+| 长推理 | 多次采样 + Self-Consistency |
+| 有 Verifier 的任务 | Best-of-N |
+| 翻译 / 摘要 | Greedy / Beam Search / Low Temperature |
+| 严格 JSON 输出 | Temperature → 0 |</p>
+<h2 id="5-api">5. 实际 API 参数映射</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">参数</th>
+<th style="text-align: left;">OpenAI / Anthropic</th>
+<th style="text-align: left;">开源模型 (HuggingFace)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">Temperature</td>
+<td style="text-align: left;"><code>temperature</code></td>
+<td style="text-align: left;"><code>temperature</code></td>
+</tr>
+<tr>
+<td style="text-align: left;">Top-p</td>
+<td style="text-align: left;"><code>top_p</code></td>
+<td style="text-align: left;"><code>top_p</code></td>
+</tr>
+<tr>
+<td style="text-align: left;">Top-k</td>
+<td style="text-align: left;">—</td>
+<td style="text-align: left;"><code>top_k</code></td>
+</tr>
+<tr>
+<td style="text-align: left;">Repetition Penalty</td>
+<td style="text-align: left;"><code>frequency_penalty</code> / <code>presence_penalty</code></td>
+<td style="text-align: left;"><code>repetition_penalty</code></td>
+</tr>
+<tr>
+<td style="text-align: left;">Best-of-N</td>
+<td style="text-align: left;"><code>n</code>（返回多个）</td>
+<td style="text-align: left;"><code>num_return_sequences</code> + 外部评分</td>
+</tr>
+</tbody>
+</table>
+<h2 id="6-reasoning">6. 解码策略与慢系统推理（Reasoning）的关系</h2>
+<p><strong>慢系统推理不是一次生成答案，而是通过解码策略进行更多搜索、验证和选择。</strong>
+| 慢系统方法 | 与解码策略的关系 |
+|:---|:---|
+| <strong>Long CoT</strong> | 允许或诱导模型生成更长的推理链 |
+| <strong>Self-Consistency</strong> | 需要多次采样生成多条推理链 |
+| <strong>Best-of-N</strong> | 需要生成多个候选答案供选择 |
+| <strong>Tree-of-Thought</strong> | 每一步需要解码生成多个分支 |
+| <strong>Verifier</strong> | 先生成候选，再选择最优 |
+| <strong>Reflection</strong> | 生成答案后，再生成检查和修正 |
+| <strong>Test-Time Scaling</strong> | 本质是增加推理时的采样、搜索、验证计算 |</p>
+<h2 id="7">7. 一句话总结</h2>
+<blockquote>
+<p><strong>解码策略属于推理阶段知识，核心是控制模型如何从概率分布中选择下一个 token。普通生成中它影响稳定性和多样性；Reasoning 模型中它还影响搜索路径、候选答案选择和 Test-Time Scaling 效果。完整策略与控制参数组合使用，才能达到最佳效果。</strong></p>
+</blockquote>
+                <a href="index.html#ai" class="back-link">返回 AI</a>
+            </section>
+        </main>
+    </div>
+
+    <link rel="stylesheet" href="https://cdn.quilljs.com/1.3.7/quill.snow.css">
+    <link rel="stylesheet" href="editor.css?v=20260714-no-editor">
+    <script src="https://cdn.quilljs.com/1.3.7/quill.min.js"></script>
+    <script src="editor.js?v=20260714-no-editor"></script>
+</body>
+</html>
