@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>1.1 PPO：详解 PPO 工作流程</title>
+    <title>1.1 PPO：工作流程与 Loss</title>
     <link rel="stylesheet" href="styles.css?v=20260713-page-only-toc">
     <style>
         :root {
@@ -11,18 +11,20 @@
             --rose-dark: #7F1D1D;
             --terra: #C2410C;
             --amber: #B45309;
+            --green: #15803d;
             --ink: #1f2937;
             --muted: #64748b;
             --line: #f2d6d6;
             --soft-rose: #fff1f2;
             --soft-amber: #fff7ed;
             --soft-green: #f0fdf4;
+            --paper: #fffafa;
         }
 
         .ai-section {
             background: white;
             border-radius: 8px;
-            padding: 30px;
+            padding: 32px;
             margin-bottom: 30px;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
         }
@@ -31,18 +33,18 @@
         .ai-section h3,
         .ai-section h4 {
             color: var(--rose);
-            margin-top: 28px;
-            margin-bottom: 15px;
+            margin-top: 30px;
+            margin-bottom: 14px;
         }
 
         .ai-section h2 {
             border-bottom: 2px solid var(--line);
-            padding-bottom: 15px;
+            padding-bottom: 14px;
             margin-top: 0;
         }
 
         .ai-section h2:not(:first-child) {
-            margin-top: 42px;
+            margin-top: 44px;
         }
 
         .ai-section h3 {
@@ -51,53 +53,163 @@
 
         .ai-section h4 {
             color: var(--amber);
+            font-size: 1.05rem;
         }
 
         .ai-section p,
         .ai-section li,
         .ai-section td,
         .ai-section th {
-            line-height: 1.75;
+            line-height: 1.78;
         }
 
-        .lead-box,
-        .highlight-box,
-        .note-box {
-            padding: 16px 18px;
-            margin: 18px 0;
+        .lead {
+            background: linear-gradient(135deg, rgba(139, 30, 63, 0.07), rgba(194, 65, 12, 0.07));
+            border-left: 4px solid var(--rose);
+            padding: 18px 20px;
+            margin: 0 0 24px;
             border-radius: 6px;
         }
 
-        .lead-box {
-            background: linear-gradient(135deg, rgba(139, 30, 63, 0.06), rgba(194, 65, 12, 0.06));
-            border-left: 4px solid var(--rose);
+        .note,
+        .warning,
+        .meaning {
+            padding: 15px 18px;
+            margin: 16px 0;
+            border-radius: 6px;
         }
 
-        .highlight-box {
+        .note {
             background: var(--soft-amber);
             border-left: 4px solid var(--terra);
         }
 
-        .note-box {
+        .warning {
+            background: var(--soft-rose);
+            border-left: 4px solid var(--rose);
+        }
+
+        .meaning {
             background: var(--soft-green);
-            border-left: 4px solid #15803d;
+            border-left: 4px solid var(--green);
         }
 
         .formula {
-            background: linear-gradient(135deg, #fffafa 0%, var(--soft-rose) 100%);
+            background: linear-gradient(135deg, var(--paper) 0%, var(--soft-rose) 100%);
             border: 1px solid var(--line);
             border-left: 4px solid var(--rose);
             padding: 16px;
-            margin: 18px 0;
+            margin: 16px 0;
             border-radius: 6px;
             overflow-x: auto;
             text-align: center;
         }
 
+        .formula.compact {
+            margin: 10px 0 16px;
+        }
+
+        .model-grid,
+        .stage-grid,
+        .loss-grid,
+        .flow-grid {
+            display: grid;
+            gap: 16px;
+            margin: 18px 0 24px;
+        }
+
+        .model-grid {
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+        }
+
+        .stage-grid,
+        .loss-grid {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .flow-grid {
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+        }
+
+        .model-card,
+        .stage-card,
+        .flow-card,
+        .loss-card {
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            padding: 16px;
+            background: #fff;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+        }
+
+        .model-card h3,
+        .stage-card h3,
+        .flow-card h3,
+        .loss-card h3 {
+            margin-top: 0;
+            margin-bottom: 8px;
+            font-size: 1.05rem;
+        }
+
+        .model-card .symbol {
+            color: var(--rose);
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .status {
+            display: inline-block;
+            margin-top: 8px;
+            padding: 2px 8px;
+            border-radius: 999px;
+            font-size: 0.85rem;
+            font-weight: 700;
+        }
+
+        .status.train {
+            background: var(--soft-green);
+            color: var(--green);
+        }
+
+        .status.freeze {
+            background: var(--soft-rose);
+            color: var(--rose-dark);
+        }
+
+        .step-list {
+            counter-reset: step;
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .step-list > li {
+            counter-increment: step;
+            position: relative;
+            padding-left: 42px;
+            margin-bottom: 14px;
+        }
+
+        .step-list > li::before {
+            content: counter(step);
+            position: absolute;
+            left: 0;
+            top: 2px;
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            background: var(--rose);
+            color: white;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.85rem;
+            font-weight: 700;
+        }
+
         table {
             width: 100%;
             border-collapse: collapse;
-            margin: 22px 0;
+            margin: 20px 0 26px;
             background: white;
             border-radius: 8px;
             overflow: hidden;
@@ -121,18 +233,23 @@
             background-color: rgba(139, 30, 63, 0.06);
         }
 
-        .flow-diagram {
-            background: #111827;
-            color: #f9fafb;
-            border-left: 4px solid var(--terra);
-            padding: 18px;
-            margin: 18px 0;
-            border-radius: 6px;
-            overflow-x: auto;
-            font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
-            font-size: 0.92rem;
-            line-height: 1.55;
-            white-space: pre;
+        .formula-table td:nth-child(3) {
+            text-align: left;
+        }
+
+        .flow-card {
+            position: relative;
+        }
+
+        .flow-card:not(:last-child)::after {
+            content: '→';
+            position: absolute;
+            right: -14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--terra);
+            font-weight: 800;
+            font-size: 1.25rem;
         }
 
         .breadcrumb {
@@ -180,9 +297,28 @@
             font-size: 0.95rem;
         }
 
-        .toc-sub2 {
-            margin-left: 34px;
-            font-size: 0.9rem;
+        @media (max-width: 1100px) {
+            .model-grid,
+            .flow-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .flow-card:not(:last-child)::after {
+                display: none;
+            }
+        }
+
+        @media (max-width: 720px) {
+            .ai-section {
+                padding: 22px;
+            }
+
+            .model-grid,
+            .stage-grid,
+            .loss-grid,
+            .flow-grid {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
     <script>
@@ -199,34 +335,64 @@
             <div class="page-toc">
                 <h2>目录</h2>
                 <ul>
-                    <li><a href="#workflow-title">详解 PPO 工作流程</a></li>
-                    <li><a href="#system-overview">一、系统概览：四个核心模型</a></li>
-                    <li><a href="#full-workflow">二、完整工作流程</a></li>
-                    <li class="toc-sub"><a href="#rollout">阶段一：数据采样</a></li>
-                    <li class="toc-sub"><a href="#scoring">阶段二：评估与打分</a></li>
-                    <li class="toc-sub"><a href="#advantage">阶段三：优势值</a></li>
-                    <li class="toc-sub"><a href="#ppo-update">阶段四：模型更新</a></li>
-                    <li><a href="#collaboration-summary">三、多模型协同总结</a></li>
-                    <li><a href="#ppo-loss">PPO loss</a></li>
-                    <li class="toc-sub"><a href="#loss-formula">一、公式</a></li>
-                    <li class="toc-sub"><a href="#variable-table">变量说明表</a></li>
+                    <li><a href="#overview">1. 系统概览</a></li>
+                    <li><a href="#workflow">2. 完整工作流程</a></li>
+                    <li class="toc-sub"><a href="#rollout">2.1 数据采样</a></li>
+                    <li class="toc-sub"><a href="#scoring">2.2 评估与打分</a></li>
+                    <li class="toc-sub"><a href="#advantage">2.3 优势值计算</a></li>
+                    <li class="toc-sub"><a href="#update">2.4 模型更新</a></li>
+                    <li><a href="#collaboration">3. 多模型协同</a></li>
+                    <li><a href="#loss">4. PPO Loss</a></li>
+                    <li class="toc-sub"><a href="#loss-summary">4.1 总目标</a></li>
+                    <li class="toc-sub"><a href="#variables">4.2 变量表</a></li>
                 </ul>
             </div>
         </div>
 
         <main class="content">
             <header class="header">
-                <h1>1.1 PPO：详解 PPO 工作流程</h1>
+                <h1>1.1 PPO：工作流程与 Loss</h1>
                 <div class="breadcrumb">
                     <a href="index.html">首页</a> &gt; <a href="index.html#ai">AI</a> &gt; Training &gt; 1.1 PPO
                 </div>
             </header>
 
             <section class="ai-section">
-                <h2 id="workflow-title">详解 PPO 工作流程</h2>
+                <div class="lead">
+                    <p><strong>PPO（Proximal Policy Optimization）</strong>在 RLHF 中的核心作用，是用奖励模型给完整回复打分，用参考模型限制偏离，用价值模型降低方差，最后稳定地更新策略模型。</p>
+                    <p>这篇按真实训练链路展开：<strong>Rollout → Scoring → Advantage → Update</strong>。</p>
+                </div>
 
-                <h2 id="system-overview">一、系统概览：四个核心模型</h2>
-                <p>在开始之前，我们先明确参与协同的四个模型及其职责：</p>
+                <h2 id="overview">1. 系统概览：四个核心模型</h2>
+                <p>训练开始前，先明确 PPO 中四个模型的职责。真正更新的是策略模型和价值模型；参考模型与奖励模型保持冻结，提供约束和评价信号。</p>
+
+                <div class="model-grid">
+                    <div class="model-card">
+                        <h3>策略模型 Actor</h3>
+                        <div class="symbol">\(\pi_\theta\)</div>
+                        <p>生成回复的语言模型，也是最终要得到的模型。</p>
+                        <span class="status train">可训练</span>
+                    </div>
+                    <div class="model-card">
+                        <h3>参考模型 Reference</h3>
+                        <div class="symbol">\(\pi_{\text{ref}}\)</div>
+                        <p>SFT 阶段的副本，作为 KL 约束的锚点。</p>
+                        <span class="status freeze">冻结</span>
+                    </div>
+                    <div class="model-card">
+                        <h3>奖励模型 Reward</h3>
+                        <div class="symbol">\(r_\phi\)</div>
+                        <p>评估完整回复质量，输出一个标量分数。</p>
+                        <span class="status freeze">冻结</span>
+                    </div>
+                    <div class="model-card">
+                        <h3>价值模型 Critic</h3>
+                        <div class="symbol">\(V_\psi\)</div>
+                        <p>估计状态价值，作为基线降低策略梯度方差。</p>
+                        <span class="status train">可训练</span>
+                    </div>
+                </div>
+
                 <table>
                     <thead>
                         <tr>
@@ -264,308 +430,290 @@
                     </tbody>
                 </table>
 
-                <h2 id="full-workflow">二、完整工作流程</h2>
+                <h2 id="workflow">2. 完整工作流程</h2>
+                <div class="flow-grid">
+                    <div class="flow-card">
+                        <h3>1. Rollout</h3>
+                        <p>策略模型生成回复，并记录每个 token 的概率。</p>
+                    </div>
+                    <div class="flow-card">
+                        <h3>2. Scoring</h3>
+                        <p>奖励模型、参考模型、价值模型分别给出评分、KL 参考和状态价值。</p>
+                    </div>
+                    <div class="flow-card">
+                        <h3>3. Advantage</h3>
+                        <p>把 reward、KL、value 汇总成每个 token 的优势值。</p>
+                    </div>
+                    <div class="flow-card">
+                        <h3>4. Update</h3>
+                        <p>用裁剪目标更新 Actor，用 MSE 更新 Critic。</p>
+                    </div>
+                </div>
 
-                <h3 id="rollout">阶段一：数据采样（Rollout）</h3>
+                <h3 id="rollout">2.1 阶段一：数据采样（Rollout）</h3>
                 <p><strong>目标</strong>：使用当前策略模型生成一批回复数据。</p>
-                <ol>
+                <ol class="step-list">
                     <li>从数据集中采样一批提示词 \(x \sim \mathcal{D}\)。</li>
-                    <li>将 \(x\) 输入策略模型 \(\pi_\theta\)，自回归生成完整回复：</li>
+                    <li>将 \(x\) 输入策略模型 \(\pi_\theta\)，自回归生成完整回复。</li>
+                    <li>记录生成过程中每一步的对数概率。</li>
                 </ol>
                 <div class="formula">
                     \[
                     y = (y_1, y_2, \ldots, y_T) \sim \pi_\theta(\cdot \mid x)
                     \]
                 </div>
-                <p>记录生成过程中<strong>每一步</strong>的对数概率：</p>
-                <div class="formula">
+                <div class="formula compact">
                     \[
-                    \log \pi_\theta(y_t \mid x, y_{<t}), \quad t = 1, 2, \ldots, T
+                    \log \pi_\theta(y_t \mid x, y_{<t}), \quad t = 1,2,\ldots,T
                     \]
                 </div>
-                <div class="lead-box">
-                    <p><strong>此时</strong>：仅有策略模型（Actor）在工作，生成了一批文本数据。</p>
+                <div class="note">
+                    <p><strong>此时</strong>：只有策略模型（Actor）在工作，产出后续要被评估的一批文本数据。</p>
                 </div>
 
-                <h3 id="scoring">阶段二：评估与打分（Scoring）</h3>
-                <p><strong>目标</strong>：利用冻结的模型对生成的回复进行多维度的评估。</p>
+                <h3 id="scoring">2.2 阶段二：评估与打分（Scoring）</h3>
+                <p><strong>目标</strong>：利用冻结模型对生成回复进行多维度评估。</p>
 
-                <h4>2.1 奖励模型打分</h4>
-                <p>将提示词和完整回复 \((x, y)\) 输入奖励模型 \(r_\phi\)，获得最终奖励分数：</p>
-                <div class="formula">
-                    \[
-                    R(x, y) = r_\phi(x, y)
-                    \]
+                <div class="stage-grid">
+                    <div class="stage-card">
+                        <h3>奖励模型打分</h3>
+                        <p>将提示词和完整回复 \((x,y)\) 输入奖励模型，得到最终奖励分数。</p>
+                        <div class="formula compact">
+                            \[
+                            R(x,y)=r_\phi(x,y)
+                            \]
+                        </div>
+                        <p>通常只在最后一个 token（EOS）处给予奖励，中间 token 的即时奖励设为 0。</p>
+                    </div>
+                    <div class="stage-card">
+                        <h3>参考模型计算</h3>
+                        <p>计算参考模型在每一步生成同一 token 的对数概率。</p>
+                        <div class="formula compact">
+                            \[
+                            \log \pi_{\text{ref}}(y_t \mid x,y_{<t}), \quad t=1,2,\ldots,T
+                            \]
+                        </div>
+                        <p>该值用于后续 KL 惩罚，防止策略偏离 SFT 模型太远。</p>
+                    </div>
+                    <div class="stage-card">
+                        <h3>价值模型预估</h3>
+                        <p>根据提示词和已生成前缀，估计每一步的状态价值。</p>
+                        <div class="formula compact">
+                            \[
+                            V_\psi(s_t), \quad t=1,2,\ldots,T
+                            \]
+                        </div>
+                        <p>其中 \(s_t\) 表示时间步 \(t\) 的状态，即 \(x\) 和已生成的 \(y_{<t}\)。</p>
+                    </div>
+                    <div class="stage-card">
+                        <h3>汇总到 token 级别</h3>
+                        <p>奖励模型给最终分，参考模型给 KL 约束，价值模型给基线。三者共同服务于下一步 Advantage 计算。</p>
+                    </div>
                 </div>
-                <div class="highlight-box">
-                    <p><strong>注意</strong>：由于是序列生成任务，通常只在<strong>最后一个 token（EOS）</strong>处给予奖励，中间 token 的即时奖励设为 0。</p>
-                </div>
 
-                <h4>2.2 参考模型计算</h4>
-                <p>将 \((x, y)\) 输入参考模型 \(\pi_{\text{ref}}\)，计算每一步的参考概率：</p>
-                <div class="formula">
-                    \[
-                    \log \pi_{\text{ref}}(y_t \mid x, y_{<t}), \quad t = 1, 2, \ldots, T
-                    \]
-                </div>
-                <p>这个值将在后续的 KL 惩罚计算中使用。</p>
+                <h3 id="advantage">2.3 阶段三：优势值（Advantage）</h3>
+                <p><strong>目标</strong>：融合所有模型的信息，计算每个动作，也就是每个 token 的“好坏程度”。</p>
 
-                <h4>2.3 价值模型预估</h4>
-                <p>将提示词 \(x\) 和部分生成的序列输入价值模型 \(V_\psi\)，估计每一步的状态价值：</p>
-                <div class="formula">
-                    \[
-                    V_\psi(s_t), \quad t = 1, 2, \ldots, T
-                    \]
-                </div>
-                <p>其中 \(s_t\) 表示在时间步 \(t\) 的状态，即 \(x\) 和已生成的 \(y_{<t}\)。</p>
-
-                <h3 id="advantage">阶段三：优势值（Advantage）</h3>
-                <p><strong>目标</strong>：融合所有模型的信息，计算每个动作（每个 token）的“好坏程度”。</p>
-
-                <h4>3.1 构建 Token 级别的即时奖励</h4>
-                <p>首先，我们需要为序列中的<strong>每一步</strong>构建即时奖励，并<strong>实时加入 KL 惩罚</strong>。</p>
-
-                <p><strong>第 1 步：确定原始即时奖励</strong></p>
+                <h4>构建 token 级别的即时奖励</h4>
+                <p>先确定原始即时奖励：中间 token 为 0，最后一个 token 承接奖励模型对完整回复的打分。</p>
                 <div class="formula">
                     \[
                     r_t^{\text{raw}} =
                     \begin{cases}
-                    0, & t < T \\
-                    R(x, y), & t = T
+                    0, & t<T \\
+                    R(x,y), & t=T
                     \end{cases}
                     \]
                 </div>
-                <p>即：除最后一个 token 外，其余 token 的即时奖励均为 0。</p>
-
-                <p><strong>第 2 步：计算 KL 惩罚</strong></p>
-                <p>每一步计算策略模型与参考模型的 KL 散度（偏差程度）：</p>
+                <p>然后计算策略模型相对参考模型的 KL 惩罚：</p>
                 <div class="formula">
                     \[
-                    \text{kl\_penalty}_t = \beta \cdot \left( \log \pi_\theta(y_t \mid x, y_{<t}) - \log \pi_{\text{ref}}(y_t \mid x, y_{<t}) \right)
+                    \text{kl\_penalty}_t
+                    = \beta\left(
+                    \log \pi_\theta(y_t \mid x,y_{<t})
+                    - \log \pi_{\text{ref}}(y_t \mid x,y_{<t})
+                    \right)
                     \]
                 </div>
-                <p>其中 \(\beta > 0\) 是 KL 惩罚系数，控制偏离参考模型的强度。</p>
-
-                <p><strong>第 3 步：修正后的即时奖励</strong></p>
-                <p>将原始奖励减去 KL 惩罚，得到每一步的<strong>修正即时奖励</strong>：</p>
+                <p>将原始奖励减去 KL 惩罚，得到修正后的即时奖励：</p>
                 <div class="formula">
                     \[
                     \text{reward}_t = r_t^{\text{raw}} - \text{kl\_penalty}_t
                     \]
                 </div>
-                <div class="highlight-box">
-                    <p><strong>意义</strong>：如果模型在某个 token 上偏离参考模型太远（概率异常高或低），即使最终总分很高，中间步骤也会被“扣分”，从而抑制模型过度优化。</p>
+                <div class="warning">
+                    <p><strong>意义</strong>：如果模型在某个 token 上偏离参考模型太远，即使最终总分很高，中间步骤也会被扣分，从而抑制过度优化。</p>
                 </div>
 
-                <h4>3.2 计算折扣回报（Discounted Return, \(G_t\)）</h4>
-                <p>为了考虑长期影响，计算从时间步 \(t\) 开始的<strong>折扣累计奖励</strong>：</p>
+                <h4>计算折扣回报 \(G_t\)</h4>
+                <p>从时间步 \(t\) 开始累计未来奖励，并用折扣因子降低远期奖励权重。</p>
                 <div class="formula">
                     \[
                     G_t = \sum_{k=0}^{T-t} \gamma^k \cdot \text{reward}_{t+k}
                     \]
                 </div>
-                <p>其中 \(\gamma \in (0, 1]\) 是折扣因子（通常取 0.99），表示越未来的奖励对当前决策的影响越小。</p>
+                <p>其中 \(\gamma \in (0,1]\)，通常取 0.99。</p>
 
-                <h4>3.3 计算优势值（Advantage, \(A_t\)）—— PPO 的核心创新</h4>
-                <p>优势值 \(A_t\) 衡量的是：在状态 \(s_t\) 下，采取动作 \(a_t\)（生成 token \(y_t\)）<strong>比平均水平好多少</strong>？</p>
-                <p>我们使用<strong>广义优势估计（GAE, Generalized Advantage Estimation）</strong>来计算，它巧妙地将价值模型的预测作为“基线”，大幅降低了策略梯度的方差。</p>
-
-                <p><strong>第 1 步：计算时序差分误差（TD Error, \(\delta_t\)）</strong></p>
+                <h4>用 GAE 计算优势值 \(A_t\)</h4>
+                <p>优势值衡量的是：在状态 \(s_t\) 下生成 token \(y_t\)，比价值模型原本预期的平均水平好多少。</p>
                 <div class="formula">
                     \[
-                    \delta_t = \text{reward}_t + \gamma \cdot V_\psi(s_{t+1}) - V_\psi(s_t)
+                    \delta_t = \text{reward}_t + \gamma V_\psi(s_{t+1}) - V_\psi(s_t)
                     \]
                 </div>
-                <p>其中：</p>
                 <ul>
-                    <li>\(\text{reward}_t\)：当前步的修正即时奖励。</li>
-                    <li>\(V_\psi(s_{t+1})\)：价值模型对<strong>下一个状态</strong>的期望总奖励预测。</li>
-                    <li>\(V_\psi(s_t)\)：价值模型对<strong>当前状态</strong>的期望总奖励预测。</li>
+                    <li>如果 \(\delta_t>0\)，实际结果优于预期，这个动作是“惊喜”。</li>
+                    <li>如果 \(\delta_t<0\)，实际结果差于预期，这个动作是“失望”。</li>
                 </ul>
-                <p><strong>直观理解</strong>：</p>
-                <ul>
-                    <li>如果 \(\delta_t > 0\)：实际发生的情况（即时奖励 + 下个状态的预测价值）<strong>优于</strong>原先的预期（当前状态价值），说明这个动作是“惊喜”。</li>
-                    <li>如果 \(\delta_t < 0\)：实际发生的情况<strong>差于</strong>预期，说明这个动作是“失望”。</li>
-                </ul>
-
-                <p><strong>第 2 步：GAE 加权求和</strong></p>
-                <p>将多个时间步的 TD 误差进行指数加权求和，得到最终的优势值：</p>
+                <p>将多个时间步的 TD 误差进行指数加权求和，得到最终优势值：</p>
                 <div class="formula">
                     \[
-                    A_t = \sum_{l=0}^{T-t} (\gamma \lambda)^l \cdot \delta_{t+l}
+                    A_t = \sum_{l=0}^{T-t}(\gamma\lambda)^l\delta_{t+l}
                     \]
                 </div>
-                <p><strong>直观理解</strong>：不仅看“刚写的这个词”，还看这个词对后面所有词的影响，也就是考虑<strong>从当前步到序列结束</strong>的所有 TD 误差。</p>
-                <p>其中 \(\lambda \in [0, 1]\) 是 GAE 参数（通常取 0.95），用于控制偏差与方差的权衡：</p>
-                <ul>
-                    <li>\(\lambda = 0\)：只考虑当前步的 TD 误差（高偏差，低方差）。</li>
-                    <li>\(\lambda = 1\)：考虑所有未来步的 TD 误差（低偏差，高方差）。</li>
-                </ul>
-                <div class="lead-box">
-                    <p><strong>此时</strong>：奖励模型（提供最终 \(R\)）、参考模型（提供 KL 惩罚）、价值模型（提供基线 \(V\)）的数据全部汇聚，共同计算出了每一步的优势值 \(A_t\)。</p>
+                <p>其中 \(\lambda\in[0,1]\)，通常取 0.95，用来控制偏差与方差的权衡。</p>
+                <div class="meaning">
+                    <p><strong>到这里</strong>：奖励模型提供最终 \(R\)，参考模型提供 KL 惩罚，价值模型提供基线 \(V\)，共同得到每一步的优势值 \(A_t\)。</p>
                 </div>
 
-                <h3 id="ppo-update">阶段四：模型更新（PPO Update）</h3>
-                <p><strong>目标</strong>：利用计算好的优势值，更新策略模型和价值模型的参数。</p>
+                <h3 id="update">2.4 阶段四：模型更新（PPO Update）</h3>
+                <p><strong>目标</strong>：利用计算好的优势值，更新策略模型和价值模型。</p>
 
-                <h4>4.1 更新策略模型（Actor）</h4>
-                <p><strong>核心思想</strong>：让好的动作（\(A_t > 0\)）更可能发生，让坏的动作（\(A_t < 0\)）更不可能发生，但要控制更新幅度，防止“一步走歪”。</p>
-
-                <p><strong>第 1 步：计算重要性采样比率</strong></p>
-                <div class="formula">
-                    \[
-                    \rho_t(\theta) = \frac{\pi_\theta(y_t \mid x, y_{<t})}{\pi_{\theta_{\text{old}}}(y_t \mid x, y_{<t})}
-                    \]
-                </div>
-                <p>其中 \(\pi_{\theta_{\text{old}}}\) 是更新前的旧策略模型。</p>
-
-                <p><strong>第 2 步：PPO 裁剪目标函数（Clipped Surrogate Objective）</strong></p>
-                <div class="formula">
-                    \[
-                    L^{\text{CLIP}}(\theta) = \mathbb{E}_t \left[ \min\left( \rho_t(\theta) \cdot A_t, \operatorname{clip}(\rho_t(\theta), 1-\epsilon, 1+\epsilon) \cdot A_t \right) \right]
-                    \]
-                </div>
-                <p>其中：</p>
-                <ul>
-                    <li>\(\epsilon\) 是裁剪范围（通常取 0.2），控制最大允许的变化幅度。</li>
-                    <li>\(\operatorname{clip}(x, 1-\epsilon, 1+\epsilon)\) 将 \(x\) 限制在 \([1-\epsilon, 1+\epsilon]\) 范围内。</li>
-                </ul>
-                <p><strong>直观理解</strong>：</p>
-                <ul>
-                    <li><strong>好动作（\(A_t > 0\)）</strong>：我们希望增大 \(\rho_t\)（即增大生成该 token 的概率），但最多只能增大到 \(1+\epsilon\) 倍。</li>
-                    <li><strong>坏动作（\(A_t < 0\)）</strong>：我们希望减小 \(\rho_t\)（即减小生成该 token 的概率），但最多只能减小到 \(1-\epsilon\) 倍。</li>
-                    <li>这个“裁剪”机制<strong>防止了单次更新过大</strong>，是 PPO 稳定性的关键。</li>
-                </ul>
-
-                <p><strong>第 3 步：梯度上升更新参数</strong></p>
-                <div class="formula">
-                    \[
-                    \theta \leftarrow \theta + \alpha \cdot \nabla_\theta L^{\text{CLIP}}(\theta)
-                    \]
-                </div>
-                <p>其中 \(\alpha\) 是学习率。</p>
-
-                <h4>4.2 更新价值模型（Critic）</h4>
-                <p><strong>目标</strong>：让价值模型的预测更准确，使其成为一个更好的“基线”。</p>
-                <p><strong>损失函数</strong>：最小化预测价值与实际回报之间的均方误差。</p>
-                <div class="formula">
-                    \[
-                    L^{\text{VF}}(\psi) = \mathbb{E}_t \left[ \left( V_\psi(s_t) - G_t \right)^2 \right]
-                    \]
-                </div>
-                <p>其中 \(G_t\) 是之前计算的折扣回报（实际观测到的累计奖励）。</p>
-                <p><strong>梯度下降更新参数</strong>：</p>
-                <div class="formula">
-                    \[
-                    \psi \leftarrow \psi - \alpha \cdot \nabla_\psi L^{\text{VF}}(\psi)
-                    \]
+                <div class="loss-grid">
+                    <div class="loss-card">
+                        <h3>更新策略模型 Actor</h3>
+                        <p>让好动作 \((A_t>0)\) 更可能发生，让坏动作 \((A_t<0)\) 更不可能发生，同时限制单次更新幅度。</p>
+                        <div class="formula compact">
+                            \[
+                            \rho_t(\theta)=
+                            \frac{\pi_\theta(y_t\mid x,y_{<t})}
+                            {\pi_{\theta_{\text{old}}}(y_t\mid x,y_{<t})}
+                            \]
+                        </div>
+                        <div class="formula compact">
+                            \[
+                            L^{\text{CLIP}}(\theta)=\mathbb{E}_t\left[
+                            \min\left(
+                            \rho_t(\theta)A_t,
+                            \operatorname{clip}(\rho_t(\theta),1-\epsilon,1+\epsilon)A_t
+                            \right)
+                            \right]
+                            \]
+                        </div>
+                        <div class="formula compact">
+                            \[
+                            \theta \leftarrow \theta + \alpha\,\nabla_\theta L^{\text{CLIP}}(\theta)
+                            \]
+                        </div>
+                    </div>
+                    <div class="loss-card">
+                        <h3>更新价值模型 Critic</h3>
+                        <p>让价值模型的预测更接近实际折扣回报，使其成为更好的基线。</p>
+                        <div class="formula compact">
+                            \[
+                            L^{\text{VF}}(\psi)=\mathbb{E}_t\left[(V_\psi(s_t)-G_t)^2\right]
+                            \]
+                        </div>
+                        <div class="formula compact">
+                            \[
+                            \psi \leftarrow \psi - \alpha\,\nabla_\psi L^{\text{VF}}(\psi)
+                            \]
+                        </div>
+                    </div>
                 </div>
 
-                <h2 id="collaboration-summary">三、多模型协同总结</h2>
-                <h3>数据流向图（文字版）</h3>
-                <pre class="flow-diagram">提示词 x
-    │
-    ▼
-┌─────────────────────────────────────────────────────────────┐
-│                    阶段一：生成（Rollout）                    │
-│  策略模型 π_θ  ────生成────▶  回复 y = (y₁, y₂, ..., y_T)   │
-│                          记录：log π_θ(y_t | x, y_<t)        │
-└─────────────────────────────────────────────────────────────┘
-    │
-    ▼
-┌─────────────────────────────────────────────────────────────┐
-│                    阶段二：评估（Scoring）                    │
-│  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐        │
-│  │ 奖励模型 r_φ │  │ 参考模型 π_ref│  │ 价值模型 V_ψ │        │
-│  │  输出 R(x,y) │  │输出 log π_ref│  │ 输出 V(s_t)  │        │
-│  └──────┬──────┘  └──────┬──────┘  └──────┬──────┘        │
-└─────────┼─────────────────┼─────────────────┼────────────────┘
-          │                 │                 │
-          ▼                 ▼                 ▼
-┌─────────────────────────────────────────────────────────────┐
-│              阶段三：计算优势值 A_t（核心）                   │
-│                                                             │
-│  reward_t = r_t_raw - β·(log π_θ - log π_ref)              │
-│                   │                                         │
-│                   ▼                                         │
-│  G_t = Σ γᵏ·reward_{t+k}                                   │
-│                   │                                         │
-│                   ▼                                         │
-│  δ_t = reward_t + γ·V(s_{t+1}) - V(s_t)                   │
-│                   │                                         │
-│                   ▼                                         │
-│  A_t = Σ (γλ)ᵏ·δ_{t+k}        ◀──── 优势值计算完成！       │
-└─────────────────────────────────────────────────────────────┘
-    │
-    ▼
-┌─────────────────────────────────────────────────────────────┐
-│                  阶段四：更新（Update）                      │
-│                                                             │
-│  策略模型更新：                                              │
-│  ρ_t = π_θ / π_θ_old                                       │
-│  L_CLIP = E[min(ρ·A, clip(ρ)·A)]  ◀── 梯度上升            │
-│                                                             │
-│  价值模型更新：                                              │
-│  L_VF = E[(V(s_t) - G_t)²]       ◀── 梯度下降              │
-└─────────────────────────────────────────────────────────────┘</pre>
-
-                <h3>协同的直观比喻</h3>
-                <ol>
-                    <li><strong>策略模型（Actor）</strong>：在“考场”（提示词）上“写作文”（生成回复）。</li>
-                    <li><strong>奖励模型（Reward Model）</strong>：作为“阅卷老师”，给完整的作文打一个总分。</li>
-                    <li><strong>参考模型（Reference Model）</strong>：作为“标准范文”，如果作文写法偏离了人类正常写作的风格（KL 太大），总分就会被扣分。</li>
-                    <li><strong>价值模型（Value Model）</strong>：作为“经验丰富的助教”，在写作过程中不断预判“这篇作文最后能得多少分”（V 值）。</li>
-                    <li><strong>优势值（Advantage）</strong>：就是“助教的预判偏差”，即“阅卷老师的实际分数（经 KL 修正后）加上对下一步的预判”减去“当前步的预判”。这个值告诉策略模型：“你刚才写的那个词，比助教预想的好/坏多少？”</li>
-                </ol>
-                <div class="note-box">
-                    <p><strong>策略模型根据“阅卷老师的分数（Reward）”减去“标准范文的扣分（Reference）”减去“助教的预判偏差（V）”后得到的“优势值（A）”，精细化地调整自己的“写作技巧”（每一步的 token 概率）。</strong></p>
+                <div class="note">
+                    <p><strong>裁剪直觉</strong>：好动作最多把概率增大到 \(1+\epsilon\) 倍；坏动作最多把概率减小到 \(1-\epsilon\) 倍。这个约束是 PPO 稳定性的关键。</p>
                 </div>
 
-                <h2 id="ppo-loss">PPO loss</h2>
-                <h3 id="loss-formula">一、公式</h3>
+                <h2 id="collaboration">3. 多模型协同</h2>
+                <p>可以把 PPO 看成一条分工明确的数据链：</p>
+                <div class="flow-grid">
+                    <div class="flow-card">
+                        <h3>Actor 写作文</h3>
+                        <p>策略模型根据 prompt 生成完整回复，并记录生成概率。</p>
+                    </div>
+                    <div class="flow-card">
+                        <h3>Reward 打总分</h3>
+                        <p>奖励模型像阅卷老师，对完整回复给出 \(R(x,y)\)。</p>
+                    </div>
+                    <div class="flow-card">
+                        <h3>Reference 扣偏离分</h3>
+                        <p>参考模型像标准范文，偏离过大时通过 KL 惩罚扣分。</p>
+                    </div>
+                    <div class="flow-card">
+                        <h3>Critic 做预判</h3>
+                        <p>价值模型像助教，预测每个状态之后大概能拿多少分。</p>
+                    </div>
+                </div>
+                <p><strong>优势值</strong>就是“实际表现 + 下一步预期”相对“当前预期”的偏差，它告诉策略模型：刚才生成的 token 到底比预想更好还是更差。</p>
+
+                <h2 id="loss">4. PPO Loss</h2>
+                <h3 id="loss-summary">4.1 总目标</h3>
+                <p>PPO 同时做两件事：策略模型做梯度上升，最大化裁剪后的策略目标；价值模型做梯度下降，最小化价值预测误差。</p>
                 <div class="formula">
                     \[
                     \boxed{
                     \begin{aligned}
-                    & \max_{\theta} \; \mathbb{E}_{t} \Big[ \min\big( \rho_t(\theta) \cdot A_t, \; \operatorname{clip}(\rho_t(\theta), 1-\epsilon, 1+\epsilon) \cdot A_t \big) \Big] \\[10pt]
-                    & \min_{\psi} \; \mathbb{E}_{t} \Big[ \big( V_\psi(s_t) - G_t \big)^2 \Big]
+                    &\max_\theta\;\mathbb{E}_t\Big[
+                    \min\big(\rho_t(\theta)A_t,\operatorname{clip}(\rho_t(\theta),1-\epsilon,1+\epsilon)A_t\big)
+                    \Big]\\[10pt]
+                    &\min_\psi\;\mathbb{E}_t\Big[(V_\psi(s_t)-G_t)^2\Big]
                     \end{aligned}
                     }
                     \]
                 </div>
 
-                <p>其中：</p>
+                <p>其中每步修正奖励为：</p>
                 <div class="formula">
                     \[
-                    \text{reward}_t = r_t^{\text{raw}} - \beta \cdot \left( \log \pi_\theta(y_t \mid x, y_{<t}) - \log \pi_{\text{ref}}(y_t \mid x, y_{<t}) \right)
+                    \text{reward}_t
+                    = r_t^{\text{raw}}
+                    - \beta\left(
+                    \log\pi_\theta(y_t\mid x,y_{<t})
+                    - \log\pi_{\text{ref}}(y_t\mid x,y_{<t})
+                    \right)
                     \]
                 </div>
-                <p><strong>说明</strong>：公式中的 \(\beta \cdot (\log \pi_\theta - \log \pi_{\text{ref}})\) 即为每步的 <strong>KL 惩罚项</strong>，作用是即时扣分，防止策略模型在单步上偏离参考模型太远。</p>
+                <p><strong>说明</strong>：\(\beta(\log\pi_\theta-\log\pi_{\text{ref}})\) 是每步 KL 惩罚项，用来即时扣分，防止策略模型在单步上偏离参考模型太远。</p>
 
-                <div class="formula">
-                    \[
-                    G_t = \sum_{k=0}^{T-t} \gamma^k \cdot \text{reward}_{t+k}
-                    \]
+                <div class="stage-grid">
+                    <div class="stage-card">
+                        <h3>折扣回报</h3>
+                        <div class="formula compact">
+                            \[
+                            G_t=\sum_{k=0}^{T-t}\gamma^k\text{reward}_{t+k}
+                            \]
+                        </div>
+                    </div>
+                    <div class="stage-card">
+                        <h3>TD Error</h3>
+                        <div class="formula compact">
+                            \[
+                            \boxed{\delta_t=\text{reward}_t+\gamma V_\psi(s_{t+1})-V_\psi(s_t)}
+                            \]
+                        </div>
+                    </div>
+                    <div class="stage-card">
+                        <h3>Advantage</h3>
+                        <div class="formula compact">
+                            \[
+                            \boxed{A_t=\sum_{l=0}^{T-t}(\gamma\lambda)^l\delta_{t+l}}
+                            \]
+                        </div>
+                    </div>
+                    <div class="stage-card">
+                        <h3>采样比率</h3>
+                        <div class="formula compact">
+                            \[
+                            \rho_t=\exp(\log\pi_\theta-\log\pi_{\theta_{\text{old}}})
+                            \]
+                        </div>
+                    </div>
                 </div>
 
-                <div class="formula">
-                    \[
-                    \boxed{
-                    \delta_t = \text{reward}_t  + \gamma V_\psi(s_{t+1}) - V_\psi(s_t)
-                    }
-                    \]
-                </div>
-
-                <div class="formula">
-                    \[
-                    \boxed{
-                    A_t = \sum_{l=0}^{T-t} (\gamma \lambda)^l \delta_{t+l}
-                    }
-                    \]
-                </div>
-
-                <h3 id="variable-table">变量说明表</h3>
-                <table>
+                <h3 id="variables">4.2 变量表</h3>
+                <table class="formula-table">
                     <thead>
                         <tr>
                             <th>变量</th>
@@ -576,43 +724,43 @@
                     <tbody>
                         <tr>
                             <td>\(r_t^{\text{raw}}\)</td>
-                            <td>\(\begin{cases} 0, & t < T \\ R(x, y), & t = T \end{cases}\)</td>
-                            <td>原始即时奖励。中间 token 为 0，最后一个 token 为奖励模型对完整序列的打分 \(R(x, y)\)</td>
+                            <td>\(\begin{cases}0,&t<T\\R(x,y),&t=T\end{cases}\)</td>
+                            <td>原始即时奖励。中间 token 为 0，最后一个 token 为奖励模型对完整序列的打分。</td>
                         </tr>
                         <tr>
                             <td>\(\text{reward}_t\)</td>
-                            <td>\(r_t^{\text{raw}} - \beta(\log \pi_\theta - \log \pi_{\text{ref}})\)</td>
-                            <td>减去 KL 惩罚后的最终即时奖励</td>
+                            <td>\(r_t^{\text{raw}}-\beta(\log\pi_\theta-\log\pi_{\text{ref}})\)</td>
+                            <td>减去 KL 惩罚后的最终即时奖励。</td>
                         </tr>
                         <tr>
                             <td>\(G_t\)</td>
-                            <td>\(\sum_{k=0}^{T-t} \gamma^k \cdot \text{reward}_{t+k}\)</td>
-                            <td>折扣回报，从时间步 \(t\) 开始的累计奖励，用于更新价值模型</td>
+                            <td>\(\sum_{k=0}^{T-t}\gamma^k\text{reward}_{t+k}\)</td>
+                            <td>折扣回报，从时间步 \(t\) 开始的累计奖励，用于更新价值模型。</td>
                         </tr>
                         <tr>
                             <td>\(\delta_t\)</td>
-                            <td>\(\text{reward}_t + \gamma V(s_{t+1}) - V(s_t)\)</td>
-                            <td>时序差分误差（TD Error）</td>
+                            <td>\(\text{reward}_t+\gamma V(s_{t+1})-V(s_t)\)</td>
+                            <td>时序差分误差（TD Error）。</td>
                         </tr>
                         <tr>
                             <td>\(A_t\)</td>
-                            <td>\(\sum_{l=0}^{T-t} (\gamma\lambda)^l \delta_{t+l}\)</td>
-                            <td>优势值，GAE 加权求和，用于更新策略模型</td>
+                            <td>\(\sum_{l=0}^{T-t}(\gamma\lambda)^l\delta_{t+l}\)</td>
+                            <td>优势值，GAE 加权求和，用于更新策略模型。</td>
                         </tr>
                         <tr>
                             <td>\(\rho_t\)</td>
-                            <td>\(\exp(\log \pi_\theta - \log \pi_{\theta_{\text{old}}})\)</td>
-                            <td>重要性采样比率</td>
+                            <td>\(\exp(\log\pi_\theta-\log\pi_{\theta_{\text{old}}})\)</td>
+                            <td>重要性采样比率，用来衡量新旧策略概率变化。</td>
                         </tr>
                         <tr>
                             <td>\(L^{\text{CLIP}}\)</td>
-                            <td>\(\min(\rho \cdot A, \operatorname{clip}(\rho) \cdot A)\)</td>
-                            <td>PPO 策略损失，梯度上升</td>
+                            <td>\(\min(\rho A,\operatorname{clip}(\rho)A)\)</td>
+                            <td>PPO 策略目标，使用梯度上升优化。</td>
                         </tr>
                         <tr>
                             <td>\(L^{\text{VF}}\)</td>
-                            <td>\(\frac{1}{T}\sum (V(s_t) - G_t)^2\)</td>
-                            <td>价值损失，梯度下降</td>
+                            <td>\(\frac{1}{T}\sum(V(s_t)-G_t)^2\)</td>
+                            <td>价值损失，使用梯度下降优化。</td>
                         </tr>
                     </tbody>
                 </table>
