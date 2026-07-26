@@ -132,6 +132,15 @@
             font-weight: 700;
         }
 
+        .small-note {
+            display: block;
+            margin-top: 6px;
+            color: var(--muted);
+            font-size: 0.88rem;
+            line-height: 1.65;
+            text-align: left;
+        }
+
         .breadcrumb {
             color: var(--muted);
             font-size: 0.95rem;
@@ -521,7 +530,10 @@
                         </tr>
                         <tr>
                             <td>泛化性能</td>
-                            <td><span style="color: red;">在分布外数据上的泛化性能可能不如两阶段方法</span></td>
+                            <td>
+                                <span style="color: red;">在分布外数据上的泛化性能可能不如两阶段方法</span>
+                                <span class="small-note">模型可能对训练时的约束、价格和资源容量高度适配，但在新的业务条件下泛化较差。因此需要在不同决策条件和约束配置下训练或增强数据。</span>
+                            </td>
                         </tr>
                         <tr>
                             <td>调试困难</td>
@@ -836,6 +848,67 @@
                     <div class="formula">
                         $$\frac{\partial L_{SPO+}}{\partial \hat{y}} = 2M(y) - 2M(2\hat{y} - y)$$
                     </div>
+
+                    <h5>发券决策例子</h5>
+                    <p>假设决策是选择哪些用户发券，决策向量中的 $1$ 表示发券，$0$ 表示不发券：</p>
+                    <div class="formula">
+                        $$w=
+                        \begin{bmatrix}
+                        1\\
+                        0\\
+                        1
+                        \end{bmatrix}$$
+                    </div>
+                    <p>这表示给用户 1 和用户 3 发券。最优决策也可以表示为一个向量：</p>
+                    <div class="formula">
+                        $$w^*(c)=
+                        \begin{bmatrix}
+                        1\\
+                        0\\
+                        1
+                        \end{bmatrix}$$
+                    </div>
+                    <p>SPO+ 的梯度使用的是两个最优决策向量之差。比如：</p>
+                    <div class="formula">
+                        $$w^*(c)=
+                        \begin{bmatrix}
+                        1\\
+                        0\\
+                        1
+                        \end{bmatrix},
+                        \qquad
+                        w^*(2\hat{c}-c)=
+                        \begin{bmatrix}
+                        0\\
+                        1\\
+                        1
+                        \end{bmatrix}$$
+                    </div>
+                    <p>那么：</p>
+                    <div class="formula">
+                        $$\partial_{\hat{c}}L_{\mathrm{SPO+}}
+                        =
+                        2\left(
+                        \begin{bmatrix}
+                        1\\
+                        0\\
+                        1
+                        \end{bmatrix}
+                        -
+                        \begin{bmatrix}
+                        0\\
+                        1\\
+                        1
+                        \end{bmatrix}
+                        \right)
+                        =
+                        \begin{bmatrix}
+                        2\\
+                        -2\\
+                        0
+                        \end{bmatrix}$$
+                    </div>
+                    <p>这个梯度告诉预测模型：第一个决策变量需要往更容易被选中的方向调整；第二个决策变量需要往不容易被选中的方向调整；第三个变量在两种方案中相同，暂时不需要调整。</p>
                 </div>
                 
                 <h4>适合场景</h4>
