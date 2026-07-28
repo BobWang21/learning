@@ -1,11 +1,12 @@
 <!DOCTYPE html>
+
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>1 Transformer - AI</title>
-    <link rel="stylesheet" href="../styles.css?v=20260713-page-only-toc">
-    <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>1 Transformer - AI</title>
+<link href="../styles.css?v=20260713-page-only-toc" rel="stylesheet"/>
+<style>
         .ai-section {
             background: white;
             border-radius: 8px;
@@ -139,65 +140,38 @@
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="sidebar">
-<div class="page-toc">
-                            <h4 style="margin-bottom: 15px; color: #8B1E3F;">📑 页面目录</h4>
-                            <ul style="list-style: none; padding: 0; margin: 0;">
-                                <li style="margin-bottom: 6px;"><a href="#一、背景" style="color: #8B1E3F; text-decoration: none; font-weight: 600;">一、背景</a></li>
-                                <li style="margin-bottom: 6px;"><a href="#二、网络结构" style="color: #8B1E3F; text-decoration: none; font-weight: 600;">二、网络结构</a></li>
-                                <li style="margin-bottom: 6px;"><a href="#三、attention" style="color: #8B1E3F; text-decoration: none; font-weight: 600;">三、attention</a></li>
-                                <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#1-定义" style="color: #C2410C; text-decoration: none; font-size: 0.95rem;">1 定义</a></li>
-                                <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#2缩放点积" style="color: #C2410C; text-decoration: none; font-size: 0.95rem;">2缩放点积</a></li>
-                                <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#31-self-attention" style="color: #C2410C; text-decoration: none; font-size: 0.95rem;">3.1 Self Attention</a></li>
-                                <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#32-mutli-head-attention" style="color: #C2410C; text-decoration: none; font-size: 0.95rem;">3.2 Mutli-Head Attention</a></li>
-                                <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#4-缺点" style="color: #C2410C; text-decoration: none; font-size: 0.95rem;">4 缺点</a></li>
-                                <li style="margin-bottom: 6px;"><a href="#四、位置编码" style="color: #8B1E3F; text-decoration: none; font-weight: 600;">四、位置编码</a></li>
-                                <li style="margin-bottom: 6px;"><a href="#五、变体" style="color: #8B1E3F; text-decoration: none; font-weight: 600;">五、变体</a></li>
-                                <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#1-归一化方法" style="color: #C2410C; text-decoration: none; font-size: 0.95rem;">1 归一化方法</a></li>
-                                <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#2-归一化位置" style="color: #C2410C; text-decoration: none; font-size: 0.95rem;">2 归一化位置</a></li>
-                                <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#3-注意力机制" style="color: #C2410C; text-decoration: none; font-size: 0.95rem;">3 注意力机制</a></li>
-                                <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#4-moe" style="color: #C2410C; text-decoration: none; font-size: 0.95rem;">4 MOE</a></li>
-                                <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#5-长上下文模型" style="color: #C2410C; text-decoration: none; font-size: 0.95rem;">5 长上下文模型</a></li>
-                                <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#6-kv-cache" style="color: #C2410C; text-decoration: none; font-size: 0.95rem;">6 kv cache</a></li>
-                            </ul>
-                        </div>
-        
-
-
-        </div>
-
-        <main class="content">
-            <header class="header">
-                <h1>1 Transformer</h1>
-                <div class="breadcrumb">
-                    <a href="../index.html">首页</a> &gt; <a href="../index.html#ai">AI</a> &gt; 1 Transformer
+<div class="container">
+<div class="sidebar">
+<div class="page-toc"><h2>目录</h2><ul><li><a href="#一、背景">一、背景</a></li><li><a href="#二、网络结构">二、网络结构</a></li><li><a href="#三、attention">三、attention</a><ul><li><a href="#1-定义">1 定义</a></li><li><a href="#2缩放点积">2缩放点积</a></li><li><a href="#31-self-attention">3.1 Self Attention</a></li><li><a href="#32-mutli-head-attention">3.2 Mutli-Head Attention</a></li><li><a href="#4-缺点">4 缺点</a></li></ul></li><li><a href="#四、位置编码">四、位置编码</a></li><li><a href="#五、变体">五、变体</a><ul><li><a href="#1-归一化方法">1 归一化方法</a></li><li><a href="#2-归一化位置">2 归一化位置</a></li><li><a href="#3-注意力机制">3 注意力机制</a></li><li><a href="#4-moe">4 MOE</a></li><li><a href="#5-长上下文模型">5 长上下文模型</a></li><li><a href="#6-kv-cache">6 kv cache</a></li></ul></li></ul></div>
+</div>
+<main class="content">
+<header class="header">
+<h1>1 Transformer</h1>
+<div class="breadcrumb">
+<a href="../index.html">首页</a> &gt; <a href="../index.html#ai">AI</a> &gt; 1 Transformer
                 </div>
-            </header>
-
-            
-
-            <section class="ai-section">
-                <h2 id="一、背景">一、背景</h2>
-                <p>Transformer是一个sequence-to-sequence模型。与其他Seq2Seq模型不同:</p>
-            <ul>
-                <li>抛弃了<strong>循环</strong>和<strong>卷积 </strong>                </li>
-                <li>完全依赖<strong>注意机制</strong>来构成整个网络的架构                </li>
-            </ul>
-                <p><strong>Transformer 相比于 RNN有什么优势？</strong></p>
-            <ol>
-                <li><strong>并行计算: </strong>RNN系列模型，无法并行计算，因为 T 时刻的计算依赖 T-1 时刻的隐层计算结果                </li>
-                <li><strong>解决长期依赖问题: </strong>顺序计算的过程中信息会丢失，LSTM等门机制的结构无法彻底解决长期依赖问题                </li>
-                <li><strong>抽取更丰富信息: </strong>self-attention让源序列和目标序列首先“自关联” 起来                </li>
-            </ol>
-                <h2 id="二、网络结构">二、网络结构</h2>
-                <p>Transformer是encoder-decoder结构，由<strong>multi-head self-attention</strong>和<strong>position-wise fully connected feed-forward network</strong>堆叠而成。</p>
-                <p>作者的实验是通过搭建编码器和解码器各6层，总共12层的Encoder-Decoder，并在机器翻译中取得了BLEU值得新高。</p>
-                <figure class="note-image">
-                    <img src="../images/transformer-01.png" alt="Transformer 笔记图片" loading="lazy" style="max-width: 277px;">
-                </figure>
-                <blockquote><strong>Encoder 的最后一层输出，与 Decoder 的每一层进行交互</strong></blockquote>
-                <pre class="code-block"><code>输入: &quot;I love AI&quot;
+</header>
+<section class="ai-section">
+<h2 id="一、背景">一、背景</h2>
+<p>Transformer是一个sequence-to-sequence模型。与其他Seq2Seq模型不同:</p>
+<ul>
+<li>抛弃了<strong>循环</strong>和<strong>卷积 </strong> </li>
+<li>完全依赖<strong>注意机制</strong>来构成整个网络的架构                </li>
+</ul>
+<p><strong>Transformer 相比于 RNN有什么优势？</strong></p>
+<ol>
+<li><strong>并行计算: </strong>RNN系列模型，无法并行计算，因为 T 时刻的计算依赖 T-1 时刻的隐层计算结果                </li>
+<li><strong>解决长期依赖问题: </strong>顺序计算的过程中信息会丢失，LSTM等门机制的结构无法彻底解决长期依赖问题                </li>
+<li><strong>抽取更丰富信息: </strong>self-attention让源序列和目标序列首先“自关联” 起来                </li>
+</ol>
+<h2 id="二、网络结构">二、网络结构</h2>
+<p>Transformer是encoder-decoder结构，由<strong>multi-head self-attention</strong>和<strong>position-wise fully connected feed-forward network</strong>堆叠而成。</p>
+<p>作者的实验是通过搭建编码器和解码器各6层，总共12层的Encoder-Decoder，并在机器翻译中取得了BLEU值得新高。</p>
+<figure class="note-image">
+<img alt="Transformer 笔记图片" loading="lazy" src="../images/transformer-01.png" style="max-width: 277px;"/>
+</figure>
+<blockquote><strong>Encoder 的最后一层输出，与 Decoder 的每一层进行交互</strong></blockquote>
+<pre class="code-block"><code>输入: "I love AI"
 ↓
 [Encoder Stack] (例如 6 层)
 每个词通过 6 层连续理解，形成深层语义表示
@@ -207,214 +181,212 @@
 └───────────────────┐
 │ (提供给每一层 Decoder 的 Cross-Attention)
 ↓
-Decoder 第一步: 预测 &quot;我&quot;
+Decoder 第一步: 预测 "我"
 输入: &lt;sos&gt;
 [Decoder Block 1]: Masked SA(感知已生成词) → Cross-Attention(提取 Encoder 信息)
 [Decoder Block 2]: Masked SA → Cross-Attention(再次提取 Encoder 信息)
 [...] 重复堆叠 N 层
-[Decoder Block 6]: 最终输出向量 → 线性层预测: &quot;我&quot;
+[Decoder Block 6]: 最终输出向量 → 线性层预测: "我"
 ↓
-Decoder 第二步: 预测 &quot;喜欢&quot;
+Decoder 第二步: 预测 "喜欢"
 输入: &lt;sos&gt; 我
-[Decoder Block 1]: Masked SA(使 &quot;我&quot; 看到 &lt;sos&gt;) → Cross-Attention(提取 Encoder 信息)
-[Decoder Block 2...6]: 层层传递，深层对齐 &quot;I love&quot; 与 &quot;我&quot; 的关系
-最终输出向量 → 线性层预测: &quot;喜欢&quot;
+[Decoder Block 1]: Masked SA(使 "我" 看到 &lt;sos&gt;) → Cross-Attention(提取 Encoder 信息)
+[Decoder Block 2...6]: 层层传递，深层对齐 "I love" 与 "我" 的关系
+最终输出向量 → 线性层预测: "喜欢"
 ↓
-Decoder 第三步: 预测 &quot;人工智能&quot;
+Decoder 第三步: 预测 "人工智能"
 输入: &lt;sos&gt; 我 喜欢
 [Decoder Block 1]: Masked SA → Cross-Attention(提取 Encoder 信息)
-[Decoder Block 2...6]: 层层传递，建模 &quot;喜欢&quot; 后续最可能的语义
-最终输出向量 → 线性层预测: &quot;人工智能&quot;
+[Decoder Block 2...6]: 层层传递，建模 "喜欢" 后续最可能的语义
+最终输出向量 → 线性层预测: "人工智能"
 ↓
-输出: &quot;我 喜欢 人工智能&quot;</code></pre>
-            <ol>
-                <li>输入的词向量首先加上Positional Encoding(不是拼接)，作为输入                </li>
-                <li><strong>Encoder</strong>                <ol>
-                    <li>Multi-head self attention<strong> Self Attention</strong>                    </li>
-                    <li>Add &amp; Norm, post_norm <span class="math-inline">\( \mathrm{LayerNorm}(x + \mathrm{Sublayer}(x)) \)</span>                    </li>
-                    <li>FFN                    </li>
-                    <li>Add &amp; Norm。                    </li>
-                    <li>然后将输出输入至下一个Encoder中                    </li>
-                    <li>最后一个Encoder的输出将会作为memory保留                    </li>
-                </ol>
-                </li>
-                <li><strong>Decoder</strong>                <ol>
-                    <li>Masked Multi-head self attention <strong> Causal Attention</strong>                    </li>
-                    <li>Add &amp; Normalize                    </li>
-                    <li>Multi-head self attention<strong> \(K\)、\(V\) 来自于 Encoder 的 memory</strong> <strong>Cross Attention</strong>                    </li>
-                    <li>FFN                    </li>
-                    <li>Add &amp; Norm                    </li>
-                    <li>Transformer的输出向量可以用来做各种下游任务                    </li>
-                </ol>
-                </li>
-            </ol>
-                <figure class="note-image">
-                    <img src="../images/transformer-02.png" alt="Transformer 笔记图片" loading="lazy" style="max-width: 444px;">
-                </figure>
-                <h2 id="三、attention">三、attention</h2>
-                <h3 id="1-定义">1 定义</h3>
-                <p>将 query 和 key-value字典映射到输出的函数。其中输出为value的加权乘积，权重由query和key的一致性决定。</p>
-                <p>一致性由打分公式确定，打完分后使用softmax 分布注意力。</p>
-                <h3 id="2缩放点积">2缩放点积</h3>
-                <figure class="note-image">
-                    <img src="../images/transformer-03.png" alt="Transformer 笔记图片" loading="lazy" style="max-width: 284px;">
-                </figure>
-            <ul>
-                <li>query 和 key 进行相似度计算, 得到权值                </li>
-                <li>将权值进行归一化, 得到权重                </li>
-                <li>将权重和 value 进行加权求和                </li>
-            </ul>
-                <p>相似性计算:</p>
-                <figure class="note-image">
-                    <img src="../images/transformer-04.png" alt="Transformer 笔记图片" loading="lazy" style="max-width: 620px;">
-                </figure>
-                <p><strong>选择缩放点积模型的原因：</strong></p>
-                <figure class="note-image">
-                    <img src="../images/transformer-05.png" alt="Transformer 笔记图片" loading="lazy" style="max-width: 720px;">
-                </figure>
-                <h3 id="31-self-attention">3.1 Self Attention</h3>
-                <p><strong>过去只在输入与输出之间做Attention，忽略输入与输入之间 及 输出与输出之间的相关性。</strong>在序列内部做Attention，寻找序列内部的联系。</p>
-                <p>Self-Attention 机制的关键在于，在处理文本时，它会利用文本里除目标词之外的其他各个词的信息，来强化对目标词语义的表达。</p>
-                <figure class="note-image">
-                    <img src="../images/transformer-06.png" alt="Transformer 笔记图片" loading="lazy" style="max-width: 265px;">
-                </figure>
-                <p><strong>why self-attention</strong></p>
-            <ul>
-                <li><strong>并行</strong> attention 解决了 RNN 不能并行计算的问题。attention机制每一步计算不依赖于上一步的计算结果                </li>
-                <li><strong>长期依赖</strong>  attention引入之前，<strong>长距离信息会被弱化</strong>，attention挑重点，不丢失重要的信息                </li>
-                <li><strong>计算复杂度 </strong><span class="math-inline">\(O(n^2 d)\)</span><strong>  </strong><span class="math-inline">\(n\)</span> 是序列的长度，<span class="math-inline">\(d\)</span> 是 embedding 的维度。                </li>
-            </ul>
-                <p><strong>有什么技术降低复杂度提升输入长度的？</strong></p>
-                <p>Sparse Attention，放弃对全文的关注，只关心局部的语义组合，相当于self-attention上又加了一些mask，这样的话就可以降低复杂度，而且下游任务的语义关联性的体现往往是局部/稀疏的。</p>
-                <p><strong>why 线性变换</strong></p>
-                <p>在相同量级的情况下，q与k点积的值会是最大的（可以从“两数和相同的情况下，两数相等对应的积最大”类比过来）。
+输出: "我 喜欢 人工智能"</code></pre>
+<ol>
+<li>输入的词向量首先加上Positional Encoding(不是拼接)，作为输入                </li>
+<li><strong>Encoder</strong> <ol>
+<li>Multi-head self attention<strong> Self Attention</strong> </li>
+<li>Add &amp; Norm, post_norm <span class="math-inline">\( \mathrm{LayerNorm}(x + \mathrm{Sublayer}(x)) \)</span> </li>
+<li>FFN                    </li>
+<li>Add &amp; Norm。                    </li>
+<li>然后将输出输入至下一个Encoder中                    </li>
+<li>最后一个Encoder的输出将会作为memory保留                    </li>
+</ol>
+</li>
+<li><strong>Decoder</strong> <ol>
+<li>Masked Multi-head self attention <strong> Causal Attention</strong> </li>
+<li>Add &amp; Normalize                    </li>
+<li>Multi-head self attention<strong> \(K\)、\(V\) 来自于 Encoder 的 memory</strong> <strong>Cross Attention</strong> </li>
+<li>FFN                    </li>
+<li>Add &amp; Norm                    </li>
+<li>Transformer的输出向量可以用来做各种下游任务                    </li>
+</ol>
+</li>
+</ol>
+<figure class="note-image">
+<img alt="Transformer 笔记图片" loading="lazy" src="../images/transformer-02.png" style="max-width: 444px;"/>
+</figure>
+<h2 id="三、attention">三、attention</h2>
+<h3 id="1-定义">1 定义</h3>
+<p>将 query 和 key-value字典映射到输出的函数。其中输出为value的加权乘积，权重由query和key的一致性决定。</p>
+<p>一致性由打分公式确定，打完分后使用softmax 分布注意力。</p>
+<h3 id="2缩放点积">2缩放点积</h3>
+<figure class="note-image">
+<img alt="Transformer 笔记图片" loading="lazy" src="../images/transformer-03.png" style="max-width: 284px;"/>
+</figure>
+<ul>
+<li>query 和 key 进行相似度计算, 得到权值                </li>
+<li>将权值进行归一化, 得到权重                </li>
+<li>将权重和 value 进行加权求和                </li>
+</ul>
+<p>相似性计算:</p>
+<figure class="note-image">
+<img alt="Transformer 笔记图片" loading="lazy" src="../images/transformer-04.png" style="max-width: 620px;"/>
+</figure>
+<p><strong>选择缩放点积模型的原因：</strong></p>
+<figure class="note-image">
+<img alt="Transformer 笔记图片" loading="lazy" src="../images/transformer-05.png" style="max-width: 720px;"/>
+</figure>
+<h3 id="31-self-attention">3.1 Self Attention</h3>
+<p><strong>过去只在输入与输出之间做Attention，忽略输入与输入之间 及 输出与输出之间的相关性。</strong>在序列内部做Attention，寻找序列内部的联系。</p>
+<p>Self-Attention 机制的关键在于，在处理文本时，它会利用文本里除目标词之外的其他各个词的信息，来强化对目标词语义的表达。</p>
+<figure class="note-image">
+<img alt="Transformer 笔记图片" loading="lazy" src="../images/transformer-06.png" style="max-width: 265px;"/>
+</figure>
+<p><strong>why self-attention</strong></p>
+<ul>
+<li><strong>并行</strong> attention 解决了 RNN 不能并行计算的问题。attention机制每一步计算不依赖于上一步的计算结果                </li>
+<li><strong>长期依赖</strong>  attention引入之前，<strong>长距离信息会被弱化</strong>，attention挑重点，不丢失重要的信息                </li>
+<li><strong>计算复杂度 </strong><span class="math-inline">\(O(n^2 d)\)</span><strong>  </strong><span class="math-inline">\(n\)</span> 是序列的长度，<span class="math-inline">\(d\)</span> 是 embedding 的维度。                </li>
+</ul>
+<p><strong>有什么技术降低复杂度提升输入长度的？</strong></p>
+<p>Sparse Attention，放弃对全文的关注，只关心局部的语义组合，相当于self-attention上又加了一些mask，这样的话就可以降低复杂度，而且下游任务的语义关联性的体现往往是局部/稀疏的。</p>
+<p><strong>why 线性变换</strong></p>
+<p>在相同量级的情况下，q与k点积的值会是最大的（可以从“两数和相同的情况下，两数相等对应的积最大”类比过来）。
 那在softmax后的加权平均中，<strong>该词本身所占比重最大，使得其他词的比重很少，无法有效利用上下文信息来增强当前词的语义表示。</strong></p>
-                <p>对于每个单词，创建一个Query向量，一个Key向量和一个Value向量。这些向量是通过词嵌入乘以我们训练过程中创建的3个训练矩阵而产生的。</p>
-                <p>注意这些新向量的维度比嵌入向量小。我们知道嵌入向量的维度为512，而这里的新向量的维度只有64维。新向量并不是必须小一些。</p>
-                <figure class="note-image">
-                    <img src="../images/transformer-07.png" alt="Transformer 笔记图片" loading="lazy" style="max-width: 253px;">
-                </figure>
-                <figure class="note-image">
-                    <img src="../images/transformer-08.png" alt="Transformer 笔记图片" loading="lazy" style="max-width: 258px;">
-                </figure>
-                <p>与卷积相比，自主力感受野更宽。</p>
-                <h3 id="32-mutli-head-attention">3.2 Mutli-Head Attention</h3>
-            <ul>
-                <li>先对就是把 <span class="math-inline">\(Q\)</span>、<span class="math-inline">\(K\)</span>、<span class="math-inline">\(V\)</span> 通过参数矩阵映射一下                </li>
-                <li>然后再做Attention                </li>
-                <li>把这个过程重复做h次                </li>
-                <li>concat结果                </li>
-            </ul>
-                <p><strong>多头机制意义：</strong></p>
-            <ul>
-                <li>可类比CNN中使用多个卷积，多头的注意力有助于网络捕捉到更丰富的特征/信息。Multi-Head其实不是必须的                </li>
-                <li>多个头可以代表多个子空间。计算在不同空间下的重要性。一个头会平均这一点。                </li>
-                <li>一个头的时候softmax分数更多的是原词特别高。多头下可以把专注点更多放在其他词里                </li>
-            </ul>
-                <h3 id="4-缺点">4 缺点</h3>
-                <p>忽略了位置信息  可以通过增加Positional Encoding</p>
-                <h2 id="四、位置编码">四、位置编码</h2>
-                <p>自注意力机制的权重计算都是依赖于与的相关性的，没有考虑到<strong>输入的位置信息</strong>。为了解决上述问题，Transformer在输入与编码层之间引入<strong>位置编码</strong>进行修正。位置编码不参加学习！理想情况下，位置嵌入的设计应该满足以下条件：</p>
-            <ul>
-                <li>它应该为每个字输出唯一的编码                </li>
-                <li><strong>不同长度的句子之间，任何两个字之间的差值应该保持一致</strong>                </li>
-                <li>它的值应该是有界的                </li>
-            </ul>
-                <figure class="note-image">
-                    <img src="../images/transformer-09.png" alt="Transformer 笔记图片" loading="lazy" style="max-width: 446px;">
-                </figure>
-                <p><strong>Masked Self-Attention</strong></p>
-                <p><strong>look ahead mask</strong> <strong>不存在的位置记为 <span class="math-inline">\(-\infty\)</span>，存在的位置记为 <span class="math-inline">\(0\)</span></strong></p>
-                <figure class="note-image">
-                    <img src="../images/transformer-10.png" alt="Transformer 笔记图片" loading="lazy" style="max-width: 398px;">
-                </figure>
-                <figure class="note-image">
-                    <img src="../images/transformer-11.png" alt="Transformer 笔记图片" loading="lazy" style="max-width: 398px;">
-                </figure>
-                <h2 id="五、变体">五、变体</h2>
-                <h3 id="1-归一化方法">1 归一化方法</h3>
-                <p>大语言模型的预训练过程中经常会出现不稳定的问题。为了应对这一问题，深度学习方法通常会采用特定的归一化策略来加强神经网络训练过程的稳定性。原始的 Transformer 模型主要使用了层归一化方法（Layer Normalization, LN）。随着研究工作的不断深入，基于层归一化的改进技术不断涌现，例如<strong>均方根层归一化</strong>（Root Mean Square Layer Normalization, <strong>RMSNorm</strong>）和 DeepNorm ，这些新技术已经在一些大语言模型中得到应用。下面进行具体介绍。</p>
-                <figure class="note-image">
-                    <img src="../images/transformer-12.png" alt="Transformer 笔记图片" loading="lazy" style="max-width: 444px;">
-                </figure>
-                <figure class="note-image">
-                    <img src="../images/transformer-13.png" alt="Transformer 笔记图片" loading="lazy" style="max-width: 446px;">
-                </figure>
-                <h3 id="2-归一化位置">2 归一化位置</h3>
-                <p>Post Norm 把 Normalization 放在一个模块的最后，这样下一个模块接收到的总是归一化后的结果。这比较符合 Normalization 的初衷，就是为了降低梯度的方差。但是层层堆叠起来，<u>基建 ResNet 的结构其实被破坏了</u><u>。</u>这就导致 Transformers训练不稳定，收敛慢和深度支持差。</p>
-                <table>
-                    <tr><th><strong>特性</strong></th><th><strong>Post-LN (原始版本)</strong></th><th><strong>Pre-LN (主流版本)</strong></th></tr>
-                    <tr><td><strong>LN 位置</strong></td><td>残差连接后</td><td>残差连接内（子层前）</td></tr>
-                    <tr><td><strong>训练稳定性</strong></td><td>较差，极度依赖 Warmup</td><td>更好，甚至可以不用 Warmup</td></tr>
-                    <tr><td><strong>收敛速度</strong></td><td>调优后可能较快</td><td>初期收敛更快</td></tr>
-                    <tr><td><strong>深度支持</strong></td><td>难以训练极深网络</td><td>容易扩展到百层以上</td></tr>
-                </table>
-                <figure class="note-image">
-                    <img src="../images/transformer-14.png" alt="Transformer 笔记图片" loading="lazy" style="max-width: 469px;">
-                </figure>
-                <figure class="note-image">
-                    <img src="../images/transformer-15.png" alt="Transformer 笔记图片" loading="lazy" style="max-width: 402px;">
-                </figure>
-                <p>           (a) Post-Norm                             (b) Pre-Norm</p>
-                <h3 id="3-注意力机制">3 注意力机制</h3>
-                <p>注意力机制是 Transformer 架构中的核心技术，它能够针对序列中的词元对构建交互关系，聚合来自于不同位置的语义信息。下面介绍四种常见的注意力机制的设计方法。 </p>
-                <p><strong>稀疏注意力机制</strong></p>
-                <p>尽管完整自注意力机制具有较强的建模能力，但是它需要平方级的计算复杂性。在处理长序列时较为显著，带来了较大的计算和存储开销。为了降低注意力机制的计算复杂度，研究人员提出了多种高效的注意力变种。</p>
-                <p><strong>滑动窗口注意力机制（Sliding Window Attention, SWA）</strong></p>
-                <p>是大语言模型中使用最多的一种稀疏注意力机制。不同于完整的注意力机制，滑动窗口注意力根据词元位置，仅仅将位置索引上距离该词元一定范围内的词元考虑到注意力的计算中。具体来说，滑动窗口注意力设置了一个大小为 <span class="math-inline">\(w\)</span> 的窗口，对每个词元 <span class="math-inline">\(u_t\)</span>，只对窗口内的词元 <span class="math-inline">\([u_{t-w+1}, \ldots, u_t]\)</span> 进行注意力计算。进一步，通过信息的逐层传递，模型实现了随着层数线性增长的感受野，从而获取远处词元的信息。</p>
-                <p><strong>多查询/分组查询注意力 MQA</strong></p>
-                <p>为了提升注意力机制的效率，<strong>多查询注意力（Multi-Query Attention, MQA</strong>）提出针对不同的头共享相同的键和值变换矩阵。这种方法减少了访存量，提高了计算强度，为了结合多查询注意力机制的效率与多头注意力机制的性能，研究人员进一步提出了<strong>分组查询注意力机制</strong>（Grouped-Query Attention, <strong>GQA</strong>）。GQA 将全部的头划分为若干组，并且针对同一组内的头共享相同的变换矩阵。这种注意力机制有效地平衡了效率和性能，被 LLaMA-2 模型所使用。</p>
-                <figure class="note-image">
-                    <img src="../images/transformer-16.png" alt="Transformer 笔记图片" loading="lazy" style="max-width: 421px;">
-                </figure>
-                <p><strong>硬件优化的注意力机制</strong></p>
-                <p>除了在算法层面上提升注意力机制的计算效率，还可以进一步利用硬件设施来优化注意力模块的速度和内存消耗。其中，两个具有
+<p>对于每个单词，创建一个Query向量，一个Key向量和一个Value向量。这些向量是通过词嵌入乘以我们训练过程中创建的3个训练矩阵而产生的。</p>
+<p>注意这些新向量的维度比嵌入向量小。我们知道嵌入向量的维度为512，而这里的新向量的维度只有64维。新向量并不是必须小一些。</p>
+<figure class="note-image">
+<img alt="Transformer 笔记图片" loading="lazy" src="../images/transformer-07.png" style="max-width: 253px;"/>
+</figure>
+<figure class="note-image">
+<img alt="Transformer 笔记图片" loading="lazy" src="../images/transformer-08.png" style="max-width: 258px;"/>
+</figure>
+<p>与卷积相比，自主力感受野更宽。</p>
+<h3 id="32-mutli-head-attention">3.2 Mutli-Head Attention</h3>
+<ul>
+<li>先对就是把 <span class="math-inline">\(Q\)</span>、<span class="math-inline">\(K\)</span>、<span class="math-inline">\(V\)</span> 通过参数矩阵映射一下                </li>
+<li>然后再做Attention                </li>
+<li>把这个过程重复做h次                </li>
+<li>concat结果                </li>
+</ul>
+<p><strong>多头机制意义：</strong></p>
+<ul>
+<li>可类比CNN中使用多个卷积，多头的注意力有助于网络捕捉到更丰富的特征/信息。Multi-Head其实不是必须的                </li>
+<li>多个头可以代表多个子空间。计算在不同空间下的重要性。一个头会平均这一点。                </li>
+<li>一个头的时候softmax分数更多的是原词特别高。多头下可以把专注点更多放在其他词里                </li>
+</ul>
+<h3 id="4-缺点">4 缺点</h3>
+<p>忽略了位置信息  可以通过增加Positional Encoding</p>
+<h2 id="四、位置编码">四、位置编码</h2>
+<p>自注意力机制的权重计算都是依赖于与的相关性的，没有考虑到<strong>输入的位置信息</strong>。为了解决上述问题，Transformer在输入与编码层之间引入<strong>位置编码</strong>进行修正。位置编码不参加学习！理想情况下，位置嵌入的设计应该满足以下条件：</p>
+<ul>
+<li>它应该为每个字输出唯一的编码                </li>
+<li><strong>不同长度的句子之间，任何两个字之间的差值应该保持一致</strong> </li>
+<li>它的值应该是有界的                </li>
+</ul>
+<figure class="note-image">
+<img alt="Transformer 笔记图片" loading="lazy" src="../images/transformer-09.png" style="max-width: 446px;"/>
+</figure>
+<p><strong>Masked Self-Attention</strong></p>
+<p><strong>look ahead mask</strong> <strong>不存在的位置记为 <span class="math-inline">\(-\infty\)</span>，存在的位置记为 <span class="math-inline">\(0\)</span></strong></p>
+<figure class="note-image">
+<img alt="Transformer 笔记图片" loading="lazy" src="../images/transformer-10.png" style="max-width: 398px;"/>
+</figure>
+<figure class="note-image">
+<img alt="Transformer 笔记图片" loading="lazy" src="../images/transformer-11.png" style="max-width: 398px;"/>
+</figure>
+<h2 id="五、变体">五、变体</h2>
+<h3 id="1-归一化方法">1 归一化方法</h3>
+<p>大语言模型的预训练过程中经常会出现不稳定的问题。为了应对这一问题，深度学习方法通常会采用特定的归一化策略来加强神经网络训练过程的稳定性。原始的 Transformer 模型主要使用了层归一化方法（Layer Normalization, LN）。随着研究工作的不断深入，基于层归一化的改进技术不断涌现，例如<strong>均方根层归一化</strong>（Root Mean Square Layer Normalization, <strong>RMSNorm</strong>）和 DeepNorm ，这些新技术已经在一些大语言模型中得到应用。下面进行具体介绍。</p>
+<figure class="note-image">
+<img alt="Transformer 笔记图片" loading="lazy" src="../images/transformer-12.png" style="max-width: 444px;"/>
+</figure>
+<figure class="note-image">
+<img alt="Transformer 笔记图片" loading="lazy" src="../images/transformer-13.png" style="max-width: 446px;"/>
+</figure>
+<h3 id="2-归一化位置">2 归一化位置</h3>
+<p>Post Norm 把 Normalization 放在一个模块的最后，这样下一个模块接收到的总是归一化后的结果。这比较符合 Normalization 的初衷，就是为了降低梯度的方差。但是层层堆叠起来，<u>基建 ResNet 的结构其实被破坏了</u><u>。</u>这就导致 Transformers训练不稳定，收敛慢和深度支持差。</p>
+<table>
+<tr><th><strong>特性</strong></th><th><strong>Post-LN (原始版本)</strong></th><th><strong>Pre-LN (主流版本)</strong></th></tr>
+<tr><td><strong>LN 位置</strong></td><td>残差连接后</td><td>残差连接内（子层前）</td></tr>
+<tr><td><strong>训练稳定性</strong></td><td>较差，极度依赖 Warmup</td><td>更好，甚至可以不用 Warmup</td></tr>
+<tr><td><strong>收敛速度</strong></td><td>调优后可能较快</td><td>初期收敛更快</td></tr>
+<tr><td><strong>深度支持</strong></td><td>难以训练极深网络</td><td>容易扩展到百层以上</td></tr>
+</table>
+<figure class="note-image">
+<img alt="Transformer 笔记图片" loading="lazy" src="../images/transformer-14.png" style="max-width: 469px;"/>
+</figure>
+<figure class="note-image">
+<img alt="Transformer 笔记图片" loading="lazy" src="../images/transformer-15.png" style="max-width: 402px;"/>
+</figure>
+<p>           (a) Post-Norm                             (b) Pre-Norm</p>
+<h3 id="3-注意力机制">3 注意力机制</h3>
+<p>注意力机制是 Transformer 架构中的核心技术，它能够针对序列中的词元对构建交互关系，聚合来自于不同位置的语义信息。下面介绍四种常见的注意力机制的设计方法。 </p>
+<p><strong>稀疏注意力机制</strong></p>
+<p>尽管完整自注意力机制具有较强的建模能力，但是它需要平方级的计算复杂性。在处理长序列时较为显著，带来了较大的计算和存储开销。为了降低注意力机制的计算复杂度，研究人员提出了多种高效的注意力变种。</p>
+<p><strong>滑动窗口注意力机制（Sliding Window Attention, SWA）</strong></p>
+<p>是大语言模型中使用最多的一种稀疏注意力机制。不同于完整的注意力机制，滑动窗口注意力根据词元位置，仅仅将位置索引上距离该词元一定范围内的词元考虑到注意力的计算中。具体来说，滑动窗口注意力设置了一个大小为 <span class="math-inline">\(w\)</span> 的窗口，对每个词元 <span class="math-inline">\(u_t\)</span>，只对窗口内的词元 <span class="math-inline">\([u_{t-w+1}, \ldots, u_t]\)</span> 进行注意力计算。进一步，通过信息的逐层传递，模型实现了随着层数线性增长的感受野，从而获取远处词元的信息。</p>
+<p><strong>多查询/分组查询注意力 MQA</strong></p>
+<p>为了提升注意力机制的效率，<strong>多查询注意力（Multi-Query Attention, MQA</strong>）提出针对不同的头共享相同的键和值变换矩阵。这种方法减少了访存量，提高了计算强度，为了结合多查询注意力机制的效率与多头注意力机制的性能，研究人员进一步提出了<strong>分组查询注意力机制</strong>（Grouped-Query Attention, <strong>GQA</strong>）。GQA 将全部的头划分为若干组，并且针对同一组内的头共享相同的变换矩阵。这种注意力机制有效地平衡了效率和性能，被 LLaMA-2 模型所使用。</p>
+<figure class="note-image">
+<img alt="Transformer 笔记图片" loading="lazy" src="../images/transformer-16.png" style="max-width: 421px;"/>
+</figure>
+<p><strong>硬件优化的注意力机制</strong></p>
+<p>除了在算法层面上提升注意力机制的计算效率，还可以进一步利用硬件设施来优化注意力模块的速度和内存消耗。其中，两个具有
 代表性的工作是 <strong>Flash Attention</strong>  与 <strong>Paged Attention</strong> </p>
-            <ul>
-                <li>FlashAttention 通过矩阵分块计算以及减少内存读写次数的方式，提高注意力分数的计算效率；                </li>
-                <li>PagedAttention 则针对增量解码阶段，对于 KV 缓存进行分块存储，并优化了计算方式，增大了并行计算度，从而提高了计算效率。                </li>
-            </ul>
-                <h3 id="4-moe">4 MOE</h3>
-                <figure class="note-image">
-                    <img src="../images/transformer-17.png" alt="Transformer 笔记图片" loading="lazy" style="max-width: 558px;">
-                </figure>
-                <p>能让模型在参数总量巨大的前提下，对每个输入只激活其中的一小部分进行计算，<strong>从而在不显著增加推理计算量（FLOPs）的前提下，大幅扩充模型的总参数量，实现更高效的扩展</strong><strong>。</strong></p>
-                <figure class="note-image">
-                    <img src="../images/transformer-18.png" alt="Transformer 笔记图片" loading="lazy" style="max-width: 479px;">
-                </figure>
-                <h3 id="5-长上下文模型">5 长上下文模型</h3>
-                <p>在实际应用中，大语言模型对于长文本数据的处理需求日益凸显，尤其在长文档分析、多轮对话、故事创作等场景下。在这些情况下，<strong>模型需要处理的文本的长度常常超出预定义上下文窗口大小</strong>。例如，LLaMA-2 的上下文窗口限制为 4,096个词元。增强大语言模型长文本建模能力的研究主要集中在两个方向：一是<strong>扩展位置编码</strong>，二是<strong>调整上下文窗口</strong>。</p>
-                <h3 id="6-kv-cache">6 kv cache</h3>
-                <p>KV Cache是Transformer标配的推理加速功能。它<strong>只能用于Decoder架构</strong>的自回归推理，这是因为Decoder有Causal Mask，在推理的时候前面已经生成的字符不需要与后面的字符产生attention，</p>
-                <p>从而使得前面已经计算的 <span class="math-inline">\(K\)</span> 和 <span class="math-inline">\(V\)</span> 可以缓存起来。</p>
-                <p>KV Cache 本质上节约的是生成每个新 token 时，<strong>历史 token 的 Key 和 Value 的重复计算</strong>。</p>
-                <figure class="note-image">
-                    <img src="../images/transformer-19.png" alt="Transformer 笔记图片" loading="lazy" style="max-width: 654px;">
-                </figure>
-                <p><strong>没有缓存</strong></p>
-                <figure class="note-image">
-                    <img src="../images/transformer-20.png" alt="Transformer 笔记图片" loading="lazy" style="max-width: 654px;">
-                </figure>
-                <p><strong>有缓存</strong></p>
-                <figure class="note-image">
-                    <img src="../images/transformer-21.png" alt="Transformer 笔记图片" loading="lazy" style="max-width: 651px;">
-                </figure>
-                <p><strong>Decoder 推理分Prefill和Decoding两个阶段</strong></p>
-            <ul>
-                <li><strong>Prefill</strong>：一次性并行处理输入 prompt，初始化 KV Cache，并根据最后一个token生成第一个输出 token                </li>
-                <li><strong>Decoding</strong>：逐个生成后续 token，每步仅计算新 token 的 <span class="math-inline">\(K,V\)</span> 和注意力，复用 KV Cache                </li>
-            </ul>
-
-                <a href="../index.html#ai" class="back-link">← 返回 AI</a>
-            </section>
-
-            <footer class="footer">
-                <p>更新时间：2026-05-28</p>
-                <p><a href="../index.html">← 返回首页</a></p>
-            </footer>
-        </main>
-    </div>
-    <script>
+<ul>
+<li>FlashAttention 通过矩阵分块计算以及减少内存读写次数的方式，提高注意力分数的计算效率；                </li>
+<li>PagedAttention 则针对增量解码阶段，对于 KV 缓存进行分块存储，并优化了计算方式，增大了并行计算度，从而提高了计算效率。                </li>
+</ul>
+<h3 id="4-moe">4 MOE</h3>
+<figure class="note-image">
+<img alt="Transformer 笔记图片" loading="lazy" src="../images/transformer-17.png" style="max-width: 558px;"/>
+</figure>
+<p>能让模型在参数总量巨大的前提下，对每个输入只激活其中的一小部分进行计算，<strong>从而在不显著增加推理计算量（FLOPs）的前提下，大幅扩充模型的总参数量，实现更高效的扩展</strong><strong>。</strong></p>
+<figure class="note-image">
+<img alt="Transformer 笔记图片" loading="lazy" src="../images/transformer-18.png" style="max-width: 479px;"/>
+</figure>
+<h3 id="5-长上下文模型">5 长上下文模型</h3>
+<p>在实际应用中，大语言模型对于长文本数据的处理需求日益凸显，尤其在长文档分析、多轮对话、故事创作等场景下。在这些情况下，<strong>模型需要处理的文本的长度常常超出预定义上下文窗口大小</strong>。例如，LLaMA-2 的上下文窗口限制为 4,096个词元。增强大语言模型长文本建模能力的研究主要集中在两个方向：一是<strong>扩展位置编码</strong>，二是<strong>调整上下文窗口</strong>。</p>
+<h3 id="6-kv-cache">6 kv cache</h3>
+<p>KV Cache是Transformer标配的推理加速功能。它<strong>只能用于Decoder架构</strong>的自回归推理，这是因为Decoder有Causal Mask，在推理的时候前面已经生成的字符不需要与后面的字符产生attention，</p>
+<p>从而使得前面已经计算的 <span class="math-inline">\(K\)</span> 和 <span class="math-inline">\(V\)</span> 可以缓存起来。</p>
+<p>KV Cache 本质上节约的是生成每个新 token 时，<strong>历史 token 的 Key 和 Value 的重复计算</strong>。</p>
+<figure class="note-image">
+<img alt="Transformer 笔记图片" loading="lazy" src="../images/transformer-19.png" style="max-width: 654px;"/>
+</figure>
+<p><strong>没有缓存</strong></p>
+<figure class="note-image">
+<img alt="Transformer 笔记图片" loading="lazy" src="../images/transformer-20.png" style="max-width: 654px;"/>
+</figure>
+<p><strong>有缓存</strong></p>
+<figure class="note-image">
+<img alt="Transformer 笔记图片" loading="lazy" src="../images/transformer-21.png" style="max-width: 651px;"/>
+</figure>
+<p><strong>Decoder 推理分Prefill和Decoding两个阶段</strong></p>
+<ul>
+<li><strong>Prefill</strong>：一次性并行处理输入 prompt，初始化 KV Cache，并根据最后一个token生成第一个输出 token                </li>
+<li><strong>Decoding</strong>：逐个生成后续 token，每步仅计算新 token 的 <span class="math-inline">\(K,V\)</span> 和注意力，复用 KV Cache                </li>
+</ul>
+<a class="back-link" href="../index.html#ai">← 返回 AI</a>
+</section>
+<footer class="footer">
+<p>更新时间：2026-05-28</p>
+<p><a href="../index.html">← 返回首页</a></p>
+</footer>
+</main>
+</div>
+<script>
         window.MathJax = {
             tex: {
                 inlineMath: [['\\(', '\\)']],
@@ -428,11 +400,11 @@ Decoder 第三步: 预测 &quot;人工智能&quot;
             }
         };
     </script>
-    <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
-    <!-- 在线编辑器 - Quill.js + GitHub API -->
-    <link rel="stylesheet" href="https://cdn.quilljs.com/1.3.7/quill.snow.css">
-    <link rel="stylesheet" href="../editor.css?v=20260714-no-editor">
-    <script src="https://cdn.quilljs.com/1.3.7/quill.min.js"></script>
-    <script src="../editor.js?v=20260714-no-editor"></script>
+<script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+
+
+
+
 </body>
 </html>

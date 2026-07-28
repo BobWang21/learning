@@ -1,11 +1,12 @@
 <!DOCTYPE html>
+
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>4. Agent - AI</title>
-    <link rel="stylesheet" href="styles.css?v=20260713-page-only-toc">
-    <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>4. Agent - AI</title>
+<link href="styles.css?v=20260713-page-only-toc" rel="stylesheet"/>
+<style>
         .ai-section {
             background: white;
             border-radius: 8px;
@@ -201,129 +202,90 @@
     </style>
 </head>
 <body>
-    <div class="container">
-                <div class="sidebar">
-<div class="page-toc">
-                            <h4 style="margin-bottom: 15px; color: #8B1E3F;">📑 页面目录</h4>
-                            <ul style="list-style: none; padding: 0; margin: 0;">
-                                <li style="margin-bottom: 8px;"><a href="#4-agent-ai-智能体" style="color: #8B1E3F; text-decoration: none; font-weight: 600;">4. Agent - AI 智能体</a></li>
-                                <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#1-llm-agent-survey" style="color: #C2410C; text-decoration: none; font-size: 0.95rem;">1. LLM Agent Survey</a></li>
-                                <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#2-agentic-reasoning" style="color: #C2410C; text-decoration: none; font-size: 0.95rem;">2. Agentic Reasoning</a></li>
-                                <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#3-memory-in-ai-agents" style="color: #C2410C; text-decoration: none; font-size: 0.95rem;">3. Memory in AI Agents</a></li>
-                                <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#4-self-evolving-agents" style="color: #C2410C; text-decoration: none; font-size: 0.95rem;">4. Self-Evolving Agents</a></li>
-                                <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#5-multi-agent-systems" style="color: #C2410C; text-decoration: none; font-size: 0.95rem;">5. Multi-Agent Systems</a></li>
-                                <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#6-agentic-rl" style="color: #C2410C; text-decoration: none; font-size: 0.95rem;">6. Agentic RL</a></li>
-                                <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#7-knowledge-graph" style="color: #C2410C; text-decoration: none; font-size: 0.95rem;">7. Knowledge Graph</a></li>
-                                <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#8-rag" style="color: #C2410C; text-decoration: none; font-size: 0.95rem;">8. RAG</a></li>
-                                <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#9-tree-of-thoughts" style="color: #C2410C; text-decoration: none; font-size: 0.95rem;">9. Tree of Thoughts</a></li>
-                                <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#10-tools" style="color: #C2410C; text-decoration: none; font-size: 0.95rem;">10. Tools</a></li>
-                                <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#一定义" style="color: #C2410C; text-decoration: none; font-size: 0.95rem;">一、定义</a></li>
-                                <li style="margin-left: 20px; margin-bottom: 6px;"><a href="#二技术" style="color: #C2410C; text-decoration: none; font-size: 0.95rem;">二、技术</a></li>
-                            </ul>
-                        </div>
-        
-
-
-        </div>
-
-        <main class="content">
-            <header class="header">
-                <h1>4. Agent</h1>
-                <div class="breadcrumb">
-                <a href="index.html">首页</a> > <a href="index.html#ai">AI</a> > 4. Agent
+<div class="container">
+<div class="sidebar">
+<div class="page-toc"><h2>目录</h2><ul><li><a href="#1-llm-agent-survey">1. LLM Agent Survey</a></li><li><a href="#2-agentic-reasoning">2. Agentic Reasoning</a></li><li><a href="#3-memory-in-ai-agents">3. Memory in AI Agents</a></li><li><a href="#4-self-evolving-agents">4. Self-Evolving Agents</a></li><li><a href="#5-multi-agent-systems">5. Multi-Agent Systems</a></li><li><a href="#6-agentic-rl">6. Agentic RL</a></li><li><a href="#7-knowledge-graph">7. Knowledge Graph</a></li><li><a href="#8-rag">8. RAG</a></li><li><a href="#9-tree-of-thoughts">9. Tree of Thoughts</a></li><li><a href="#10-tools">10. Tools</a></li><li><a href="#一定义">一、定义</a></li><li><a href="#二技术">二、技术</a></li></ul></div>
+</div>
+<main class="content">
+<header class="header">
+<h1>4. Agent</h1>
+<div class="breadcrumb">
+<a href="index.html">首页</a> &gt; <a href="index.html#ai">AI</a> &gt; 4. Agent
                 </div>
-            </header>
-
-            
-
-
-            <section class="ai-section">
-                <h2 id="4-agent-ai-智能体">4. Agent - AI 智能体</h2>
-
-                <p>深入学习 AI 智能体的核心技术和应用方向：</p>
-
-                <div class="article-grid">
-                    <div class="article-card">
-                        <h3 id="1-llm-agent-survey">1. LLM Agent Survey</h3>
-                        <p>大语言模型智能体的全面调查，涵盖智能体的核心构成、分类、评估框架和实际应用。</p></div>
-                    <div class="article-card">
-                        <h3 id="2-agentic-reasoning">2. Agentic Reasoning</h3>
-                        <p>智能体推理框架，从基础推理到自进化推理再到集体推理的三层架构。</p></div>
-                    <div class="article-card">
-                        <h3 id="3-memory-in-ai-agents">3. Memory in AI Agents</h3>
-                        <p>AI 智能体的记忆机制，涵盖短期、长期和工作记忆的三维框架。</p></div>
-                    <div class="article-card">
-                        <h3 id="4-self-evolving-agents">4. Self-Evolving Agents</h3>
-                        <p>自我进化智能体的调查，探讨智能体如何通过自我反思和学习不断改进。</p></div>
-                    <div class="article-card">
-                        <h3 id="5-multi-agent-systems">5. Multi-Agent Systems</h3>
-                        <p>多智能体系统的设计与优化，包括强化学习、博弈论和协调机制。</p></div>
-                    <div class="article-card">
-                        <h3 id="6-agentic-rl">6. Agentic RL</h3>
-                        <p>智能体强化学习综合指南，涵盖规划、工具使用、记忆和推理能力。</p></div>
-                    <div class="article-card">
-                        <h3 id="7-knowledge-graph">7. Knowledge Graph</h3>
-                        <p>知识图谱在智能体中的应用，支持结构化知识表示和推理。</p></div>
-                    <div class="article-card">
-                        <h3 id="8-rag">8. RAG</h3>
-                        <p>检索增强生成完全指南，解决 LLM 知识过时和幻觉问题。</p></div>
-                    <div class="article-card">
-                        <h3 id="9-tree-of-thoughts">9. Tree of Thoughts</h3>
-                        <p>思维树推理框架，支持探索多个推理路径和动态评估。</p></div>
-                    <div class="article-card">
-                        <h3 id="10-tools">10. Tools</h3>
-                        <p>Function Calling、MCP 和 Skills 详解，深入理解 AI Agent 工具调用的三层架构。</p></div>
-                </div>
-
-                <h3 id="一定义">一、定义</h3>
-                <h4>1.1 AI Agent 框架基础理论</h4>
-                <div class="highlight-box">
-                    <p><strong>AI 智能体</strong>是使用 AI 来实现目标并代表用户完成任务的软件系统。其表现出了推理、规划和记忆能力，并且具有一定的自主性，能够自主学习、适应和做出决定。- Google Cloud</p>
-                </div>
-
-                <p><strong>Agent = Reasoning + Acting</strong></p>
-
-                <h3 id="二技术">二、技术</h3>
-
-                <h4>1. ReAct</h4>
-                <p><strong>论文</strong>: 《<strong>ReAct: Synergizing Reasoning and Acting in Language Models</strong>》</p>
-                <p><strong>机构</strong>: 普林斯顿大学和Google Research</p>
-
-                <h5>WHY</h5>
-                <p>论文指出现有大语言模型（LLMs）的两个核心能力通常被分开研究：</p>
-                <ul>
-                    <li><strong>推理能力</strong>（Reasoning）：如思维链提示，模型通过内部推理解决问题</li>
-                    <li><strong>行动能力</strong>（Acting）：模型根据观察直接输出动作，常见于 RL 或 WebGPT 等通过 API 交互的场景</li>
-                </ul>
-
-                <p><strong>核心问题</strong>：</p>
-                <ul>
-                    <li><strong>CoT产生幻觉和错误传播</strong>。是"静态黑盒"，依赖内部知识，容易产生事实幻觉（hallucination）和错误传播</li>
-                    <li><strong>Act-only 缺乏高层的语义规划</strong>。如果任务很复杂，模型很容易迷失在局部的状态中，不知道下一步该干什么</li>
-                </ul>
-
-                <h5>WHAT</h5>
-                <p><strong>ReAct</strong> 是一种的Prompting范式，让LLM以<strong>交错方式</strong>生成<strong>语言推理轨迹</strong>和<strong>动作</strong>。使模型能够进行动态推理以创建、维护和调整高级行动计划（为行动而推理），同时与外部环境（如维基百科）交互以将额外信息纳入推理过程（为推理而行动）。与传统AI技术相比，ReAct具备三个核心特征：</p>
-
-                <ol>
-                    <li><strong>显式推理轨迹</strong>：模型在执行行动前会生成可追溯的"推理过程"（Thought），清晰说明行动的决策依据，解决了传统模型"黑箱决策"的可解释性问题</li>
-                    <li><strong>外部环境锚定</strong>：通过调用搜索、计算、数据库查询等外部工具（Act）获取客观反馈（Observe），将推理过程锚定到真实数据，从根源上抑制"事实幻觉"</li>
-                    <li><strong>少量样本泛化</strong>：依托LLM的上下文学习能力，仅需1-5个包含"推理-行动-观察"的完整示例，即可快速适配多场景任务，无需大规模微调</li>
-                </ol>
-
-                <h5>HOW</h5>
-                <p>ReAct 主要通过 In-context Learning (Few-shot Prompting) 来实现，利用冻结参数的 LLM（论文中使用了 PaLM-540B，对比实验用了 GPT-3）。</p>
-
-                <p>Prompt 的构建非常直观：包含若干个人类编写的 <code>(Thought, Action, Observation)</code> 轨迹示例。</p>
-
-                <ul>
-                    <li><strong>对于推理密集型任务（如 QA）</strong>: <strong>采用交替结构</strong> <code>Thought -> Action -> Observation -> Thought ...</code></li>
-                    <li><strong>对于决策密集型任务（如玩游戏）</strong>: Thought 不需要每一步都出现，可以让模型自主决定何时进行 Thought，实现稀疏推理</li>
-                </ul>
-
-                <h5>实现示例</h5>
-                <div class="code-block">
-                    <code>// TAO循环调度：核心流程控制
+</header>
+<section class="ai-section">
+<h2 id="4-agent-ai-智能体">4. Agent - AI 智能体</h2>
+<p>深入学习 AI 智能体的核心技术和应用方向：</p>
+<div class="article-grid">
+<div class="article-card">
+<h3 id="1-llm-agent-survey">1. LLM Agent Survey</h3>
+<p>大语言模型智能体的全面调查，涵盖智能体的核心构成、分类、评估框架和实际应用。</p></div>
+<div class="article-card">
+<h3 id="2-agentic-reasoning">2. Agentic Reasoning</h3>
+<p>智能体推理框架，从基础推理到自进化推理再到集体推理的三层架构。</p></div>
+<div class="article-card">
+<h3 id="3-memory-in-ai-agents">3. Memory in AI Agents</h3>
+<p>AI 智能体的记忆机制，涵盖短期、长期和工作记忆的三维框架。</p></div>
+<div class="article-card">
+<h3 id="4-self-evolving-agents">4. Self-Evolving Agents</h3>
+<p>自我进化智能体的调查，探讨智能体如何通过自我反思和学习不断改进。</p></div>
+<div class="article-card">
+<h3 id="5-multi-agent-systems">5. Multi-Agent Systems</h3>
+<p>多智能体系统的设计与优化，包括强化学习、博弈论和协调机制。</p></div>
+<div class="article-card">
+<h3 id="6-agentic-rl">6. Agentic RL</h3>
+<p>智能体强化学习综合指南，涵盖规划、工具使用、记忆和推理能力。</p></div>
+<div class="article-card">
+<h3 id="7-knowledge-graph">7. Knowledge Graph</h3>
+<p>知识图谱在智能体中的应用，支持结构化知识表示和推理。</p></div>
+<div class="article-card">
+<h3 id="8-rag">8. RAG</h3>
+<p>检索增强生成完全指南，解决 LLM 知识过时和幻觉问题。</p></div>
+<div class="article-card">
+<h3 id="9-tree-of-thoughts">9. Tree of Thoughts</h3>
+<p>思维树推理框架，支持探索多个推理路径和动态评估。</p></div>
+<div class="article-card">
+<h3 id="10-tools">10. Tools</h3>
+<p>Function Calling、MCP 和 Skills 详解，深入理解 AI Agent 工具调用的三层架构。</p></div>
+</div>
+<h3 id="一定义">一、定义</h3>
+<h4 id="11-ai-agent-框架基础理论">1.1 AI Agent 框架基础理论</h4>
+<div class="highlight-box">
+<p><strong>AI 智能体</strong>是使用 AI 来实现目标并代表用户完成任务的软件系统。其表现出了推理、规划和记忆能力，并且具有一定的自主性，能够自主学习、适应和做出决定。- Google Cloud</p>
+</div>
+<p><strong>Agent = Reasoning + Acting</strong></p>
+<h3 id="二技术">二、技术</h3>
+<h4 id="1-react">1. ReAct</h4>
+<p><strong>论文</strong>: 《<strong>ReAct: Synergizing Reasoning and Acting in Language Models</strong>》</p>
+<p><strong>机构</strong>: 普林斯顿大学和Google Research</p>
+<h5 id="why">WHY</h5>
+<p>论文指出现有大语言模型（LLMs）的两个核心能力通常被分开研究：</p>
+<ul>
+<li><strong>推理能力</strong>（Reasoning）：如思维链提示，模型通过内部推理解决问题</li>
+<li><strong>行动能力</strong>（Acting）：模型根据观察直接输出动作，常见于 RL 或 WebGPT 等通过 API 交互的场景</li>
+</ul>
+<p><strong>核心问题</strong>：</p>
+<ul>
+<li><strong>CoT产生幻觉和错误传播</strong>。是"静态黑盒"，依赖内部知识，容易产生事实幻觉（hallucination）和错误传播</li>
+<li><strong>Act-only 缺乏高层的语义规划</strong>。如果任务很复杂，模型很容易迷失在局部的状态中，不知道下一步该干什么</li>
+</ul>
+<h5 id="what">WHAT</h5>
+<p><strong>ReAct</strong> 是一种的Prompting范式，让LLM以<strong>交错方式</strong>生成<strong>语言推理轨迹</strong>和<strong>动作</strong>。使模型能够进行动态推理以创建、维护和调整高级行动计划（为行动而推理），同时与外部环境（如维基百科）交互以将额外信息纳入推理过程（为推理而行动）。与传统AI技术相比，ReAct具备三个核心特征：</p>
+<ol>
+<li><strong>显式推理轨迹</strong>：模型在执行行动前会生成可追溯的"推理过程"（Thought），清晰说明行动的决策依据，解决了传统模型"黑箱决策"的可解释性问题</li>
+<li><strong>外部环境锚定</strong>：通过调用搜索、计算、数据库查询等外部工具（Act）获取客观反馈（Observe），将推理过程锚定到真实数据，从根源上抑制"事实幻觉"</li>
+<li><strong>少量样本泛化</strong>：依托LLM的上下文学习能力，仅需1-5个包含"推理-行动-观察"的完整示例，即可快速适配多场景任务，无需大规模微调</li>
+</ol>
+<h5 id="how">HOW</h5>
+<p>ReAct 主要通过 In-context Learning (Few-shot Prompting) 来实现，利用冻结参数的 LLM（论文中使用了 PaLM-540B，对比实验用了 GPT-3）。</p>
+<p>Prompt 的构建非常直观：包含若干个人类编写的 <code>(Thought, Action, Observation)</code> 轨迹示例。</p>
+<ul>
+<li><strong>对于推理密集型任务（如 QA）</strong>: <strong>采用交替结构</strong> <code>Thought -&gt; Action -&gt; Observation -&gt; Thought ...</code></li>
+<li><strong>对于决策密集型任务（如玩游戏）</strong>: Thought 不需要每一步都出现，可以让模型自主决定何时进行 Thought，实现稀疏推理</li>
+</ul>
+<h5 id="实现示例">实现示例</h5>
+<div class="code-block">
+<code>// TAO循环调度：核心流程控制
 class ContextManager:
     def __init__(self, max_length: int = 4000):
         self.max_length = max_length
@@ -337,108 +299,94 @@ class ContextManager:
         })
         self._prune_trajectory()
 
-    def get_context_str(self) -> str:
+    def get_context_str(self) -&gt; str:
         if not self.tao_trajectory:
             return "无历史执行轨迹"
         return "\n".join([
             f"步骤{idx+1}：思维：{item['thought']} | 行动：{item['action']} | 观察：{item['observation']}"
             for idx, item in enumerate(self.tao_trajectory)
         ])</code>
-                </div>
-
-                <h4>2. Plan-and-Solve</h4>
-                <p><strong>论文</strong>: <a href="https://arxiv.org/pdf/2305.04091" target="_blank">Plan-and-Solve Prompting: Improving Zero-Shot Chain-of-Thought Reasoning by Large Language Models</a></p>
-                <p><strong>机构</strong>: Singapore Management University; Southwest Jiaotong University; Singapore University of Technology and Design; East China Normal University</p>
-
-                <h5>WHY</h5>
-                <p>近年来，大语言模型在自然语言处理任务中表现出色。为了提升模型在<strong>多步推理任务</strong>中的表现，研究者提出了<strong>链式思维提示</strong>方法。Few-shot CoT 通过提供少量手动构造的逐步推理示例，引导模型生成推理步骤，从而提升推理准确率。然而，Few-shot CoT 需要人工构造示例，成本较高。为此，Kojima 等人提出了 <strong>Zero-shot-CoT</strong>，即在输入问题后加上"Let's think step by step"，引导模型自动生成推理过程，无需示例。虽然 Zero-shot-CoT 取得了不错的效果，但仍存在以下三个主要问题：</p>
-
-                <ul>
-                    <li><strong>计算错误</strong>：模型在计算过程中出错</li>
-                    <li><strong>步骤缺失</strong>：推理过程中遗漏了某些中间步骤</li>
-                    <li><strong>语义理解错误</strong>：模型对问题理解不准确或推理过程不连贯</li>
-                </ul>
-
-                <h5>WHAT</h5>
-                <p>PS提示方法是一种新的Zero-shot-CoT Prompt，它使大语言模型能够为给定问题明确制定计划，并在预测输入问题的最终答案之前生成中间推理过程。与以往在提示中包含逐步少样本示范示例的少样本CoT方法不同，零样本PS提示方法不需要示例，其提示仅包含问题本身和一个简单的触发句。</p>
-
-                <h5>HOW</h5>
-                <p><strong>PS Prompting（基础版）</strong></p>
-                <p>将 Zero-shot-CoT 的触发句"Let's think step by step"替换为："Let's first understand the problem and devise a plan to solve the problem. Then, let's carry out the plan and solve the problem step by step." 这一提示引导模型先制定计划，再按计划执行，从而减少步骤缺失错误。</p>
-
-                <p><strong>PS+ Prompting（增强版）</strong></p>
-                <p>在 PS 的基础上，增加了更详细的指令，例如： "extract relevant variables and their corresponding numerals""calculate intermediate results (pay attention to calculation and commonsense)"。这些指令帮助模型更准确地提取信息、进行计算，从而减少计算错误和语义误解。</p>
-
-                <h4>3. Reflection</h4>
-                <p><strong>论文</strong>: Reflexion: Language Agents with Verbal Reinforcement Learning</p>
-                <p><strong>机构</strong>: 美国东北大学, 美国麻省理工学院 和 美国普林斯顿大学</p>
-
-                <h5>Why</h5>
-                <ol>
-                    <li><strong>现有语言智能体的学习方式有限</strong>
-                        <ul>
-                            <li>目前基于大语言模型的智能体（如 ReAct、Toolformer）主要依赖<strong>上下文学习</strong>（in-context learning），即通过提示中的少量示例来指导行为</li>
-                            <li>它们缺乏一种高效的<strong>从试错中学习</strong>的机制，无法像人类一样通过几次失败就快速调整策略</li>
-                        </ul>
-                    </li>
-                    <li><strong>传统强化学习不适用于 LLM 智能体</strong>
-                        <ul>
-                            <li>传统的强化学习方法（如策略梯度、Q学习）需要大量训练样本和模型微调</li>
-                            <li>对于大语言模型来说，微调成本极高，且不适用于"模型即服务"的黑箱场景</li>
-                        </ul>
-                    </li>
-                    <li><strong>现有方法缺乏对错误的深层反思</strong>
-                        <ul>
-                            <li>一些方法（如 Self-Refine）虽然能进行单步的自我优化，但<strong>缺乏跨 trial 的长期记忆和学习能力</strong></li>
-                            <li>智能体无法记住过去的失败教训，并在未来的尝试中主动规避类似错误</li>
-                        </ul>
-                    </li>
-                </ol>
-
-                <div class="highlight-box">
-                    <p><strong>✅ Reflexion 的动机</strong>：让语言智能体通过<strong>语言反馈</strong>（而非梯度）来学习，像人类一样<strong>反思错误、总结经验、指导未来行为</strong>。</p>
-                </div>
-
-                <h5>What</h5>
-                <div class="highlight-box">
-                    <p><strong>核心思想</strong>：用<strong>自然语言作为强化信号</strong>，替代传统 RL 中的梯度更新。</p>
-                </div>
-
-                <p>Reflexion 是一个让语言智能体通过<strong>语言反馈</strong>进行自我优化的框架。它不更新模型权重，而是通过以下四个核心组件协同工作：</p>
-
-                <table>
-                    <thead>
-                        <tr>
-                            <th>组件</th>
-                            <th>作用</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><strong>Actor（执行者）</strong></td>
-                            <td>生成动作或文本，与环境交互（如 ReAct、CoT）</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Evaluator（评估者）</strong></td>
-                            <td>评估 Actor 的表现，输出标量奖励或成功/失败信号</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Self-Reflection（自我反思）</strong></td>
-                            <td>根据评估结果生成语言形式的反思文本（如"我错在哪里？下次该怎么改？"）</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Memory（记忆）</strong></td>
-                            <td>将反思文本存入长期记忆，供后续 trial 使用</td>
-                        </tr>
-                    </tbody>
-                </table>
-
-                <h5>How</h5>
-                <p><strong>实现：核心架构：三步循环</strong></p>
-                <p>Reflexion 的运行流程是一个典型的循环：<code>尝试 -> 评估 -> 反思 -> 再次尝试</code>。</p>
-
-                <div class="code-block">
-                    <code>def run_reflexion(question):
+</div>
+<h4 id="2-plan-and-solve">2. Plan-and-Solve</h4>
+<p><strong>论文</strong>: <a href="https://arxiv.org/pdf/2305.04091" target="_blank">Plan-and-Solve Prompting: Improving Zero-Shot Chain-of-Thought Reasoning by Large Language Models</a></p>
+<p><strong>机构</strong>: Singapore Management University; Southwest Jiaotong University; Singapore University of Technology and Design; East China Normal University</p>
+<h5 id="why-2">WHY</h5>
+<p>近年来，大语言模型在自然语言处理任务中表现出色。为了提升模型在<strong>多步推理任务</strong>中的表现，研究者提出了<strong>链式思维提示</strong>方法。Few-shot CoT 通过提供少量手动构造的逐步推理示例，引导模型生成推理步骤，从而提升推理准确率。然而，Few-shot CoT 需要人工构造示例，成本较高。为此，Kojima 等人提出了 <strong>Zero-shot-CoT</strong>，即在输入问题后加上"Let's think step by step"，引导模型自动生成推理过程，无需示例。虽然 Zero-shot-CoT 取得了不错的效果，但仍存在以下三个主要问题：</p>
+<ul>
+<li><strong>计算错误</strong>：模型在计算过程中出错</li>
+<li><strong>步骤缺失</strong>：推理过程中遗漏了某些中间步骤</li>
+<li><strong>语义理解错误</strong>：模型对问题理解不准确或推理过程不连贯</li>
+</ul>
+<h5 id="what-2">WHAT</h5>
+<p>PS提示方法是一种新的Zero-shot-CoT Prompt，它使大语言模型能够为给定问题明确制定计划，并在预测输入问题的最终答案之前生成中间推理过程。与以往在提示中包含逐步少样本示范示例的少样本CoT方法不同，零样本PS提示方法不需要示例，其提示仅包含问题本身和一个简单的触发句。</p>
+<h5 id="how-2">HOW</h5>
+<p><strong>PS Prompting（基础版）</strong></p>
+<p>将 Zero-shot-CoT 的触发句"Let's think step by step"替换为："Let's first understand the problem and devise a plan to solve the problem. Then, let's carry out the plan and solve the problem step by step." 这一提示引导模型先制定计划，再按计划执行，从而减少步骤缺失错误。</p>
+<p><strong>PS+ Prompting（增强版）</strong></p>
+<p>在 PS 的基础上，增加了更详细的指令，例如： "extract relevant variables and their corresponding numerals""calculate intermediate results (pay attention to calculation and commonsense)"。这些指令帮助模型更准确地提取信息、进行计算，从而减少计算错误和语义误解。</p>
+<h4 id="3-reflection">3. Reflection</h4>
+<p><strong>论文</strong>: Reflexion: Language Agents with Verbal Reinforcement Learning</p>
+<p><strong>机构</strong>: 美国东北大学, 美国麻省理工学院 和 美国普林斯顿大学</p>
+<h5 id="why-3">Why</h5>
+<ol>
+<li><strong>现有语言智能体的学习方式有限</strong>
+<ul>
+<li>目前基于大语言模型的智能体（如 ReAct、Toolformer）主要依赖<strong>上下文学习</strong>（in-context learning），即通过提示中的少量示例来指导行为</li>
+<li>它们缺乏一种高效的<strong>从试错中学习</strong>的机制，无法像人类一样通过几次失败就快速调整策略</li>
+</ul>
+</li>
+<li><strong>传统强化学习不适用于 LLM 智能体</strong>
+<ul>
+<li>传统的强化学习方法（如策略梯度、Q学习）需要大量训练样本和模型微调</li>
+<li>对于大语言模型来说，微调成本极高，且不适用于"模型即服务"的黑箱场景</li>
+</ul>
+</li>
+<li><strong>现有方法缺乏对错误的深层反思</strong>
+<ul>
+<li>一些方法（如 Self-Refine）虽然能进行单步的自我优化，但<strong>缺乏跨 trial 的长期记忆和学习能力</strong></li>
+<li>智能体无法记住过去的失败教训，并在未来的尝试中主动规避类似错误</li>
+</ul>
+</li>
+</ol>
+<div class="highlight-box">
+<p><strong>✅ Reflexion 的动机</strong>：让语言智能体通过<strong>语言反馈</strong>（而非梯度）来学习，像人类一样<strong>反思错误、总结经验、指导未来行为</strong>。</p>
+</div>
+<h5 id="what-3">What</h5>
+<div class="highlight-box">
+<p><strong>核心思想</strong>：用<strong>自然语言作为强化信号</strong>，替代传统 RL 中的梯度更新。</p>
+</div>
+<p>Reflexion 是一个让语言智能体通过<strong>语言反馈</strong>进行自我优化的框架。它不更新模型权重，而是通过以下四个核心组件协同工作：</p>
+<table>
+<thead>
+<tr>
+<th>组件</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Actor（执行者）</strong></td>
+<td>生成动作或文本，与环境交互（如 ReAct、CoT）</td>
+</tr>
+<tr>
+<td><strong>Evaluator（评估者）</strong></td>
+<td>评估 Actor 的表现，输出标量奖励或成功/失败信号</td>
+</tr>
+<tr>
+<td><strong>Self-Reflection（自我反思）</strong></td>
+<td>根据评估结果生成语言形式的反思文本（如"我错在哪里？下次该怎么改？"）</td>
+</tr>
+<tr>
+<td><strong>Memory（记忆）</strong></td>
+<td>将反思文本存入长期记忆，供后续 trial 使用</td>
+</tr>
+</tbody>
+</table>
+<h5 id="how-3">How</h5>
+<p><strong>实现：核心架构：三步循环</strong></p>
+<p>Reflexion 的运行流程是一个典型的循环：<code>尝试 -&gt; 评估 -&gt; 反思 -&gt; 再次尝试</code>。</p>
+<div class="code-block">
+<code>def run_reflexion(question):
     memory = []
 
     for trial in range(MAX_TRIALS):
@@ -450,21 +398,19 @@ class ContextManager:
 
         reflection = reflection_model.generate_reflection(trajectory, reward)
         memory.append(reflection)</code>
-                </div>
+</div>
+<a class="back-link" href="index.html#ai">← 返回 AI</a>
+</section>
+<footer class="footer">
+<p>更新时间：2026-04-13</p>
+<p><a href="index.html">← 返回首页</a></p>
+</footer>
+</main>
+</div>
 
-                <a href="index.html#ai" class="back-link">← 返回 AI</a>
-            </section>
 
-            <footer class="footer">
-                <p>更新时间：2026-04-13</p>
-                <p><a href="index.html">← 返回首页</a></p>
-            </footer>
-        </main>
-    </div>
-    <!-- 在线编辑器 - Quill.js + GitHub API -->
-    <link rel="stylesheet" href="https://cdn.quilljs.com/1.3.7/quill.snow.css">
-    <link rel="stylesheet" href="editor.css?v=20260714-no-editor">
-    <script src="https://cdn.quilljs.com/1.3.7/quill.min.js"></script>
-    <script src="editor.js?v=20260714-no-editor"></script>
+
+
+
 </body>
 </html>

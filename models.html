@@ -1,11 +1,12 @@
 <!DOCTYPE html>
+
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>时序预测大模型读书笔记</title>
-    <link rel="stylesheet" href="styles.css?v=20260713-page-only-toc">
-    <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>时序预测大模型读书笔记</title>
+<link href="styles.css?v=20260713-page-only-toc" rel="stylesheet"/>
+<style>
         .model-comparison-section {
             background: linear-gradient(135deg, #FFF1F2 0%, #FFE4E6 100%);
             padding: 30px;
@@ -31,272 +32,230 @@
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="sidebar">
-<div class="page-toc">
-                                        <h4>📑 页面目录</h4>
-                                        <ul style="list-style: none; padding: 0;">
-                                            <li><a href="#overview">一、概述</a></li>
-                                            <li><a href="#timesfm">二、1. TimesFM</a></li>
-                                            <li><a href="#chronos2">二、2. Chronos-2</a></li>
-                                            <li><a href="#moirai2">二、3. Moirai 2.0</a></li>
-                                            <li><a href="#comparison">三、模型对比分析</a></li>
-                                            <li><a href="#trends">四、关键趋势总结</a></li>
-                                        </ul>
-                                    </div>
-        
-
-
-        </div>
-
-        <main class="content">
-            <header class="header">
-                <h1>时序预测大模型读书笔记</h1>
-                <div class="breadcrumb">
-                    <a href="index.html">首页</a> > <a href="index.html#prediction">预测</a> > 时序预测 > 时序模型调研
+<div class="container">
+<div class="sidebar">
+<div class="page-toc"><h2>目录</h2><ul><li><a href="#一、概述">一、概述</a></li><li><a href="#二、各模型详细介绍">二、各模型详细介绍</a><ul><li><a href="#1-timesfm-times-foundation-model">1. TimesFM (Times Foundation Model)</a></li><li><a href="#2-chronos-2">2. Chronos-2</a></li><li><a href="#3-moirai-20">3. Moirai 2.0</a></li></ul></li><li><a href="#三、模型对比分析">三、模型对比分析</a><ul><li><a href="#31-架构对比">3.1 架构对比</a></li><li><a href="#32-能力对比">3.2 能力对比</a></li><li><a href="#33-效率对比">3.3 效率对比</a></li><li><a href="#34-设计哲学对比">3.4 设计哲学对比</a></li></ul></li><li><a href="#四、关键趋势总结">四、关键趋势总结</a></li></ul></div>
+</div>
+<main class="content">
+<header class="header">
+<h1>时序预测大模型读书笔记</h1>
+<div class="breadcrumb">
+<a href="index.html">首页</a> &gt; <a href="index.html#prediction">预测</a> &gt; 时序预测 &gt; 时序模型调研
                 </div>
-            </header>
-
-            
-
-            <!-- 一、概述 -->
-            <section id="overview" class="section">
-                <h2>一、概述</h2>
-                <p>本文档整理了三篇代表性的时序预测大模型（Time Series Foundation Models）论文，涵盖工业界和学术界的最新进展。这些模型的核心目标是：通过在大规模时序数据上预训练，实现对新数据集的零样本（zero-shot）预测，无需针对每个任务重新训练。</p>
-
-                <table>
-                    <thead>
-                        <tr><th>模型</th><th>机构</th><th>发布时间</th><th>参数量</th><th>架构</th></tr>
-                    </thead>
-                    <tbody>
-                        <tr><td><strong>TimesFM</strong></td><td>Google</td><td>2024</td><td>200M</td><td>Decoder-Only Transformer</td></tr>
-                        <tr><td><strong>Chronos-2</strong></td><td>Amazon</td><td>2025</td><td>120M / 710M</td><td>Encoder-Only + Group Attention</td></tr>
-                        <tr><td><strong>Moirai 2.0</strong></td><td>Salesforce</td><td>2025</td><td>11M-305M</td><td>Decoder-Only Transformer</td></tr>
-                    </tbody>
-                </table>
-            </section>
-
-            <!-- 二、各模型详细介绍 -->
-            <section class="section">
-                <h2>二、各模型详细介绍</h2>
-
-                <!-- TimesFM -->
-                <article id="timesfm" class="model-article">
-                    <h3>1. TimesFM (Times Foundation Model)</h3>
-                    <div class="model-info">
-                        <span class="badge badge-google">Google</span>
-                        <span class="badge badge-year">2024</span>
-                    </div>
-                    <p><strong>核心贡献</strong>：证明仅用时序数据（而非LLM）训练的 decoder-only 模型可以达到优秀的零样本性能。</p>
-
-                    <h4>关键特点</h4>
-                    <ul>
-                        <li><strong>架构</strong>：Decoder-Only Transformer</li>
-                        <li><strong>核心设计</strong>：
+</header>
+<!-- 一、概述 -->
+<section class="section" id="overview">
+<h2 id="一、概述">一、概述</h2>
+<p>本文档整理了三篇代表性的时序预测大模型（Time Series Foundation Models）论文，涵盖工业界和学术界的最新进展。这些模型的核心目标是：通过在大规模时序数据上预训练，实现对新数据集的零样本（zero-shot）预测，无需针对每个任务重新训练。</p>
+<table>
+<thead>
+<tr><th>模型</th><th>机构</th><th>发布时间</th><th>参数量</th><th>架构</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>TimesFM</strong></td><td>Google</td><td>2024</td><td>200M</td><td>Decoder-Only Transformer</td></tr>
+<tr><td><strong>Chronos-2</strong></td><td>Amazon</td><td>2025</td><td>120M / 710M</td><td>Encoder-Only + Group Attention</td></tr>
+<tr><td><strong>Moirai 2.0</strong></td><td>Salesforce</td><td>2025</td><td>11M-305M</td><td>Decoder-Only Transformer</td></tr>
+</tbody>
+</table>
+</section>
+<!-- 二、各模型详细介绍 -->
+<section class="section">
+<h2 id="二、各模型详细介绍">二、各模型详细介绍</h2>
+<!-- TimesFM -->
+<article class="model-article" id="timesfm">
+<h3 id="1-timesfm-times-foundation-model">1. TimesFM (Times Foundation Model)</h3>
+<div class="model-info">
+<span class="badge badge-google">Google</span>
+<span class="badge badge-year">2024</span>
+</div>
+<p><strong>核心贡献</strong>：证明仅用时序数据（而非LLM）训练的 decoder-only 模型可以达到优秀的零样本性能。</p>
+<h4 id="关键特点">关键特点</h4>
+<ul>
+<li><strong>架构</strong>：Decoder-Only Transformer</li>
+<li><strong>核心设计</strong>：
                             <ul>
-                                <li><strong>Patching</strong>：将序列切分为非重叠 patch（输入 32，输出 128）</li>
-                                <li><strong>输出 patch 更长</strong>：减少自回归步数，提升长序列预测效率</li>
-                                <li><strong>随机掩码</strong>：训练时随机 mask 部分 patch，使模型适应任意上下文长度</li>
-                            </ul>
-                        </li>
-                        <li><strong>训练数据</strong>：1000 亿时间点，来源包括 Google Trends、Wiki Pageviews、合成数据</li>
-                        <li><strong>损失函数</strong>：MSE（点预测）</li>
-                    </ul>
-
-                    <img src="images/timesfm_模型架构_0.png" alt="TimesFM 架构" class="model-image">
-
-                    <h4>性能表现</h4>
-                    <ul>
-                        <li>Monash 基准（18 个数据集）：零样本性能与有监督的 N-BEATS 相当</li>
-                        <li>ETT 数据集：与 PatchTST 相当，优于其他长序列模型</li>
-                    </ul>
-
-                    <h4>局限</h4>
-                    <ul>
-                        <li>仅支持点预测（不支持概率预测）</li>
-                        <li>不支持协变量</li>
-                    </ul>
-                </article>
-
-                <!-- Chronos-2 -->
-                <article id="chronos2" class="model-article">
-                    <h3>2. Chronos-2</h3>
-                    <div class="model-info">
-                        <span class="badge badge-aws">AWS</span>
-                        <span class="badge badge-year">2025</span>
-                    </div>
-                    <p><strong>核心贡献</strong>：从单变量预测扩展到<strong>通用预测</strong>，支持单变量、多变量、协变量辅助预测。</p>
-
-                    <h4>关键特点</h4>
-                    <ul>
-                        <li><strong>架构</strong>：Encoder-Only Transformer（类似 T5）</li>
-                        <li><strong>核心创新</strong>：
+<li><strong>Patching</strong>：将序列切分为非重叠 patch（输入 32，输出 128）</li>
+<li><strong>输出 patch 更长</strong>：减少自回归步数，提升长序列预测效率</li>
+<li><strong>随机掩码</strong>：训练时随机 mask 部分 patch，使模型适应任意上下文长度</li>
+</ul>
+</li>
+<li><strong>训练数据</strong>：1000 亿时间点，来源包括 Google Trends、Wiki Pageviews、合成数据</li>
+<li><strong>损失函数</strong>：MSE（点预测）</li>
+</ul>
+<img alt="TimesFM 架构" class="model-image" src="images/timesfm_模型架构_0.png"/>
+<h4 id="性能表现">性能表现</h4>
+<ul>
+<li>Monash 基准（18 个数据集）：零样本性能与有监督的 N-BEATS 相当</li>
+<li>ETT 数据集：与 PatchTST 相当，优于其他长序列模型</li>
+</ul>
+<h4 id="局限">局限</h4>
+<ul>
+<li>仅支持点预测（不支持概率预测）</li>
+<li>不支持协变量</li>
+</ul>
+</article>
+<!-- Chronos-2 -->
+<article class="model-article" id="chronos2">
+<h3 id="2-chronos-2">2. Chronos-2</h3>
+<div class="model-info">
+<span class="badge badge-aws">AWS</span>
+<span class="badge badge-year">2025</span>
+</div>
+<p><strong>核心贡献</strong>：从单变量预测扩展到<strong>通用预测</strong>，支持单变量、多变量、协变量辅助预测。</p>
+<h4 id="关键特点-2">关键特点</h4>
+<ul>
+<li><strong>架构</strong>：Encoder-Only Transformer（类似 T5）</li>
+<li><strong>核心创新</strong>：
                             <ul>
-                                <li><strong>Group Attention</strong>：在批次内按组 ID 聚合信息，实现上下文学习（ICL）</li>
-                                <li>组可以是：单序列、多元变量、目标+协变量</li>
-                                <li><strong>时间注意力 + 群组注意力</strong>交替使用</li>
-                            </ul>
-                        </li>
-                        <li><strong>数据处理</strong>：
+<li><strong>Group Attention</strong>：在批次内按组 ID 聚合信息，实现上下文学习（ICL）</li>
+<li>组可以是：单序列、多元变量、目标+协变量</li>
+<li><strong>时间注意力 + 群组注意力</strong>交替使用</li>
+</ul>
+</li>
+<li><strong>数据处理</strong>：
                             <ul>
-                                <li>使用 <code>sinh⁻¹</code> 变换进行鲁棒缩放</li>
-                                <li>添加时间索引和 mask 作为元特征</li>
-                                <li>输出 21 个分位数（含 0.01 和 0.99 极端分位数）</li>
-                            </ul>
-                        </li>
-                        <li><strong>训练策略</strong>：两阶段训练（上下文 2048 → 8192）</li>
-                    </ul>
-
-                    <img src="images/chronos2_arch-02.png" alt="Chronos-2 架构" class="model-image">
-
-                    <h4>性能表现</h4>
-                    <ul>
-                        <li>fev-bench（100 个任务）：胜率 90.7%，技能分数 47.3%，显著优于所有基线</li>
-                        <li>协变量任务上提升最大</li>
-                        <li>能源和零售领域案例研究表现优异</li>
-                    </ul>
-
-                    <h4>局限</h4>
-                    <ul>
-                        <li>仅支持数值和分类协变量，不支持文本等多模态输入</li>
-                    </ul>
-                </article>
-
-                <!-- Moirai 2.0 -->
-                <article id="moirai2" class="model-article">
-                    <h3>3. Moirai 2.0</h3>
-                    <div class="model-info">
-                        <span class="badge badge-salesforce">Salesforce</span>
-                        <span class="badge badge-year">2025</span>
-                    </div>
-                    <p><strong>核心贡献</strong>：从 Moirai 1.0 的 masked-encoder 重构为<strong>decoder-only</strong>架构，实现"少即是多"。</p>
-
-                    <h4>关键特点</h4>
-                    <ul>
-                        <li><strong>架构</strong>：Decoder-Only Transformer</li>
-                        <li><strong>核心设计变更</strong>（相比 1.0）：
+<li>使用 <code>sinh⁻¹</code> 变换进行鲁棒缩放</li>
+<li>添加时间索引和 mask 作为元特征</li>
+<li>输出 21 个分位数（含 0.01 和 0.99 极端分位数）</li>
+</ul>
+</li>
+<li><strong>训练策略</strong>：两阶段训练（上下文 2048 → 8192）</li>
+</ul>
+<img alt="Chronos-2 架构" class="model-image" src="images/chronos2_arch-02.png"/>
+<h4 id="性能表现-2">性能表现</h4>
+<ul>
+<li>fev-bench（100 个任务）：胜率 90.7%，技能分数 47.3%，显著优于所有基线</li>
+<li>协变量任务上提升最大</li>
+<li>能源和零售领域案例研究表现优异</li>
+</ul>
+<h4 id="局限-2">局限</h4>
+<ul>
+<li>仅支持数值和分类协变量，不支持文本等多模态输入</li>
+</ul>
+</article>
+<!-- Moirai 2.0 -->
+<article class="model-article" id="moirai2">
+<h3 id="3-moirai-20">3. Moirai 2.0</h3>
+<div class="model-info">
+<span class="badge badge-salesforce">Salesforce</span>
+<span class="badge badge-year">2025</span>
+</div>
+<p><strong>核心贡献</strong>：从 Moirai 1.0 的 masked-encoder 重构为<strong>decoder-only</strong>架构，实现"少即是多"。</p>
+<h4 id="关键特点-3">关键特点</h4>
+<ul>
+<li><strong>架构</strong>：Decoder-Only Transformer</li>
+<li><strong>核心设计变更</strong>（相比 1.0）：
                             <ul>
-                                <li>从 masked-encoder 改为 decoder-only → 数据利用效率更高</li>
-                                <li>多 patch 尺寸 → 单 patch 尺寸 → 简化实现、提升性能</li>
-                                <li>混合分布输出 → 分位数损失 → 更鲁棒</li>
-                            </ul>
-                        </li>
-                        <li><strong>多分位数解码</strong>：使用 beam search-like 的 expand-collapse 策略，在自回归解码中保持不确定性</li>
-                        <li><strong>训练数据</strong>：3600 万条序列，2950 亿观测值（GIFT-Eval + Chronos-Mixup + KernelSynth + Salesforce 内部数据）</li>
-                        <li><strong>推理优化</strong>：支持 KV Cache，长上下文下可提速 4-17 倍</li>
-                    </ul>
-
-                    <img src="images/moirai2_arch-03.png" alt="Moirai 2.0 架构" class="model-image">
-
-                    <h4>性能表现</h4>
-                    <ul>
-                        <li>GIFT-Eval：排名第 5-6（MASE/CRPS）</li>
-                        <li>相比 Moirai-Large：<strong>30 倍更小，2 倍更快，性能更好</strong></li>
-                        <li>效率对比：11M 激活参数 vs Chronos 46M</li>
-                    </ul>
-
-                    <h4>局限</h4>
-                    <ul>
-                        <li>放弃了对多变量和协变量的原生支持</li>
-                    </ul>
-                </article>
-            </section>
-
-            <!-- 三、模型对比分析 -->
-            <section id="comparison" class="section">
-                <h2>三、模型对比分析</h2>
-
-                <h3>3.1 架构对比</h3>
-                <table>
-                    <thead>
-                        <tr><th>维度</th><th>TimesFM</th><th>Chronos-2</th><th>Moirai 2.0</th></tr>
-                    </thead>
-                    <tbody>
-                        <tr><td><strong>架构类型</strong></td><td>Decoder-Only</td><td>Encoder-Only</td><td>Decoder-Only</td></tr>
-                        <tr><td><strong>Patching</strong></td><td>✅ 32→128</td><td>✅ 支持</td><td>✅ 单 patch</td></tr>
-                        <tr><td><strong>位置编码</strong></td><td>原始 Transformer PE</td><td>RoPE</td><td>未详述</td></tr>
-                        <tr><td><strong>注意力机制</strong></td><td>因果自注意力</td><td>Time + Group Attention</td><td>因果自注意力</td></tr>
-                    </tbody>
-                </table>
-
-                <h3>3.2 能力对比</h3>
-                <table>
-                    <thead>
-                        <tr><th>能力</th><th>TimesFM</th><th>Chronos-2</th><th>Moirai 2.0</th></tr>
-                    </thead>
-                    <tbody>
-                        <tr><td><strong>单变量预测</strong></td><td>✅</td><td>✅</td><td>✅</td></tr>
-                        <tr><td><strong>多变量预测</strong></td><td>❌</td><td>✅</td><td>❌</td></tr>
-                        <tr><td><strong>协变量支持</strong></td><td>❌</td><td>✅（过去+未来）</td><td>❌</td></tr>
-                        <tr><td><strong>概率预测</strong></td><td>❌（点预测）</td><td>✅（21 分位数）</td><td>✅（9 分位数）</td></tr>
-                        <tr><td><strong>零样本</strong></td><td>✅</td><td>✅</td><td>✅</td></tr>
-                        <tr><td><strong>微调</strong></td><td>✅</td><td>✅</td><td>✅</td></tr>
-                    </tbody>
-                </table>
-
-                <h3>3.3 效率对比</h3>
-                <table>
-                    <thead>
-                        <tr><th>模型</th><th>参数量</th><th>推理速度</th><th>训练数据规模</th></tr>
-                    </thead>
-                    <tbody>
-                        <tr><td>TimesFM</td><td>200M</td><td>较快</td><td>1000 亿点</td></tr>
-                        <tr><td>Chronos-2</td><td>120M</td><td>300 序列/秒（A10G）</td><td>真实 + 合成</td></tr>
-                        <tr><td>Moirai 2.0</td><td>11M-305M</td><td>2× Moirai-Large</td><td>2950 亿点</td></tr>
-                    </tbody>
-                </table>
-
-                <h3>3.4 设计哲学对比</h3>
-                <table>
-                    <thead>
-                        <tr><th>模型</th><th>核心哲学</th><th>主要权衡</th></tr>
-                    </thead>
-                    <tbody>
-                        <tr><td><strong>TimesFM</strong></td><td>少即是多，decoder-only</td><td>无概率预测、无协变量</td></tr>
-                        <tr><td><strong>Chronos-2</strong></td><td>通用性优先，支持协变量</td><td>复杂度较高</td></tr>
-                        <tr><td><strong>Moirai 2.0</strong></td><td>简化胜过复杂</td><td>放弃多变量和协变量</td></tr>
-                    </tbody>
-                </table>
-            </section>
-
-            <!-- 四、关键趋势总结 -->
-            <section id="trends" class="section">
-                <h2>四、关键趋势总结</h2>
-
-                <div class="trend-box">
-                    <ol>
-                        <li><strong>从 Encoder 到 Decoder</strong>：Moirai 2.0 和 TimesFM 都验证了 decoder-only 架构在时序预测中的优越性（数据效率更高、支持 KV Cache）。</li>
-                    </ol>
-                </div>
-                <div class="trend-box">
-                    <ol start="2">
-                        <li><strong>从单变量到通用</strong>：Chronos-2 代表了向多变量和协变量支持的发展方向，这是实际应用的关键需求。</li>
-                    </ol>
-                </div>
-                <div class="trend-box">
-                    <ol start="3">
-                        <li><strong>Patching 成为标准</strong>：所有模型都采用了 patching 技术，将时序数据转化为类似 token 的形式。</li>
-                    </ol>
-                </div>
-                <div class="trend-box">
-                    <ol start="4">
-                        <li><strong>合成数据的重要性</strong>：所有模型都依赖合成数据来增强训练数据的多样性和覆盖度。</li>
-                    </ol>
-                </div>
-                <div class="trend-box">
-                    <ol start="5">
-                        <li><strong>效率与能力的平衡</strong>：
+<li>从 masked-encoder 改为 decoder-only → 数据利用效率更高</li>
+<li>多 patch 尺寸 → 单 patch 尺寸 → 简化实现、提升性能</li>
+<li>混合分布输出 → 分位数损失 → 更鲁棒</li>
+</ul>
+</li>
+<li><strong>多分位数解码</strong>：使用 beam search-like 的 expand-collapse 策略，在自回归解码中保持不确定性</li>
+<li><strong>训练数据</strong>：3600 万条序列，2950 亿观测值（GIFT-Eval + Chronos-Mixup + KernelSynth + Salesforce 内部数据）</li>
+<li><strong>推理优化</strong>：支持 KV Cache，长上下文下可提速 4-17 倍</li>
+</ul>
+<img alt="Moirai 2.0 架构" class="model-image" src="images/moirai2_arch-03.png"/>
+<h4 id="性能表现-3">性能表现</h4>
+<ul>
+<li>GIFT-Eval：排名第 5-6（MASE/CRPS）</li>
+<li>相比 Moirai-Large：<strong>30 倍更小，2 倍更快，性能更好</strong></li>
+<li>效率对比：11M 激活参数 vs Chronos 46M</li>
+</ul>
+<h4 id="局限-3">局限</h4>
+<ul>
+<li>放弃了对多变量和协变量的原生支持</li>
+</ul>
+</article>
+</section>
+<!-- 三、模型对比分析 -->
+<section class="section" id="comparison">
+<h2 id="三、模型对比分析">三、模型对比分析</h2>
+<h3 id="31-架构对比">3.1 架构对比</h3>
+<table>
+<thead>
+<tr><th>维度</th><th>TimesFM</th><th>Chronos-2</th><th>Moirai 2.0</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>架构类型</strong></td><td>Decoder-Only</td><td>Encoder-Only</td><td>Decoder-Only</td></tr>
+<tr><td><strong>Patching</strong></td><td>✅ 32→128</td><td>✅ 支持</td><td>✅ 单 patch</td></tr>
+<tr><td><strong>位置编码</strong></td><td>原始 Transformer PE</td><td>RoPE</td><td>未详述</td></tr>
+<tr><td><strong>注意力机制</strong></td><td>因果自注意力</td><td>Time + Group Attention</td><td>因果自注意力</td></tr>
+</tbody>
+</table>
+<h3 id="32-能力对比">3.2 能力对比</h3>
+<table>
+<thead>
+<tr><th>能力</th><th>TimesFM</th><th>Chronos-2</th><th>Moirai 2.0</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>单变量预测</strong></td><td>✅</td><td>✅</td><td>✅</td></tr>
+<tr><td><strong>多变量预测</strong></td><td>❌</td><td>✅</td><td>❌</td></tr>
+<tr><td><strong>协变量支持</strong></td><td>❌</td><td>✅（过去+未来）</td><td>❌</td></tr>
+<tr><td><strong>概率预测</strong></td><td>❌（点预测）</td><td>✅（21 分位数）</td><td>✅（9 分位数）</td></tr>
+<tr><td><strong>零样本</strong></td><td>✅</td><td>✅</td><td>✅</td></tr>
+<tr><td><strong>微调</strong></td><td>✅</td><td>✅</td><td>✅</td></tr>
+</tbody>
+</table>
+<h3 id="33-效率对比">3.3 效率对比</h3>
+<table>
+<thead>
+<tr><th>模型</th><th>参数量</th><th>推理速度</th><th>训练数据规模</th></tr>
+</thead>
+<tbody>
+<tr><td>TimesFM</td><td>200M</td><td>较快</td><td>1000 亿点</td></tr>
+<tr><td>Chronos-2</td><td>120M</td><td>300 序列/秒（A10G）</td><td>真实 + 合成</td></tr>
+<tr><td>Moirai 2.0</td><td>11M-305M</td><td>2× Moirai-Large</td><td>2950 亿点</td></tr>
+</tbody>
+</table>
+<h3 id="34-设计哲学对比">3.4 设计哲学对比</h3>
+<table>
+<thead>
+<tr><th>模型</th><th>核心哲学</th><th>主要权衡</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>TimesFM</strong></td><td>少即是多，decoder-only</td><td>无概率预测、无协变量</td></tr>
+<tr><td><strong>Chronos-2</strong></td><td>通用性优先，支持协变量</td><td>复杂度较高</td></tr>
+<tr><td><strong>Moirai 2.0</strong></td><td>简化胜过复杂</td><td>放弃多变量和协变量</td></tr>
+</tbody>
+</table>
+</section>
+<!-- 四、关键趋势总结 -->
+<section class="section" id="trends">
+<h2 id="四、关键趋势总结">四、关键趋势总结</h2>
+<div class="trend-box">
+<ol>
+<li><strong>从 Encoder 到 Decoder</strong>：Moirai 2.0 和 TimesFM 都验证了 decoder-only 架构在时序预测中的优越性（数据效率更高、支持 KV Cache）。</li>
+</ol>
+</div>
+<div class="trend-box">
+<ol start="2">
+<li><strong>从单变量到通用</strong>：Chronos-2 代表了向多变量和协变量支持的发展方向，这是实际应用的关键需求。</li>
+</ol>
+</div>
+<div class="trend-box">
+<ol start="3">
+<li><strong>Patching 成为标准</strong>：所有模型都采用了 patching 技术，将时序数据转化为类似 token 的形式。</li>
+</ol>
+</div>
+<div class="trend-box">
+<ol start="4">
+<li><strong>合成数据的重要性</strong>：所有模型都依赖合成数据来增强训练数据的多样性和覆盖度。</li>
+</ol>
+</div>
+<div class="trend-box">
+<ol start="5">
+<li><strong>效率与能力的平衡</strong>：
                             <ul>
-                                <li>Moirai 2.0：牺牲多变量能力换取极致的效率</li>
-                                <li>Chronos-2：保留通用能力但模型更复杂</li>
-                                <li>TimesFM：在效率和能力之间取得较好平衡，但缺失概率预测和协变量支持</li>
-                            </ul>
-                        </li>
-                    </ol>
-                </div>
-            </section>
-
-        </main>
-    </div>
+<li>Moirai 2.0：牺牲多变量能力换取极致的效率</li>
+<li>Chronos-2：保留通用能力但模型更复杂</li>
+<li>TimesFM：在效率和能力之间取得较好平衡，但缺失概率预测和协变量支持</li>
+</ul>
+</li>
+</ol>
+</div>
+</section>
+</main>
+</div>
 </body>
 </html>

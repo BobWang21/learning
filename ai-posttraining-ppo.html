@@ -1,11 +1,12 @@
 <!DOCTYPE html>
+
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>1.1 PPO</title>
-    <link rel="stylesheet" href="styles.css?v=20260713-page-only-toc">
-    <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>1.1 PPO</title>
+<link href="styles.css?v=20260713-page-only-toc" rel="stylesheet"/>
+<style>
         :root {
             --rose: #8B1E3F;
             --terra: #C2410C;
@@ -179,70 +180,27 @@
             }
         }
     </style>
-    <script>
+<script>
         window.MathJax = {
             tex: { inlineMath: [['$', '$'], ['\\(', '\\)']], displayMath: [['$$', '$$'], ['\\[', '\\]']] },
             svg: { fontCache: 'global' }
         };
     </script>
-    <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+<script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
 </head>
 <body>
-    <div class="container">
-        <div class="sidebar">
-            <div class="page-toc">
-                <h2>目录</h2>
-                <div class="toc">
-<ul>
-<li><a href="#ppo">详解PPO工作流程</a><ul>
-<li><a href="#_1">一、系统概览：四个核心模型</a></li>
-<li><a href="#_2">二、完整工作流程</a><ul>
-<li><a href="#rollout">阶段一：数据采样（Rollout）</a></li>
-<li><a href="#scoring">阶段二：评估与打分（Scoring）</a><ul>
-<li><a href="#21">2.1 奖励模型打分</a></li>
-<li><a href="#22">2.2 参考模型计算</a></li>
-<li><a href="#23">2.3 价值模型预估</a></li>
-</ul>
-</li>
-<li><a href="#advantage">阶段三：优势值（Advantage）</a><ul>
-<li><a href="#31-token">3.1 构建Token级别的即时奖励</a></li>
-<li><a href="#32-discounted-return-math39">3.2 计算折扣回报（Discounted Return, $G_t$）</a></li>
-<li><a href="#33-advantage-math42-ppo">3.3 计算优势值（Advantage, $A_t$）—— PPO的核心创新</a></li>
-</ul>
-</li>
-<li><a href="#ppo-update">阶段四：模型更新（PPO Update）</a><ul>
-<li><a href="#41-actor">4.1 更新策略模型（Actor）</a></li>
-<li><a href="#42-critic">4.2 更新价值模型（Critic）</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li><a href="#_3">三、多模型协同总结</a><ul>
-<li><a href="#_4">数据流向图（文字版）</a></li>
-<li><a href="#_5">协同的直观比喻</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li><a href="#ppo-loss">PPO loss</a><ul>
-<li><a href="#_6">一、公式</a></li>
-</ul>
-</li>
-</ul>
+<div class="container">
+<div class="sidebar">
+<div class="page-toc"><h2>目录</h2><ul><li><a href="#_1">一、系统概览：四个核心模型</a><ul><li><a href="#_2">二、完整工作流程</a></li><li><a href="#rollout">阶段一：数据采样（Rollout）</a></li><li><a href="#scoring">阶段二：评估与打分（Scoring）</a></li><li><a href="#advantage">阶段三：优势值（Advantage）</a></li><li><a href="#ppo-update">阶段四：模型更新（PPO Update）</a></li><li><a href="#_3">三、多模型协同总结</a></li><li><a href="#_4">数据流向图（文字版）</a></li><li><a href="#_5">协同的直观比喻</a></li></ul></li><li><a href="#ppo-loss">PPO loss</a><ul><li><a href="#_6">一、公式</a></li></ul></li></ul></div>
 </div>
-
-            </div>
-        </div>
-
-        <main class="content">
-            <header class="header">
-                <h1>1.1 PPO</h1>
-                <div class="breadcrumb">
-                    <a href="index.html">首页</a> &gt; <a href="index.html#ai">AI</a> &gt; Training &gt; 1.1 PPO
+<main class="content">
+<header class="header">
+<h1>1.1 PPO</h1>
+<div class="breadcrumb">
+<a href="index.html">首页</a> &gt; <a href="index.html#ai">AI</a> &gt; Training &gt; 1.1 PPO
                 </div>
-            </header>
-
-            <section class="note-page">
+</header>
+<section class="note-page">
 <h1 id="ppo">详解PPO工作流程</h1>
 <h2 id="_1">一、系统概览：四个核心模型</h2>
 <p>在开始之前，我们先明确参与协同的四个模型及其职责：</p>
@@ -282,7 +240,7 @@
 </tr>
 </tbody>
 </table>
-<hr>
+<hr/>
 <h2 id="_2">二、完整工作流程</h2>
 <h3 id="rollout">阶段一：数据采样（Rollout）</h3>
 <p><strong>目标</strong>：使用当前策略模型生成一批回复数据。</p>
@@ -300,7 +258,7 @@
 <blockquote>
 <p><strong>此时</strong>：仅有策略模型（Actor）在工作，生成了一批文本数据。</p>
 </blockquote>
-<hr>
+<hr/>
 <h3 id="scoring">阶段二：评估与打分（Scoring）</h3>
 <p><strong>目标</strong>：利用冻结的模型对生成的回复进行多维度的评估。</p>
 <h4 id="21">2.1 奖励模型打分</h4>
@@ -325,7 +283,7 @@ $$
 V_\psi(s_t), \quad t = 1, 2, ..., T
 $$
 其中 $s_t$ 表示在时间步 $t$ 的状态（即 $x$ 和已生成的 $y_{&lt;t}$）。</p>
-<hr>
+<hr/>
 <h3 id="advantage">阶段三：优势值（Advantage）</h3>
 <p><strong>目标</strong>：融合所有模型的信息，计算每个动作（每个token）的"好坏程度"。</p>
 <h4 id="31-token">3.1 构建Token级别的即时奖励</h4>
@@ -353,14 +311,14 @@ $$</p>
 <blockquote>
 <p><strong>意义</strong>：如果模型在某个token上偏离参考模型太远（概率异常高或低），即使最终总分很高，中间步骤也会被"扣分"，从而抑制模型过度优化。</p>
 </blockquote>
-<hr>
+<hr/>
 <h4 id="32-discounted-return-math39">3.2 计算折扣回报（Discounted Return, $G_t$）</h4>
 <p>为了考虑长期影响，计算从时间步 $t$ 开始的<strong>折扣累计奖励</strong>：
 $$
 G_t = \sum_{k=0}^{T-t} \gamma^k \cdot \text{reward}_{t+k}
 $$
 其中 $\gamma \in (0, 1]$ 是折扣因子（通常取0.99），表示越未来的奖励对当前决策的影响越小。</p>
-<hr>
+<hr/>
 <h4 id="33-advantage-math42-ppo">3.3 计算优势值（Advantage, $A_t$）—— PPO的核心创新</h4>
 <p>优势值 $A_t$ 衡量的是："在状态 $s_t$ 下，采取动作 $a_t$（生成token $y_t$）<strong>比平均水平好多少</strong>？"</p>
 <p>我们使用<strong>广义优势估计（GAE, Generalized Advantage Estimation）</strong> 来计算，它巧妙地将价值模型的预测作为"基线"，大幅降低了策略梯度的方差。</p>
@@ -394,7 +352,7 @@ $$
 <blockquote>
 <p><strong>此时</strong>：奖励模型（提供最终 $R$）、参考模型（提供KL惩罚）、价值模型（提供基线 $V$）的数据全部汇聚，共同计算出了每一步的优势值 $A_t$。</p>
 </blockquote>
-<hr>
+<hr/>
 <h3 id="ppo-update">阶段四：模型更新（PPO Update）</h3>
 <p><strong>目标</strong>：利用计算好的优势值，更新策略模型和价值模型的参数。</p>
 <h4 id="41-actor">4.1 更新策略模型（Actor）</h4>
@@ -424,7 +382,7 @@ $$
 \theta \leftarrow \theta + \alpha \cdot \nabla_\theta L^{\text{CLIP}}(\theta)
 $$
 其中 $\alpha$ 是学习率。</p>
-<hr>
+<hr/>
 <h4 id="42-critic">4.2 更新价值模型（Critic）</h4>
 <p><strong>目标</strong>：让价值模型的预测更准确，使其成为一个更好的"基线"。</p>
 <p><strong>损失函数</strong>：最小化预测价值与实际回报之间的均方误差
@@ -436,7 +394,7 @@ $$</p>
 $$
 \psi \leftarrow \psi - \alpha \cdot \nabla_\psi L^{\text{VF}}(\psi)
 $$</p>
-<hr>
+<hr/>
 <h2 id="_3">三、多模型协同总结</h2>
 <h3 id="_4">数据流向图（文字版）</h3>
 <pre><code class="language-text">提示词 x
@@ -573,14 +531,13 @@ $$</p>
 </tr>
 </tbody>
 </table>
-                <a href="index.html#ai" class="back-link">返回 AI</a>
-            </section>
-        </main>
-    </div>
+<a class="back-link" href="index.html#ai">返回 AI</a>
+</section>
+</main>
+</div>
 
-    <link rel="stylesheet" href="https://cdn.quilljs.com/1.3.7/quill.snow.css">
-    <link rel="stylesheet" href="editor.css?v=20260714-no-editor">
-    <script src="https://cdn.quilljs.com/1.3.7/quill.min.js"></script>
-    <script src="editor.js?v=20260714-no-editor"></script>
+
+
+
 </body>
 </html>

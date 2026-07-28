@@ -1,11 +1,12 @@
 <!DOCTYPE html>
+
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>英伟达AI供应链优化系统 — OR+AI驱动的AI Planner</title>
-    <link rel="stylesheet" href="styles.css?v=20260713-page-only-toc">
-    <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>英伟达AI供应链优化系统 — OR+AI驱动的AI Planner</title>
+<link href="styles.css?v=20260713-page-only-toc" rel="stylesheet"/>
+<style>
         .model-image { max-width: 90%; margin: 1.5rem auto; display: block; border-radius: 8px; }
         .image-caption { text-align: center; font-size: 0.9rem; color: #888; margin-top: 0.5rem; }
         .agent-card { background: #f8f9ff; border-left: 4px solid #6c5ce7; border-radius: 8px; padding: 1.2rem 1.5rem; margin: 1rem 0; }
@@ -16,139 +17,101 @@
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="sidebar">
-<div class="page-toc">
-                                        <strong>📑 目录</strong>
-                                        <ul>
-                                            <li><a href="#background">一、背景与挑战：从芯片到AI工厂的跨越</a></li>
-                                            <li><a href="#gpu-or">二、核心破局：GPU加速运筹学（OR）</a></li>
-                                            <li><a href="#ai-planner">三、终极答案：AI Planner的四大智能体架构</a></li>
-                                            <li><a href="#results">四、显著的业务成果与价值</a></li>
-                                            <li><a href="#conclusion">五、总结与未来愿景</a></li>
-                                        </ul>
-                                    </div>
-        
-
-
-        </div>
-
-        <main class="content">
-            <header class="header">
-                <h1>英伟达AI供应链优化系统</h1>
-                <div class="breadcrumb">
-                    <a href="index.html">首页</a> > <a href="index.html#ai">AI</a> > Application > NVIDIA AI Planner
+<div class="container">
+<div class="sidebar">
+<div class="page-toc"><h2>目录</h2><ul><li><a href="#一句话总结">一句话总结</a></li><li><a href="#一、背景与挑战从芯片到ai工厂的跨越">一、背景与挑战：从芯片到AI工厂的跨越</a></li><li><a href="#二、核心破局gpu加速运筹学or">二、核心破局：GPU加速运筹学（OR）</a></li><li><a href="#三、终极答案ai-planner的四大智能体架构">三、终极答案：AI Planner的四大智能体架构</a></li><li><a href="#四、显著的业务成果与价值">四、显著的业务成果与价值</a></li><li><a href="#五、总结与未来愿景">五、总结与未来愿景</a></li></ul></div>
+</div>
+<main class="content">
+<header class="header">
+<h1>英伟达AI供应链优化系统</h1>
+<div class="breadcrumb">
+<a href="index.html">首页</a> &gt; <a href="index.html#ai">AI</a> &gt; Application &gt; NVIDIA AI Planner
                 </div>
-            </header>
-
-            
-
-            <div class="conclusion-box" style="margin-bottom: 2rem;">
-                <h3 style="margin-top: 0; color: #6c5ce7;">💡 一句话总结</h3>
-                <p style="color: #dc2626;">过去OR模型需要算法专家团队才能调整使用，业务用户难以直接操作。未来，企业决策系统的竞争力不仅在于算法的先进，更在于如何将专家智慧规模化、智能化地赋能给每一个决策者。</p>
-            </div>
-
-            <!-- 一、背景与挑战 -->
-            <section class="section" id="background">
-                <h2>一、背景与挑战：从芯片到AI工厂的跨越</h2>
-
-                <ul>
-                    <li><strong>供应链复杂度爆炸</strong>：英伟达已不仅是游戏显卡制造商，而是全球AI基础设施（AI工厂/数据中心）的构建者。其复杂的全球制造网络横跨三大洲，需要管理数十个工厂、数百家合作伙伴、数千种零部件（包括GPU、交换机、网卡、电缆等），以组装近3,000种不同的产品。</li>
-                    <li><strong>规模创历史之最</strong>：以Grace Blackwell NVLink 72系统为例，单台系统就包含超过100万个零部件。数据中心建设规模堪比"阿波罗计划"，任何一处供应链中断都会造成巨大损失。</li>
-                    <li><strong>传统系统失效</strong>：传统的遗留规划系统和电子表格已无法处理如此庞大的数据和动态多变的约束条件。英伟达面临着需求每周都在变，但部分物料需要提前数月采购的时间差挑战。</li>
-                </ul>
-
-                <img src="images/nvidia/问题.png" alt="英伟达供应链面临的挑战" class="model-image">
-                <p class="image-caption">▲ 英伟达供应链面临的核心挑战：复杂度、规模与响应速度的三重压力</p>
-            </section>
-
-            <!-- 二、核心破局：GPU加速运筹学 -->
-            <section class="section" id="gpu-or">
-                <h2>二、核心破局：GPU加速运筹学（OR）</h2>
-
-                <p>为了突破计算瓶颈，英伟达做出了一个坚定的选择：<strong>将整个决策管线完全移至GPU上运行</strong>。</p>
-
-                <ul>
-                    <li><strong>全管线加速（Co-op）</strong>：不仅是核心算法，英伟达消除了包括数据提取、矩阵构建、预处理等全流程的延迟。</li>
-                    <li><strong>算法创新</strong>：采用适用于GPU并行计算的<strong>PDLP</strong>（一阶线性规划方法），并重写了稀疏矩阵向量乘法（SPMV）；对于不适合一阶方法的模型，构建了确定性的<strong>Cholesky分解法</strong>；在混合整数规划（MIP）方面，构建了专注于原始启发式算法（Primal Heuristics）的GPU原生求解器。</li>
-                    <li><strong>硬件级软硬协同</strong>：将线性规划（LP）纳入新芯片量产前的性能基准测试中。通过增加内存带宽，新一代GPU能直接倍增求解速度。</li>
-                </ul>
-
-                <img src="images/nvidia/求解.png" alt="GPU加速运筹学求解" class="model-image">
-                <p class="image-caption">▲ GPU加速运筹学：全管线从CPU迁移至GPU，实现软硬协同加速</p>
-            </section>
-
-            <!-- 三、AI Planner架构 -->
-            <section class="section" id="ai-planner">
-                <h2>三、终极答案：AI Planner的四大智能体架构</h2>
-
-                <p>尽管运筹学（OR）数学模型极其强大，但往往存在<strong>"可用性悖论（Usability Paradox）"</strong>——业务规划师在使用时通常需要一个由运筹学科学家组成的"专家团"在现场重构和调整模型，耗时耗力。</p>
-                <p>为此，英伟达开发了<strong>AI Planner</strong>，通过大语言模型（LLM）的推理能力与底层严谨的运筹学知识库（Skills Layer）相结合，建立了一个由四个专业智能体（Agent）协同工作的架构，将专家知识直接赋予每一位普通规划师。</p>
-
-                <img src="images/nvidia/工作流.png" alt="AI Planner四大智能体工作流" class="model-image">
-                <p class="image-caption">▲ AI Planner整体架构：四大智能体协同工作的智能体工作流</p>
-
-                <img src="images/nvidia/ai insider.png" alt="AI Planner业务成果" class="model-image">
-                <p class="image-caption">▲ AI Planner带来的显著业务成果：6倍生产力提升、83%延迟订单减少</p>
-
-                <div class="agent-card">
-                    <h4>1. Manager Agent（指挥中心）</h4>
-                    <p>负责理解用户（规划师）输入的自然语言问题，捕捉复杂意图，将其拆分为具体的子任务。</p>
-                </div>
-                <div class="agent-card">
-                    <h4>2. Modeler Agent（翻译官）</h4>
-                    <p>将业务语言和多变的供应链规则（如多级物料清单BOM、动态良率、替代料等）转化为严谨的运筹学数学模型与参数配置。</p>
-                    <p style="color: #dc2626; margin-top: 0.5rem; font-size: 0.9rem;">💡 ai生成建模语言的应用场景之一</p>
-                </div>
-                <div class="agent-card">
-                    <h4>3. Coder Agent（执行者）</h4>
-                    <p>作为专业的"结对程序员"，自动编写代码并调用GPU加速求解引擎，在隔离的安全沙盒（Sandbox）中高效执行大量的数据映射、仿真和优化运算。</p>
-                </div>
-                <div class="agent-card">
-                    <h4>4. Interpreter Agent（解说员）</h4>
-                    <p>打破"黑盒模型"，将底层的数学运算结果和复杂的敏感性分析，转化为人类易懂的上下文分析报告，解释"为什么"会产生这样的计划，并给出防御性决策建议。</p>
-                </div>
-
-                <img src="images/nvidia/example.png" alt="AI Planner示例场景" class="model-image">
-                <p class="image-caption">▲ AI Planner实际运行示例：What-if场景实时模拟与结果解读</p>
-            </section>
-
-            <!-- 四、业务成果 -->
-            <section class="section" id="results">
-                <h2>四、显著的业务成果与价值</h2>
-
-                <p>这套"OR+AI"系统自2024年起已在统一供应链优化、交付排序和承诺规划三大系统中上线投入生产。其带来的量化价值包括：</p>
-
-                <ul>
-                    <li><strong>效率与生产力革命</strong>：规划师的综合工作生产力提升了<span class="result-highlight">6倍</span>。原本需要跨团队、跨系统手工对接耗时<span class="result-highlight">15小时</span>的单板与系统规划周期，被缩短到了<span class="result-highlight">15分钟</span>（整个核心规划周期从5天压缩到1天）。</li>
-                    <li><strong>响应速度（What-if场景模拟）</strong>：规划师或管理层可以在会议中实时进行高频的低风险"What-if"场景做实验（例如：突然多出服务器机架物料时，几分钟内便可对比出基线与调整后的最优排产差异，并追溯每一步计算路径）。</li>
-                    <li><strong>业务可靠性提升</strong>：由于实现了连续、高精度的优化决策，承诺交付的稳定性大幅提升，<span class="result-highlight">延迟交付的订单数量减少了83%</span>。</li>
-                    <li><strong>解耦业务增长与人力</strong>：成功将公司业绩的指数级增长与运营团队的人数脱钩。即使在制造最复杂的AI超级计算机阶段，规划团队的人数也仅需翻倍即轻松支撑了前所未有的庞大业务量。</li>
-                </ul>
-
-            </section>
-
-            <!-- 五、总结 -->
-            <section class="section" id="conclusion">
-                <h2>五、总结与未来愿景</h2>
-
-                <div class="conclusion-box">
-                    <p>英伟达强调，<strong>AI Planner不仅自动化了数学计算，更在全公司范围内放大了人类专家的智慧。</strong>运筹学科学家将知识沉淀为可被智能体调用的"Skills（技能）"，规划师则可随时随地按需执行战略。</p>
-                    <p>这种"由深度行业专家知识背书、全天候在线、无缝对接底层高效求解器"的<strong>智能体工作流（Agentic Workflows）模式</strong>，正是英伟达认为计划体制的终极答案。未来，这种OR+AI的架构模式还将推广至排程、财务规划、资源分配等更广泛的决策领域。</p>
-                </div>
-
-                <img src="images/nvidia/迭代.png" alt="AI Planner迭代与未来演进" class="model-image">
-                <p class="image-caption">▲ 从GPU加速OR到AI Planner的迭代演进路径，以及面向未来的扩展方向</p>
-            </section>
-
-            <div class="source-box">
-                <p>📺 <em>视频源引：<a href="http://www.youtube.com/watch?v=23_JBl0xaS4" target="_blank" rel="noopener noreferrer">2026 Edelman Award Presentation: NVIDIA</a></em></p>
-            </div>
-
-            <footer class="footer">
-                <p><a href="index.html">← 返回首页</a></p>
-            </footer>
-        </main>
-    </div>
+</header>
+<div class="conclusion-box" style="margin-bottom: 2rem;">
+<h3 id="一句话总结" style="margin-top: 0; color: #6c5ce7;">💡 一句话总结</h3>
+<p style="color: #dc2626;">过去OR模型需要算法专家团队才能调整使用，业务用户难以直接操作。未来，企业决策系统的竞争力不仅在于算法的先进，更在于如何将专家智慧规模化、智能化地赋能给每一个决策者。</p>
+</div>
+<!-- 一、背景与挑战 -->
+<section class="section" id="background">
+<h2 id="一、背景与挑战从芯片到ai工厂的跨越">一、背景与挑战：从芯片到AI工厂的跨越</h2>
+<ul>
+<li><strong>供应链复杂度爆炸</strong>：英伟达已不仅是游戏显卡制造商，而是全球AI基础设施（AI工厂/数据中心）的构建者。其复杂的全球制造网络横跨三大洲，需要管理数十个工厂、数百家合作伙伴、数千种零部件（包括GPU、交换机、网卡、电缆等），以组装近3,000种不同的产品。</li>
+<li><strong>规模创历史之最</strong>：以Grace Blackwell NVLink 72系统为例，单台系统就包含超过100万个零部件。数据中心建设规模堪比"阿波罗计划"，任何一处供应链中断都会造成巨大损失。</li>
+<li><strong>传统系统失效</strong>：传统的遗留规划系统和电子表格已无法处理如此庞大的数据和动态多变的约束条件。英伟达面临着需求每周都在变，但部分物料需要提前数月采购的时间差挑战。</li>
+</ul>
+<img alt="英伟达供应链面临的挑战" class="model-image" src="images/nvidia/问题.png"/>
+<p class="image-caption">▲ 英伟达供应链面临的核心挑战：复杂度、规模与响应速度的三重压力</p>
+</section>
+<!-- 二、核心破局：GPU加速运筹学 -->
+<section class="section" id="gpu-or">
+<h2 id="二、核心破局gpu加速运筹学or">二、核心破局：GPU加速运筹学（OR）</h2>
+<p>为了突破计算瓶颈，英伟达做出了一个坚定的选择：<strong>将整个决策管线完全移至GPU上运行</strong>。</p>
+<ul>
+<li><strong>全管线加速（Co-op）</strong>：不仅是核心算法，英伟达消除了包括数据提取、矩阵构建、预处理等全流程的延迟。</li>
+<li><strong>算法创新</strong>：采用适用于GPU并行计算的<strong>PDLP</strong>（一阶线性规划方法），并重写了稀疏矩阵向量乘法（SPMV）；对于不适合一阶方法的模型，构建了确定性的<strong>Cholesky分解法</strong>；在混合整数规划（MIP）方面，构建了专注于原始启发式算法（Primal Heuristics）的GPU原生求解器。</li>
+<li><strong>硬件级软硬协同</strong>：将线性规划（LP）纳入新芯片量产前的性能基准测试中。通过增加内存带宽，新一代GPU能直接倍增求解速度。</li>
+</ul>
+<img alt="GPU加速运筹学求解" class="model-image" src="images/nvidia/求解.png"/>
+<p class="image-caption">▲ GPU加速运筹学：全管线从CPU迁移至GPU，实现软硬协同加速</p>
+</section>
+<!-- 三、AI Planner架构 -->
+<section class="section" id="ai-planner">
+<h2 id="三、终极答案ai-planner的四大智能体架构">三、终极答案：AI Planner的四大智能体架构</h2>
+<p>尽管运筹学（OR）数学模型极其强大，但往往存在<strong>"可用性悖论（Usability Paradox）"</strong>——业务规划师在使用时通常需要一个由运筹学科学家组成的"专家团"在现场重构和调整模型，耗时耗力。</p>
+<p>为此，英伟达开发了<strong>AI Planner</strong>，通过大语言模型（LLM）的推理能力与底层严谨的运筹学知识库（Skills Layer）相结合，建立了一个由四个专业智能体（Agent）协同工作的架构，将专家知识直接赋予每一位普通规划师。</p>
+<img alt="AI Planner四大智能体工作流" class="model-image" src="images/nvidia/工作流.png"/>
+<p class="image-caption">▲ AI Planner整体架构：四大智能体协同工作的智能体工作流</p>
+<img alt="AI Planner业务成果" class="model-image" src="images/nvidia/ai insider.png"/>
+<p class="image-caption">▲ AI Planner带来的显著业务成果：6倍生产力提升、83%延迟订单减少</p>
+<div class="agent-card">
+<h4 id="1-manager-agent指挥中心">1. Manager Agent（指挥中心）</h4>
+<p>负责理解用户（规划师）输入的自然语言问题，捕捉复杂意图，将其拆分为具体的子任务。</p>
+</div>
+<div class="agent-card">
+<h4 id="2-modeler-agent翻译官">2. Modeler Agent（翻译官）</h4>
+<p>将业务语言和多变的供应链规则（如多级物料清单BOM、动态良率、替代料等）转化为严谨的运筹学数学模型与参数配置。</p>
+<p style="color: #dc2626; margin-top: 0.5rem; font-size: 0.9rem;">💡 ai生成建模语言的应用场景之一</p>
+</div>
+<div class="agent-card">
+<h4 id="3-coder-agent执行者">3. Coder Agent（执行者）</h4>
+<p>作为专业的"结对程序员"，自动编写代码并调用GPU加速求解引擎，在隔离的安全沙盒（Sandbox）中高效执行大量的数据映射、仿真和优化运算。</p>
+</div>
+<div class="agent-card">
+<h4 id="4-interpreter-agent解说员">4. Interpreter Agent（解说员）</h4>
+<p>打破"黑盒模型"，将底层的数学运算结果和复杂的敏感性分析，转化为人类易懂的上下文分析报告，解释"为什么"会产生这样的计划，并给出防御性决策建议。</p>
+</div>
+<img alt="AI Planner示例场景" class="model-image" src="images/nvidia/example.png"/>
+<p class="image-caption">▲ AI Planner实际运行示例：What-if场景实时模拟与结果解读</p>
+</section>
+<!-- 四、业务成果 -->
+<section class="section" id="results">
+<h2 id="四、显著的业务成果与价值">四、显著的业务成果与价值</h2>
+<p>这套"OR+AI"系统自2024年起已在统一供应链优化、交付排序和承诺规划三大系统中上线投入生产。其带来的量化价值包括：</p>
+<ul>
+<li><strong>效率与生产力革命</strong>：规划师的综合工作生产力提升了<span class="result-highlight">6倍</span>。原本需要跨团队、跨系统手工对接耗时<span class="result-highlight">15小时</span>的单板与系统规划周期，被缩短到了<span class="result-highlight">15分钟</span>（整个核心规划周期从5天压缩到1天）。</li>
+<li><strong>响应速度（What-if场景模拟）</strong>：规划师或管理层可以在会议中实时进行高频的低风险"What-if"场景做实验（例如：突然多出服务器机架物料时，几分钟内便可对比出基线与调整后的最优排产差异，并追溯每一步计算路径）。</li>
+<li><strong>业务可靠性提升</strong>：由于实现了连续、高精度的优化决策，承诺交付的稳定性大幅提升，<span class="result-highlight">延迟交付的订单数量减少了83%</span>。</li>
+<li><strong>解耦业务增长与人力</strong>：成功将公司业绩的指数级增长与运营团队的人数脱钩。即使在制造最复杂的AI超级计算机阶段，规划团队的人数也仅需翻倍即轻松支撑了前所未有的庞大业务量。</li>
+</ul>
+</section>
+<!-- 五、总结 -->
+<section class="section" id="conclusion">
+<h2 id="五、总结与未来愿景">五、总结与未来愿景</h2>
+<div class="conclusion-box">
+<p>英伟达强调，<strong>AI Planner不仅自动化了数学计算，更在全公司范围内放大了人类专家的智慧。</strong>运筹学科学家将知识沉淀为可被智能体调用的"Skills（技能）"，规划师则可随时随地按需执行战略。</p>
+<p>这种"由深度行业专家知识背书、全天候在线、无缝对接底层高效求解器"的<strong>智能体工作流（Agentic Workflows）模式</strong>，正是英伟达认为计划体制的终极答案。未来，这种OR+AI的架构模式还将推广至排程、财务规划、资源分配等更广泛的决策领域。</p>
+</div>
+<img alt="AI Planner迭代与未来演进" class="model-image" src="images/nvidia/迭代.png"/>
+<p class="image-caption">▲ 从GPU加速OR到AI Planner的迭代演进路径，以及面向未来的扩展方向</p>
+</section>
+<div class="source-box">
+<p>📺 <em>视频源引：<a href="http://www.youtube.com/watch?v=23_JBl0xaS4" rel="noopener noreferrer" target="_blank">2026 Edelman Award Presentation: NVIDIA</a></em></p>
+</div>
+<footer class="footer">
+<p><a href="index.html">← 返回首页</a></p>
+</footer>
+</main>
+</div>
 </body>
 </html>

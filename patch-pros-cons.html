@@ -1,11 +1,12 @@
 <!DOCTYPE html>
+
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>时间序列中 Patching（分块）技术的优势与劣势</title>
-    <link rel="stylesheet" href="styles.css?v=20260713-page-only-toc">
-    <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>时间序列中 Patching（分块）技术的优势与劣势</title>
+<link href="styles.css?v=20260713-page-only-toc" rel="stylesheet"/>
+<style>
         .pros-section h2 { color: #059669; }
         .cons-section h2 { color: #dc2626; }
         .scenario-section h2 { color: #C2410C; }
@@ -22,117 +23,95 @@
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="sidebar">
-<div class="page-toc">
-                                        <h4>📑 页面目录</h4>
-                                        <ul style="list-style: none; padding: 0;">
-                                            <li><a href="#advantages">一、Patching 的核心优势</a></li>
-                                            <li><a href="#disadvantages">二、Patching 的主要劣势</a></li>
-                                            <li><a href="#scenarios">三、适用场景建议</a></li>
-                                            <li><a href="#improvements">四、改进方向</a></li>
-                                            <li><a href="#summary">五、总结</a></li>
-                                        </ul>
-                                    </div>
-        
-
-
-        </div>
-
-        <main class="content">
-            <header class="header">
-                <h1>时间序列中 Patching（分块）技术的优势与劣势</h1>
-                <div class="breadcrumb">
-                    <a href="index.html">首页</a> > <a href="index.html#prediction">预测</a> > 时序预测 > Patching 技术优劣分析
+<div class="container">
+<div class="sidebar">
+<div class="page-toc"><h2>目录</h2><ul><li><a href="#一、patching-的核心优势">一、Patching 的核心优势</a></li><li><a href="#二、patching-的主要劣势">二、Patching 的主要劣势</a></li><li><a href="#三、适用场景建议">三、适用场景建议</a></li><li><a href="#四、改进方向近期研究">四、改进方向（近期研究）</a><ul><li><a href="#多尺度-自适应-patching">多尺度 / 自适应 Patching</a></li><li><a href="#连续时间表示">连续时间表示</a></li><li><a href="#混合架构">混合架构</a></li></ul></li><li><a href="#五、总结">五、总结</a></li></ul></div>
+</div>
+<main class="content">
+<header class="header">
+<h1>时间序列中 Patching（分块）技术的优势与劣势</h1>
+<div class="breadcrumb">
+<a href="index.html">首页</a> &gt; <a href="index.html#prediction">预测</a> &gt; 时序预测 &gt; Patching 技术优劣分析
                 </div>
-            </header>
-
-            
-
-            <p class="intro-text">基于现有研究（PatchTST、Moirai、TimesNet 等）及近期批判性分析，对 Patching 技术进行全面总结。</p>
-
-            <section id="advantages" class="section pros-section">
-                <h2>一、Patching 的核心优势</h2>
-                <table>
-                    <thead><tr><th>优势</th><th>说明</th></tr></thead>
-                    <tbody>
-                        <tr><td><strong>大幅降低计算复杂度</strong></td><td>将长度为 <em>L</em> 的序列分成 <em>P</em> 个 patch（<em>P</em> ≪ <em>L</em>），使 Transformer 的注意力复杂度从 <em>O(L²)</em> 降至 <em>O(P²)</em>，支持极长序列预测。</td></tr>
-                        <tr><td><strong>增强局部语义提取</strong></td><td>每个 patch 作为一个整体单元，内部通过线性投影或小型网络编码，能有效捕获邻近时间点之间的短期依赖与模式（如上升趋势、波动形态）。</td></tr>
-                        <tr><td><strong>提升信噪比与鲁棒性</strong></td><td>对 patch 内点进行聚合，自然平滑高频噪声和微观抖动，使模型更关注形态层面的特征，对数据采样的细微扰动更稳健。</td></tr>
-                        <tr><td><strong>缓解"注意力分散"问题</strong></td><td>逐点注意力容易将权重分配到无关单点上；patch 化强制模型关注连续的片段，减少对孤立噪声点的过度关注，利于捕捉有意义的局部结构。</td></tr>
-                        <tr><td><strong>支持多变量高效建模</strong></td><td>PatchTST 等模型在不同变量间共享 patch 投影参数，有效利用跨变量信息，且变量数增加时计算量仅线性增长。</td></tr>
-                    </tbody>
-                </table>
-            </section>
-
-            <section id="disadvantages" class="section cons-section">
-                <h2>二、Patching 的主要劣势</h2>
-                <table>
-                    <thead><tr><th>劣势</th><th>深度解析</th></tr></thead>
-                    <tbody>
-                        <tr><td><strong>边界截断与跨块依赖丢失</strong></td><td>关键波动模式若恰好跨越两个 patch 的边界，模型无法直接感知完整形态，需依赖后续全局注意力重构，增加了学习难度。</td></tr>
-                        <tr><td><strong>高频细节被过度平滑（特征稀释）</strong></td><td>将窗口内的点压缩为一个向量会抹平尖锐异常值、瞬时脉冲等高频信息。对异常检测、极值预测等任务影响显著。</td></tr>
-                        <tr><td><strong>对 Patch 超参数极度敏感</strong></td><td>Patch 长度 <em>P</em> 和步长 <em>S</em> 需人工设定。<em>P</em> 过小 → 逼近逐点，失去优势；<em>P</em> 过大 → 信息过度损失。不同周期、不同采样率的数据需要完全不同的设置，缺乏理论指导。</td></tr>
-                        <tr><td><strong>相位敏感性与平移不变性差</strong></td><td>固定步长切分导致序列起始点偏移时，同一个信号形态可能落入不同的 patch 边界，使模型输出剧烈变化，对抗扰动能力弱。</td></tr>
-                        <tr><td><strong class="highlight-red">Level-Shape 耦合导致语义碎片化</strong></td><td>Patch 方法将一个固定长度窗口内的局部基准值（level）和波动形态（shape）耦合在同一个 token 中。当周期发生漂移或伸缩时，同一个语义事件（比如早高峰）会落入不同窗口的不同相位位置，导致原本相似的形态呈现出多种不同的 level-shape 组合。模型被迫学习所有这些「变体」，参数量膨胀，且难以泛化到未见过的周期偏移。</td></tr>
-                        <tr><td><strong>难以处理多周期与动态特性</strong></td><td>真实序列常同时存在日周期、周周期、年周期。单一固定 <em>P</em> 无法同时适配不同尺度的模式。Moirai 等多 patch 尺寸方案只能部分缓解，未根本解决。</td></tr>
-                        <tr><td><strong>丢失绝对时间相位信息</strong></td><td>位置编码通常只标识"第几个 patch"，丢弃了原始时间戳（如小时、星期几）。依赖绝对相位（如交通早高峰、潮汐时刻）的任务需额外引入协变量。</td></tr>
-                        <tr><td><strong>短序列上得不偿失</strong></td><td>当序列长度 <em>L</em> &lt; 100 时，patch 化带来的压缩收益极小，反而增加投影层设计开销，不如直接使用 LSTM 或线性模型。</td></tr>
-                        <tr><td><strong>解释性降低</strong></td><td>注意力权重对应的是 patch 的重要性，而非原始时间点。若要定位关键时间点，需额外的归因分析（如反向传播到 patch 内部），增加调试难度。</td></tr>
-                    </tbody>
-                </table>
-                <div class="warning-box">
-                    <p><strong>⚠️ 核心矛盾：</strong>Patching 是一项用局部平滑换计算效率与长序列建模能力的工程折衷。优势与劣势本质上来自同一种设计选择——将连续时间点聚合为块。</p>
-                </div>
-            </section>
-
-            <section id="scenarios" class="section scenario-section">
-                <h2>三、适用场景建议</h2>
-                <table>
-                    <thead><tr><th>场景</th><th>推荐使用？</th><th>理由</th></tr></thead>
-                    <tbody>
-                        <tr><td>长序列（&gt;500点）预测，计算资源受限</td><td><span class="tag-yes">✅ 非常推荐</span></td><td>核心收益领域，可极大降低复杂度</td></tr>
-                        <tr><td>存在明显周期性/趋势形态</td><td><span class="tag-yes">✅ 推荐</span></td><td>patch 能有效捕捉局部形态</td></tr>
-                        <tr><td>高频噪声多，信噪比低</td><td><span class="tag-yes">✅ 推荐</span></td><td>噪声平滑，提升鲁棒性</td></tr>
-                        <tr><td>高频细节敏感（异常检测、瞬时脉冲）</td><td><span class="tag-no">❌ 不推荐</span></td><td>会丢失关键极值信息</td></tr>
-                        <tr><td>需精确解释每一点重要性（金融风控、医疗）</td><td><span class="tag-no">❌ 不推荐</span></td><td>解释性差，难定位关键点</td></tr>
-                        <tr><td>多周期交叉且无固定尺度</td><td><span class="tag-caution">⚠️ 谨慎</span></td><td>需多 patch 尺寸或动态方案</td></tr>
-                        <tr><td>序列长度 &lt; 100</td><td><span class="tag-no">❌ 不推荐</span></td><td>计算收益小，设计复杂</td></tr>
-                        <tr><td>绝对时间相位关键（如交通、潮汐）</td><td><span class="tag-caution">⚠️ 需补充</span></td><td>必须叠加外部时间特征</td></tr>
-                    </tbody>
-                </table>
-            </section>
-
-            <section id="improvements" class="section improve-section">
-                <h2>四、改进方向（近期研究）</h2>
-                <div class="model-article">
-                    <h3>多尺度 / 自适应 Patching</h3>
-                    <p>Moirai（多尺寸投影层）、DeformableTST（动态非均匀 patch）、TimeSqueeze。核心思路是让模型<strong>自动学习</strong>最优的 patch 划分方式，而非依赖人工设定。</p>
-                </div>
-                <div class="model-article">
-                    <h3>连续时间表示</h3>
-                    <p>FlexTSF（基于常微分方程），摆脱离散 patch 边界限制。用连续函数对时间建模，从根本上避免"切分"带来的边界问题。</p>
-                </div>
-                <div class="model-article">
-                    <h3>混合架构</h3>
-                    <p>Patch + 卷积 + 点式注意力，同时保留局部形态与高频细节。在不同粒度上建模，兼顾宏观形态与微观细节。</p>
-                </div>
-            </section>
-
-            <section id="summary" class="section">
-                <h2>五、总结</h2>
-                <div class="conclusion-box">
-                    <p><strong>Patching 是一项用局部平滑换计算效率与长序列建模能力的工程折衷。</strong></p>
-                    <p>在长周期、低噪声、形态驱动的任务中优势显著；但在高频细节、多周期交叉、强可解释性需求下，其缺陷不可忽视。</p>
-                    <p>选择时应根据数据特性与任务目标权衡，或探索动态/多尺度的改进方案。</p>
-                </div>
-            </section>
-
-            <footer class="footer">
-                <p>参考：PatchTST · Moirai 2.0 · TimesNet · FlexTSF · TimeSqueeze</p>
-                <p><a href="index.html">← 返回首页</a></p>
-            </footer>
-        </main>
-    </div>
+</header>
+<p class="intro-text">基于现有研究（PatchTST、Moirai、TimesNet 等）及近期批判性分析，对 Patching 技术进行全面总结。</p>
+<section class="section pros-section" id="advantages">
+<h2 id="一、patching-的核心优势">一、Patching 的核心优势</h2>
+<table>
+<thead><tr><th>优势</th><th>说明</th></tr></thead>
+<tbody>
+<tr><td><strong>大幅降低计算复杂度</strong></td><td>将长度为 <em>L</em> 的序列分成 <em>P</em> 个 patch（<em>P</em> ≪ <em>L</em>），使 Transformer 的注意力复杂度从 <em>O(L²)</em> 降至 <em>O(P²)</em>，支持极长序列预测。</td></tr>
+<tr><td><strong>增强局部语义提取</strong></td><td>每个 patch 作为一个整体单元，内部通过线性投影或小型网络编码，能有效捕获邻近时间点之间的短期依赖与模式（如上升趋势、波动形态）。</td></tr>
+<tr><td><strong>提升信噪比与鲁棒性</strong></td><td>对 patch 内点进行聚合，自然平滑高频噪声和微观抖动，使模型更关注形态层面的特征，对数据采样的细微扰动更稳健。</td></tr>
+<tr><td><strong>缓解"注意力分散"问题</strong></td><td>逐点注意力容易将权重分配到无关单点上；patch 化强制模型关注连续的片段，减少对孤立噪声点的过度关注，利于捕捉有意义的局部结构。</td></tr>
+<tr><td><strong>支持多变量高效建模</strong></td><td>PatchTST 等模型在不同变量间共享 patch 投影参数，有效利用跨变量信息，且变量数增加时计算量仅线性增长。</td></tr>
+</tbody>
+</table>
+</section>
+<section class="section cons-section" id="disadvantages">
+<h2 id="二、patching-的主要劣势">二、Patching 的主要劣势</h2>
+<table>
+<thead><tr><th>劣势</th><th>深度解析</th></tr></thead>
+<tbody>
+<tr><td><strong>边界截断与跨块依赖丢失</strong></td><td>关键波动模式若恰好跨越两个 patch 的边界，模型无法直接感知完整形态，需依赖后续全局注意力重构，增加了学习难度。</td></tr>
+<tr><td><strong>高频细节被过度平滑（特征稀释）</strong></td><td>将窗口内的点压缩为一个向量会抹平尖锐异常值、瞬时脉冲等高频信息。对异常检测、极值预测等任务影响显著。</td></tr>
+<tr><td><strong>对 Patch 超参数极度敏感</strong></td><td>Patch 长度 <em>P</em> 和步长 <em>S</em> 需人工设定。<em>P</em> 过小 → 逼近逐点，失去优势；<em>P</em> 过大 → 信息过度损失。不同周期、不同采样率的数据需要完全不同的设置，缺乏理论指导。</td></tr>
+<tr><td><strong>相位敏感性与平移不变性差</strong></td><td>固定步长切分导致序列起始点偏移时，同一个信号形态可能落入不同的 patch 边界，使模型输出剧烈变化，对抗扰动能力弱。</td></tr>
+<tr><td><strong class="highlight-red">Level-Shape 耦合导致语义碎片化</strong></td><td>Patch 方法将一个固定长度窗口内的局部基准值（level）和波动形态（shape）耦合在同一个 token 中。当周期发生漂移或伸缩时，同一个语义事件（比如早高峰）会落入不同窗口的不同相位位置，导致原本相似的形态呈现出多种不同的 level-shape 组合。模型被迫学习所有这些「变体」，参数量膨胀，且难以泛化到未见过的周期偏移。</td></tr>
+<tr><td><strong>难以处理多周期与动态特性</strong></td><td>真实序列常同时存在日周期、周周期、年周期。单一固定 <em>P</em> 无法同时适配不同尺度的模式。Moirai 等多 patch 尺寸方案只能部分缓解，未根本解决。</td></tr>
+<tr><td><strong>丢失绝对时间相位信息</strong></td><td>位置编码通常只标识"第几个 patch"，丢弃了原始时间戳（如小时、星期几）。依赖绝对相位（如交通早高峰、潮汐时刻）的任务需额外引入协变量。</td></tr>
+<tr><td><strong>短序列上得不偿失</strong></td><td>当序列长度 <em>L</em> &lt; 100 时，patch 化带来的压缩收益极小，反而增加投影层设计开销，不如直接使用 LSTM 或线性模型。</td></tr>
+<tr><td><strong>解释性降低</strong></td><td>注意力权重对应的是 patch 的重要性，而非原始时间点。若要定位关键时间点，需额外的归因分析（如反向传播到 patch 内部），增加调试难度。</td></tr>
+</tbody>
+</table>
+<div class="warning-box">
+<p><strong>⚠️ 核心矛盾：</strong>Patching 是一项用局部平滑换计算效率与长序列建模能力的工程折衷。优势与劣势本质上来自同一种设计选择——将连续时间点聚合为块。</p>
+</div>
+</section>
+<section class="section scenario-section" id="scenarios">
+<h2 id="三、适用场景建议">三、适用场景建议</h2>
+<table>
+<thead><tr><th>场景</th><th>推荐使用？</th><th>理由</th></tr></thead>
+<tbody>
+<tr><td>长序列（&gt;500点）预测，计算资源受限</td><td><span class="tag-yes">✅ 非常推荐</span></td><td>核心收益领域，可极大降低复杂度</td></tr>
+<tr><td>存在明显周期性/趋势形态</td><td><span class="tag-yes">✅ 推荐</span></td><td>patch 能有效捕捉局部形态</td></tr>
+<tr><td>高频噪声多，信噪比低</td><td><span class="tag-yes">✅ 推荐</span></td><td>噪声平滑，提升鲁棒性</td></tr>
+<tr><td>高频细节敏感（异常检测、瞬时脉冲）</td><td><span class="tag-no">❌ 不推荐</span></td><td>会丢失关键极值信息</td></tr>
+<tr><td>需精确解释每一点重要性（金融风控、医疗）</td><td><span class="tag-no">❌ 不推荐</span></td><td>解释性差，难定位关键点</td></tr>
+<tr><td>多周期交叉且无固定尺度</td><td><span class="tag-caution">⚠️ 谨慎</span></td><td>需多 patch 尺寸或动态方案</td></tr>
+<tr><td>序列长度 &lt; 100</td><td><span class="tag-no">❌ 不推荐</span></td><td>计算收益小，设计复杂</td></tr>
+<tr><td>绝对时间相位关键（如交通、潮汐）</td><td><span class="tag-caution">⚠️ 需补充</span></td><td>必须叠加外部时间特征</td></tr>
+</tbody>
+</table>
+</section>
+<section class="section improve-section" id="improvements">
+<h2 id="四、改进方向近期研究">四、改进方向（近期研究）</h2>
+<div class="model-article">
+<h3 id="多尺度-自适应-patching">多尺度 / 自适应 Patching</h3>
+<p>Moirai（多尺寸投影层）、DeformableTST（动态非均匀 patch）、TimeSqueeze。核心思路是让模型<strong>自动学习</strong>最优的 patch 划分方式，而非依赖人工设定。</p>
+</div>
+<div class="model-article">
+<h3 id="连续时间表示">连续时间表示</h3>
+<p>FlexTSF（基于常微分方程），摆脱离散 patch 边界限制。用连续函数对时间建模，从根本上避免"切分"带来的边界问题。</p>
+</div>
+<div class="model-article">
+<h3 id="混合架构">混合架构</h3>
+<p>Patch + 卷积 + 点式注意力，同时保留局部形态与高频细节。在不同粒度上建模，兼顾宏观形态与微观细节。</p>
+</div>
+</section>
+<section class="section" id="summary">
+<h2 id="五、总结">五、总结</h2>
+<div class="conclusion-box">
+<p><strong>Patching 是一项用局部平滑换计算效率与长序列建模能力的工程折衷。</strong></p>
+<p>在长周期、低噪声、形态驱动的任务中优势显著；但在高频细节、多周期交叉、强可解释性需求下，其缺陷不可忽视。</p>
+<p>选择时应根据数据特性与任务目标权衡，或探索动态/多尺度的改进方案。</p>
+</div>
+</section>
+<footer class="footer">
+<p>参考：PatchTST · Moirai 2.0 · TimesNet · FlexTSF · TimeSqueeze</p>
+<p><a href="index.html">← 返回首页</a></p>
+</footer>
+</main>
+</div>
 </body>
 </html>

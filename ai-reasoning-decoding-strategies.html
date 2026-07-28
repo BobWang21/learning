@@ -1,11 +1,12 @@
 <!DOCTYPE html>
+
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>1 解码策略 - 推理及应用</title>
-    <link rel="stylesheet" href="styles.css?v=20260713-page-only-toc">
-    <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>1 解码策略 - 推理及应用</title>
+<link href="styles.css?v=20260713-page-only-toc" rel="stylesheet"/>
+<style>
         :root { --rose:#8B1E3F; --terra:#C2410C; --amber:#B45309; --ink:#1f2937; --muted:#64748b; --line:#f2d6d6; --soft-amber:#fff7ed; --paper:#ffffff; }
         .note-page { background:var(--paper); border-radius:8px; padding:34px; margin-bottom:30px; box-shadow:0 2px 8px rgba(0,0,0,.05); }
         .note-page h1,.note-page h2,.note-page h3,.note-page h4 { color:var(--rose); line-height:1.35; }
@@ -33,36 +34,17 @@
         .page-toc ul ul { margin-left:18px; }
         @media (max-width:720px) { .note-page { padding:22px; } }
     </style>
-    <script>
+<script>
         window.MathJax = { tex: { inlineMath: [['$', '$'], ['\\(', '\\)']], displayMath: [['$$', '$$'], ['\\[', '\\]']] }, svg: { fontCache:'global' } };
     </script>
-    <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+<script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
 </head>
 <body>
-    <div class="container">
-        <div class="sidebar"><div class="page-toc"><h2>目录</h2><div class="toc">
-<ul>
-<li><a href="#decoding-strategies">解码策略 (Decoding Strategies)</a><ul>
-<li><a href="#1">1. 解码策略是什么</a></li>
-<li><a href="#2">2. 基本生成过程</a></li>
-<li><a href="#3">3. 常见策略</a><ul>
-<li><a href="#31">3.1 完整策略</a></li>
-<li><a href="#32">3.2 控制参数</a></li>
-<li><a href="#33-seed">3.3 随机种子（Seed）</a></li>
-</ul>
-</li>
-<li><a href="#4">4. 场景速查表</a></li>
-<li><a href="#5-api">5. 实际 API 参数映射</a></li>
-<li><a href="#6-reasoning">6. 解码策略与慢系统推理（Reasoning）的关系</a></li>
-<li><a href="#7">7. 一句话总结</a></li>
-</ul>
-</li>
-</ul>
-</div>
-</div></div>
-        <main class="content">
-            <header class="header"><h1>1 解码策略</h1><div class="breadcrumb"><a href="index.html">首页</a> &gt; <a href="index.html#ai">AI</a> &gt; 推理及应用 &gt; 解码策略</div></header>
-            <section class="note-page">
+<div class="container">
+<div class="sidebar"><div class="page-toc"><h2>目录</h2><ul><li><a href="#1">1. 解码策略是什么</a></li><li><a href="#2">2. 基本生成过程</a></li><li><a href="#3">3. 常见策略</a><ul><li><a href="#31">3.1 完整策略</a></li><li><a href="#32">3.2 控制参数</a></li><li><a href="#33-seed">3.3 随机种子（Seed）</a></li></ul></li><li><a href="#4">4. 场景速查表</a></li><li><a href="#5-api">5. 实际 API 参数映射</a></li><li><a href="#6-reasoning">6. 解码策略与慢系统推理（Reasoning）的关系</a></li><li><a href="#7">7. 一句话总结</a></li></ul></div></div>
+<main class="content">
+<header class="header"><h1>1 解码策略</h1><div class="breadcrumb"><a href="index.html">首页</a> &gt; <a href="index.html#ai">AI</a> &gt; 推理及应用 &gt; 解码策略</div></header>
+<section class="note-page">
 <h1 id="decoding-strategies">解码策略 (Decoding Strategies)</h1>
 <h2 id="1">1. 解码策略是什么</h2>
 <p>LLM 解码策略属于<strong>推理阶段（Inference / Test-Time Compute）</strong>知识，不更新模型参数。它解决的问题是：<strong>模型已经输出 logits 后，如何选择下一个 token。</strong> 它在普通生成中影响回答的稳定性和多样性；在 Reasoning 模型中还影响搜索路径、候选答案选择和 Test-Time Scaling 效果。</p>
@@ -278,13 +260,13 @@
 <blockquote>
 <p><strong>解码策略属于推理阶段知识，核心是控制模型如何从概率分布中选择下一个 token。普通生成中它影响稳定性和多样性；Reasoning 模型中它还影响搜索路径、候选答案选择和 Test-Time Scaling 效果。完整策略与控制参数组合使用，才能达到最佳效果。</strong></p>
 </blockquote>
-                <a href="index.html#ai" class="back-link">返回 AI</a>
-            </section>
-        </main>
-    </div>
-    <link rel="stylesheet" href="https://cdn.quilljs.com/1.3.7/quill.snow.css">
-    <link rel="stylesheet" href="editor.css?v=20260714-no-editor">
-    <script src="https://cdn.quilljs.com/1.3.7/quill.min.js"></script>
-    <script src="editor.js?v=20260714-no-editor"></script>
+<a class="back-link" href="index.html#ai">返回 AI</a>
+</section>
+</main>
+</div>
+
+
+
+
 </body>
 </html>

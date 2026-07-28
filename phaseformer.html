@@ -1,11 +1,12 @@
 <!DOCTYPE html>
+
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PhaseFormer 论文读书笔记</title>
-    <link rel="stylesheet" href="styles.css?v=20260713-page-only-toc">
-    <script>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>PhaseFormer 论文读书笔记</title>
+<link href="styles.css?v=20260713-page-only-toc" rel="stylesheet"/>
+<script>
         MathJax = {
             tex: {
                 inlineMath: [['$', '$'], ['\\(', '\\)']],
@@ -16,8 +17,8 @@
             startup: { pageReady: function() { return MathJax.typesetPromise(); } }
         };
     </script>
-    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-    <style>
+<script async="" id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<style>
         .pros-section h2 { color: #059669; }
         .highlight-red { color: #dc2626; }
         .insight-box {
@@ -31,316 +32,272 @@
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="sidebar">
-<div class="page-toc">
-                                        <h4>📑 页面目录</h4>
-                                        <ul style="list-style: none; padding: 0;">
-                                            <li><a href="#basic-info">基本信息</a></li>
-                                            <li><a href="#background">1. 研究背景与动机</a></li>
-                                            <li><a href="#motivations">2. 核心洞察（Motivations）</a></li>
-                                            <li><a href="#model-design">3. 模型设计：PhaseFormer</a></li>
-                                            <li><a href="#experiments">4. 实验</a></li>
-                                            <li><a href="#theory">5. 理论分析</a></li>
-                                            <li><a href="#advantages">6. 优势总结</a></li>
-                                            <li><a href="#limitations">7. 局限与未来工作</a></li>
-                                            <li><a href="#thoughts">8. 个人思考</a></li>
-                                        </ul>
-                                    </div>
-        
-
-
-        </div>
-
-        <main class="content">
-            <header class="header">
-                <h1>PhaseFormer 论文读书笔记</h1>
-                <div class="breadcrumb">
-                    <a href="index.html">首页</a> > <a href="index.html#prediction">预测</a> > 时序预测 > Phase Wise
+<div class="container">
+<div class="sidebar">
+<div class="page-toc"><h2>目录</h2><ul><li><a href="#基本信息">基本信息</a></li><li><a href="#1-研究背景与动机">1. 研究背景与动机</a></li><li><a href="#2-核心洞察motivations">2. 核心洞察（Motivations）</a><ul><li><a href="#洞察-1相位令牌全局平稳片段令牌仅局部平稳">洞察 1：相位令牌全局平稳，片段令牌仅局部平稳</a></li><li><a href="#洞察-2相位令牌位于低维子空间">洞察 2：相位令牌位于低维子空间</a></li></ul></li><li><a href="#3-模型设计phaseformer">3. 模型设计：PhaseFormer</a><ul><li><a href="#31-数据预处理">3.1 数据预处理</a></li><li><a href="#32-模型架构">3.2 模型架构</a></li><li><a href="#33-复杂度分析">3.3 复杂度分析</a></li></ul></li><li><a href="#4-实验">4. 实验</a><ul><li><a href="#41-数据集">4.1 数据集</a></li><li><a href="#42-对比基线">4.2 对比基线</a></li><li><a href="#43-预测精度">4.3 预测精度</a></li><li><a href="#44-效率对比">4.4 效率对比</a></li><li><a href="#45-消融实验">4.5 消融实验</a></li><li><a href="#46-案例分析">4.6 案例分析</a></li></ul></li><li><a href="#5-理论分析theorem-1-3">5. 理论分析（Theorem 1 &amp; 3）</a><ul><li><a href="#设定">设定</a></li><li><a href="#结论">结论</a></li></ul></li><li><a href="#6-优势总结">6. 优势总结</a></li><li><a href="#7-局限与未来工作">7. 局限与未来工作</a></li><li><a href="#8-个人思考">8. 个人思考</a></li></ul></div>
+</div>
+<main class="content">
+<header class="header">
+<h1>PhaseFormer 论文读书笔记</h1>
+<div class="breadcrumb">
+<a href="index.html">首页</a> &gt; <a href="index.html#prediction">预测</a> &gt; 时序预测 &gt; Phase Wise
                 </div>
-            </header>
-
-            
-
-            <!-- 基本信息 -->
-            <section id="basic-info" class="section">
-                <h2>基本信息</h2>
-                <ul>
-                    <li><strong>标题</strong>：PhaseFormer: From Patches to Phases for Efficient and Effective Time Series Forecasting</li>
-                    <li><strong>作者</strong>：Yiming Niu, Jinliang Deng, Yongxin Tong</li>
-                    <li><strong>出处</strong>：ICLR 2026（推测）</li>
-                    <li><strong>代码</strong>：<a href="https://github.com/neumyor/PhaseFormer_TSL" target="_blank">github.com/neumyor/PhaseFormer_TSL</a></li>
-                </ul>
-            </section>
-
-            <!-- 1. 研究背景与动机 -->
-            <section id="background" class="section">
-                <h2>1. 研究背景与动机</h2>
-                <p>时间序列预测在金融、能源、交通等领域具有重要价值。周期性是时间序列的核心归纳偏置。</p>
-                <p>近年来，<strong>基于片段（Patch）的方法</strong>（如 PatchTST、Crossformer）通过将序列切分为片段令牌（patch tokens）来利用周期性，取得了良好的预测效果。然而，这些方法存在两个严重问题：</p>
-                <ol>
-                    <li><strong>效率低下</strong>：参数量大、计算成本高，难以扩展到大规模、复杂数据集。</li>
-                    <li><strong>对周期漂移敏感</strong>：真实场景中周期模式会因外部因素（新道路、作息调整等）发生漂移，导致：
+</header>
+<!-- 基本信息 -->
+<section class="section" id="basic-info">
+<h2 id="基本信息">基本信息</h2>
+<ul>
+<li><strong>标题</strong>：PhaseFormer: From Patches to Phases for Efficient and Effective Time Series Forecasting</li>
+<li><strong>作者</strong>：Yiming Niu, Jinliang Deng, Yongxin Tong</li>
+<li><strong>出处</strong>：ICLR 2026（推测）</li>
+<li><strong>代码</strong>：<a href="https://github.com/neumyor/PhaseFormer_TSL" target="_blank">github.com/neumyor/PhaseFormer_TSL</a></li>
+</ul>
+</section>
+<!-- 1. 研究背景与动机 -->
+<section class="section" id="background">
+<h2 id="1-研究背景与动机">1. 研究背景与动机</h2>
+<p>时间序列预测在金融、能源、交通等领域具有重要价值。周期性是时间序列的核心归纳偏置。</p>
+<p>近年来，<strong>基于片段（Patch）的方法</strong>（如 PatchTST、Crossformer）通过将序列切分为片段令牌（patch tokens）来利用周期性，取得了良好的预测效果。然而，这些方法存在两个严重问题：</p>
+<ol>
+<li><strong>效率低下</strong>：参数量大、计算成本高，难以扩展到大规模、复杂数据集。</li>
+<li><strong>对周期漂移敏感</strong>：真实场景中周期模式会因外部因素（新道路、作息调整等）发生漂移，导致：
                         <ul>
-                            <li>需要高维表示空间适应分布变化 → 参数膨胀</li>
-                            <li>难以泛化到训练分布之外的样本 → 预测不可靠</li>
-                        </ul>
-                    </li>
-                </ol>
-
-                <div class="conclusion-box">
-                    <p><strong>核心问题</strong>：如何设计既高效又鲁棒、能应对周期漂移的时序预测模型？</p>
-                </div>
-            </section>
-
-            <!-- 2. 核心洞察 -->
-            <section id="motivations" class="section">
-                <h2>2. 核心洞察（Motivations）</h2>
-                <p>论文通过可视化和理论分析，对比了 <strong>Patch 令牌</strong> 与 <strong>Phase 令牌</strong> 的几何结构，得出两个关键洞察。</p>
-
-                <div class="model-article">
-                    <h3>洞察 1：相位令牌全局平稳，片段令牌仅局部平稳</h3>
-                    <ul>
-                        <li><strong>Patch 令牌</strong>：由局部周期内的连续观测组成。
+<li>需要高维表示空间适应分布变化 → 参数膨胀</li>
+<li>难以泛化到训练分布之外的样本 → 预测不可靠</li>
+</ul>
+</li>
+</ol>
+<div class="conclusion-box">
+<p><strong>核心问题</strong>：如何设计既高效又鲁棒、能应对周期漂移的时序预测模型？</p>
+</div>
+</section>
+<!-- 2. 核心洞察 -->
+<section class="section" id="motivations">
+<h2 id="2-核心洞察motivations">2. 核心洞察（Motivations）</h2>
+<p>论文通过可视化和理论分析，对比了 <strong>Patch 令牌</strong> 与 <strong>Phase 令牌</strong> 的几何结构，得出两个关键洞察。</p>
+<div class="model-article">
+<h3 id="洞察-1相位令牌全局平稳片段令牌仅局部平稳">洞察 1：相位令牌全局平稳，片段令牌仅局部平稳</h3>
+<ul>
+<li><strong>Patch 令牌</strong>：由局部周期内的连续观测组成。
                             <ul>
-                                <li>t-SNE 显示分布随时间漂移（局部平稳，全局漂移）</li>
-                                <li>不同周之间的 MMD 距离大 → 分布差异大</li>
-                            </ul>
-                        </li>
-                        <li><strong>Phase 令牌</strong>：跨周期固定相对位置的观测组成。
+<li>t-SNE 显示分布随时间漂移（局部平稳，全局漂移）</li>
+<li>不同周之间的 MMD 距离大 → 分布差异大</li>
+</ul>
+</li>
+<li><strong>Phase 令牌</strong>：跨周期固定相对位置的观测组成。
                             <ul>
-                                <li>t-SNE 显示形成紧凑、稳定的簇</li>
-                                <li>MMD 距离显著更小 → 全局平稳</li>
-                            </ul>
-                        </li>
-                    </ul>
-                    <div class="conclusion-box">
-                        <p>结论：相位令牌的分布漂移更小，有利于在时间轴上泛化。</p>
-                    </div>
-                </div>
-
-                <div class="model-article">
-                    <h3>洞察 2：相位令牌位于低维子空间</h3>
-                    <ul>
-                        <li><strong>PCA 分析</strong>：
+<li>t-SNE 显示形成紧凑、稳定的簇</li>
+<li>MMD 距离显著更小 → 全局平稳</li>
+</ul>
+</li>
+</ul>
+<div class="conclusion-box">
+<p>结论：相位令牌的分布漂移更小，有利于在时间轴上泛化。</p>
+</div>
+</div>
+<div class="model-article">
+<h3 id="洞察-2相位令牌位于低维子空间">洞察 2：相位令牌位于低维子空间</h3>
+<ul>
+<li><strong>PCA 分析</strong>：
                             <ul>
-                                <li>2 个主成分即可解释 Phase 令牌 90% 以上方差</li>
-                                <li>Patch 令牌需要 11+ 个主成分才能达到同等解释度</li>
-                            </ul>
-                        </li>
-                        <li><strong>理论证明（Theorem 1）</strong>：
+<li>2 个主成分即可解释 Phase 令牌 90% 以上方差</li>
+<li>Patch 令牌需要 11+ 个主成分才能达到同等解释度</li>
+</ul>
+</li>
+<li><strong>理论证明（Theorem 1）</strong>：
                             <ul>
-                                <li>Phase 令牌化在周期模式变化（线性变换）下具有结构不变性，仅受噪声扰动</li>
-                                <li>Patch 令牌化会产生不可消除的结构偏移</li>
-                            </ul>
-                        </li>
-                    </ul>
-                    <div class="conclusion-box">
-                        <p>结论：相位信息本质低维 → 可以用极小的参数量和计算量高效建模。</p>
-                    </div>
-                </div>
-            </section>
-
-            <!-- 3. 模型设计 -->
-            <section id="model-design" class="section">
-                <h2>3. 模型设计：PhaseFormer</h2>
-                <p>PhaseFormer 将时间序列<strong>从逐步预测转化为逐相位预测</strong>，核心流程如下。</p>
-
-                <div class="model-article">
-                    <h3>3.1 数据预处理</h3>
-                    <ul>
-                        <li><strong>归一化</strong>：RevIN（Kim et al., 2021）</li>
-                        <li><strong>相位令牌化</strong>：
+<li>Phase 令牌化在周期模式变化（线性变换）下具有结构不变性，仅受噪声扰动</li>
+<li>Patch 令牌化会产生不可消除的结构偏移</li>
+</ul>
+</li>
+</ul>
+<div class="conclusion-box">
+<p>结论：相位信息本质低维 → 可以用极小的参数量和计算量高效建模。</p>
+</div>
+</div>
+</section>
+<!-- 3. 模型设计 -->
+<section class="section" id="model-design">
+<h2 id="3-模型设计phaseformer">3. 模型设计：PhaseFormer</h2>
+<p>PhaseFormer 将时间序列<strong>从逐步预测转化为逐相位预测</strong>，核心流程如下。</p>
+<div class="model-article">
+<h3 id="31-数据预处理">3.1 数据预处理</h3>
+<ul>
+<li><strong>归一化</strong>：RevIN（Kim et al., 2021）</li>
+<li><strong>相位令牌化</strong>：
                             <ul>
-                                <li>估计周期长度 \(L_{\text{phase}}\)（自相关分析）</li>
-                                <li>将输入序列循环填充至 \(P_{\text{in}} \times L_{\text{phase}}\)</li>
-                                <li>重塑为相位-周期矩阵 \(\mathbb{R}^{L_{\text{phase}} \times P_{\text{in}}}\)</li>
-                            </ul>
-                        </li>
-                        <li><strong>相位去令牌化</strong>：逆操作恢复预测序列</li>
-                    </ul>
-                </div>
-
-                <div class="model-article">
-                    <h3>3.2 模型架构</h3>
-                    <ol>
-                        <li><strong>嵌入层</strong><br>
+<li>估计周期长度 \(L_{\text{phase}}\)（自相关分析）</li>
+<li>将输入序列循环填充至 \(P_{\text{in}} \times L_{\text{phase}}\)</li>
+<li>重塑为相位-周期矩阵 \(\mathbb{R}^{L_{\text{phase}} \times P_{\text{in}}}\)</li>
+</ul>
+</li>
+<li><strong>相位去令牌化</strong>：逆操作恢复预测序列</li>
+</ul>
+</div>
+<div class="model-article">
+<h3 id="32-模型架构">3.2 模型架构</h3>
+<ol>
+<li><strong>嵌入层</strong><br/>
                             线性投影：\(\mathbf{Z} = f_\theta(\mathbf{X}_{\text{phase}}) \in \mathbb{R}^{L_{\text{phase}} \times d}\)，添加可学习的位置编码。
                         </li>
-                        <li><strong>跨相位路由层</strong>（替代全注意力）
+<li><strong>跨相位路由层</strong>（替代全注意力）
                             <ul>
-                                <li>引入 \(M\) 个可学习的路由器 \(\mathbf{R} \in \mathbb{R}^{M \times d}\)</li>
-                                <li><strong>Phase → Router</strong>：路由器作为 Query，相位作为 Key/Value，通过交叉注意力聚合信息</li>
-                                <li><strong>Router → Phase</strong>：相位作为 Query，路由器作为 Key/Value，分发信息</li>
-                                <li>复杂度 \(O((L_{\text{phase}}+M)d^2 + M L_{\text{phase}} d)\)，远低于自注意力的 \(O(L_{\text{phase}}^2 d)\)</li>
-                            </ul>
-                        </li>
-                        <li><strong>共享预测器</strong><br>
+<li>引入 \(M\) 个可学习的路由器 \(\mathbf{R} \in \mathbb{R}^{M \times d}\)</li>
+<li><strong>Phase → Router</strong>：路由器作为 Query，相位作为 Key/Value，通过交叉注意力聚合信息</li>
+<li><strong>Router → Phase</strong>：相位作为 Query，路由器作为 Key/Value，分发信息</li>
+<li>复杂度 \(O((L_{\text{phase}}+M)d^2 + M L_{\text{phase}} d)\)，远低于自注意力的 \(O(L_{\text{phase}}^2 d)\)</li>
+</ul>
+</li>
+<li><strong>共享预测器</strong><br/>
                             所有相位共享同一个线性层 \(g_\phi: \mathbb{R}^{d} \to \mathbb{R}^{P_{\text{out}}}\)，输出预测的相位-周期矩阵 \(\mathbf{Y}_{\text{phase}}\)。
                         </li>
-                    </ol>
-                </div>
-
-                <div class="model-article">
-                    <h3>3.3 复杂度分析</h3>
-                    <ul>
-                        <li>整体复杂度与输入/输出长度<strong>线性相关</strong></li>
-                        <li>参数量仅约 <strong>1k</strong>，FLOPs 相比 PatchTST/Crossformer 减少 <strong>99.99%</strong></li>
-                    </ul>
-                </div>
-            </section>
-
-            <!-- 4. 实验 -->
-            <section id="experiments" class="section">
-                <h2>4. 实验</h2>
-
-                <div class="model-article">
-                    <h3>4.1 数据集</h3>
-                    <ul>
-                        <li>ETT（电力变压器温度）：4 个子集</li>
-                        <li>Weather（天气）</li>
-                        <li>Electricity（电力消耗）</li>
-                        <li>Traffic（交通流量）</li>
-                    </ul>
-                </div>
-
-                <div class="model-article">
-                    <h3>4.2 对比基线</h3>
-                    <ul>
-                        <li><strong>Patch-based</strong>：PatchTST, Crossformer, TimeMixer</li>
-                        <li><strong>Phase-based</strong>：SparseTSF, TimeBase</li>
-                        <li><strong>频域</strong>：FEDformer, FITS</li>
-                        <li><strong>其他</strong>：iTransformer</li>
-                    </ul>
-                </div>
-
-                <div class="model-article">
-                    <h3>4.3 预测精度</h3>
-                    <table>
-                        <thead><tr><th>数据集</th><th>PhaseFormer 表现</th></tr></thead>
-                        <tbody>
-                            <tr><td>Traffic</td><td><span class="tag-best">最佳</span>，MSE 0.386（超 PatchTST 6.3%）</td></tr>
-                            <tr><td>Electricity</td><td><span class="tag-best">最佳或次佳</span></td></tr>
-                            <tr><td>Weather</td><td><span class="tag-best">最佳</span></td></tr>
-                            <tr><td>ETTh2</td><td>仅次于 FITS</td></tr>
-                        </tbody>
-                    </table>
-                    <ul>
-                        <li>在大型、复杂数据集上优势尤其明显</li>
-                        <li>唯一弱项是 ETTh2（周期相对固定，简单数据集），但仍保持强竞争力</li>
-                    </ul>
-                </div>
-
-                <div class="model-article">
-                    <h3>4.4 效率对比</h3>
-                    <ul>
-                        <li>参数量：PhaseFormer ≈ 1k，PatchTST ≈ 100k–1M</li>
-                        <li>FLOPs：PhaseFormer 在 Traffic 上比 PatchTST 低 <strong>4 个数量级</strong></li>
-                    </ul>
-                </div>
-
-                <div class="model-article">
-                    <h3>4.5 消融实验</h3>
-                    <ul>
-                        <li><strong>路由数 \(M\)</strong>：\(M=4\) 或 \(8\) 最佳，远小于相位总数 \(L_{\text{phase}}=24\)，证实低维特性</li>
-                        <li><strong>跨相位路由 vs. 全注意力 / 线性混合 / 无路由</strong>：
+</ol>
+</div>
+<div class="model-article">
+<h3 id="33-复杂度分析">3.3 复杂度分析</h3>
+<ul>
+<li>整体复杂度与输入/输出长度<strong>线性相关</strong></li>
+<li>参数量仅约 <strong>1k</strong>，FLOPs 相比 PatchTST/Crossformer 减少 <strong>99.99%</strong></li>
+</ul>
+</div>
+</section>
+<!-- 4. 实验 -->
+<section class="section" id="experiments">
+<h2 id="4-实验">4. 实验</h2>
+<div class="model-article">
+<h3 id="41-数据集">4.1 数据集</h3>
+<ul>
+<li>ETT（电力变压器温度）：4 个子集</li>
+<li>Weather（天气）</li>
+<li>Electricity（电力消耗）</li>
+<li>Traffic（交通流量）</li>
+</ul>
+</div>
+<div class="model-article">
+<h3 id="42-对比基线">4.2 对比基线</h3>
+<ul>
+<li><strong>Patch-based</strong>：PatchTST, Crossformer, TimeMixer</li>
+<li><strong>Phase-based</strong>：SparseTSF, TimeBase</li>
+<li><strong>频域</strong>：FEDformer, FITS</li>
+<li><strong>其他</strong>：iTransformer</li>
+</ul>
+</div>
+<div class="model-article">
+<h3 id="43-预测精度">4.3 预测精度</h3>
+<table>
+<thead><tr><th>数据集</th><th>PhaseFormer 表现</th></tr></thead>
+<tbody>
+<tr><td>Traffic</td><td><span class="tag-best">最佳</span>，MSE 0.386（超 PatchTST 6.3%）</td></tr>
+<tr><td>Electricity</td><td><span class="tag-best">最佳或次佳</span></td></tr>
+<tr><td>Weather</td><td><span class="tag-best">最佳</span></td></tr>
+<tr><td>ETTh2</td><td>仅次于 FITS</td></tr>
+</tbody>
+</table>
+<ul>
+<li>在大型、复杂数据集上优势尤其明显</li>
+<li>唯一弱项是 ETTh2（周期相对固定，简单数据集），但仍保持强竞争力</li>
+</ul>
+</div>
+<div class="model-article">
+<h3 id="44-效率对比">4.4 效率对比</h3>
+<ul>
+<li>参数量：PhaseFormer ≈ 1k，PatchTST ≈ 100k–1M</li>
+<li>FLOPs：PhaseFormer 在 Traffic 上比 PatchTST 低 <strong>4 个数量级</strong></li>
+</ul>
+</div>
+<div class="model-article">
+<h3 id="45-消融实验">4.5 消融实验</h3>
+<ul>
+<li><strong>路由数 \(M\)</strong>：\(M=4\) 或 \(8\) 最佳，远小于相位总数 \(L_{\text{phase}}=24\)，证实低维特性</li>
+<li><strong>跨相位路由 vs. 全注意力 / 线性混合 / 无路由</strong>：
                             <ul>
-                                <li>全注意力：精度略低 + 计算成本高</li>
-                                <li>线性混合 / 无路由：精度显著下降</li>
-                                <li>→ 路由机制同时保证了效率和精度</li>
-                            </ul>
-                        </li>
-                    </ul>
-                </div>
-
-                <div class="model-article">
-                    <h3>4.6 案例分析</h3>
-                    <ul>
-                        <li>注意力权重显示：相邻相位倾向于分配给相同路由器 → 捕捉局部相似性</li>
-                        <li>不同相位（如相位 1、5、9）具有不同的注意力模式，对应不同的时间行为（平稳/周期/趋势）</li>
-                    </ul>
-                </div>
-            </section>
-
-            <!-- 5. 理论分析 -->
-            <section id="theory" class="section">
-                <h2>5. 理论分析（Theorem 1 &amp; 3）</h2>
-
-                <h3>设定</h3>
-                <ul>
-                    <li>数据矩阵 \(X = AG^\top + N\)，低秩信号 \(M = AG^\top\)，\(r \ll \min(D,H)\)</li>
-                    <li>周期变换：\(X' = X S^\top + R\)，\(S\) 为周期坐标变换，\(R\) 为日间扰动</li>
-                </ul>
-
-                <h3>结论</h3>
-                <ol>
-                    <li><strong>相位令牌化</strong>（列空间）
+<li>全注意力：精度略低 + 计算成本高</li>
+<li>线性混合 / 无路由：精度显著下降</li>
+<li>→ 路由机制同时保证了效率和精度</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="model-article">
+<h3 id="46-案例分析">4.6 案例分析</h3>
+<ul>
+<li>注意力权重显示：相邻相位倾向于分配给相同路由器 → 捕捉局部相似性</li>
+<li>不同相位（如相位 1、5、9）具有不同的注意力模式，对应不同的时间行为（平稳/周期/趋势）</li>
+</ul>
+</div>
+</section>
+<!-- 5. 理论分析 -->
+<section class="section" id="theory">
+<h2 id="5-理论分析theorem-1-3">5. 理论分析（Theorem 1 &amp; 3）</h2>
+<h3 id="设定">设定</h3>
+<ul>
+<li>数据矩阵 \(X = AG^\top + N\)，低秩信号 \(M = AG^\top\)，\(r \ll \min(D,H)\)</li>
+<li>周期变换：\(X' = X S^\top + R\)，\(S\) 为周期坐标变换，\(R\) 为日间扰动</li>
+</ul>
+<h3 id="结论">结论</h3>
+<ol>
+<li><strong>相位令牌化</strong>（列空间）
                         <ul>
-                            <li>在无噪声时严格不变</li>
-                            <li>有噪声时扰动上界与噪声量成正比</li>
-                            <li>对周期漂移鲁棒</li>
-                        </ul>
-                    </li>
-                    <li><strong>片段令牌化</strong>（行空间）
+<li>在无噪声时严格不变</li>
+<li>有噪声时扰动上界与噪声量成正比</li>
+<li>对周期漂移鲁棒</li>
+</ul>
+</li>
+<li><strong>片段令牌化</strong>（行空间）
                         <ul>
-                            <li>即使无噪声也会产生结构偏移 \(d_0 = d(\mathrm{Col}(G), \mathrm{Col}(SG))\)</li>
-                            <li>若 \(S(\mathrm{Col}(G)) \neq \mathrm{Col}(G)\)，则 \(d_0 > 0\)，无法消除</li>
-                        </ul>
-                    </li>
-                </ol>
-
-                <div class="conclusion-box">
-                    <p>理论证明：相位方法比片段方法对周期模式变化具有本质的稳定性。</p>
-                </div>
-            </section>
-
-            <!-- 6. 优势总结 -->
-            <section id="advantages" class="section pros-section">
-                <h2>6. 优势总结</h2>
-                <table>
-                    <thead><tr><th>维度</th><th>Patch 方法</th><th>PhaseFormer</th></tr></thead>
-                    <tbody>
-                        <tr><td><strong>表示方式</strong></td><td>固定长度连续窗口</td><td>跨周期固定相对位置</td></tr>
-                        <tr><td><strong>对周期漂移</strong></td><td>敏感，需学习多种变体</td><td>鲁棒，结构不变性</td></tr>
-                        <tr><td><strong>参数规模</strong></td><td>大（100k+）</td><td>极小（~1k）</td></tr>
-                        <tr><td><strong>计算成本</strong></td><td>高（FLOPs 大）</td><td>极低（99.99% 降低）</td></tr>
-                        <tr><td><strong>泛化能力</strong></td><td>差（训练分布外失效）</td><td>强</td></tr>
-                        <tr><td><strong>适用场景</strong></td><td>周期固定、局部平稳</td><td>周期可能漂移、复杂大数据集</td></tr>
-                    </tbody>
-                </table>
-            </section>
-
-            <!-- 7. 局限与未来工作 -->
-            <section id="limitations" class="section">
-                <h2>7. 局限与未来工作</h2>
-                <ul>
-                    <li><strong>假设</strong>：输入/输出范围内周期局部稳定</li>
-                    <li><strong>不足</strong>：高度不规则或非重复周期下，相位表示可能失效</li>
-                    <li><strong>未来方向</strong>：
+<li>即使无噪声也会产生结构偏移 \(d_0 = d(\mathrm{Col}(G), \mathrm{Col}(SG))\)</li>
+<li>若 \(S(\mathrm{Col}(G)) \neq \mathrm{Col}(G)\)，则 \(d_0 &gt; 0\)，无法消除</li>
+</ul>
+</li>
+</ol>
+<div class="conclusion-box">
+<p>理论证明：相位方法比片段方法对周期模式变化具有本质的稳定性。</p>
+</div>
+</section>
+<!-- 6. 优势总结 -->
+<section class="section pros-section" id="advantages">
+<h2 id="6-优势总结">6. 优势总结</h2>
+<table>
+<thead><tr><th>维度</th><th>Patch 方法</th><th>PhaseFormer</th></tr></thead>
+<tbody>
+<tr><td><strong>表示方式</strong></td><td>固定长度连续窗口</td><td>跨周期固定相对位置</td></tr>
+<tr><td><strong>对周期漂移</strong></td><td>敏感，需学习多种变体</td><td>鲁棒，结构不变性</td></tr>
+<tr><td><strong>参数规模</strong></td><td>大（100k+）</td><td>极小（~1k）</td></tr>
+<tr><td><strong>计算成本</strong></td><td>高（FLOPs 大）</td><td>极低（99.99% 降低）</td></tr>
+<tr><td><strong>泛化能力</strong></td><td>差（训练分布外失效）</td><td>强</td></tr>
+<tr><td><strong>适用场景</strong></td><td>周期固定、局部平稳</td><td>周期可能漂移、复杂大数据集</td></tr>
+</tbody>
+</table>
+</section>
+<!-- 7. 局限与未来工作 -->
+<section class="section" id="limitations">
+<h2 id="7-局限与未来工作">7. 局限与未来工作</h2>
+<ul>
+<li><strong>假设</strong>：输入/输出范围内周期局部稳定</li>
+<li><strong>不足</strong>：高度不规则或非重复周期下，相位表示可能失效</li>
+<li><strong>未来方向</strong>：
                         <ul>
-                            <li>建模非平稳性和复杂漂移</li>
-                            <li>发展更具弹性的相位表示</li>
-                            <li>将 PhaseFormer 推广为长时预测的基准</li>
-                        </ul>
-                    </li>
-                </ul>
-            </section>
-
-            <!-- 8. 个人思考 -->
-            <section id="thoughts" class="section">
-                <h2>8. 个人思考</h2>
-                <ul>
-                    <li><strong>本质区别</strong>：Patch 方法将"局部基准值"和"波形形态"耦合在同一 token 中，周期漂移时产生多种变体；Phase 方法解耦两者，只建模波形形态，基准值由归一化处理 → 更轻量、更稳定。</li>
-                    <li><strong>工业价值</strong>：在物流调度、电力负荷、交通流量等周期可能缓慢变化的场景，PhaseFormer 提供了一种极低成本的轻量替代方案，尤其适合资源受限或高频预测任务。</li>
-                    <li><strong>可迁移性</strong>：Phase 思想不仅限于时序预测，也可推广到其他具有周期结构的序列建模任务。</li>
-                </ul>
-            </section>
-
-            <footer class="footer">
-                <p>参考：PhaseFormer (ICLR 2026) · PatchTST · Crossformer · TimeMixer</p>
-                <p><a href="index.html">← 返回首页</a></p>
-            </footer>
-        </main>
-    </div>
+<li>建模非平稳性和复杂漂移</li>
+<li>发展更具弹性的相位表示</li>
+<li>将 PhaseFormer 推广为长时预测的基准</li>
+</ul>
+</li>
+</ul>
+</section>
+<!-- 8. 个人思考 -->
+<section class="section" id="thoughts">
+<h2 id="8-个人思考">8. 个人思考</h2>
+<ul>
+<li><strong>本质区别</strong>：Patch 方法将"局部基准值"和"波形形态"耦合在同一 token 中，周期漂移时产生多种变体；Phase 方法解耦两者，只建模波形形态，基准值由归一化处理 → 更轻量、更稳定。</li>
+<li><strong>工业价值</strong>：在物流调度、电力负荷、交通流量等周期可能缓慢变化的场景，PhaseFormer 提供了一种极低成本的轻量替代方案，尤其适合资源受限或高频预测任务。</li>
+<li><strong>可迁移性</strong>：Phase 思想不仅限于时序预测，也可推广到其他具有周期结构的序列建模任务。</li>
+</ul>
+</section>
+<footer class="footer">
+<p>参考：PhaseFormer (ICLR 2026) · PatchTST · Crossformer · TimeMixer</p>
+<p><a href="index.html">← 返回首页</a></p>
+</footer>
+</main>
+</div>
 </body>
 </html>

@@ -1,11 +1,12 @@
 <!DOCTYPE html>
+
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>回归预测调研报告</title>
-    <link rel="stylesheet" href="styles.css?v=20260713-page-only-toc">
-    <script>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>回归预测调研报告</title>
+<link href="styles.css?v=20260713-page-only-toc" rel="stylesheet"/>
+<script>
         MathJax = {
             tex: {
                 inlineMath: [['$', '$'], ['\\(', '\\)']],
@@ -13,8 +14,8 @@
             }
         };
     </script>
-    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
-    <style>
+<script async="" id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+<style>
         .model-article img {
             max-width: 80%;
             display: block;
@@ -38,226 +39,193 @@
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="sidebar">
-<div class="page-toc">
-                                        <strong>📑 页面目录</strong>
-                                        <ul>
-                                            <li><a href="#keywords">1. 核心关键词</a></li>
-                                            <li><a href="#basic-methods">2. 常用基础方法综述</a></li>
-                                            <li><a href="#core-modeling">3. 核心建模方式</a></li>
-                                            <li><a href="#summary">4. 调研总结</a></li>
-                                            <li><a href="#xauc">5. XAUC 指标详解</a></li>
-                                        </ul>
-                                    </div>
-        
-
-
-        </div>
-
-        <main class="content">
-            <header class="header">
-                <h1>回归预测调研报告</h1>
-                <div class="breadcrumb">
-                    <a href="index.html">首页</a> > <a href="index.html#prediction">预测</a> > 回归预测 > 回归预测调研
+<div class="container">
+<div class="sidebar">
+<div class="page-toc"><h2>目录</h2><ul><li><a href="#1-核心关键词">1. 核心关键词</a></li><li><a href="#2-常用基础方法综述">2. 常用基础方法综述</a><ul><li><a href="#21-标签变换与平滑-label-processing">2.1 标签变换与平滑 (Label Processing)</a></li><li><a href="#22-损失函数-loss-functions">2.2 损失函数 (Loss Functions)</a></li></ul></li><li><a href="#3-核心建模方式">3. 核心建模方式</a><ul><li><a href="#31-分桶-有序回归以快手-cread-为例">3.1 分桶 + 有序回归（以快手 CREAD 为例）</a></li><li><a href="#32-混合分布建模">3.2 混合分布建模</a></li></ul></li><li><a href="#4-调研总结">4. 调研总结</a></li><li><a href="#5-xauc-指标详解">5. XAUC 指标详解</a><ul><li><a href="#51-定义">5.1 定义</a></li><li><a href="#52-计算逻辑">5.2 计算逻辑</a></li><li><a href="#53-指标含义">5.3 指标含义</a></li><li><a href="#54-为什么在回归中使用-xauc">5.4 为什么在回归中使用 XAUC？</a></li></ul></li></ul></div>
+</div>
+<main class="content">
+<header class="header">
+<h1>回归预测调研报告</h1>
+<div class="breadcrumb">
+<a href="index.html">首页</a> &gt; <a href="index.html#prediction">预测</a> &gt; 回归预测 &gt; 回归预测调研
                 </div>
-            </header>
-
-            
-
-            <section class="section" id="keywords">
-                <h2>1. 核心关键词</h2>
-                <ul>
-                    <li><strong>LTV (Lifetime Value):</strong> 用户生命周期价值预测，具有极高的稀疏性与长尾特征（少数高价值"大鲸鱼"用户贡献主要营收）。</li>
-                    <li><strong>Video Watch Time:</strong> 视频观看时长预测，受用户兴趣与"快划"行为双重影响，分布呈现多峰性与零点聚集特性。</li>
-                </ul>
-            </section>
-
-            <section class="section" id="basic-methods">
-                <h2>2. 常用基础方法综述</h2>
-
-                <h3>2.1 标签变换与平滑 (Label Processing)</h3>
-                <ul>
-                    <li><strong>Log 变换 / Box-Cox 变换：</strong> 压缩目标值的动态范围，缓解极端值对 Loss 的支配，使分布更接近正态分布。</li>
-                    <li><strong>LDS (Label Distribution Smoothing):</strong> 针对连续标签的频率不均，利用核密度估计 (KDE) 平滑分布特征，通过重加权解决长尾区域样本稀疏导致的学习偏置。</li>
-                </ul>
-
-                <h3>2.2 损失函数 (Loss Functions)</h3>
-                <ul>
-                    <li><strong>MAE (L1 Loss):</strong> 对异常值更稳健，但在零点不可导。</li>
-                    <li><strong>Huber Loss:</strong> 结合 L1 和 L2 的优点，误差小时使用平方损失保证收敛，误差大时使用线性损失降低异常值敏感度。</li>
-                    <li><strong>Pinball Loss:</strong> 分位数回归的核心损失，用于预测分位点区间，适合处理 LTV 这种高度不确定性的场景。</li>
-                </ul>
-            </section>
-
-            <section class="section" id="core-modeling">
-                <h2>3. 核心建模方式</h2>
-
-                <div class="model-article">
-                    <h3>3.1 分桶 + 有序回归（以快手 CREAD 为例）</h3>
-                    <ul>
-                        <li><strong>问题背景：</strong> 观看时长分布极不平衡。直接回归由于长尾样本稀疏很难训练；简单分桶离散化（Classification）虽稳健，但面临"分桶太细难以学习（学习误差）"与"分桶太粗还原精度丢失（还原误差）"的矛盾。</li>
-                        <li><strong>核心思想：</strong> 提出"分类-还原"框架，通过 <strong>误差自适应离散化 (Error-Adaptive Discretization)</strong> 自动搜索最优桶边界，平衡两类误差。</li>
-                    </ul>
-                    <h4>网络架构</h4>
-                    <ol>
-                        <li><strong>特征提取层：</strong> 融合用户、视频及上下文特征。</li>
-                        <li><strong>分类模块 (Classification)：</strong> 预测用户行为落入哪个预定义的桶，输出概率分布。</li>
-                        <li><strong>还原模块 (Restoration)：</strong> 学习从离散桶到连续值的映射，通过回归校准还原具体的物理时长。</li>
-                    </ol>
-                    <img src="cread.png" alt="CREAD 网络架构" style="max-width:55%; display:block; margin:20px auto; border-radius:8px; box-shadow:0 2px 8px rgba(0,0,0,0.1);">
-                    <h4>Loss 函数</h4>
-                    <p>联合优化分类、还原与保序三个任务：</p>
-                    <ul>
-                        <li><strong>总损失：</strong> $\mathcal{L} = \mathcal{L}_{cls} + \beta \mathcal{L}_{res} + \gamma \mathcal{L}_{rank}$</li>
-                        <li><strong>$\mathcal{L}_{cls}$:</strong> 交叉熵损失，用于优化分桶准确率。</li>
-                        <li><strong>$\mathcal{L}_{res}$:</strong> <strong>Huber Loss</strong>。作用于最终还原的连续值，相比 MSE 能更稳健地处理长尾样本的预估偏差。</li>
-                        <li><strong>$\mathcal{L}_{rank}$:</strong> <strong>保序损失 (Ranking Loss)</strong>。采用 pairwise margin ranking loss，确保预测值的相对排序与真实值一致：若 $y_i > y_j$，则 $\hat{y}_i > \hat{y}_j$。这对推荐场景至关重要——排序正确比绝对数值准确更重要。</li>
-                    </ul>
-                </div>
-
-                <div class="model-article">
-                    <h3>3.2 混合分布建模</h3>
-                    <p>假设目标值服从一种或多种混合概率分布，模型输出分布参数而非单点数值，能更好地刻画数据的异质性。</p>
-
-                    <h4>3.2.1 混合分布建模（以小红书 EGMN 为例）</h4>
-                    <ul>
-                        <li><strong>问题背景：</strong> 观看时长在粗粒度上极度偏斜（快划多），在细粒度上具有多峰性（完播、重复观看等产生的不同峰值）。</li>
-                        <li><strong>核心思想：</strong> 假设时长服从 <strong>指数-高斯混合分布 (EGM)</strong>。
+</header>
+<section class="section" id="keywords">
+<h2 id="1-核心关键词">1. 核心关键词</h2>
+<ul>
+<li><strong>LTV (Lifetime Value):</strong> 用户生命周期价值预测，具有极高的稀疏性与长尾特征（少数高价值"大鲸鱼"用户贡献主要营收）。</li>
+<li><strong>Video Watch Time:</strong> 视频观看时长预测，受用户兴趣与"快划"行为双重影响，分布呈现多峰性与零点聚集特性。</li>
+</ul>
+</section>
+<section class="section" id="basic-methods">
+<h2 id="2-常用基础方法综述">2. 常用基础方法综述</h2>
+<h3 id="21-标签变换与平滑-label-processing">2.1 标签变换与平滑 (Label Processing)</h3>
+<ul>
+<li><strong>Log 变换 / Box-Cox 变换：</strong> 压缩目标值的动态范围，缓解极端值对 Loss 的支配，使分布更接近正态分布。</li>
+<li><strong>LDS (Label Distribution Smoothing):</strong> 针对连续标签的频率不均，利用核密度估计 (KDE) 平滑分布特征，通过重加权解决长尾区域样本稀疏导致的学习偏置。</li>
+</ul>
+<h3 id="22-损失函数-loss-functions">2.2 损失函数 (Loss Functions)</h3>
+<ul>
+<li><strong>MAE (L1 Loss):</strong> 对异常值更稳健，但在零点不可导。</li>
+<li><strong>Huber Loss:</strong> 结合 L1 和 L2 的优点，误差小时使用平方损失保证收敛，误差大时使用线性损失降低异常值敏感度。</li>
+<li><strong>Pinball Loss:</strong> 分位数回归的核心损失，用于预测分位点区间，适合处理 LTV 这种高度不确定性的场景。</li>
+</ul>
+</section>
+<section class="section" id="core-modeling">
+<h2 id="3-核心建模方式">3. 核心建模方式</h2>
+<div class="model-article">
+<h3 id="31-分桶-有序回归以快手-cread-为例">3.1 分桶 + 有序回归（以快手 CREAD 为例）</h3>
+<ul>
+<li><strong>问题背景：</strong> 观看时长分布极不平衡。直接回归由于长尾样本稀疏很难训练；简单分桶离散化（Classification）虽稳健，但面临"分桶太细难以学习（学习误差）"与"分桶太粗还原精度丢失（还原误差）"的矛盾。</li>
+<li><strong>核心思想：</strong> 提出"分类-还原"框架，通过 <strong>误差自适应离散化 (Error-Adaptive Discretization)</strong> 自动搜索最优桶边界，平衡两类误差。</li>
+</ul>
+<h4 id="网络架构">网络架构</h4>
+<ol>
+<li><strong>特征提取层：</strong> 融合用户、视频及上下文特征。</li>
+<li><strong>分类模块 (Classification)：</strong> 预测用户行为落入哪个预定义的桶，输出概率分布。</li>
+<li><strong>还原模块 (Restoration)：</strong> 学习从离散桶到连续值的映射，通过回归校准还原具体的物理时长。</li>
+</ol>
+<img alt="CREAD 网络架构" src="cread.png" style="max-width:55%; display:block; margin:20px auto; border-radius:8px; box-shadow:0 2px 8px rgba(0,0,0,0.1);"/>
+<h4 id="loss-函数">Loss 函数</h4>
+<p>联合优化分类、还原与保序三个任务：</p>
+<ul>
+<li><strong>总损失：</strong> $\mathcal{L} = \mathcal{L}_{cls} + \beta \mathcal{L}_{res} + \gamma \mathcal{L}_{rank}$</li>
+<li><strong>$\mathcal{L}_{cls}$:</strong> 交叉熵损失，用于优化分桶准确率。</li>
+<li><strong>$\mathcal{L}_{res}$:</strong> <strong>Huber Loss</strong>。作用于最终还原的连续值，相比 MSE 能更稳健地处理长尾样本的预估偏差。</li>
+<li><strong>$\mathcal{L}_{rank}$:</strong> <strong>保序损失 (Ranking Loss)</strong>。采用 pairwise margin ranking loss，确保预测值的相对排序与真实值一致：若 $y_i &gt; y_j$，则 $\hat{y}_i &gt; \hat{y}_j$。这对推荐场景至关重要——排序正确比绝对数值准确更重要。</li>
+</ul>
+</div>
+<div class="model-article">
+<h3 id="32-混合分布建模">3.2 混合分布建模</h3>
+<p>假设目标值服从一种或多种混合概率分布，模型输出分布参数而非单点数值，能更好地刻画数据的异质性。</p>
+<h4 id="321-混合分布建模以小红书-egmn-为例">3.2.1 混合分布建模（以小红书 EGMN 为例）</h4>
+<ul>
+<li><strong>问题背景：</strong> 观看时长在粗粒度上极度偏斜（快划多），在细粒度上具有多峰性（完播、重复观看等产生的不同峰值）。</li>
+<li><strong>核心思想：</strong> 假设时长服从 <strong>指数-高斯混合分布 (EGM)</strong>。
                             <ul>
-                                <li><strong>指数分量：</strong> 建模"快速跳过"行为（无记忆性，零点密度最高）。</li>
-                                <li><strong>高斯混合分量：</strong> 捕捉多样的深度交互兴趣。</li>
-                            </ul>
-                        </li>
-                    </ul>
-                    <h4>网络架构</h4>
-                    <ol>
-                        <li><strong>隐含表示编码器：</strong> 提取高维特征表示。</li>
-                        <li><strong>混合参数生成器：</strong> 分支输出指数参数 $\lambda$、高斯均值/方差 $(\mu_k, \sigma_k)$ 及混合权重 $\omega$。</li>
-                    </ol>
-                    <img src="egmn.png" alt="EGMN 网络架构" style="max-width:55%; display:block; margin:20px auto; border-radius:8px; box-shadow:0 2px 8px rgba(0,0,0,0.1);">
-                    <h4>Loss 函数</h4>
-                    <ul>
-                        <li><strong>$\mathcal{L}_{MLE}$:</strong> 极大似然估计，提升观测样本在分布中的概率。</li>
-                        <li><strong>$\mathcal{L}_{entropy}$:</strong> 熵最大化，防止分量坍塌，确保多峰刻画能力。</li>
-                        <li><strong>$\mathcal{L}_{reg}$:</strong> 期望回归损失，确保预测期望值与实际值对齐。</li>
-                    </ul>
-                </div>
+<li><strong>指数分量：</strong> 建模"快速跳过"行为（无记忆性，零点密度最高）。</li>
+<li><strong>高斯混合分量：</strong> 捕捉多样的深度交互兴趣。</li>
+</ul>
+</li>
+</ul>
+<h4 id="网络架构-2">网络架构</h4>
+<ol>
+<li><strong>隐含表示编码器：</strong> 提取高维特征表示。</li>
+<li><strong>混合参数生成器：</strong> 分支输出指数参数 $\lambda$、高斯均值/方差 $(\mu_k, \sigma_k)$ 及混合权重 $\omega$。</li>
+</ol>
+<img alt="EGMN 网络架构" src="egmn.png" style="max-width:55%; display:block; margin:20px auto; border-radius:8px; box-shadow:0 2px 8px rgba(0,0,0,0.1);"/>
+<h4 id="loss-函数-2">Loss 函数</h4>
+<ul>
+<li><strong>$\mathcal{L}_{MLE}$:</strong> 极大似然估计，提升观测样本在分布中的概率。</li>
+<li><strong>$\mathcal{L}_{entropy}$:</strong> 熵最大化，防止分量坍塌，确保多峰刻画能力。</li>
+<li><strong>$\mathcal{L}_{reg}$:</strong> 期望回归损失，确保预测期望值与实际值对齐。</li>
+</ul>
+</div>
+<div class="model-article">
+<h4 id="322-分层多分布建模以腾讯-hiltv-为例">3.2.2 分层多分布建模（以腾讯 HiLTV 为例）</h4>
+<ul>
+<li><strong>问题背景：</strong> 游戏 LTV 存在固定充值档位导致的多峰分布，且用户支付意愿与支付量级存在明显的层次差异。</li>
+<li><strong>核心思想：</strong> 采用 <strong>分层 (Hierarchical)</strong> 建模思路，将预测任务解耦为"是否有意愿 → 价值能级 → 分布参数"。</li>
+</ul>
+<h4 id="网络架构-3">网络架构</h4>
+<ol>
+<li><strong>支付倾向层 (Propensity)：</strong> 二分类识别付费潜力。</li>
+<li><strong>价值等级层 (Leveling)：</strong> 将用户划分为不同的价值桶。</li>
+<li><strong>参数预测层：</strong> 基于混合分布假设，预测每个价值能级下的分布参数。</li>
+</ol>
+<img alt="HiLTV 网络架构" src="HiLTV.png" style="max-width:55%; display:block; margin:20px auto; border-radius:8px; box-shadow:0 2px 8px rgba(0,0,0,0.1);"/>
+<h4 id="loss-函数-3">Loss 函数</h4>
+<ul>
+<li><strong>分类损失：</strong> 交叉熵（意愿与等级分类）。</li>
+<li><strong>负对数似然 (NLL)：</strong> 针对付费用户拟合多分布混合概率。</li>
+<li><strong>对比学习损失：</strong> 增强跨场景（Cross-game）特征表达的鲁棒性。</li>
+</ul>
+</div>
+</section>
+<section class="section" id="summary">
+<h2 id="4-调研总结">4. 调研总结</h2>
+<div class="conclusion-box">
+<p>三种方法分别从不同角度解决回归预测中的核心难题：<strong>CREAD</strong> 通过离散化降低学习难度，<strong>EGMN</strong> 通过混合分布捕捉多峰特征，<strong>HiLTV</strong> 通过分层建模解耦不同粒度的预测任务。选择哪种方法取决于具体的业务场景和数据特征。</p>
+</div>
+<div class="summary-table-wrapper">
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>技术路线</th>
+<th>解决痛点</th>
+<th>关键 Loss</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>CREAD</strong><br/><small>快手</small></td>
+<td>离散化分桶 + 还原回归</td>
+<td>分桶带来的离散化误差</td>
+<td>CE + Huber + Ranking Loss</td>
+</tr>
+<tr>
+<td><strong>EGMN</strong><br/><small>小红书</small></td>
+<td>指数-高斯混合分布</td>
+<td>长尾流失与多峰兴趣解耦</td>
+<td>MLE + Entropy Regularization</td>
+</tr>
+<tr>
+<td><strong>HiLTV</strong><br/><small>腾讯</small></td>
+<td>分层分类 + 混合分布参数化</td>
+<td>充值档位多峰与支付异质性</td>
+<td>NLL + Hierarchical Cls</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section class="section" id="xauc">
+<h2 id="5-xauc-指标详解">5. XAUC 指标详解</h2>
+<p>XAUC 是回归预测任务（尤其是短视频观看时长、LTV 预估）中衡量模型<strong>排序能力</strong>的核心指标。它解决了传统回归指标（如 MSE）无法反映样本相对先后顺序的问题。</p>
+<h3 id="51-定义">5.1 定义</h3>
+<p>XAUC 实际上是 <strong>Kendall's Tau</strong> 或 <strong>Pairwise Accuracy</strong> 的变体。它衡量模型预测值与真实连续值之间的一致性（Concordance）。</p>
+<p>假设有两个随机样本 $i$ 和 $j$：</p>
+<ul>
+<li>真实值分别为：$y_i, y_j$</li>
+<li>模型预测值分别为：$\hat{y}_i, \hat{y}_j$</li>
+</ul>
+<p>XAUC 计算的是在真实值存在大小关系的条件下，预测值也满足相同大小关系的概率：</p>
+                $$\text{XAUC} = P(\hat{y}_i &gt; \hat{y}_j \mid y_i &gt; y_j)$$
 
-                <div class="model-article">
-                    <h4>3.2.2 分层多分布建模（以腾讯 HiLTV 为例）</h4>
-                    <ul>
-                        <li><strong>问题背景：</strong> 游戏 LTV 存在固定充值档位导致的多峰分布，且用户支付意愿与支付量级存在明显的层次差异。</li>
-                        <li><strong>核心思想：</strong> 采用 <strong>分层 (Hierarchical)</strong> 建模思路，将预测任务解耦为"是否有意愿 → 价值能级 → 分布参数"。</li>
-                    </ul>
-                    <h4>网络架构</h4>
-                    <ol>
-                        <li><strong>支付倾向层 (Propensity)：</strong> 二分类识别付费潜力。</li>
-                        <li><strong>价值等级层 (Leveling)：</strong> 将用户划分为不同的价值桶。</li>
-                        <li><strong>参数预测层：</strong> 基于混合分布假设，预测每个价值能级下的分布参数。</li>
-                    </ol>
-                    <img src="HiLTV.png" alt="HiLTV 网络架构" style="max-width:55%; display:block; margin:20px auto; border-radius:8px; box-shadow:0 2px 8px rgba(0,0,0,0.1);">
-                    <h4>Loss 函数</h4>
-                    <ul>
-                        <li><strong>分类损失：</strong> 交叉熵（意愿与等级分类）。</li>
-                        <li><strong>负对数似然 (NLL)：</strong> 针对付费用户拟合多分布混合概率。</li>
-                        <li><strong>对比学习损失：</strong> 增强跨场景（Cross-game）特征表达的鲁棒性。</li>
-                    </ul>
-                </div>
-            </section>
-
-            <section class="section" id="summary">
-                <h2>4. 调研总结</h2>
-
-                <div class="conclusion-box">
-                    <p>三种方法分别从不同角度解决回归预测中的核心难题：<strong>CREAD</strong> 通过离散化降低学习难度，<strong>EGMN</strong> 通过混合分布捕捉多峰特征，<strong>HiLTV</strong> 通过分层建模解耦不同粒度的预测任务。选择哪种方法取决于具体的业务场景和数据特征。</p>
-                </div>
-
-                <div class="summary-table-wrapper">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>方法</th>
-                                <th>技术路线</th>
-                                <th>解决痛点</th>
-                                <th>关键 Loss</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td><strong>CREAD</strong><br><small>快手</small></td>
-                                <td>离散化分桶 + 还原回归</td>
-                                <td>分桶带来的离散化误差</td>
-                                <td>CE + Huber + Ranking Loss</td>
-                            </tr>
-                            <tr>
-                                <td><strong>EGMN</strong><br><small>小红书</small></td>
-                                <td>指数-高斯混合分布</td>
-                                <td>长尾流失与多峰兴趣解耦</td>
-                                <td>MLE + Entropy Regularization</td>
-                            </tr>
-                            <tr>
-                                <td><strong>HiLTV</strong><br><small>腾讯</small></td>
-                                <td>分层分类 + 混合分布参数化</td>
-                                <td>充值档位多峰与支付异质性</td>
-                                <td>NLL + Hierarchical Cls</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </section>
-
-            <section class="section" id="xauc">
-                <h2>5. XAUC 指标详解</h2>
-
-                <p>XAUC 是回归预测任务（尤其是短视频观看时长、LTV 预估）中衡量模型<strong>排序能力</strong>的核心指标。它解决了传统回归指标（如 MSE）无法反映样本相对先后顺序的问题。</p>
-
-                <h3>5.1 定义</h3>
-                <p>XAUC 实际上是 <strong>Kendall's Tau</strong> 或 <strong>Pairwise Accuracy</strong> 的变体。它衡量模型预测值与真实连续值之间的一致性（Concordance）。</p>
-                <p>假设有两个随机样本 $i$ 和 $j$：</p>
-                <ul>
-                    <li>真实值分别为：$y_i, y_j$</li>
-                    <li>模型预测值分别为：$\hat{y}_i, \hat{y}_j$</li>
-                </ul>
-                <p>XAUC 计算的是在真实值存在大小关系的条件下，预测值也满足相同大小关系的概率：</p>
-                $$\text{XAUC} = P(\hat{y}_i > \hat{y}_j \mid y_i > y_j)$$
-
-                <h3>5.2 计算逻辑</h3>
-                <p>计算 XAUC 的步骤通常如下：</p>
-                <ol>
-                    <li><strong>随机抽样：</strong> 从测试集中随机抽取大量的样本对 $(i, j)$。</li>
-                    <li><strong>条件判断：</strong> 仅保留那些真实值不相等的样本对（即 $y_i \neq y_j$）。</li>
-                    <li><strong>对子分类：</strong>
-                        <ul>
-                            <li>如果 $y_i > y_j$ 且 $\hat{y}_i > \hat{y}_j$，则计为<strong>正确对子</strong>。</li>
-                            <li>如果 $y_i > y_j$ 且 $\hat{y}_i < \hat{y}_j$，则计为<strong>错误对子</strong>。</li>
-                        </ul>
-                    </li>
-                    <li><strong>结果产出：</strong>
+                <h3 id="52-计算逻辑">5.2 计算逻辑</h3>
+<p>计算 XAUC 的步骤通常如下：</p>
+<ol>
+<li><strong>随机抽样：</strong> 从测试集中随机抽取大量的样本对 $(i, j)$。</li>
+<li><strong>条件判断：</strong> 仅保留那些真实值不相等的样本对（即 $y_i \neq y_j$）。</li>
+<li><strong>对子分类：</strong>
+<ul>
+<li>如果 $y_i &gt; y_j$ 且 $\hat{y}_i &gt; \hat{y}_j$，则计为<strong>正确对子</strong>。</li>
+<li>如果 $y_i &gt; y_j$ 且 $\hat{y}_i &lt; \hat{y}_j$，则计为<strong>错误对子</strong>。</li>
+</ul>
+</li>
+<li><strong>结果产出：</strong>
                         $$\text{XAUC} = \frac{\text{正确对子数}}{\text{总有效样本对子数}}$$
                     </li>
-                </ol>
-
-                <h3>5.3 指标含义</h3>
-                <ul>
-                    <li><strong>1.0：</strong> 完美排序。模型预测的所有样本相对先后顺序与真实情况完全一致。</li>
-                    <li><strong>0.5：</strong> 随机表现。模型的预测能力等同于随机猜测，没有任何区分度。</li>
-                    <li><strong>&lt; 0.5：</strong> 反向预测。模型的预测顺序与真实顺序相反。</li>
-                </ul>
-
-                <h3>5.4 为什么在回归中使用 XAUC？</h3>
-                <p>在推荐系统的精排（Ranking）阶段，回归模型输出的绝对数值（如预估看多少秒）往往被直接用作排序分数。</p>
-                <ul>
-                    <li><strong>MSE/MAE</strong> 衡量的是预估得"准不准"（数值偏离度）。</li>
-                    <li><strong>XAUC</strong> 衡量的是预估得"对不对"（相对高低关系）。</li>
-                </ul>
-                <p>对于提升点击率（CTR）或人均时长而言，<strong>XAUC 的提升通常比 MSE 的降低更直接地反映了排序质量的改善</strong>。</p>
-            </section>
-
-            <footer class="footer">
-                <p><a href="index.html">← 返回首页</a></p>
-            </footer>
-        </main>
-    </div>
+</ol>
+<h3 id="53-指标含义">5.3 指标含义</h3>
+<ul>
+<li><strong>1.0：</strong> 完美排序。模型预测的所有样本相对先后顺序与真实情况完全一致。</li>
+<li><strong>0.5：</strong> 随机表现。模型的预测能力等同于随机猜测，没有任何区分度。</li>
+<li><strong>&lt; 0.5：</strong> 反向预测。模型的预测顺序与真实顺序相反。</li>
+</ul>
+<h3 id="54-为什么在回归中使用-xauc">5.4 为什么在回归中使用 XAUC？</h3>
+<p>在推荐系统的精排（Ranking）阶段，回归模型输出的绝对数值（如预估看多少秒）往往被直接用作排序分数。</p>
+<ul>
+<li><strong>MSE/MAE</strong> 衡量的是预估得"准不准"（数值偏离度）。</li>
+<li><strong>XAUC</strong> 衡量的是预估得"对不对"（相对高低关系）。</li>
+</ul>
+<p>对于提升点击率（CTR）或人均时长而言，<strong>XAUC 的提升通常比 MSE 的降低更直接地反映了排序质量的改善</strong>。</p>
+</section>
+<footer class="footer">
+<p><a href="index.html">← 返回首页</a></p>
+</footer>
+</main>
+</div>
 </body>
 </html>

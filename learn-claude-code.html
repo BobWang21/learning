@@ -1,11 +1,12 @@
 <!DOCTYPE html>
+
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Learn Claude Code</title>
-    <link rel="stylesheet" href="styles.css?v=20260713-page-only-toc">
-    <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Learn Claude Code</title>
+<link href="styles.css?v=20260713-page-only-toc" rel="stylesheet"/>
+<style>
         .lesson-section {
             scroll-margin-top: 24px;
             margin-top: 80px;
@@ -132,44 +133,18 @@
     </style>
 </head>
 <body>
-    <div class="container">
-                <div class="sidebar">
-            <div class="page-toc">
-                <h3>📑 页面目录</h3>
-                <ul>
-                    <li><a href="#s01-agent-loop">01: Agent Loop — 一个循环就够了</a></li>
-                    <li><a href="#s02-tool-use">02: Tool Use — 多加一个工具，只加一行</a></li>
-                    <li><a href="#s03-permission">03: Permission — 执行前做权限判断</a></li>
-                    <li><a href="#s04-hooks">04: Hooks — 挂在循环上，不写进循环里</a></li>
-                    <li><a href="#s05-todo-write">05: TodoWrite — 没有计划的 Agent，做着做着就偏了</a></li>
-                    <li><a href="#s06-subagent">06: Subagent — 大任务拆小，每个拿到的都是干净上下文</a></li>
-                    <li><a href="#s07-skill-loading">07: Skill Loading — 用到的时候才加载</a></li>
-                    <li><a href="#s08-context-compact">08: Context Compact — 上下文总会满，要有办法腾地方</a></li>
-                    <li><a href="#s09-memory">09: Memory — 压缩会丢细节，要有一层不丢的</a></li>
-                    <li><a href="#s10-system-prompt">10: System Prompt — 运行时组装，不硬编码</a></li>
-                    <li><a href="#s11-error-recovery">11: Error Recovery — 错误不是结束，是重试的开始</a></li>
-                    <li><a href="#s12-task-system">12: Task System — 目标太大，拆成小任务</a></li>
-                    <li><a href="#s13-background-tasks">13: Background Tasks — 慢操作放后台</a></li>
-                    <li><a href="#s14-cron-scheduler">14: Cron Scheduler — 按时间表生产工作</a></li>
-                    <li><a href="#s15-agent-teams">15: Agent Teams — 一个搞不定，组队来</a></li>
-                    <li><a href="#s16-team-protocols">16: Team Protocols — 队友之间要有约定</a></li>
-                    <li><a href="#s17-autonomous-agents">17: Autonomous Agents — 自己看板，自己认领</a></li>
-                    <li><a href="#s18-worktree-isolation">18: Worktree Isolation — 各干各的，互不干扰</a></li>
-                    <li><a href="#s19-mcp-plugin">19: MCP Tools — 外接工具，标准协议</a></li>
-                    <li><a href="#s20-comprehensive">20: Comprehensive Agent — 全部机制，归到一个循环</a></li>
-                </ul>
-            </div>
-        </div>
-
-        <main class="content">
-            <header class="header">
-                <h1>Learn Claude Code</h1>
-                <div class="breadcrumb">
-                    <a href="index.html">首页</a> > <a href="index.html#ai">AI</a> > Application > Learn Claude Code
+<div class="container">
+<div class="sidebar">
+<div class="page-toc"><h2>目录</h2><ul><li><a href="#s01-agent-loop--一个循环就够了">01: Agent Loop — 一个循环就够了</a></li><li><a href="#s02-tool-use--多加一个工具只加一行">02: Tool Use — 多加一个工具，只加一行</a></li><li><a href="#s03-permission--执行前做权限判断">03: Permission — 执行前做权限判断</a></li><li><a href="#s04-hooks--挂在循环上不写进循环里">04: Hooks — 挂在循环上，不写进循环里</a></li><li><a href="#s05-todowrite--没有计划的-agent做着做着就偏了">05: TodoWrite — 没有计划的 Agent，做着做着就偏了</a></li><li><a href="#s06-subagent--大任务拆小每个拿到的都是干净上下文">06: Subagent — 大任务拆小，每个拿到的都是干净上下文</a></li><li><a href="#s07-skill-loading--用到的时候才加载">07: Skill Loading — 用到的时候才加载</a></li><li><a href="#s08-context-compact--上下文总会满要有办法腾地方">08: Context Compact — 上下文总会满，要有办法腾地方</a></li><li><a href="#s09-memory--压缩会丢细节要有一层不丢的">09: Memory — 压缩会丢细节，要有一层不丢的</a></li><li><a href="#s10-system-prompt--运行时组装不硬编码">10: System Prompt — 运行时组装，不硬编码</a></li><li><a href="#s11-error-recovery--错误不是结束是重试的开始">11: Error Recovery — 错误不是结束，是重试的开始</a></li><li><a href="#s12-task-system--目标太大拆成小任务">12: Task System — 目标太大，拆成小任务</a></li><li><a href="#s13-background-tasks--慢操作放后台">13: Background Tasks — 慢操作放后台</a></li><li><a href="#s14-cron-scheduler--按时间表生产工作">14: Cron Scheduler — 按时间表生产工作</a></li><li><a href="#s15-agent-teams--一个搞不定组队来">15: Agent Teams — 一个搞不定，组队来</a></li><li><a href="#s16-team-protocols--队友之间要有约定">16: Team Protocols — 队友之间要有约定</a></li><li><a href="#s17-autonomous-agents--自己看板自己认领">17: Autonomous Agents — 自己看板，自己认领</a></li><li><a href="#s18-worktree-isolation--各干各的互不干扰">18: Worktree Isolation — 各干各的，互不干扰</a></li><li><a href="#s19-mcp-tools--外接工具标准协议">19: MCP Tools — 外接工具，标准协议</a></li><li><a href="#s20-comprehensive-agent--全部机制归到一个循环">20: Comprehensive Agent — 全部机制，归到一个循环</a></li></ul></div>
+</div>
+<main class="content">
+<header class="header">
+<h1>Learn Claude Code</h1>
+<div class="breadcrumb">
+<a href="index.html">首页</a> &gt; <a href="index.html#ai">AI</a> &gt; Application &gt; Learn Claude Code
                 </div>
-            </header>
-
-            <section class="lesson-section" id="s01-agent-loop">
+</header>
+<section class="lesson-section" id="s01-agent-loop">
 <h1 id="s01-agent-loop--一个循环就够了">01: Agent Loop —
 一个循环就够了</h1>
 <blockquote>
@@ -282,7 +257,6 @@
 负责执行（调了就跑、结果喂回去）。后面 18
 个章节都在这个循环上叠加机制，循环本身始终不变。</p>
 <hr/>
-
 <h2 id="接下来">接下来</h2>
 <p>现在模型手里只有 bash 一个工具，读文件要 <code>cat</code>，写文件要
 <code>echo ... &gt;</code>，找个文件要
@@ -581,7 +555,6 @@ token，还容易拼错。</p>
 </tbody>
 </table>
 <hr/>
-
 <h2 id="接下来-1">接下来</h2>
 <p>现在 Agent 有 5 个专用工具。file tools 受 <code>safe_path</code>
 保护，但 bash 不受限制，<code>rm -rf /</code> 还是能跑。</p>
@@ -848,7 +821,6 @@ shell 展开可能绕过。CC 的做法见附录。）</p>
 </tbody>
 </table>
 <hr/>
-
 <h2 id="接下来-2">接下来</h2>
 <p>权限检查做了——但每次都在循环里硬编码
 <code>check_permission()</code>。如果我想在每次工具执行前后加日志？如果想在某些操作后自动触发
@@ -1253,7 +1225,6 @@ summary_hook</td>
 </tbody>
 </table>
 <hr/>
-
 <h2 id="接下来-3">接下来</h2>
 <p>Agent
 现在能安全执行操作了。但它有没有停下来想过"我应该先做什么，再做什么"？给它一个复杂任务，它是一上来就动手，还是先列个计划？</p>
@@ -1546,7 +1517,6 @@ reminder，循环里加了一个计数器：连续 3 轮没调 <code>todo_write<
 </tbody>
 </table>
 <hr/>
-
 <h2 id="接下来-4">接下来</h2>
 <p>Agent 能计划了。但如果一个任务太大，比如"重构整个认证模块"，光靠 TODO
 列表不够。这个任务本身就是几十个小任务的集合，放在同一个对话里会被上下文淹没。</p>
@@ -1745,7 +1715,6 @@ hook，安全策略不因上下文隔离而跳过。</p>
 </tbody>
 </table>
 <hr/>
-
 <h2 id="接下来-5">接下来</h2>
 <p>Agent 现在能拆任务了。但每个任务需要的知识不一样：改前端组件需要知道
 React 规范，写 SQL 需要知道表结构。这些知识全塞进 system
@@ -2028,7 +1997,6 @@ messages。后续调用会随历史一起携带，直到上下文压缩、截断
 </tbody>
 </table>
 <hr/>
-
 <h2 id="接下来-6">接下来</h2>
 <p>按需加载解决了"不该带的不要带"。但另一个问题来了：Agent 连续工作 30
 分钟后，messages 列表塞满了中间过程。旧的
@@ -2350,7 +2318,6 @@ reactive_compact</td>
 </tbody>
 </table>
 <hr/>
-
 <h2 id="接下来-7">接下来</h2>
 <p>上下文压缩让 Agent
 能跑很久不会崩。但每次压缩后，用户之前告诉它的偏好、约束也跟着丢了。能不能让
@@ -2765,7 +2732,6 @@ extract_memories, consolidate_memories</td>
 </tbody>
 </table>
 <hr/>
-
 <h2 id="接下来-8">接下来</h2>
 <p>记忆、压缩、工具都已就绪。但 system prompt
 还是硬编码的一大段字符串。加了新工具要手动加描述，换了项目要重写整个
@@ -3193,7 +3159,6 @@ cache，不因动态内容变化而失效。</p>
 </tbody>
 </table>
 <hr/>
-
 <h2 id="接下来-9">接下来</h2>
 <p>System prompt 可以运行时组装了，但 Agent
 碰到错误还是会崩。网络抖动、API 限流、输出被截断、上下文超限，这些不是
@@ -3509,7 +3474,6 @@ RecoveryState</td>
 </tbody>
 </table>
 <hr/>
-
 <h2 id="接下来-10">接下来</h2>
 <p>Agent
 现在能在错误中自动恢复了。但它处理的任务仍然是"一次性"的——你给它一个任务，它做完，结束。</p>
@@ -3968,7 +3932,6 @@ owner），并将 status 重置为 <code>pending</code>，方便其他 agent
 </tbody>
 </table>
 <hr/>
-
 <h2 id="接下来-11">接下来</h2>
 <p>任务图有了。但有些任务要跑很久——比如全量测试、部署到服务器。Agent 调
 LLM 按量计费，不能干等一个慢操作。</p>
@@ -4341,7 +4304,6 @@ Turn 2:
 </tbody>
 </table>
 <hr/>
-
 <h2 id="接下来-12">接下来</h2>
 <p>后台任务解决了"慢操作不阻塞"。但如果想定时做某件事呢？比如"每天早上 9
 点跑测试"、"每 5 分钟检查一次服务器状态"。</p>
@@ -4698,7 +4660,6 @@ cron_scheduler_loop, queue_processor_loop</td>
 </tbody>
 </table>
 <hr/>
-
 <h2 id="接下来-13">接下来</h2>
 <p>一个 Agent
 能做很多事了，能计划、能压缩、能后台、能定时。但有些任务太大了，不是一个
@@ -4980,7 +4941,6 @@ turn，不需要等用户输入。</p>
 </tbody>
 </table>
 <hr/>
-
 <h2 id="接下来-14">接下来</h2>
 <p>队友能干活、能通信。但如果 Lead 想让 Alice
 关机，直接杀线程会留下写到一半的文件。需要一个体面的关机协议：Lead 发
@@ -5394,7 +5354,6 @@ review_plan）</td>
 </tbody>
 </table>
 <hr/>
-
 <h2 id="接下来-15">接下来</h2>
 <p>15-16 中，Lead 必须给每个队友分配任务。"Alice 做这个，Bob
 做那个"。任务看板上有 10 个未认领的任务，Lead 得手动 assign。</p>
@@ -5713,7 +5672,6 @@ inbox 消费</h3>
 </tbody>
 </table>
 <hr/>
-
 <h2 id="接下来-16">接下来</h2>
 <p>队友自组织了。但 Alice 和 Bob 都在同一个目录下工作——Alice 改
 <code>config.py</code>，Bob 也改 <code>config.py</code>，互相覆盖。</p>
@@ -6014,7 +5972,6 @@ keep_worktree, validate_worktree_name</td>
 </tbody>
 </table>
 <hr/>
-
 <h2 id="接下来-17">接下来</h2>
 <p>Agent 团队能在隔离的工作空间中自组织了。但 Agent
 的能力受限于我们给它写的工具——bash、read、write、task...</p>
@@ -6289,7 +6246,6 @@ agent 继承父级的 MCP 配置。</p>
 </tbody>
 </table>
 <hr/>
-
 <h2 id="接下来-18">接下来</h2>
 <p>现在 Agent 可以通过标准协议接入外部工具了。但前面 19
 章每章都只加一个机制，真实 Agent 不会这样拆开运行。</p>
@@ -6738,7 +6694,6 @@ BUILTIN_HANDLERS + mcp__server__tool handlers</code></pre>
 </tbody>
 </table>
 <hr/>
-
 <h2 id="结束亦是开始">结束亦是开始</h2>
 <p>从 01 到 20，代码表面越来越复杂，但核心始终没变：</p>
 <details class="code-collapse">
@@ -6755,8 +6710,7 @@ BUILTIN_HANDLERS + mcp__server__tool handlers</code></pre>
 负责把环境、工具、权限、记忆、团队和外部能力组织好。</p>
 <p>这就是全书的终点：机制很多，循环一个。</p>
 </section>
-
-        </main>
-    </div>
+</main>
+</div>
 </body>
 </html>
